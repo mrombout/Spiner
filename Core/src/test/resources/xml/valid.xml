@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<tw-storiesdata>
+    <tw-storydata name="MyEpubStory" startnode="1" creator="Twine" creator-version="2.0.4"
+                  ifid="25CF1964-B554-47F0-82E5-68E106A57774" format="TwineXML" options="">
+        <style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css"></style>
+        <script role="script" id="twine-user-script" type="text/twine-javascript"></script>
+        <tw-passagedata pid="1" name="intro" tags="test test2" position="942,313">Lorum ipsum dolor sit amet.
+            [[test|test_page]]
+        </tw-passagedata>
+        <tw-passagedata pid="2" name="test_page" tags="" position="942,464">Double-click this passage to edit it.
+        </tw-passagedata>
+    </tw-storydata>
+</tw-storiesdata>

@@ -1,0 +1,22 @@
+apply plugin: 'java'
+
+version = '0.0.1'
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://github.com/psiegman/mvn-repo/raw/master/releases"
+    }
+}
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-all:1.10.19'
+
+    compile 'nl.siegmann.epublib:epublib-core:3.1'
+    compile 'org.pegdown:pegdown:1.5.0'
+    compile 'org.jsoup:jsoup:1.8.2'
+    compile 'net.sf.jtidy:jtidy:r938'
+    compile 'commons-io:commons-io:2.4'
+    compile 'com.google.inject:guice:4.0'
+}

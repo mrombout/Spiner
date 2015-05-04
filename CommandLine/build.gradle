@@ -1,0 +1,19 @@
+apply plugin: 'java'
+
+version = '0.0.1';
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://github.com/psiegman/mvn-repo/raw/master/releases"
+    }
+}
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+
+    compile project(':Core')
+    compile 'commons-cli:commons-cli:1.2'
+    compile 'commons-io:commons-io:2.4'
+    compile 'net.sf.saxon:Saxon-HE:9.6.0-5'
+}

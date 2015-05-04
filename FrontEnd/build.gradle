@@ -1,0 +1,22 @@
+apply plugin: 'java'
+apply from: 'javafx.plugin'
+
+version = '0.0.1'
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://github.com/psiegman/mvn-repo/raw/master/releases"
+    }
+}
+
+javafx {
+    mainClass = 'nl.mikero.turntopassage.frontend.TurnToPassageApplication'
+}
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+
+    compile project(':Core')
+    compile 'org.controlsfx:controlsfx:8.20.8'
+}

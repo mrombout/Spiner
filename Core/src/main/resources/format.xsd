@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="tw-storiesdata" type="tw-storiesdata" />
+
+    <xs:complexType name="tw-storiesdata">
+        <xs:sequence>
+            <xs:element name="tw-storydata" type="tw-storydata" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="tw-storydata">
+        <xs:sequence>
+            <xs:element name="style" type="style" minOccurs="0" />
+            <xs:element name="script" type="script" minOccurs="0" />
+            <xs:element name="tw-passagedata" type="tw-passagedata" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string" />
+        <xs:attribute name="startnode" type="xs:int" />
+        <xs:attribute name="creator" type="xs:string" />
+        <xs:attribute name="creator-version" type="xs:string" />
+        <xs:attribute name="ifid" type="xs:string" />
+        <xs:attribute name="format" type="xs:string" />
+        <xs:attribute name="options" type="xs:string" />
+    </xs:complexType>
+
+    <xs:complexType name="tw-passagedata">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="pid" type="xs:int" />
+                <xs:attribute name="name" type="xs:string" />
+                <xs:attribute name="tags" type="xs:string" />
+                <xs:attribute name="position" type="xs:string" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="style">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="role" type="xs:string" fixed="stylesheet" />
+                <xs:attribute name="id" type="xs:string" fixed="twine-user-stylesheet" />
+                <xs:attribute name="type" type="xs:string" fixed="text/twine-css" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:complexType name="script">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="role" type="xs:string" fixed="script" />
+                <xs:attribute name="id" type="xs:string" fixed="twine-user-script" />
+                <xs:attribute name="type" type="xs:string" fixed="text/twine-javascript" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+</xs:schema>

@@ -1,0 +1,6 @@
+rootProject.name = 'TurnToPassage.Transformer'
+
+include 'Core'
+include 'CommandLine'
+include 'FrontEnd'
+

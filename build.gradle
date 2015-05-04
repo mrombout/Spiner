@@ -1,0 +1,19 @@
+apply plugin: 'java'
+
+version = '0.0.1'
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://github.com/psiegman/mvn-repo/raw/master/releases"
+    }
+}
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-all:1.10.19'
+
+    compile 'org.slf4j:slf4j-api:1.7.+'
+    compile 'ch.qos.logback:logback-classic:1.+'
+    compile 'com.google.inject:guice:4.0'
+}
