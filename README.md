@@ -71,4 +71,4 @@ roughly:
 
 ## License
 
-See the file [`COPYING`](#).
+See the file [`COPYING`](https://raw.githubusercontent.com/TurnToPassage/TurnToPassage.Transformer/master/COPYING).
