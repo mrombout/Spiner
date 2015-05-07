@@ -3,7 +3,7 @@
 <img src="http://turntopassage.github.io/images/logo.svg" alt="TurnToPassage logo" title="TurnToPassage.Transformer" align="right" width="128" />
 
 TurnToPassage is a set of tools that allows you to easily author you own Choose Your Own Adventure books in EPUB format
-using Twine 2. This set consists of a Transformer, which transforms your regular published Twine story into an EPUB
+using [Twine 2](http://twinery.org/). This set consists of a Transformer, which transforms your regular published Twine story into an EPUB
 file to be read on any modern e-reader.
 
 ## Supported Twine Features
