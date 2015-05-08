@@ -57,6 +57,24 @@ public class TwinePublishedRepairerTest extends TwineRepairerTest {
     }
 
     @Test
+    public void repair_SpecialCharactersInTitle_ReturnsValidTwineXml() throws Exception {
+        // Arrange
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+        // Act
+        try(InputStream inputStream = getClass().getResourceAsStream("/html/special-character-title.html")) {
+            repairer.repair(inputStream, outputStream);
+        }
+
+        // Assert
+        validate(outputStream);
+
+        // If we reach this point, the returned XML is valid. Yay!
+        Assert.assertTrue(true);
+        outputStream.close();
+    }
+
+    @Test
     public void repair_SubarQubeStoryFormat_ReturnsValidTwineXml() throws Exception {
         // Arrange
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
