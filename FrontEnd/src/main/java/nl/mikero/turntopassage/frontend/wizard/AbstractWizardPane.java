@@ -11,13 +11,13 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import org.controlsfx.dialog.Wizard;
+import org.controlsfx.dialog.WizardPane;
 
 /**
  * Abstract wizard pane that replaces the standard header with one that has
  * adds a title text.
  */
-abstract class AbstractWizardPane extends Wizard.WizardPane {
+abstract class AbstractWizardPane extends WizardPane {
 
     private final StringProperty headerTitle = new SimpleStringProperty();
 

@@ -11,7 +11,7 @@ import nl.mikero.turntopassage.frontend.wizard.InputOutputWizardPane;
 import nl.mikero.turntopassage.frontend.wizard.MetadataWizardPane;
 import org.controlsfx.dialog.Wizard;
 import org.controlsfx.dialog.Wizard.LinearFlow;
-import org.controlsfx.dialog.Wizard.WizardPane;
+import org.controlsfx.dialog.WizardPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
