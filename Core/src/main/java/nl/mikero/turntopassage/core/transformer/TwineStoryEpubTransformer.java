@@ -5,6 +5,7 @@ import nl.mikero.turntopassage.core.exception.TwineTransformationWriteException;
 import nl.mikero.turntopassage.core.model.TwPassagedata;
 import nl.mikero.turntopassage.core.model.TwStorydata;
 import nl.mikero.turntopassage.core.pegdown.plugin.TwineLinkRenderer;
+import nl.mikero.turntopassage.core.service.TransformOptions;
 import nl.siegmann.epublib.domain.Book;
 import nl.siegmann.epublib.domain.Resource;
 import nl.siegmann.epublib.epub.EpubWriter;
@@ -53,11 +54,18 @@ public class TwineStoryEpubTransformer {
      * @param outputStream output stream to write epub to
      */
     public void transform(TwStorydata story, OutputStream outputStream) {
+        transform(story, outputStream, TransformOptions.EMPTY);
+    }
+
+    public void transform(TwStorydata story, OutputStream outputStream, TransformOptions options) {
         Objects.requireNonNull(story);
         Objects.requireNonNull(outputStream);
 
         // create new Book
         Book book = new Book();
+
+        // set metadata
+        book.setMetadata(options.getMetadata());
 
         // add the title
         book.getMetadata().addTitle(story.getName());
@@ -98,5 +106,4 @@ public class TwineStoryEpubTransformer {
 
         return xhtml;
     }
-
 }

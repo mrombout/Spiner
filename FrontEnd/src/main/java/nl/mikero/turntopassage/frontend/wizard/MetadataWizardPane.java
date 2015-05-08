@@ -49,7 +49,6 @@ public class MetadataWizardPane extends AbstractWizardPane {
         private final StringProperty title;
         private final StringProperty author;
         private final StringProperty language;
-        private final StringProperty identifier;
 
         private final StringProperty creator;
         private final StringProperty contributor;
@@ -68,7 +67,6 @@ public class MetadataWizardPane extends AbstractWizardPane {
             this.title = new SimpleStringProperty();
             this.author = new SimpleStringProperty();
             this.language = new SimpleStringProperty();
-            this.identifier = new SimpleStringProperty();
 
             this.creator = new SimpleStringProperty();
             this.contributor = new SimpleStringProperty();
@@ -112,16 +110,6 @@ public class MetadataWizardPane extends AbstractWizardPane {
         }
         public void setLanguage(String language) {
             this.language.set(language);
-        }
-
-        public StringProperty identifierProperty() {
-            return identifier;
-        }
-        public String getIdentifier() {
-            return identifier.get();
-        }
-        public void setIdentifier(String identifier) {
-            this.identifier.set(identifier);
         }
 
         public StringProperty creatorProperty() {
