@@ -1,17 +1,23 @@
 package nl.mikero.turntopassage.core.transformer;
 
+import static org.junit.Assert.*;
+import nl.mikero.turntopassage.core.model.Style;
 import nl.mikero.turntopassage.core.model.TwPassagedata;
 import nl.mikero.turntopassage.core.model.TwStoriesdata;
 import nl.mikero.turntopassage.core.model.TwStorydata;
 import nl.mikero.turntopassage.core.pegdown.plugin.TwineLinkRenderer;
 import nl.siegmann.epublib.domain.Book;
+import nl.siegmann.epublib.domain.Resource;
+import nl.siegmann.epublib.domain.Resources;
 import nl.siegmann.epublib.epub.EpubReader;
+import nl.siegmann.epublib.service.MediatypeService;
 import org.junit.Before;
 import org.junit.Test;
 import org.pegdown.LinkRenderer;
 import org.pegdown.PegDownProcessor;
 
 import java.io.*;
+import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -109,6 +115,39 @@ public class TwineStoryEpubTransformerTest {
 
             Book book = epubReader.readEpub(in);
             assertEquals(twStorydata.getTwPassagedata().size() + 1, book.getResources().getAll().size());
+        }
+    }
+
+    @Test
+    public void transform_StyledStory_StylesheetAdded() throws Exception {
+        // Arrange
+        when(mockPegDownProcessor.markdownToHtml(anyString(), any(LinkRenderer.class)))
+                .thenAnswer(invocation -> "<p>" + String.valueOf(invocation.getArguments()[0]) + "</p>");
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        TwStoriesdata twStoriesdata = new TwStoriesdata();
+
+        TwStorydata twStorydata = new TwStorydata();
+        twStoriesdata.getTwStorydata().add(twStorydata);
+
+        Style style = new Style();
+        style.setRole("stylesheet");
+        style.setType("text/css");
+        style.setValue("* { background-color: #000000;");
+        twStorydata.setStyle(style);
+
+        // Act
+        convertor.transform(twStorydata, outputStream);
+
+        // Assert
+        try(InputStream in = new ByteArrayInputStream(outputStream.toByteArray())) {
+            EpubReader epubReader = new EpubReader();
+
+            Book book = epubReader.readEpub(in);
+            Resources resources = book.getResources();
+            List<Resource> resourcesByMediaType = resources.getResourcesByMediaType(MediatypeService.CSS);
+            assertFalse(resourcesByMediaType.isEmpty());
+            assertEquals("Story.css", resourcesByMediaType.get(0).getHref());
         }
     }
 

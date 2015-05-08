@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -38,11 +39,16 @@ public class TwinePublishedRepairer implements TwineRepairer {
     private static final String ELEM_TW_STORIESDATA = "tw-storiesdata";
     private static final String ELEM_TW_STORYDATA = "tw-storydata";
     private static final String ELEM_TW_PASSAGEDATA = "tw-passagedata";
+    private static final String ELEM_STYLE = "style";
 
     private static final String ATTR_PID = "pid";
     private static final String ATTR_NAME = "name";
     private static final String ATTR_TAGS = "tags";
     private static final String ATTR_POSITION = "position";
+    private static final String ATTR_TYPE = "type";
+    private static final String ATTR_ID = "id";
+    private static final String ATTR_ROLE = "role";
+    private static final String ATTR_STYLE = "style";
 
     /**
      * Repairs a published Twine HTML story file to a valid XML document that
@@ -90,6 +96,20 @@ public class TwinePublishedRepairer implements TwineRepairer {
                 // tw-storydata
                 Element twStorydata = outputDocument.createElement(ELEM_TW_STORYDATA);
                 twStoriesdata.appendChild(twStorydata);
+
+                // style
+                NodeList styles = inputDocument.getElementsByTagName(ELEM_STYLE);
+                for(int i = 0; i < styles.getLength(); i++) {
+                    Element originalStyle = (Element) styles.item(i);
+
+                    Element style = outputDocument.createElement(ATTR_STYLE);
+                    style.setTextContent(originalStyle.getTextContent());
+                    style.setAttribute(ATTR_ROLE, originalStyle.getAttribute(ATTR_ROLE));
+                    style.setAttribute(ATTR_ID, originalStyle.getAttribute(ATTR_ID));
+                    style.setAttribute(ATTR_TYPE, originalStyle.getAttribute(ATTR_TYPE));
+
+                    twStorydata.appendChild(style);
+                }
 
                 // tw-passagedata
                 NodeList elementsByTagName = inputDocument.getElementsByTagName(ELEM_TW_PASSAGEDATA);

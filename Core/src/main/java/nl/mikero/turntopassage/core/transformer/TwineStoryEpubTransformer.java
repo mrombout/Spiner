@@ -1,6 +1,7 @@
 package nl.mikero.turntopassage.core.transformer;
 
 import com.google.inject.Inject;
+import nl.mikero.turntopassage.core.exception.TwineTransformationFailedException;
 import nl.mikero.turntopassage.core.exception.TwineTransformationWriteException;
 import nl.mikero.turntopassage.core.model.TwPassagedata;
 import nl.mikero.turntopassage.core.model.TwStorydata;
@@ -9,11 +10,20 @@ import nl.siegmann.epublib.domain.Book;
 import nl.siegmann.epublib.domain.Resource;
 import nl.siegmann.epublib.epub.EpubWriter;
 import nl.siegmann.epublib.service.MediatypeService;
+import org.apache.commons.io.output.NullOutputStream;
 import org.pegdown.PegDownProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.tidy.Tidy;
 
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
@@ -43,6 +53,7 @@ public class TwineStoryEpubTransformer {
         this.tidy = new Tidy();
         tidy.setInputEncoding("UTF-8");
         tidy.setOutputEncoding("UTF-8");
+        tidy.setDocType("omit");
         tidy.setXHTML(true);
     }
 
@@ -62,13 +73,23 @@ public class TwineStoryEpubTransformer {
         // add the title
         book.getMetadata().addTitle(story.getName());
 
-        // add all passages
-        for (TwPassagedata passage : story.getTwPassagedata()) {
-            // add passage as chapter
-            String passageContent = transformPassageTextToXhtml(passage.getValue());
-            Resource passageResource = new Resource(null, passageContent.getBytes(StandardCharsets.UTF_8), passage.getName() + ".xhtml", MediatypeService.XHTML);
+        // add stylesheet resources
+        if(story.getStyle() != null) {
+            Resource stylesheetResource = new Resource(null, story.getStyle().getValue().getBytes(), "Story.css", MediatypeService.CSS);
+            book.getResources().add(stylesheetResource);
+        }
 
-            book.addSection(passage.getName(), passageResource);
+        // add all passages
+        try {
+            for (TwPassagedata passage : story.getTwPassagedata()) {
+                // add passage as chapter
+                String passageContent = transformPassageTextToXhtml(passage.getValue());
+                Resource passageResource = new Resource(null, passageContent.getBytes(StandardCharsets.UTF_8), passage.getName() + ".xhtml", MediatypeService.XHTML);
+
+                book.addSection(passage.getName(), passageResource);
+            }
+        } catch (TransformerException e) {
+            throw new TwineTransformationFailedException("Could not transform document", e);
         }
 
         try {
@@ -85,11 +106,34 @@ public class TwineStoryEpubTransformer {
      *
      * @return a valid xhtml document containing the passage text in the body
      */
-    private String transformPassageTextToXhtml(String passageText) {
+    private String transformPassageTextToXhtml(String passageText) throws TransformerException {
         String xhtml = pdProcessor.markdownToHtml(passageText, twineLinkRenderer);
 
         try(InputStream in = new ByteArrayInputStream(xhtml.getBytes(StandardCharsets.UTF_8)); ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-            tidy.parseDOM(in, out);
+            Document document = tidy.parseDOM(in, new NullOutputStream());
+            Node head = document.getElementsByTagName("head").item(0);
+
+            // add stylesheet
+            Element style = document.createElement("link");
+            style.setAttribute("type", "text/css");
+            style.setAttribute("rel", "stylesheet");
+            style.setAttribute("href", "Story.css");
+            head.appendChild(style);
+
+            // add ttp class to body
+            Element body = (Element) document.getElementsByTagName("body").item(0);
+            body.setAttribute("class", body.getAttribute("class") + " ttp");
+
+            // transform xml
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+
+            DOMSource source = new DOMSource(document);
+            StreamResult result = new StreamResult(out);
+
+            transformer.transform(source, result);
+
+            // set return value
             xhtml = out.toString();
         } catch (IOException e) {
             // NOTE: Do nothing, ByteArrayOutputStream never throws IOException on close
