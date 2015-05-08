@@ -58,4 +58,32 @@ public class TwineLinkRendererTest {
         assertEquals(href + ".xhtml", result.href);
     }
 
+    @Test
+    public void render_DirectExternalLink_XhtmlIsNotAppended() {
+        // Arrange
+        WikiLinkNode node = mock(WikiLinkNode.class);
+        when(node.getText()).thenReturn("http://turntopassage.github.io");
+
+        // Act
+        LinkRenderer.Rendering result = linkRenderer.render(node);
+
+        // Assert
+        assertEquals("http://turntopassage.github.io", result.text);
+        assertEquals("http://turntopassage.github.io", result.href);
+    }
+
+    @Test
+    public void render_NamedExternalLink_XhtmlIsNotAppended() {
+        // Arrange
+        WikiLinkNode node = mock(WikiLinkNode.class);
+        when(node.getText()).thenReturn("TurnToPassage|http://turntopassage.github.io");
+
+        // Act
+        LinkRenderer.Rendering result = linkRenderer.render(node);
+
+        // Assert
+        assertEquals("TurnToPassage", result.text);
+        assertEquals("http://turntopassage.github.io", result.href);
+    }
+
 }

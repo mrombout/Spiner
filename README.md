@@ -59,8 +59,6 @@ roughly:
   <dt>CSS</dt>
   <dd>The ability to add (local) stylesheets. Stylesheets will be copied to the EPUB file and included in the XHTML
   files.</dd>
-  <dt>External Links</dt>
-  <dd>The ability to add links to external websites.</dd>
   <dt>Static Passage Choice Magic (tm)</dt>
   <dd>The ability to use really trivial switches and conditionals and have TurnToPassage calculate all possible paths to
   put into a static EPUB file. Don't expect this any time soon, or ever. Just an idea.</dd>
