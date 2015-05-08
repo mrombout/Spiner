@@ -3,7 +3,12 @@ package nl.mikero.turntopassage.core;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.*;
 
 public class TwinePublishedRepairerTest extends TwineRepairerTest {
@@ -62,6 +67,34 @@ public class TwinePublishedRepairerTest extends TwineRepairerTest {
         }
 
         // Assert
+        validate(outputStream);
+
+        // If we reach this point, the returned XML is valid. Yay!
+        Assert.assertTrue(true);
+        outputStream.close();
+    }
+
+    @Test
+    public void repair_StyledStoryFormat_StyleIsCopied() throws Exception {
+        // Arrange
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+        // Act
+        try(InputStream inputStream = getClass().getResourceAsStream("/html/harlowe.html")) {
+            repairer.repair(inputStream, outputStream);
+        }
+
+        // Assert
+        try(InputStream in = new ByteArrayInputStream(outputStream.toByteArray())) {
+            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+            Document document = documentBuilder.parse(in);
+
+            Assert.assertNotNull(document.getElementsByTagName("style"));
+            Node style = document.getElementsByTagName("style").item(0);
+            Assert.assertEquals("* { background-color: #ffffff; }", style.getTextContent());
+        }
+
         validate(outputStream);
 
         // If we reach this point, the returned XML is valid. Yay!
