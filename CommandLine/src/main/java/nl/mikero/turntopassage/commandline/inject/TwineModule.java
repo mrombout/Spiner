@@ -9,7 +9,6 @@ import nl.mikero.turntopassage.core.embedder.EmbedderFactory;
 import nl.mikero.turntopassage.core.embedder.HashEmbedderFactory;
 import nl.mikero.turntopassage.core.embedder.ImageEmbedder;
 import nl.mikero.turntopassage.core.embedder.ResourceEmbedder;
-import nl.mikero.turntopassage.core.pegdown.plugin.TwineImageLinkSerializer;
 import nl.mikero.turntopassage.core.transformer.TwineStoryEpubTransformer;
 import nl.mikero.turntopassage.core.inject.ArchiveRepairer;
 import nl.mikero.turntopassage.core.inject.PublishedRepairer;
