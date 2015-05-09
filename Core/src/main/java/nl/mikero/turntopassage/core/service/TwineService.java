@@ -127,7 +127,7 @@ public class TwineService {
         try {
             return isType(inputStream, archiveRepairer);
         } catch (TwineValidationFailedException | TwineRepairFailedException e) {
-            LOGGER.error("Could not validate input, assuming input is not an archive", e);
+            LOGGER.warn("Could not validate input, assuming input is not an archive", e);
             return false;
         }
     }
@@ -143,7 +143,7 @@ public class TwineService {
         try {
             return isType(inputStream, publishedRepairer);
         } catch (TwineValidationFailedException | TwineRepairFailedException e) {
-            LOGGER.error("Could not validate input, assuming input is not a published Twine story", e);
+            LOGGER.warn("Could not validate input, assuming input is not a published Twine story", e);
             return false;
         }
     }
@@ -175,7 +175,7 @@ public class TwineService {
                 return validate(in);
             }
         } catch (IOException e) {
-            LOGGER.error("Could not determine input type", e);
+            LOGGER.warn("Could not determine input type", e);
         } finally {
             try {
                 repairedOutput.close();

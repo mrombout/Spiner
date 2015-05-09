@@ -1,6 +1,7 @@
 package nl.mikero.turntopassage.core.transformer;
 
 import com.google.inject.Inject;
+import nl.mikero.turntopassage.core.embedder.ResourceEmbedder;
 import nl.mikero.turntopassage.core.exception.TwineTransformationFailedException;
 import nl.mikero.turntopassage.core.exception.TwineTransformationWriteException;
 import nl.mikero.turntopassage.core.model.TwPassagedata;
@@ -12,6 +13,7 @@ import nl.siegmann.epublib.epub.EpubWriter;
 import nl.siegmann.epublib.service.MediatypeService;
 import org.apache.commons.io.output.NullOutputStream;
 import org.pegdown.PegDownProcessor;
+import org.pegdown.ast.RootNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -36,6 +38,7 @@ public class TwineStoryEpubTransformer {
 
     private final PegDownProcessor pdProcessor;
     private final TwineLinkRenderer twineLinkRenderer;
+    private final ResourceEmbedder resourceEmbedder;
 
     private final Tidy tidy;
 
@@ -46,9 +49,10 @@ public class TwineStoryEpubTransformer {
      * @param twineLinkRenderer link renderer to use
      */
     @Inject
-    public TwineStoryEpubTransformer(PegDownProcessor pdProcessor, TwineLinkRenderer twineLinkRenderer) {
+    public TwineStoryEpubTransformer(PegDownProcessor pdProcessor, TwineLinkRenderer twineLinkRenderer, ResourceEmbedder resourceEmbedder) {
         this.pdProcessor = Objects.requireNonNull(pdProcessor);
         this.twineLinkRenderer = Objects.requireNonNull(twineLinkRenderer);
+        this.resourceEmbedder = resourceEmbedder;
 
         this.tidy = new Tidy();
         tidy.setInputEncoding("UTF-8");
@@ -78,6 +82,9 @@ public class TwineStoryEpubTransformer {
             Resource stylesheetResource = new Resource(null, story.getStyle().getValue().getBytes(), "Story.css", MediatypeService.CSS);
             book.getResources().add(stylesheetResource);
         }
+        
+        // embed all resources
+        embedREsources(book, story);
 
         // add all passages
         try {
@@ -98,6 +105,13 @@ public class TwineStoryEpubTransformer {
             epubWriter.write(book, outputStream);
         } catch (IOException e) {
             throw new TwineTransformationWriteException("Could not write transformed input to output stream", e);
+        }
+    }
+
+    private void embedResources(Book book, TwStorydata story) {
+        for(TwPassagedata passage : story.getTwPassagedata()) {
+            RootNode rootNode = pdProcessor.parseMarkdown(passage.getValue().toCharArray());
+            resourceEmbedder.embed(book, rootNode);
         }
     }
 

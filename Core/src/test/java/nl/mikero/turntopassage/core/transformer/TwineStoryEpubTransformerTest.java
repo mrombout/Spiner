@@ -1,6 +1,7 @@
 package nl.mikero.turntopassage.core.transformer;
 
 import static org.junit.Assert.*;
+import nl.mikero.turntopassage.core.embedder.ResourceEmbedder;
 import nl.mikero.turntopassage.core.model.Style;
 import nl.mikero.turntopassage.core.model.TwPassagedata;
 import nl.mikero.turntopassage.core.model.TwStoriesdata;
@@ -26,6 +27,7 @@ public class TwineStoryEpubTransformerTest {
 
     private PegDownProcessor mockPegDownProcessor;
     private TwineLinkRenderer mockTwineLinkRenderer;
+    private ResourceEmbedder mockResourceEmbedder;
 
     private TwineStoryEpubTransformer convertor;
 
@@ -33,8 +35,9 @@ public class TwineStoryEpubTransformerTest {
     public void setUp() {
         mockPegDownProcessor = mock(PegDownProcessor.class);
         mockTwineLinkRenderer = mock(TwineLinkRenderer.class);
+        mockResourceEmbedder = mock(ResourceEmbedder.class);
 
-        this.convertor = new TwineStoryEpubTransformer(mockPegDownProcessor, mockTwineLinkRenderer);
+        this.convertor = new TwineStoryEpubTransformer(mockPegDownProcessor, mockTwineLinkRenderer, mockResourceEmbedder);
     }
 
     @Test(expected =  NullPointerException.class)
@@ -42,7 +45,7 @@ public class TwineStoryEpubTransformerTest {
         // Arrange
 
         // Act
-        new TwineStoryEpubTransformer(null, mockTwineLinkRenderer);
+        new TwineStoryEpubTransformer(null, mockTwineLinkRenderer, mockResourceEmbedder);
 
         // Assert
     }
@@ -52,7 +55,7 @@ public class TwineStoryEpubTransformerTest {
         // Arrange
 
         // Act
-        new TwineStoryEpubTransformer(mockPegDownProcessor, null);
+        new TwineStoryEpubTransformer(mockPegDownProcessor, null, null);
 
         // Assert
     }

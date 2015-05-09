@@ -1,5 +1,6 @@
 package nl.mikero.turntopassage.core.pegdown.plugin;
 
+import nl.mikero.turntopassage.core.embedder.ImageEmbedder;
 import org.junit.Before;
 import org.junit.Test;
 import org.pegdown.LinkRenderer;
@@ -10,11 +11,13 @@ import static org.junit.Assert.*;
 
 public class TwineLinkRendererTest {
 
+    private ImageEmbedder mockImageEmbedder;
     private TwineLinkRenderer linkRenderer;
 
     @Before
     public void setUp() {
-        this.linkRenderer = new TwineLinkRenderer();
+        this.mockImageEmbedder = mock(ImageEmbedder.class);
+        this.linkRenderer = new TwineLinkRenderer(mockImageEmbedder);
     }
 
     @Test(expected = NullPointerException.class)

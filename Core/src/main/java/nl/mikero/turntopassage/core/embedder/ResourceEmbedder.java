@@ -1,8 +1,13 @@
 package nl.mikero.turntopassage.core.embedder;
 
+import com.google.inject.Inject;
+import nl.siegmann.epublib.domain.Book;
 import org.pegdown.ast.*;
+import org.pegdown.plugins.ToHtmlSerializerPlugin;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.awt.print.Book;
+import java.io.IOException;
 
 /**
  * Runs through all nodes in a pegdown document and embeds any resource that
@@ -10,7 +15,16 @@ import java.awt.print.Book;
  */
 public class ResourceEmbedder implements Visitor {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ResourceEmbedder.class);
+
+    private final EmbedderFactory factory;
+
     private Book book;
+
+    @Inject
+    public ResourceEmbedder(EmbedderFactory factory) {
+        this.factory = factory;
+    }
 
     /**
      * Runs through all the children of the given root node and embeds any
@@ -38,8 +52,7 @@ public class ResourceEmbedder implements Visitor {
     }
 
     @Override
-    public void visit(AbbreviationNode node) {
-        visitChildren(node);
+    public void visit(AbbreviationNode node) { visitChildren(node);
     }
 
     @Override
@@ -69,6 +82,13 @@ public class ResourceEmbedder implements Visitor {
 
     @Override
     public void visit(ExpImageNode node) {
+        try {
+            Embedder embedder = factory.get(node);
+            embedder.embed(this.book, node.url);
+        } catch (IOException e) {
+            LOGGER.error("Error during embedding of '{}'", node.url, e);
+        }
+
         visitChildren(node);
     }
 
