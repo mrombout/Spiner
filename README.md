@@ -13,6 +13,7 @@ The following Twine features are currently supported:
 * Markdown syntax for passages
 * Standard passage links (e.g. [[displayed text|passage title]], [[passage title]])
 * Story Stylesheet
+* Images
 
 ## Usage
 
