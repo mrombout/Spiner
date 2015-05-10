@@ -1,9 +1,11 @@
 package nl.mikero.turntopassage.frontend.wizard;
 
+import javafx.collections.ObservableMap;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import org.controlsfx.dialog.Wizard;
 
 import java.io.File;
 
@@ -24,6 +26,14 @@ public class InputOutputWizardPane extends AbstractFxmlWizardPane {
 
         setHeaderTitle("Input/Output");
         setHeaderText("Please select your input and output location.");
+    }
+
+    @Override
+    public void onExitingPage(Wizard wizard) {
+        ObservableMap<String, Object> settings = wizard.getSettings();
+
+        settings.put("input", inputField.getText());
+        settings.put("output", outputField.getText());
     }
 
     public void onActionBrowseInputButton() {

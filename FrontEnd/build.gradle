@@ -8,6 +8,9 @@ repositories {
     maven {
         url "https://github.com/psiegman/mvn-repo/raw/master/releases"
     }
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots"
+    }
 }
 
 javafx {
@@ -18,5 +21,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
 
     compile project(':Core')
-    compile 'org.controlsfx:controlsfx:8.20.8'
+    compile 'org.controlsfx:controlsfx:8.40.9-SNAPSHOT'
 }
