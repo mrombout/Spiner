@@ -34,7 +34,7 @@ public class TwinePublishedRepairer implements TwineRepairer {
      * of arguments) and close tags and anything in between (including
      * newlines).
      */
-    private static final Pattern REGEX_TW_STORYDATA = Pattern.compile("(?s)<tw-storydata ([\\s\\w=\"'\\-.]*)>(.*)<\\/tw-storydata>");
+    private static final Pattern REGEX_TW_STORYDATA = Pattern.compile("(?s)<tw-storydata (.*)>(.*)<\\/tw-storydata>");
 
     private static final String ELEM_TW_STORIESDATA = "tw-storiesdata";
     private static final String ELEM_TW_STORYDATA = "tw-storydata";
