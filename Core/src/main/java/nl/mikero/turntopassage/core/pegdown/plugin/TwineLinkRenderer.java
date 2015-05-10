@@ -1,10 +1,19 @@
 package nl.mikero.turntopassage.core.pegdown.plugin;
 
+import com.google.inject.Inject;
+import nl.mikero.turntopassage.core.embedder.ImageEmbedder;
+import org.parboiled.common.StringUtils;
 import org.pegdown.LinkRenderer;
+import org.pegdown.ast.ExpImageNode;
 import org.pegdown.ast.WikiLinkNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static org.pegdown.FastEncoder.encode;
 
 /**
  * Renders a WikiLinkNode as a Twine link.
@@ -12,6 +21,8 @@ import java.util.regex.Pattern;
  * @see WikiLinkNode
  */
 public class TwineLinkRenderer extends LinkRenderer {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(TwineLinkRenderer.class);
 
     /**
      * Regular Expression to match Twine links. The pattern currently matches
@@ -44,6 +55,13 @@ public class TwineLinkRenderer extends LinkRenderer {
     private static final int GROUP_LABEL = 1;
     private static final int GROUP_URL = 2;
 
+    private final ImageEmbedder imageEmbedder;
+
+    @Inject
+    public TwineLinkRenderer(ImageEmbedder imageEmbedder) {
+        this.imageEmbedder = imageEmbedder;
+    }
+
     @Override
     public Rendering render(WikiLinkNode node) {
         Matcher matcher = LINKS.matcher(node.getText());
@@ -64,5 +82,19 @@ public class TwineLinkRenderer extends LinkRenderer {
             text = matcher.group(GROUP_LABEL);
         }
         return new Rendering(url, text);
+    }
+
+
+    public Rendering render(ExpImageNode node, String text) {
+        String url = node.url;
+        try {
+            url = imageEmbedder.getHref(node.url);
+        } catch (IOException e) {
+            // there's nothing we can do but continue
+            LOGGER.error("Could not load image at url '{}'.", node.url, e);
+        }
+
+        Rendering rendering = new Rendering(url, text);
+        return StringUtils.isEmpty(node.title) ? rendering : rendering.withAttribute("title", encode(node.title));
     }
 }
