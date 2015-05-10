@@ -39,9 +39,9 @@ public class MetadataWizardPane extends AbstractWizardPane {
     @Override
     public void onExitingPage(Wizard wizard) {
         ObservableMap<String, Object> settings = wizard.getSettings();
-        for(PropertySheet.Item item : propertySheet.getItems()) {
+        propertySheet.getItems().stream().filter(item -> item.getValue() != null).forEach(item -> {
             settings.put(item.getName(), item.getValue());
-        }
+        });
     }
 
     public static class Metadata implements Serializable {
