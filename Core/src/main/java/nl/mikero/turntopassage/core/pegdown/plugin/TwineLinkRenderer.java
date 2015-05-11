@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -88,7 +89,7 @@ public class TwineLinkRenderer extends LinkRenderer {
     public Rendering render(ExpImageNode node, String text) {
         String url = node.url;
         try {
-            url = imageEmbedder.getHref(node.url);
+            url = imageEmbedder.getHref(new URL(node.url));
         } catch (IOException e) {
             // there's nothing we can do but continue
             LOGGER.error("Could not load image at url '{}'.", node.url, e);

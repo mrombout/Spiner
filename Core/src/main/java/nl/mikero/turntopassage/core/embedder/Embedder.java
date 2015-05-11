@@ -4,6 +4,8 @@ import nl.mikero.turntopassage.core.model.TwPassagedata;
 import nl.siegmann.epublib.domain.Book;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URL;
 
 /**
  * Embeds a resources and defines the naming and location in the EPUB file.
@@ -17,7 +19,7 @@ public interface Embedder {
      * @param url url of the image as defined by the user in twine
      * @return path of resource inside the EPUB file
      */
-    String getHref(String url) throws IOException;
+    String getHref(URL url) throws IOException;
 
     /**
      * Embeds the resource at the given {@code url} in the given {@link Book}.
@@ -25,6 +27,6 @@ public interface Embedder {
      * @param book book to embed resource in
      * @param url url to resource that should be embedded
      */
-    void embed(Book book, String url) throws IOException;
+    void embed(Book book, URL url) throws IOException;
 
 }

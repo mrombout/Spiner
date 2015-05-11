@@ -8,6 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 /**
  * Runs through all nodes in a pegdown document and embeds any resource that
@@ -84,12 +88,22 @@ public class ResourceEmbedder implements Visitor {
     public void visit(ExpImageNode node) {
         try {
             Embedder embedder = factory.get(node);
-            embedder.embed(this.book, node.url);
+            embedder.embed(this.book, createUrlFromString(node.url));
         } catch (IOException e) {
             LOGGER.error("Error during embedding of '{}'", node.url, e);
         }
 
         visitChildren(node);
+    }
+
+    private URL createUrlFromString(String url) {
+        try {
+            return new URL(url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     @Override
