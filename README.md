@@ -6,14 +6,19 @@ TurnToPassage is a set of tools that allows you to easily author you own Choose 
 using [Twine 2](http://twinery.org/). This set consists of a Transformer, which transforms your regular published Twine story into an EPUB
 file to be read on any modern e-reader.
 
-## Supported Twine Features
+## Features
 
 The following Twine features are currently supported:
-
-* Markdown syntax for passages
-* Standard passage links (e.g. [[displayed text|passage title]], [[passage title]])
-* Story Stylesheet
-* Local and remote images
+<dl>
+ <dt>Markdown</dt>
+ <dd>Simple <a href="http://daringfireball.net/projects/markdown/">Markdown</a> syntax can be used to write and format your gamebook.</dd>
+ <dt>Passage links</dt>
+ <dd>Twine passage links (i.e. <code>[[displayed text|passage title]]</code>, <code>[[passage title]]</code>) are converted to simple <code>&lt;a&gt;</code> links in the epub which will automatically point to the correct <code>.xhtml</code> file.</dd>
+ <dt>Story Stylesheet</dt>
+ <dd>Your story stylesheet as defined in Twine will be add to every <code>.xhtml</code> file in your epub file.</dt>
+ <dt>Images</dt>
+ <dd>Both local (images on your harddrive) as remote images (images on the internet) can simply be embedded in the EPUB by using standard markdown syntax(e.g. <code>![alt](url)</code>).</dd>
+</dl>
 
 ## Usage
 
