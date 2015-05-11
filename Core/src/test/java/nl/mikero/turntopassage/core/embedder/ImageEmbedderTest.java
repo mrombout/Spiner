@@ -8,7 +8,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
@@ -33,7 +35,7 @@ public class ImageEmbedderTest {
         // Arrange
 
         // Act
-        embedder.embed(null, "/img/doesnotexist.png");
+        embedder.embed(null, new URL("file:/img/doesnotexist.png"));
 
         // Assert
     }
@@ -43,7 +45,7 @@ public class ImageEmbedderTest {
         // Arrange
 
         // Act
-        embedder.embed(null, "/img/doesnotexist.png");
+        embedder.embed(null, new URL("file:/img/doesnotexist.png"));
 
         // Assert
     }
@@ -54,11 +56,11 @@ public class ImageEmbedderTest {
         Book book = new Book();
 
         // Act
-        embedder.embed(book, Paths.get(getClass().getResource("/embed/image.jpg").toURI()));
-        embedder.embed(book, Paths.get(getClass().getResource("/embed/image.jpeg").toURI()));
-        embedder.embed(book, Paths.get(getClass().getResource("/embed/image.png").toURI()));
-        embedder.embed(book, Paths.get(getClass().getResource("/embed/image.gif").toURI()));
-        embedder.embed(book, Paths.get(getClass().getResource("/embed/image.svg").toURI()));
+        embedder.embed(book, getClass().getResource("/embed/image.jpg").toURI().toURL());
+        embedder.embed(book, getClass().getResource("/embed/image.jpeg").toURI().toURL());
+        embedder.embed(book, getClass().getResource("/embed/image.png").toURI().toURL());
+        embedder.embed(book, getClass().getResource("/embed/image.gif").toURI().toURL());
+        embedder.embed(book, getClass().getResource("/embed/image.svg").toURI().toURL());
 
         // Assert
         Resources resources = book.getResources();
@@ -90,7 +92,7 @@ public class ImageEmbedderTest {
         Book book = new Book();
 
         // Act
-        embedder.embed(book, Paths.get(getClass().getResource("/embed/image.bmp").toURI()));
+        embedder.embed(book, getClass().getResource("/embed/image.bmp").toURI().toURL());
 
         // Assert
         assertEquals(1, book.getResources().size());
@@ -102,7 +104,7 @@ public class ImageEmbedderTest {
         Book book = new Book();
 
         // Act
-        embedder.embed(book, "/does/not/exist");
+        embedder.embed(book, new URL("file:/does/not/exist"));
 
         // Assert
     }
@@ -111,12 +113,12 @@ public class ImageEmbedderTest {
     public void embed_ValidResource_HrefAndEmbedHashAreEqual() throws Exception {
         // Arrange
         Book book = new Book();
-        Path path = Paths.get(getClass().getResource("/embed/image.png").toURI());
+        URL url = getClass().getResource("/embed/image.png").toURI().toURL();
 
         // Act
 
-        embedder.embed(book, path);
-        String result = embedder.getHref(path.toString());
+        embedder.embed(book, url);
+        String result = embedder.getHref(url);
 
         // Assert
         List<Resource> pngs = book.getResources().getResourcesByMediaType(MediatypeService.PNG);

@@ -92,7 +92,7 @@ public class TwineStoryEpubTransformer {
         }
         
         // embed all resources
-        embedREsources(book, story);
+        embedResources(book, story);
 
         // add all passages
         try {

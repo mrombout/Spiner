@@ -13,7 +13,7 @@ The following Twine features are currently supported:
 * Markdown syntax for passages
 * Standard passage links (e.g. [[displayed text|passage title]], [[passage title]])
 * Story Stylesheet
-* Images
+* Local and remote images
 
 ## Usage
 
@@ -55,12 +55,6 @@ roughly:
   <dd>The ability to set any metadata from inside a private Twine passage.</dd>
   <dt>Annotation tag</dt>
   <dd>Passages tagged with `annotation` will not be included in the EPUB file.</dd>
-  <dt>Images</dt>
-  <dd>The ability to add (local and remote) images to a Twine story using standard markdown syntax. Images will be
-  downloaded or copied to the EPUB file.</dd>
-  <dt>Remote Images</dt>
-  <dd>The ability to add remote images to a Twine story using standard markdown syntax. Images will be downloaded and 
-  copied to the EPUB file.</dd>
   <dt>Static Passage Choice Magic (tm)</dt>
   <dd>The ability to use really trivial switches and conditionals and have TurnToPassage calculate all possible paths to
   put into a static EPUB file. Don't expect this any time soon, or ever. Just an idea.</dd>
