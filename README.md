@@ -60,9 +60,6 @@ roughly:
   <dd>The ability to set any metadata from inside a private Twine passage.</dd>
   <dt>Annotation tag</dt>
   <dd>Passages tagged with `annotation` will not be included in the EPUB file.</dd>
-  <dt>Static Passage Choice Magic (tm)</dt>
-  <dd>The ability to use really trivial switches and conditionals and have TurnToPassage calculate all possible paths to
-  put into a static EPUB file. Don't expect this any time soon, or ever. Just an idea.</dd>
   <dt>Scripting? and other EPUB3 features</dt>
   <dd>I currently do not own an eReader that supports EPUB3 features. But support for EPUB3 features, especially
   scripting could prove interesting.</dd>
