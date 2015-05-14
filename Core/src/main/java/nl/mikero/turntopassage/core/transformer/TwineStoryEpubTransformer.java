@@ -69,7 +69,7 @@ public class TwineStoryEpubTransformer {
      * @param outputStream output stream to write epub to
      */
     public void transform(TwStorydata story, OutputStream outputStream) {
-        transform(story, outputStream, TransformOptions.EMPTY);
+        transform(story, outputStream, story.getXtwMetadata() != null ? TransformOptions.fromXtwMetadata(story.getXtwMetadata()) : TransformOptions.EMPTY);
     }
 
     public void transform(TwStorydata story, OutputStream outputStream, TransformOptions options) {

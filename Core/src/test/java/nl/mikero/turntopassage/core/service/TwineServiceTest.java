@@ -3,6 +3,7 @@ package nl.mikero.turntopassage.core.service;
 import nl.mikero.turntopassage.core.TwineArchiveParser;
 import nl.mikero.turntopassage.core.TwineRepairer;
 import nl.mikero.turntopassage.core.exception.TwineValidationFailedException;
+import nl.mikero.turntopassage.core.transformer.ExtendTwineXmlTransformer;
 import nl.mikero.turntopassage.core.transformer.TwineStoryEpubTransformer;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,6 +22,7 @@ public class TwineServiceTest {
     private TwineRepairer mockArchiveRepairer;
     private TwineStoryEpubTransformer mockTwineStoryEpubTransformer;
     private TwineArchiveParser mockTwineArchiveParser;
+    private ExtendTwineXmlTransformer mockExendTwineXmlTransformer;
 
     private TwineService twineService;
 
@@ -30,8 +32,9 @@ public class TwineServiceTest {
         mockArchiveRepairer = new TwineRepairerMock(getClass().getResourceAsStream("/xml/valid.xml"));
         mockTwineStoryEpubTransformer = mock(TwineStoryEpubTransformer.class);
         mockTwineArchiveParser = mock(TwineArchiveParser.class);
+        mockExendTwineXmlTransformer = mock(ExtendTwineXmlTransformer.class);
 
-        this.twineService = new TwineService(mockPublishedRepairer, mockArchiveRepairer, mockTwineStoryEpubTransformer, mockTwineArchiveParser);
+        this.twineService = new TwineService(mockPublishedRepairer, mockArchiveRepairer, mockTwineStoryEpubTransformer, mockTwineArchiveParser, mockExendTwineXmlTransformer);
     }
 
     @Test(expected =  NullPointerException.class)
@@ -114,7 +117,7 @@ public class TwineServiceTest {
         TwineRepairer mockPublishedRepairer = new TwineRepairerMock(getClass().getResourceAsStream("/xml/invalid.xml"));
         TwineRepairer mockArchiveRepairer = new TwineRepairerMock(getClass().getResourceAsStream("/xml/invalid.xml"));
 
-        TwineService twineService = new TwineService(mockPublishedRepairer, mockArchiveRepairer, mockTwineStoryEpubTransformer, mockTwineArchiveParser);
+        TwineService twineService = new TwineService(mockPublishedRepairer, mockArchiveRepairer, mockTwineStoryEpubTransformer, mockTwineArchiveParser, mockExendTwineXmlTransformer);
 
         // Act
         boolean result;
@@ -157,7 +160,7 @@ public class TwineServiceTest {
         TwineRepairer mockPublishedRepairer = new TwineRepairerMock(getClass().getResourceAsStream("/xml/invalid.xml"));
         TwineRepairer mockArchiveRepairer = new TwineRepairerMock(getClass().getResourceAsStream("/xml/invalid.xml"));
 
-        TwineService twineService = new TwineService(mockPublishedRepairer, mockArchiveRepairer, mockTwineStoryEpubTransformer, mockTwineArchiveParser);
+        TwineService twineService = new TwineService(mockPublishedRepairer, mockArchiveRepairer, mockTwineStoryEpubTransformer, mockTwineArchiveParser, mockExendTwineXmlTransformer);
 
         // Act
         boolean result;
@@ -177,7 +180,6 @@ public class TwineServiceTest {
         boolean result = twineService.isPublished(null);
 
         // Assert
-        assertFalse(result);
     }
 
 }

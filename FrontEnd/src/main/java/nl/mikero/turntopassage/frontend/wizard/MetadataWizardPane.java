@@ -58,9 +58,6 @@ public class MetadataWizardPane extends AbstractWizardPane {
         private final ObjectProperty<LocalDate> date;
         private final StringProperty type;
         private final StringProperty format;
-        private final StringProperty source;
-        private final StringProperty relation;
-        private final StringProperty coverage;
         private final StringProperty rights;
 
         public Metadata() {
@@ -76,9 +73,6 @@ public class MetadataWizardPane extends AbstractWizardPane {
             this.date = new SimpleObjectProperty<>(LocalDate.now());
             this.type = new SimpleStringProperty();
             this.format = new SimpleStringProperty();
-            this.source = new SimpleStringProperty();
-            this.relation = new SimpleStringProperty();
-            this.coverage = new SimpleStringProperty();
             this.rights = new SimpleStringProperty();
         }
 
@@ -190,36 +184,6 @@ public class MetadataWizardPane extends AbstractWizardPane {
         }
         public void setFormat(String format) {
             this.format.set(format);
-        }
-
-        public StringProperty sourceProperty() {
-            return source;
-        }
-        public String getSource() {
-            return source.get();
-        }
-        public void setSource(String source) {
-            this.source.set(source);
-        }
-
-        public StringProperty relationProperty() {
-            return relation;
-        }
-        public String getRelation() {
-            return relation.get();
-        }
-        public void setRelation(String relation) {
-            this.relation.set(relation);
-        }
-
-        public StringProperty coverageProperty() {
-            return coverage;
-        }
-        public String getCoverage() {
-            return coverage.get();
-        }
-        public void setCoverage(String coverage) {
-            this.coverage.set(coverage);
         }
 
         public StringProperty rightsProperty() {

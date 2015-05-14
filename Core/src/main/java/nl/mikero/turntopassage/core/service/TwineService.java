@@ -5,6 +5,7 @@ import nl.mikero.turntopassage.core.TwineArchiveParser;
 import nl.mikero.turntopassage.core.TwineRepairer;
 import nl.mikero.turntopassage.core.exception.TwineRepairFailedException;
 import nl.mikero.turntopassage.core.exception.TwineValidationFailedException;
+import nl.mikero.turntopassage.core.transformer.ExtendTwineXmlTransformer;
 import nl.mikero.turntopassage.core.transformer.TwineStoryEpubTransformer;
 import nl.mikero.turntopassage.core.inject.ArchiveRepairer;
 import nl.mikero.turntopassage.core.inject.PublishedRepairer;
@@ -17,7 +18,9 @@ import org.xml.sax.SAXException;
 
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBException;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Source;
+import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
@@ -37,6 +40,8 @@ public class TwineService {
     private final TwineStoryEpubTransformer twineStoryEpubTransformer;
     private final TwineArchiveParser twineArchiveParser;
 
+    private final ExtendTwineXmlTransformer extendTwineXmlTransformer;
+
     /**
      * Constructs a new TwineService.
      *
@@ -44,13 +49,15 @@ public class TwineService {
      * @param archiveRepairer           repaired to use for twine archives
      * @param twineStoryEpubTransformer transformer to use
      * @param twineArchiveParser        twine archive parse to use
+     * @param extendTwineXmlTransformer
      */
     @Inject
-    public TwineService(@PublishedRepairer TwineRepairer publishedRepairer, @ArchiveRepairer TwineRepairer archiveRepairer, TwineStoryEpubTransformer twineStoryEpubTransformer, TwineArchiveParser twineArchiveParser) {
+    public TwineService(@PublishedRepairer TwineRepairer publishedRepairer, @ArchiveRepairer TwineRepairer archiveRepairer, TwineStoryEpubTransformer twineStoryEpubTransformer, TwineArchiveParser twineArchiveParser, ExtendTwineXmlTransformer extendTwineXmlTransformer) {
         this.publishedRepairer = Objects.requireNonNull(publishedRepairer);
         this.archiveRepairer = Objects.requireNonNull(archiveRepairer);
         this.twineStoryEpubTransformer = Objects.requireNonNull(twineStoryEpubTransformer);
         this.twineArchiveParser = Objects.requireNonNull(twineArchiveParser);
+        this.extendTwineXmlTransformer = Objects.requireNonNull(extendTwineXmlTransformer);
     }
 
     /**
@@ -68,6 +75,7 @@ public class TwineService {
         Objects.requireNonNull(output);
 
         ByteArrayOutputStream repairedOutput = new ByteArrayOutputStream();
+        ByteArrayOutputStream transformedOutput = new ByteArrayOutputStream();
 
         try {
             byte[] inputBytes = IOUtils.toByteArray(input);
@@ -77,14 +85,19 @@ public class TwineService {
                 publishedRepairer.repair(in, repairedOutput);
             }
 
+            // transform to extended twine xml format
+            try(InputStream in = new ByteArrayInputStream(repairedOutput.toByteArray())) {
+                extendTwineXmlTransformer.transform(in, transformedOutput);
+            }
+
             // parse and serialize
-            try (InputStream in = new ByteArrayInputStream(repairedOutput.toByteArray())) {
+            try (InputStream in = new ByteArrayInputStream(transformedOutput.toByteArray())) {
                 TwStoriesdata twStories = twineArchiveParser.parse(in);
                 for (TwStorydata twStorydata : twStories.getTwStorydata()) {
                     twineStoryEpubTransformer.transform(twStorydata, output, options);
                 }
             }
-        } catch (SAXException | TwineRepairFailedException | IOException | JAXBException e) {
+        } catch (SAXException | TwineRepairFailedException | IOException | JAXBException | ParserConfigurationException | TransformerException e) {
             LOGGER.error("Could not repair document in input stream", e);
         } finally {
             try {
