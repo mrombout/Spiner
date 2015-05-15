@@ -16,6 +16,7 @@ import javax.xml.transform.stream.StreamSource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Objects;
 
 /**
  * Transform a regular Twine XML file to an extended Twine XML format.
@@ -23,6 +24,9 @@ import java.io.OutputStream;
 public class ExtendTwineXmlTransformer {
 
     public void transform(InputStream input, OutputStream output) throws ParserConfigurationException, TransformerException, IOException, SAXException {
+        Objects.requireNonNull(input);
+        Objects.requireNonNull(output);
+
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = documentBuilderFactory.newDocumentBuilder();
         Document document = builder.parse(input);
