@@ -8,7 +8,7 @@ file to be read on any modern e-reader.
 
 ## Features
 
-The following Twine features are currently supported:
+The following features are currently supported:
 <dl>
  <dt>Markdown</dt>
  <dd>Simple <a href="http://daringfireball.net/projects/markdown/">Markdown</a> syntax can be used to write and format your gamebook.</dd>
@@ -18,6 +18,8 @@ The following Twine features are currently supported:
  <dd>Your story stylesheet as defined in Twine will be add to every <code>.xhtml</code> file in your epub file.</dt>
  <dt>Images</dt>
  <dd>Both local (images on your harddrive) as remote images (images on the internet) can simply be embedded in the EPUB by using standard markdown syntax(e.g. <code>![alt](url)</code>).</dd>
+ <dt>Metadata</dt>
+ <dd>Any EPUB metadata can be set from inside a normal Twine passage named 'metadata' using XML.</dd>
 </dl>
 
 ## Usage
@@ -56,8 +58,6 @@ The following features are currently not implemented but are to be expected some
 roughly:
 
 <dl>
-  <dt>Metadata</dt>
-  <dd>The ability to set any metadata from inside a private Twine passage.</dd>
   <dt>Annotation tag</dt>
   <dd>Passages tagged with `annotation` will not be included in the EPUB file.</dd>
   <dt>Scripting? and other EPUB3 features</dt>
