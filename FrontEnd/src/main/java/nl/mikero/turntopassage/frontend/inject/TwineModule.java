@@ -26,8 +26,37 @@ public class TwineModule extends AbstractModule {
 
     @Override
     protected void configure() {
+        bind(TwineModule.class).toInstance(this);
+
+        bind(TwineStoryEpubTransformer.class);
         bind(TwineRepairer.class).annotatedWith(ArchiveRepairer.class).to(TwineArchiveRepairer.class);
         bind(TwineRepairer.class).annotatedWith(PublishedRepairer.class).to(TwinePublishedRepairer.class);
+
+        mapViews();
+        mapMediators();
+        mapCommands();
+        mapServices();
+        mapInfrastructure();
+    }
+
+    private void mapViews() {
+
+    }
+
+    private void mapMediators() {
+
+    }
+
+    private void mapCommands() {
+
+    }
+
+    private void mapServices() {
+
+    }
+
+    private void mapInfrastructure() {
+
     }
 
     @Provides
@@ -49,9 +78,4 @@ public class TwineModule extends AbstractModule {
         );
     }
 
-    @Provides
-    TwineStoryEpubTransformer provideTwineStoryEpubTransformer(PegDownProcessor pegDownProcessor, TwineLinkRenderer twineLinkRenderer, ResourceEmbedder resourceEmbedder) {
-        return new TwineStoryEpubTransformer(pegDownProcessor, twineLinkRenderer, resourceEmbedder);
-    }
-    
 }
