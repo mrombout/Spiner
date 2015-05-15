@@ -4,6 +4,6 @@
         <style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css"></style>
         <script role="script" id="twine-user-script" type="text/twine-javascript"></script>
         <tw-passagedata pid="1" name="metadata" tags="" position="712,388"></tw-passagedata>
-        <tw-passagedata pid="2" name="Start" tags="" position="966,380">Here is just a normal passage.</tw-passagedata>
+        <tw-passagedata pid="2" name="Start" tags="" position="966,380">Here be just a normal passage.</tw-passagedata>
     </tw-storydata>
 </tw-storiesdata>

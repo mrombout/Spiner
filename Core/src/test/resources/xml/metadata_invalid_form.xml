@@ -6,6 +6,6 @@
         <tw-passagedata pid="1" name="metadata" tags="" position="712,388">&lt;xtw-metadata&gt;
             &lt;title&gt;Just a Title!&lt;/ti&gt;
             &lt;/xtw-metadata&gt;</tw-passagedata>
-        <tw-passagedata pid="2" name="Start" tags="" position="966,380">Here is just a normal passage.</tw-passagedata>
+        <tw-passagedata pid="2" name="Start" tags="" position="966,380">Here be just a normal passage.</tw-passagedata>
     </tw-storydata>
 </tw-storiesdata>
