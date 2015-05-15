@@ -67,10 +67,6 @@ public class TwineService {
      * @param output output stream to write the epub to
      */
     public void transform(InputStream input, OutputStream output) {
-        transform(input, output, TransformOptions.EMPTY);
-    }
-
-    public void transform(InputStream input, OutputStream output, TransformOptions options) {
         Objects.requireNonNull(input);
         Objects.requireNonNull(output);
 
@@ -94,7 +90,7 @@ public class TwineService {
             try (InputStream in = new ByteArrayInputStream(transformedOutput.toByteArray())) {
                 TwStoriesdata twStories = twineArchiveParser.parse(in);
                 for (TwStorydata twStorydata : twStories.getTwStorydata()) {
-                    twineStoryEpubTransformer.transform(twStorydata, output, options);
+                    twineStoryEpubTransformer.transform(twStorydata, output);
                 }
             }
         } catch (SAXException | TwineRepairFailedException | IOException | JAXBException | ParserConfigurationException | TransformerException e) {
