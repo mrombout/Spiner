@@ -8,8 +8,8 @@
 
     <xsl:template match="tw-passagedata">
         <xsl:choose>
-            <xsl:when test="count(xtw-metadata) > 0">
-                <xsl:copy-of select="xtw-metadata" />
+            <xsl:when test="@name = 'metadata'">
+                <xsl:value-of select="." disable-output-escaping="yes" />
             </xsl:when>
             <xsl:otherwise>
                 <xsl:copy-of select="." />
