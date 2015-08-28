@@ -22,8 +22,8 @@
         </DropFileChooser>
     </center>
     <bottom>
-        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                text="Transform" BorderPane.alignment="CENTER" styleClass="transform-button">
+        <Button fx:id="transformButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
+                text="Transform" BorderPane.alignment="CENTER" styleClass="transform-button" onAction="#onTransformButtonClicked">
             <BorderPane.margin>
                 <Insets bottom="10.0" left="10.0" right="10.0"/>
             </BorderPane.margin>
