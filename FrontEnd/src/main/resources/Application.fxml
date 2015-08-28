@@ -15,7 +15,7 @@
         <URL value="@Application.css" />
     </stylesheets>
     <center>
-        <DropFileChooser>
+        <DropFileChooser fx:id="dropFileChooser">
             <BorderPane.margin>
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
             </BorderPane.margin>

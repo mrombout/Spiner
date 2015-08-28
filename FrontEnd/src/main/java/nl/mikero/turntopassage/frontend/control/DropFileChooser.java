@@ -1,19 +1,34 @@
 package nl.mikero.turntopassage.frontend.control;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ObjectPropertyBase;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 
 import javax.swing.plaf.FileChooserUI;
-import java.awt.event.ActionEvent;
+import java.io.File;
 import java.io.IOException;
 
 public class DropFileChooser extends BorderPane {
 
     private FileChooser fileChooser;
+
+    private ObjectProperty<File> fileProperty = new SimpleObjectProperty<File>();
+
+    @FXML
+    private ImageView statusImage;
+    @FXML
+    private Label fileLabel;
+    private Image image;
 
     public DropFileChooser() {
         loadFxml();
@@ -38,7 +53,27 @@ public class DropFileChooser extends BorderPane {
 
     @FXML
     private void onStackPaneMouseClicked(MouseEvent mouseEvent) {
-        fileChooser.showOpenDialog(this.getScene().getWindow());
+        File file;
+        if((file = fileChooser.showOpenDialog(this.getScene().getWindow())) != null) {
+            setFile(file);
+            fileLabel.setText(getFile().getAbsolutePath());
+        }
     }
 
+    public ObjectProperty<File> fileProperty() {
+        return fileProperty;
+    }
+
+    public File getFile() {
+        return fileProperty.get();
+    }
+
+    public void setFile(File file) {
+        fileProperty.set(file);
+    }
+
+    public void setImage(Image image) {
+        statusImage.setImage(image);
+    }
+    public Image getImage() { return statusImage.getImage(); }
 }

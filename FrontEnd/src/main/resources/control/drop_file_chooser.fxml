@@ -12,13 +12,13 @@
     <center>
         <StackPane BorderPane.alignment="CENTER" onMouseClicked="#onStackPaneMouseClicked">
             <children>
-                <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0">
+                <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="500.0">
                     <children>
-                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"/>
-                        <Label alignment="BOTTOM_CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308"
-                               maxWidth="1.7976931348623157E308" text="LabelImage filename" textAlignment="CENTER"/>
+                        <ImageView fx:id="statusImage" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true"  />
+                        <Label fx:id="fileLabel" alignment="BOTTOM_CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308"
+                               maxWidth="-Infinity" text="Click and select or drop a published Twine story..." textAlignment="CENTER" textOverrun="LEADING_ELLIPSIS" />
                     </children>
-                </VBox>
+                </StackPane>
             </children>
         </StackPane>
     </center>
