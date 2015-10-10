@@ -1,8 +1,10 @@
 package nl.mikero.turntopassage.frontend.control;
 
+import com.sun.glass.ui.CommonDialogs;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ObjectPropertyBase;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
+import org.apache.commons.io.FileUtils;
 
 import javax.swing.plaf.FileChooserUI;
 import java.io.File;
@@ -51,12 +54,21 @@ public class DropFileChooser extends BorderPane {
         fileChooser = new FileChooser();
     }
 
+    public ObservableList<FileChooser.ExtensionFilter> getExtensionFilters() {
+        return fileChooser.getExtensionFilters();
+    }
+
     @FXML
     private void onStackPaneMouseClicked(MouseEvent mouseEvent) {
+        openFileChooser();
+    }
+
+    public void openFileChooser() {
         File file;
         if((file = fileChooser.showOpenDialog(this.getScene().getWindow())) != null) {
             setFile(file);
             fileLabel.setText(getFile().getAbsolutePath());
+            fileChooser.setInitialDirectory(getFile().getParentFile());
         }
     }
 

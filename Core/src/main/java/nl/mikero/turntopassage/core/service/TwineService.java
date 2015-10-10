@@ -93,7 +93,7 @@ public class TwineService {
                     twineStoryEpubTransformer.transform(twStorydata, output);
                 }
             }
-        } catch (SAXException | TwineRepairFailedException | IOException | JAXBException | ParserConfigurationException | TransformerException e) {
+        } catch (SAXException | IOException | JAXBException | ParserConfigurationException | TransformerException e) {
             LOGGER.error("Could not repair document in input stream", e);
         } finally {
             try {
