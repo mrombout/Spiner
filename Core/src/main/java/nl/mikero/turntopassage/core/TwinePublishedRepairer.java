@@ -139,7 +139,7 @@ public class TwinePublishedRepairer implements TwineRepairer {
             throw new TwineRepairFailedException("Could not read Twine story file from input stream", e);
         } catch (SAXException e) {
             throw new TwineRepairFailedException("Could not parse file from input stream", e);
-        } catch (ParserConfigurationException | TransformerException e) {
+        } catch (ParserConfigurationException | TransformerException | IllegalStateException e) {
             throw new TwineRepairFailedException("Could not repair file due to parsing error", e);
         }
     }

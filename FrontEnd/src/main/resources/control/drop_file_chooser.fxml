@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<fx:root type="javafx.scene.layout.BorderPane" xmlns="http://javafx.com/javafx/8.0.40"
+         xmlns:fx="http://javafx.com/fxml" styleClass="drop-file-chooser">
+    <center>
+        <StackPane BorderPane.alignment="CENTER" onMouseClicked="#onStackPaneMouseClicked">
+            <children>
+                <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="500.0">
+                    <children>
+                        <ImageView fx:id="statusImage" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true"  />
+                        <Label fx:id="fileLabel" alignment="BOTTOM_CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308"
+                               maxWidth="-Infinity" text="Click and select or drop a published Twine story..." textAlignment="CENTER" textOverrun="LEADING_ELLIPSIS" />
+                    </children>
+                </StackPane>
+            </children>
+        </StackPane>
+    </center>
+</fx:root>

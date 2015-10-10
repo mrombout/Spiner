@@ -4,8 +4,10 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.sun.javafx.css.StyleManager;
 import javafx.application.Application;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 import nl.mikero.turntopassage.frontend.inject.TwineModule;
+import nl.mikero.turntopassage.frontend.view.ApplicationView;
 
 /**
  * Bootstraps and starts up the JavaFX application.
@@ -14,13 +16,13 @@ public class TurnToPassageApplication extends Application {
     @Override
     public void start(Stage primaryStage) {
         Injector injector = Guice.createInjector(new TwineModule());
+        ApplicationView applicationView = injector.getInstance(ApplicationView.class);
 
-        // set global stylesheet
-        StyleManager.getInstance().addUserAgentStylesheet("Application.css");
+        Scene scene = new Scene(applicationView.getView());
 
-        // start application
-        ApplicationController instance = injector.getInstance(ApplicationController.class);
-        instance.show();
+        primaryStage.setTitle("TurnToPassage");
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
     public static void main(String[] args) {
