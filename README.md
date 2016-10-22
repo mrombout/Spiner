@@ -1,9 +1,9 @@
-# TurnToPassage.Transformer
+# Spiner
 
-<img src="http://turntopassage.github.io/images/logo.svg" alt="TurnToPassage logo" title="TurnToPassage.Transformer" align="right" width="128" />
+<img src="http://spiner.github.io/images/logo.svg" alt="Spiner" title="Spiner" align="right" width="128" />
 
-TurnToPassage is a set of tools that allows you to easily author you own Choose Your Own Adventure books in EPUB format
-using [Twine 2](http://twinery.org/). This set consists of a Transformer, which transforms your regular published Twine story into an EPUB
+Spiner is a set of tools that allows you to easily author you own Choose Your Own Adventure books in EPUB format
+using [Twine 2](http://twinery.org/). This set consists of an application, which transforms your regular published Twine story into an EPUB
 file to be read on any modern e-reader.
 
 ## Features
@@ -41,7 +41,7 @@ Other             | _no download available yet_
 There is also a separate command-line version that works like this:
 
 ```
-usage: java -jar ttp-transformer-0.0.1.jar [-help | -version] [-f <file>] [-o <file>]
+usage: java -jar spiner-0.0.1.jar [-help | -version] [-f <file>] [-o <file>]
  -f,--file <file>     location of input HTML file
  -help                display this help and exit
  -o,--output <file>   location of output EPUB file
@@ -49,7 +49,7 @@ usage: java -jar ttp-transformer-0.0.1.jar [-help | -version] [-f <file>] [-o <f
 ```
 
 ```
-java -jar ttp-transformer-0.0.1.jar -f "My Cool Story.html" -o "My Cool Story.epub"
+java -jar spiner-0.0.1.jar -f "My Cool Story.html" -o "My Cool Story.epub"
 ```
 
 ## Roadmap
@@ -67,4 +67,4 @@ roughly:
 
 ## License
 
-See the file [`COPYING`](https://raw.githubusercontent.com/TurnToPassage/TurnToPassage.Transformer/master/COPYING).
+See the file [`COPYING`](https://raw.githubusercontent.com/TwineSpiner/Spiner/master/COPYING).

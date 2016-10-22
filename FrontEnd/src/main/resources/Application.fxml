@@ -5,7 +5,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.BorderPane?>
 
-<?import nl.mikero.turntopassage.frontend.control.DropFileChooser?>
+<?import nl.mikero.spiner.frontend.control.DropFileChooser?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="application" xmlns="http://javafx.com/javafx/8.0.112-ea" xmlns:fx="http://javafx.com/fxml/1">
     <stylesheets>
         <URL value="@Application.css" />
