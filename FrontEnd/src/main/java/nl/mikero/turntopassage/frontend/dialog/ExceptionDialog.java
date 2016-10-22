@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 public class ExceptionDialog extends Alert {
-    public ExceptionDialog(Exception exception) {
+    public ExceptionDialog(Throwable exception) {
         super(AlertType.ERROR);
 
         setTitle(exception.getClass().getSimpleName());

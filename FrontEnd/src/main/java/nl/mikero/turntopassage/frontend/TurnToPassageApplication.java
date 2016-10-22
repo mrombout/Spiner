@@ -5,6 +5,7 @@ import com.google.inject.Injector;
 import com.sun.javafx.css.StyleManager;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import nl.mikero.turntopassage.frontend.inject.TwineModule;
 import nl.mikero.turntopassage.frontend.view.ApplicationView;
@@ -20,7 +21,8 @@ public class TurnToPassageApplication extends Application {
 
         Scene scene = new Scene(applicationView.getView());
 
-        primaryStage.setTitle("TurnToPassage");
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/icon.png")));
+        primaryStage.setTitle("TurnToPassage.Transformer");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
