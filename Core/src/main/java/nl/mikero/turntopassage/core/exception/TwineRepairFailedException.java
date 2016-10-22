@@ -1,6 +1,7 @@
 package nl.mikero.turntopassage.core.exception;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class TwineRepairFailedException extends RuntimeException {
 

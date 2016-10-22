@@ -3,15 +3,13 @@ package nl.mikero.turntopassage.core.embedder;
 import com.google.inject.Inject;
 import nl.siegmann.epublib.domain.Book;
 import org.pegdown.ast.*;
-import org.pegdown.plugins.ToHtmlSerializerPlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Objects;
 
 /**
  * Runs through all nodes in a pegdown document and embeds any resource that
@@ -39,6 +37,9 @@ public class ResourceEmbedder implements Visitor {
      * @param rootNode root node to run through
      */
     public void embed(Book book, RootNode rootNode) {
+        Objects.requireNonNull(book);
+        Objects.requireNonNull(rootNode);
+
         this.book = book;
         visit(rootNode);
         this.book = null;

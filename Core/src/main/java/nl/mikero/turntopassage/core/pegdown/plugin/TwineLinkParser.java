@@ -33,18 +33,18 @@ public class TwineLinkParser extends Parser implements InlinePluginParser {
                 OneOrMore(
                         TestNot(String("]]")),
                         ANY,
-                        href.append(matchedChar()),
+                        text.append(matchedChar()),
                         Optional(
                                 Ch('|'),
                                 OneOrMore(
                                         TestNot(String("]]")),
                                         ANY,
-                                        text.append(matchedChar())
+                                        href.append(matchedChar())
                                 )
                         )
                 ),
                 String("]]"),
-                push(new TwineLinkNode(text.getString(), href.getString()))
+                push(new TwineLinkNode(text.getString(), href.isEmpty() ? text.getString() : href.getString()))
         );
     }
 }

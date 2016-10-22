@@ -20,23 +20,31 @@ public class TwineLinkParserTest {
     }
 
     @Test
-    public void shouldParseSingleLink() {
+    public void Link_PlainLink_TextIsLabelAndHref() {
+        // Arrange
         String input = "[[ABCdef]]";
+
+        // Act
         ParsingResult<?> result = new RecoveringParseRunner<TwineLinkParser>(parser.Link()).run(input);
         TwineLinkNode twineLinkNode = (TwineLinkNode)result.resultValue;
 
+        // Assert
         assertEquals("ABCdef", twineLinkNode.getText());
         assertEquals("ABCdef", twineLinkNode.getHref());
     }
 
     @Test
-    public void shouldParseLabeledLink() {
-        String input = "[[ABCdef|SomeLabel]]";
+    public void Link_LabelLink_FirstIsLabelSecondIsHref() {
+        // Arrange
+        String input = "[[SomeLabel|SomeHref]]";
+
+        // Act
         ParsingResult<?> result = new RecoveringParseRunner<TwineLinkParser>(parser.Link()).run(input);
         TwineLinkNode twineLinkNode = (TwineLinkNode)result.resultValue;
 
+        // Assert
         assertEquals("SomeLabel", twineLinkNode.getText());
-        assertEquals("ABCdef", twineLinkNode.getHref());
+        assertEquals("SomeHref", twineLinkNode.getHref());
     }
 
 }
