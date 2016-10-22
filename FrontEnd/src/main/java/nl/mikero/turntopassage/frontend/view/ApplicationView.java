@@ -59,15 +59,12 @@ public class ApplicationView {
         FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("HTML Files (*.html, *.htm, *.xhtml)", "*.html", "*.htm", "*.xhtml");
         dropFileChooser.getExtensionFilters().add(extensionFilter);
 
+        transformButton.setDisable(true);
         dropFileChooser.fileProperty().addListener((observable, oldValue, newValue) -> {
             if(newValue != null) {
                 transformButton.setDisable(false);
             }
         });
-    }
-
-    public void onAutomaticTransformStatusMouseClicked(Event event) {
-
     }
 
     public void onTransformButtonClicked(ActionEvent actionEvent) {
@@ -97,10 +94,12 @@ public class ApplicationView {
             if(newException instanceof FileNotFoundException) {
                 String title = String.format("File '%s' could not be found.", inputFile.toString());
 
-                errorAlert.setAlertType(Alert.AlertType.CONFIRMATION);
+                errorAlert.setAlertType(Alert.AlertType.ERROR);
                 errorAlert.setTitle(title);
                 errorAlert.setHeaderText(title);
                 errorAlert.setContentText(title + " Do you want to select a different file and try again?");
+                errorAlert.getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
+
                 Optional<ButtonType> result = errorAlert.showAndWait();
                 if(result.isPresent() && result.get() == ButtonType.OK) {
                     dropFileChooser.openFileChooser();
@@ -112,6 +111,8 @@ public class ApplicationView {
                 errorAlert.setTitle(title);
                 errorAlert.setHeaderText(title);
                 errorAlert.setContentText(title + " The file might be in a format that TurnToPassage does not understand. Do you want to select a different file and try again?");
+                errorAlert.getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
+
                 Optional<ButtonType> result = errorAlert.showAndWait();
                 if(result.isPresent() && result.get() == ButtonType.OK) {
                     dropFileChooser.openFileChooser();
