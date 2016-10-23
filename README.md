@@ -60,6 +60,8 @@ roughly:
 <dl>
   <dt>Annotation tag</dt>
   <dd>Passages tagged with `annotation` will not be included in the EPUB file.</dd>
+  <dt>LaTeX support?</dt>
+  <dd>Generate LaTeX documents to support the analog versions of e-readers... books.</dd>
   <dt>Scripting? and other EPUB3 features</dt>
   <dd>I currently do not own an eReader that supports EPUB3 features. But support for EPUB3 features, especially
   scripting could prove interesting.</dd>
