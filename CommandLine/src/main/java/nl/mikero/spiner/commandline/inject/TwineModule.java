@@ -20,6 +20,9 @@ import org.pegdown.Extensions;
 import org.pegdown.PegDownProcessor;
 import org.pegdown.plugins.PegDownPlugins;
 
+/**
+ * Configures Google Guice dependency injection framework.
+ */
 public class TwineModule extends AbstractModule {
 
     @Override

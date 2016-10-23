@@ -23,6 +23,11 @@ public class ResourceEmbedder implements Visitor {
 
     private Book book;
 
+    /**
+     * Constructs a new ResourceEmbedder.
+     *
+     * @param factory factory used to create embedders
+     */
     @Inject
     public ResourceEmbedder(EmbedderFactory factory) {
         this.factory = factory;
@@ -101,7 +106,7 @@ public class ResourceEmbedder implements Visitor {
         try {
             return new URL(url);
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            LOGGER.error("Error creating url '{}'", url, e);
         }
 
         return null;
@@ -209,27 +214,27 @@ public class ResourceEmbedder implements Visitor {
     }
 
     @Override
-    public void visit(AnchorLinkNode node) { }
+    public void visit(AnchorLinkNode node) { /* can't contain embeddedable resources */ }
     @Override
-    public void visit(AutoLinkNode node) { }
+    public void visit(AutoLinkNode node) { /* can't contain embeddedable resources */ }
     @Override
-    public void visit(CodeNode node) { }
+    public void visit(CodeNode node) { /* can't contain embeddedable resources */ }
     @Override
-    public void visit(HtmlBlockNode node) { }
+    public void visit(HtmlBlockNode node) { /* can't contain embeddedable resources */ }
     @Override
-    public void visit(InlineHtmlNode node) { }
+    public void visit(InlineHtmlNode node) { /* can't contain embeddedable resources */ }
     @Override
-    public void visit(MailLinkNode node) { }
+    public void visit(MailLinkNode node) { /* can't contain embeddedable resources */ }
     @Override
-    public void visit(SimpleNode node) { }
+    public void visit(SimpleNode node) { /* can't contain embeddedable resources */ }
     @Override
-    public void visit(SpecialTextNode node) { }
+    public void visit(SpecialTextNode node) { /* can't contain embeddedable resources */ }
     @Override
-    public void visit(VerbatimNode node) { }
+    public void visit(VerbatimNode node) { /* can't contain embeddedable resources */ }
     @Override
-    public void visit(WikiLinkNode node) { }
+    public void visit(WikiLinkNode node) { /* can't contain embeddedable resources */ }
     @Override
-    public void visit(TextNode node) { }
+    public void visit(TextNode node) { /* can't contain embeddedable resources */ }
     @Override
-    public void visit(Node node) { }
+    public void visit(Node node) { /* can't contain embeddedable resources */ }
 }

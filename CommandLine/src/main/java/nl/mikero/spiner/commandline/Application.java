@@ -39,6 +39,11 @@ public class Application {
 
     private final TwineService twineService;
 
+    /**
+     * Constructs a new command line spiner application.
+     *
+     * @param twineService twine service to use
+     */
     @Inject
     public Application(TwineService twineService) {
         this.twineService = twineService;
@@ -73,41 +78,11 @@ public class Application {
             CommandLine cmd = parser.parse(options, args);
 
             if (cmd.hasOption(OPT_VERSION)) {
-                System.out.println("Spiner 0.0.1");
-                System.out.println("Copyright (C) 2015 Mike Rombout");
-                System.out.println("License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>");
-                System.out.println("This is free software: you are free to change and redistribute it.");
-                System.out.println("There is NO WARRANTY, to the extend permitted by law.");
-                System.exit(0);
+                doOptVersion();
             } else if (cmd.hasOption(OPT_HELP)) {
-                HelpFormatter formatter = new HelpFormatter();
-                formatter.printHelp("spiner", options, true);
-                System.exit(0);
+                doOptHelp(options);
             } else {
-                InputStream inputStream = System.in;
-                OutputStream outputStream = System.out;
-
-                if (cmd.hasOption(OPT_FILE)) {
-                    String fileArg = cmd.getOptionValue(OPT_FILE);
-                    try {
-                        inputStream = new BufferedInputStream(new FileInputStream(new File(fileArg)));
-                    } catch (FileNotFoundException e) {
-                        LOGGER.error("Input file {} could not be found.", fileArg, e);
-                        System.exit(1);
-                    }
-                }
-                if (cmd.hasOption(OPT_OUTPUT)) {
-                    String outputArg = cmd.getOptionValue(OPT_OUTPUT);
-                    try {
-                        outputStream = new BufferedOutputStream(new FileOutputStream(new File(outputArg)));
-                    } catch (FileNotFoundException e) {
-                        LOGGER.error("Output file {} could not be found.", outputArg, e);
-                        System.exit(1);
-                    }
-                }
-
-                twineService.transform(inputStream, outputStream);
-                System.exit(0);
+                doTransform(cmd);
             }
         } catch (ParseException e) {
             LOGGER.error("Error: {}", e.getMessage(), e);
@@ -116,6 +91,56 @@ public class Application {
         System.exit(1);
     }
 
+    private void doOptVersion() {
+        System.out.println("Spiner 0.0.1");
+        System.out.println("Copyright (C) 2015 Mike Rombout");
+        System.out.println("License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>");
+        System.out.println("This is free software: you are free to change and redistribute it.");
+        System.out.println("There is NO WARRANTY, to the extend permitted by law.");
+        System.exit(0);
+    }
+
+    private void doOptHelp(Options options) {
+        HelpFormatter formatter = new HelpFormatter();
+        formatter.printHelp("spiner", options, true);
+        System.exit(0);
+    }
+
+    private void doTransform(CommandLine cmd) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+
+        if (cmd.hasOption(OPT_FILE)) {
+            String fileArg = cmd.getOptionValue(OPT_FILE);
+            try {
+                inputStream = new BufferedInputStream(new FileInputStream(new File(fileArg)));
+            } catch (FileNotFoundException e) {
+                LOGGER.error("Input file {} could not be found.", fileArg, e);
+                System.exit(1);
+            }
+        }
+        if (cmd.hasOption(OPT_OUTPUT)) {
+            String outputArg = cmd.getOptionValue(OPT_OUTPUT);
+            try {
+                outputStream = new BufferedOutputStream(new FileOutputStream(new File(outputArg)));
+            } catch (FileNotFoundException e) {
+                LOGGER.error("Output file {} could not be found.", outputArg, e);
+                System.exit(1);
+            }
+        }
+
+        twineService.transform(inputStream, outputStream);
+        System.exit(0);
+    }
+
+    /**
+     * Starts the command line application.
+     *
+     * See documentation on {@link Application} for list of accepted arguments.
+     *
+     * @see Application
+     * @param args see {@link Application} for list of accepted arguments
+     */
     public static void main(String[] args) {
         Injector injector = Guice.createInjector(new TwineModule());
 

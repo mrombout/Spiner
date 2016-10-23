@@ -58,11 +58,22 @@ public class TwineLinkRenderer extends LinkRenderer {
 
     private final ImageEmbedder imageEmbedder;
 
+    /**
+     * Constructs a new TwineLinkRenderer.
+     *
+     * @param imageEmbedder embedder to use for embedding images
+     */
     @Inject
     public TwineLinkRenderer(ImageEmbedder imageEmbedder) {
         this.imageEmbedder = imageEmbedder;
     }
 
+    /**
+     * Renders a wiki-style link node.
+     *
+     * @param node wiki link node
+     * @return link renderer
+     */
     @Override
     public Rendering render(WikiLinkNode node) {
         Matcher matcher = LINKS.matcher(node.getText());
@@ -85,7 +96,14 @@ public class TwineLinkRenderer extends LinkRenderer {
         return new Rendering(url, text);
     }
 
-
+    /**
+     * Renders an image node.
+     *
+     * @param node image node
+     * @param text alt text
+     * @return link renderer
+     */
+    @Override
     public Rendering render(ExpImageNode node, String text) {
         String url = node.url;
         try {

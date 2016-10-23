@@ -16,7 +16,7 @@ public class TwineRepairerMock implements TwineRepairer {
     }
 
     @Override
-    public void repair(InputStream inputStream, OutputStream outputStream) throws TwineRepairFailedException {
+    public void repair(InputStream inputStream, OutputStream outputStream) {
         try {
             IOUtils.copy(this.inputStream, outputStream);
         } catch (IOException e) {

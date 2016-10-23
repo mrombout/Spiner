@@ -29,6 +29,11 @@ public class ImageEmbedder implements Embedder {
 
     private final MessageDigest messageDigest;
 
+    /**
+     * Constructs a new ImageEmbedder.
+     *
+     * @param messageDigest the message digest used to create a file name
+     */
     public ImageEmbedder(MessageDigest messageDigest) {
         this.messageDigest = messageDigest;
     }
@@ -41,11 +46,24 @@ public class ImageEmbedder implements Embedder {
      *
      * @param url url of the image as defined by the user in twine
      */
+    @Override
     public String getHref(URL url) throws IOException {
         String hash = DigestUtils.sha256Hex(url.openStream());
         return getFileName(hash, url);
     }
 
+    /**
+     * Embed the file at the given url into the EPUB.
+     *
+     * To embed the image resource the contents of the file is read. Then a hash is generated from the file contents to
+     * create a unique file name. Then the content type of the file is determined by using
+     * {@link MediatypeService#determineMediaType(String)}. And finally the resources is added to the {@link Book}.
+     *
+     * @param book book to embed resource in
+     * @param url url to resource that should be embedded
+     * @throws IOException when file contents can not be read
+     */
+    @Override
     public void embed(Book book, URL url) throws IOException {
         Objects.requireNonNull(book);
         Objects.requireNonNull(url);

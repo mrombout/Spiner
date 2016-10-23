@@ -1,8 +1,17 @@
 package nl.mikero.spiner.core.exception;
 
+/**
+ * Thrown when writing transformation output.
+ */
 public class TwineTransformationWriteException extends RuntimeException {
 
-    public TwineTransformationWriteException(String message, Exception exception) {
-        super(message, exception);
+    /**
+     * Constructs a new TwineTransformationWriteException.
+     *
+     * @param message exception message
+     * @param cause cause of this cause
+     */
+    public TwineTransformationWriteException(String message, Throwable cause) {
+        super(message, cause);
     }
 }

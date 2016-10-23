@@ -5,13 +5,21 @@ import nl.siegmann.epublib.domain.Author;
 import nl.siegmann.epublib.domain.Date;
 import nl.siegmann.epublib.domain.Metadata;
 
+/**
+ * Collects all options available for a transformation.
+ *
+ * Currently it only contains all publication metadata as specified in the OPen Packaging Format specification section
+ * <a href="http://www.idpf.org/epub/20/spec/OPF_2.0.1_draft.htm#Section2.2">2.2: Publication Metadata</a>.
+ *
+ * @see <a href="http://www.idpf.org/epub/20/spec/OPF_2.0.1_draft.htm#Section2.2">Open Packaging Format (OPF) (2.2: Publication Metadata)</a>
+ */
 public final class TransformOptions {
 
     public static final TransformOptions EMPTY = new TransformOptions(new Metadata());
 
     private final Metadata metadata;
 
-    public TransformOptions(Metadata metadata) {
+    private TransformOptions(Metadata metadata) {
         this.metadata = metadata;
     }
 
@@ -19,6 +27,22 @@ public final class TransformOptions {
         return metadata;
     }
 
+    /**
+     * Constructs a new {@link TransformOptions} from {@link XtwMetadata}.
+     *
+     * Most data maps directly from their {@link TransformOptions} to their EPUB equivalent, but there are a couple of
+     * deviations:
+     *
+     * <ul>
+     *     <li>&lt;creator&gt; and &lt;contributor&gt; are considered to be the same</li>
+     *     <li>&lt;source&gt; tags are ignored</li>
+     *     <li>&lt;relation&gt; tags are ignored</li>
+     *     <li>&lt;coverage&gt; tags are ignored</li>
+     * </ul>
+     *
+     * @param xtwMetadata xml extended twine metadata object
+     * @return a {@link TransformOptions} contains all the metadata specified in {@link XtwMetadata}
+     */
     public static TransformOptions fromXtwMetadata(XtwMetadata xtwMetadata) {
         Metadata metadata = createMetadata(xtwMetadata);
 

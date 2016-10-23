@@ -16,18 +16,19 @@ import nl.mikero.spiner.core.service.TwineService;
 import nl.mikero.spiner.frontend.dialog.ExceptionDialog;
 import nl.mikero.spiner.frontend.TransformTask;
 import nl.mikero.spiner.frontend.control.DropFileChooser;
+import nl.mikero.spiner.frontend.exception.FxmlLoadFailedException;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.*;
 import java.util.Optional;
-import java.util.prefs.Preferences;
 
+/**
+ * Main Application GUI.
+ */
 public class ApplicationView {
     private static final Image fileImage = new Image("/file.png");
     private static final Image progressImage = new Image("/progress.png");
     private static final Image doneImage = new Image("/done.png");
-
-    private static final String KEY_LAST_FILE_SELECTION = "lastFileSelection";
 
     private final Alert errorAlert;
 
@@ -39,8 +40,9 @@ public class ApplicationView {
     @FXML
     private Button transformButton;
 
-    private Preferences preferences;
-
+    /**
+     * Constructs a new ApplicationView.
+     */
     public ApplicationView() {
         this.errorAlert = new Alert(Alert.AlertType.ERROR);
     }
@@ -52,26 +54,23 @@ public class ApplicationView {
         try {
             return fxmlLoader.load();
         } catch (IOException e) {
-            throw new RuntimeException("Could not load Application.fxml", e);
+            throw new FxmlLoadFailedException("Application.fxml", e);
         }
     }
 
     @FXML
-    public void initialize() {
-        preferences = Preferences.userRoot().node("spiner");
-
+    protected void initialize() {
         dropFileChooser.setImage(fileImage);
 
         FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("HTML Files (*.html, *.htm, *.xhtml)", "*.html", "*.htm", "*.xhtml");
         dropFileChooser.getExtensionFilters().add(extensionFilter);
 
         transformButton.setDisable(true);
-        dropFileChooser.fileProperty().addListener((observable, oldValue, newValue) -> {
-            transformButton.setDisable(false);
-        });
+        dropFileChooser.fileProperty().addListener((observable, oldValue, newValue) -> transformButton.setDisable(false));
     }
 
-    public void onTransformButtonClicked(ActionEvent actionEvent) {
+    @FXML
+    protected void onTransformButtonClicked(ActionEvent actionEvent) {
         final File inputFile = dropFileChooser.getFile();
         final File outputFile = new File(getOutputPath(inputFile.getAbsolutePath()));
 
@@ -97,35 +96,32 @@ public class ApplicationView {
         task.exceptionProperty().addListener((observable, oldException, newException) -> {
             if(newException instanceof FileNotFoundException) {
                 String title = String.format("File '%s' could not be found.", inputFile.toString());
+                String content = title + " Do you want to select a different file and try again?";
 
-                errorAlert.setAlertType(Alert.AlertType.ERROR);
-                errorAlert.setTitle(title);
-                errorAlert.setHeaderText(title);
-                errorAlert.setContentText(title + " Do you want to select a different file and try again?");
-                errorAlert.getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
-
-                Optional<ButtonType> result = errorAlert.showAndWait();
-                if(result.isPresent() && result.get() == ButtonType.OK) {
-                    dropFileChooser.openFileChooser();
-                }
+                showErrorAndRetry(title, content);
             } else if(newException instanceof TwineRepairFailedException) {
                 String title = String.format("File '%s' could not be repaired.", inputFile.toString());
+                String content = title + " The file might be in a format that Spiner does not understand. Do you want to select a different file and try again?";
 
-                errorAlert.setAlertType(Alert.AlertType.ERROR);
-                errorAlert.setTitle(title);
-                errorAlert.setHeaderText(title);
-                errorAlert.setContentText(title + " The file might be in a format that Spiner does not understand. Do you want to select a different file and try again?");
-                errorAlert.getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
-
-                Optional<ButtonType> result = errorAlert.showAndWait();
-                if(result.isPresent() && result.get() == ButtonType.OK) {
-                    dropFileChooser.openFileChooser();
-                }
+                showErrorAndRetry(title, content);
             } else if(newException instanceof IOException) {
                 ExceptionDialog exceptionDialog = new ExceptionDialog(newException);
                 exceptionDialog.showAndWait();
             }
         });
+    }
+
+    private void showErrorAndRetry(String title, String content) {
+        errorAlert.setAlertType(Alert.AlertType.ERROR);
+        errorAlert.setTitle(title);
+        errorAlert.setHeaderText(title);
+        errorAlert.setContentText(content);
+        errorAlert.getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
+
+        Optional<ButtonType> result = errorAlert.showAndWait();
+        if(result.isPresent() && result.get() == ButtonType.OK) {
+            dropFileChooser.openFileChooser();
+        }
     }
 
     private String getOutputPath(String path) {

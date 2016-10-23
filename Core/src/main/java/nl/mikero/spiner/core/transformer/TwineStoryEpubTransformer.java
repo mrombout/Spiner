@@ -46,14 +46,15 @@ public class TwineStoryEpubTransformer {
     /**
      * Constructs a new TwineStoryEpubTransformer using the given parameters.
      *
-     * @param pdProcessor       pegdown processor to use
-     * @param twineLinkRenderer link renderer to use
+     * @param pdProcessor pegdown processor to use, may not be null
+     * @param twineLinkRenderer link renderer to use, may not be null
+     * @param resourceEmbedder resource embedder to use, may not be null
      */
     @Inject
     public TwineStoryEpubTransformer(PegDownProcessor pdProcessor, TwineLinkRenderer twineLinkRenderer, ResourceEmbedder resourceEmbedder) {
         this.pdProcessor = Objects.requireNonNull(pdProcessor);
         this.twineLinkRenderer = Objects.requireNonNull(twineLinkRenderer);
-        this.resourceEmbedder = resourceEmbedder;
+        this.resourceEmbedder = Objects.requireNonNull(resourceEmbedder);
 
         this.tidy = new Tidy();
         tidy.setInputEncoding("UTF-8");
@@ -63,7 +64,7 @@ public class TwineStoryEpubTransformer {
     }
 
     /**
-     * Transforms a {@link TwStorydata} object to an EPUB file.
+     * Transforms a {@link TwStorydata} object to an EPUB file, using the default options.
      *
      * @param story        twine archive xml to transform
      * @param outputStream output stream to write epub to
@@ -72,9 +73,17 @@ public class TwineStoryEpubTransformer {
         transform(story, outputStream, story.getXtwMetadata() != null ? TransformOptions.fromXtwMetadata(story.getXtwMetadata()) : TransformOptions.EMPTY);
     }
 
+    /**
+     * Transforms a {@link TwStorydata} object to an EPUB file.
+     *
+     * @param story twine xml to transform, may not be null
+     * @param outputStream output stream to write EPUB to, may not be null
+     * @param options transform options, contains EPUB metadata, may not me null
+     */
     public void transform(TwStorydata story, OutputStream outputStream, TransformOptions options) {
         Objects.requireNonNull(story);
         Objects.requireNonNull(outputStream);
+        Objects.requireNonNull(options);
 
         // create new Book
         Book book = new Book();

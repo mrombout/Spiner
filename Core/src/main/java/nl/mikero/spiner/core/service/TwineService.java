@@ -170,7 +170,7 @@ public class TwineService {
      * @return returns {@code TRUE} if input can be repaired and is validated
      * successfully, {@code FALSE} otherwise.
      */
-    private boolean isType(InputStream inputStream, TwineRepairer repairer) throws TwineValidationFailedException, TwineRepairFailedException {
+    private boolean isType(InputStream inputStream, TwineRepairer repairer) throws TwineValidationFailedException {
         Objects.requireNonNull(inputStream);
         Objects.requireNonNull(repairer);
 

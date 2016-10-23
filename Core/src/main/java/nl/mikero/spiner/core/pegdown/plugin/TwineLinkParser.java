@@ -15,6 +15,14 @@ import org.pegdown.plugins.InlinePluginParser;
  * </ul>
  */
 public class TwineLinkParser extends Parser implements InlinePluginParser {
+
+    /**
+     * Constructs a new TwineLinkParser.
+     *
+     * See documentation on {@link TwineLinkParser} for more information about the format this parser supports.
+     *
+     * @see TwineLinkParser
+     */
     public TwineLinkParser() {
         super(NONE, 1000L, DefaultParseRunnerProvider);
     }

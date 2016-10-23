@@ -22,6 +22,16 @@ import java.util.Objects;
  */
 public class ExtendTwineXmlTransformer {
 
+    /**
+     * Transforms a regular Twine XML file to an extended Twine XML format.
+     *
+     * @param input regular twine xml input, may not be null
+     * @param output extended twine xml output, may not be null
+     * @throws ParserConfigurationException when parser is not configured correctly
+     * @throws TransformerException when xsl transformation failed
+     * @throws IOException when an IO error occurs
+     * @throws SAXException when a parse error occurs
+     */
     public void transform(InputStream input, OutputStream output) throws ParserConfigurationException, TransformerException, IOException, SAXException {
         Objects.requireNonNull(input);
         Objects.requireNonNull(output);

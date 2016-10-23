@@ -32,7 +32,7 @@ public class TwineArchiveRepairer implements TwineRepairer {
      * @throws TwineRepairFailedException when the input stream can not be repaired
      */
     @Override
-    public void repair(InputStream inputStream, OutputStream outputStream) throws TwineRepairFailedException {
+    public void repair(InputStream inputStream, OutputStream outputStream) {
         Objects.requireNonNull(inputStream);
         Objects.requireNonNull(outputStream);
 

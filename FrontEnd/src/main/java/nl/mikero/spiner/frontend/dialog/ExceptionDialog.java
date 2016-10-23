@@ -9,7 +9,16 @@ import javafx.scene.layout.Priority;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+/**
+ * Dialog that renders an exception.
+ */
 public class ExceptionDialog extends Alert {
+
+    /**
+     * Constructs a new ExceptionDialog.
+     *
+     * @param exception exception to render information of
+     */
     public ExceptionDialog(Throwable exception) {
         super(AlertType.ERROR);
 

@@ -18,6 +18,9 @@ import org.pegdown.Extensions;
 import org.pegdown.PegDownProcessor;
 import org.pegdown.plugins.PegDownPlugins;
 
+/**
+ * Configures Google Guice dependency injection framework.
+ */
 public class TwineModule extends AbstractModule {
 
     @Override
@@ -27,32 +30,6 @@ public class TwineModule extends AbstractModule {
         bind(TwineStoryEpubTransformer.class);
         bind(TwineRepairer.class).annotatedWith(ArchiveRepairer.class).to(TwineArchiveRepairer.class);
         bind(TwineRepairer.class).annotatedWith(PublishedRepairer.class).to(TwinePublishedRepairer.class);
-
-        mapViews();
-        mapMediators();
-        mapCommands();
-        mapServices();
-        mapInfrastructure();
-    }
-
-    private void mapViews() {
-
-    }
-
-    private void mapMediators() {
-
-    }
-
-    private void mapCommands() {
-
-    }
-
-    private void mapServices() {
-
-    }
-
-    private void mapInfrastructure() {
-
     }
 
     @Provides

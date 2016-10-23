@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import nl.mikero.spiner.frontend.inject.TwineModule;
-import nl.mikero.spiner.frontend.view.ApplicationView;
+import nl.mikero.spiner.frontend.main.ApplicationView;
 
 /**
  * Bootstraps and starts up the JavaFX application.
@@ -26,6 +26,11 @@ public class SpinerApplication extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Launches the Spiner GUI application.
+     *
+     * @param args options arguments, currently not accepting any
+     */
     public static void main(String[] args) {
         launch(args);
     }

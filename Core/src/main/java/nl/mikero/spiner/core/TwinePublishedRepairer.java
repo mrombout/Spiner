@@ -2,8 +2,6 @@ package nl.mikero.spiner.core;
 
 import nl.mikero.spiner.core.exception.TwineRepairFailedException;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -26,8 +24,6 @@ import java.util.regex.Pattern;
  * Spiner understands.
  */
 public class TwinePublishedRepairer implements TwineRepairer {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TwinePublishedRepairer.class);
-
     /**
      * Matches the {@code <tw-storydata>} open (along with any arbitrary number
      * of arguments) and close tags and anything in between (including
@@ -67,7 +63,7 @@ public class TwinePublishedRepairer implements TwineRepairer {
      * @throws TwineRepairFailedException when the input stream can not be repaired
      */
     @Override
-    public void repair(InputStream inputStream, OutputStream outputStream) throws TwineRepairFailedException {
+    public void repair(InputStream inputStream, OutputStream outputStream) {
         Objects.requireNonNull(inputStream);
         Objects.requireNonNull(outputStream);
 

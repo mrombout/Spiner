@@ -11,22 +11,28 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
+import nl.mikero.spiner.frontend.exception.FxmlLoadFailedException;
 
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * A file chooser control that allows opening a native file chooser or accepts dropping in files.
+ */
 public class DropFileChooser extends BorderPane {
 
     private FileChooser fileChooser;
 
-    private ObjectProperty<File> fileProperty = new SimpleObjectProperty<File>();
+    private ObjectProperty<File> fileProperty = new SimpleObjectProperty<>();
 
     @FXML
     private ImageView statusImage;
     @FXML
     private Label fileLabel;
-    private Image image;
 
+    /**
+     * Constructs a new DropFileChooser.
+     */
     public DropFileChooser() {
         loadFxml();
         createFileChooser();
@@ -40,7 +46,7 @@ public class DropFileChooser extends BorderPane {
         try {
             fxmlLoader.load();
         } catch (IOException e) {
-            throw new RuntimeException("Could not load drop_file_chooser.fxml.", e);
+            throw new FxmlLoadFailedException("drop_file_chooser.fxml", e);
         }
     }
 
@@ -57,6 +63,9 @@ public class DropFileChooser extends BorderPane {
         openFileChooser();
     }
 
+    /**
+     * Open and show the native file chooser.
+     */
     public void openFileChooser() {
         File file;
         if((file = fileChooser.showOpenDialog(this.getScene().getWindow())) != null) {
@@ -66,6 +75,11 @@ public class DropFileChooser extends BorderPane {
         }
     }
 
+    /**
+     * Property for the currently selected file. May be empty when no file is selected.
+     *
+     * @return propert for the currently selected file, may be empty when no file is selected.
+     */
     public ObjectProperty<File> fileProperty() {
         return fileProperty;
     }
