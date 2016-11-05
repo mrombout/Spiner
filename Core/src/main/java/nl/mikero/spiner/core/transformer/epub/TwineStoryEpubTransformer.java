@@ -35,6 +35,7 @@ import java.util.Objects;
  */
 public class TwineStoryEpubTransformer implements Transformer {
     private static final Logger LOGGER = LoggerFactory.getLogger(TwineStoryEpubTransformer.class);
+    private static final String EXTENSION = "epub";
 
     private final PegDownProcessor pdProcessor;
     private final TwineLinkRenderer twineLinkRenderer;
@@ -71,6 +72,11 @@ public class TwineStoryEpubTransformer implements Transformer {
     @Override
     public void transform(TwStorydata story, OutputStream outputStream) {
         transform(story, outputStream, story.getXtwMetadata() != null ? EpubTransformOptions.fromXtwMetadata(story.getXtwMetadata()) : EpubTransformOptions.EMPTY);
+    }
+
+    @Override
+    public String getExtension() {
+        return EXTENSION;
     }
 
     /**

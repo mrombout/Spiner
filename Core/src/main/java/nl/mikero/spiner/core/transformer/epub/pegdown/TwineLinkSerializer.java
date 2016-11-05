@@ -1,5 +1,6 @@
-package nl.mikero.spiner.core.pegdown.plugin;
+package nl.mikero.spiner.core.transformer.epub.pegdown;
 
+import nl.mikero.spiner.core.pegdown.plugin.TwineLinkNode;
 import org.pegdown.Printer;
 import org.pegdown.ast.Node;
 import org.pegdown.ast.Visitor;

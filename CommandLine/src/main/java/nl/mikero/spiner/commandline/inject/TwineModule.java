@@ -14,7 +14,7 @@ import nl.mikero.spiner.core.inject.ArchiveRepairer;
 import nl.mikero.spiner.core.inject.PublishedRepairer;
 import nl.mikero.spiner.core.pegdown.plugin.TwineLinkParser;
 import nl.mikero.spiner.core.pegdown.plugin.TwineLinkRenderer;
-import nl.mikero.spiner.core.pegdown.plugin.TwineLinkSerializer;
+import nl.mikero.spiner.core.transformer.epub.pegdown.TwineLinkSerializer;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.pegdown.Extensions;
 import org.pegdown.PegDownProcessor;
