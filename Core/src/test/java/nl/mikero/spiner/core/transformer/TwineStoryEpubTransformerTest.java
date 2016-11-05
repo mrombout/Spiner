@@ -1,12 +1,13 @@
 package nl.mikero.spiner.core.transformer;
 
 import static org.junit.Assert.*;
-import nl.mikero.spiner.core.embedder.ResourceEmbedder;
-import nl.mikero.spiner.core.model.Style;
-import nl.mikero.spiner.core.model.TwPassagedata;
-import nl.mikero.spiner.core.model.TwStoriesdata;
-import nl.mikero.spiner.core.model.TwStorydata;
+import nl.mikero.spiner.core.transformer.epub.embedder.ResourceEmbedder;
+import nl.mikero.spiner.core.twine.model.Style;
+import nl.mikero.spiner.core.twine.model.TwPassagedata;
+import nl.mikero.spiner.core.twine.model.TwStoriesdata;
+import nl.mikero.spiner.core.twine.model.TwStorydata;
 import nl.mikero.spiner.core.pegdown.plugin.TwineLinkRenderer;
+import nl.mikero.spiner.core.transformer.epub.TwineStoryEpubTransformer;
 import nl.siegmann.epublib.domain.Book;
 import nl.siegmann.epublib.domain.Resource;
 import nl.siegmann.epublib.domain.Resources;

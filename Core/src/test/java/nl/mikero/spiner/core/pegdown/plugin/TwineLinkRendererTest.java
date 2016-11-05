@@ -1,6 +1,6 @@
 package nl.mikero.spiner.core.pegdown.plugin;
 
-import nl.mikero.spiner.core.embedder.ImageEmbedder;
+import nl.mikero.spiner.core.transformer.epub.embedder.ImageEmbedder;
 import org.junit.Before;
 import org.junit.Test;
 import org.pegdown.LinkRenderer;

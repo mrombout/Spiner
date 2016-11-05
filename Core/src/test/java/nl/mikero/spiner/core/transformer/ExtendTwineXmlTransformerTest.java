@@ -1,5 +1,6 @@
 package nl.mikero.spiner.core.transformer;
 
+import nl.mikero.spiner.core.twine.extended.ExtendTwineXmlTransformer;
 import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;

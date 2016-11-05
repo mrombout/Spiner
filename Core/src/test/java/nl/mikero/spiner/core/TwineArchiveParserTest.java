@@ -3,7 +3,8 @@ package nl.mikero.spiner.core;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
-import nl.mikero.spiner.core.model.TwStoriesdata;
+import nl.mikero.spiner.core.twine.model.TwStoriesdata;
+import nl.mikero.spiner.core.twine.TwineArchiveParser;
 import org.junit.Before;
 import org.junit.Test;
 

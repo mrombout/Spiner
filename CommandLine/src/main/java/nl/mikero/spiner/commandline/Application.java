@@ -4,11 +4,18 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import nl.mikero.spiner.commandline.inject.TwineModule;
-import nl.mikero.spiner.core.service.TwineService;
+import nl.mikero.spiner.core.transformer.TransformService;
+import nl.mikero.spiner.core.transformer.epub.EpubTransformOptions;
+import nl.mikero.spiner.core.transformer.epub.EpubTransformer;
+import nl.mikero.spiner.core.transformer.epub.TwineStoryEpubTransformer;
 import org.apache.commons.cli.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xml.sax.SAXException;
 
+import javax.xml.bind.JAXBException;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import java.io.*;
 
 /**
@@ -34,23 +41,26 @@ public class Application {
 
     private static final String OPT_FILE = "file";
     private static final String OPT_OUTPUT = "output";
+    private static final String OPT_TYPE = "type";
     private static final String OPT_HELP = "help";
     private static final String OPT_VERSION = "version";
 
-    private final TwineService twineService;
+    private final TransformService transformService;
+    private final TwineStoryEpubTransformer epubTransformer;
 
     /**
      * Constructs a new command line spiner application.
      *
-     * @param twineService twine service to use
+     * @param transformService transform service to use
      */
     @Inject
-    public Application(TwineService twineService) {
-        this.twineService = twineService;
+    public Application(TransformService transformService, TwineStoryEpubTransformer epubTransformer) {
+        this.transformService = transformService;
+        this.epubTransformer = epubTransformer;
     }
 
     private void execute(String[] args) {
-        // Options
+        // options
         final Options options = new Options();
 
         Option input = OptionBuilder.hasArg()
@@ -58,21 +68,28 @@ public class Application {
                 .withDescription("location of input HTML file")
                 .withLongOpt(OPT_FILE)
                 .create('f');
+        options.addOption(input);
 
         Option output = OptionBuilder.hasArg()
                 .withArgName("file")
                 .withDescription("location of output EPUB file")
                 .withLongOpt(OPT_OUTPUT)
                 .create('o');
-        options.addOption(input);
         options.addOption(output);
+
+        Option type = OptionBuilder.hasArg()
+                .withArgName("type")
+                .withDescription(String.format("output type, one of (epub|latex)")) // TODO: load available options dynamically
+                .withLongOpt(OPT_TYPE)
+                .create('t');
+        options.addOption(type);
 
         OptionGroup infoGroup = new OptionGroup();
         infoGroup.addOption(new Option(OPT_HELP, "display this help and exit"));
         infoGroup.addOption(new Option(OPT_VERSION, "output version information and exit"));
         options.addOptionGroup(infoGroup);
 
-        // Parse
+        // parse
         CommandLineParser parser = new BasicParser();
         try {
             CommandLine cmd = parser.parse(options, args);
@@ -84,7 +101,7 @@ public class Application {
             } else {
                 doTransform(cmd);
             }
-        } catch (ParseException e) {
+        } catch (Exception e) {
             LOGGER.error("Error: {}", e.getMessage(), e);
         }
 
@@ -106,7 +123,7 @@ public class Application {
         System.exit(0);
     }
 
-    private void doTransform(CommandLine cmd) {
+    private void doTransform(CommandLine cmd) throws ParserConfigurationException, TransformerException, SAXException, JAXBException, IOException {
         InputStream inputStream = System.in;
         OutputStream outputStream = System.out;
 
@@ -129,7 +146,7 @@ public class Application {
             }
         }
 
-        twineService.transform(inputStream, outputStream);
+        transformService.transform(inputStream, outputStream, epubTransformer);
         System.exit(0);
     }
 

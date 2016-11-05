@@ -12,7 +12,9 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import nl.mikero.spiner.core.exception.TwineRepairFailedException;
-import nl.mikero.spiner.core.service.TwineService;
+import nl.mikero.spiner.core.transformer.TransformService;
+import nl.mikero.spiner.core.transformer.epub.EpubTransformer;
+import nl.mikero.spiner.core.transformer.epub.TwineStoryEpubTransformer;
 import nl.mikero.spiner.frontend.dialog.ExceptionDialog;
 import nl.mikero.spiner.frontend.TransformTask;
 import nl.mikero.spiner.frontend.control.DropFileChooser;
@@ -33,7 +35,9 @@ public class ApplicationView {
     private final Alert errorAlert;
 
     @Inject
-    private TwineService twineService;
+    private TransformService transformService;
+    @Inject
+    private TwineStoryEpubTransformer epubTransformer;
 
     @FXML
     private DropFileChooser dropFileChooser;
@@ -87,7 +91,7 @@ public class ApplicationView {
         }
 
         dropFileChooser.setImage(progressImage);
-        TransformTask task = new TransformTask(twineService, inputFile, outputFile);
+        TransformTask task = new TransformTask(transformService, epubTransformer, inputFile, outputFile);
         new Thread(task).start();
         task.stateProperty().addListener((observable, oldState, newState) -> {
             if(newState.equals(Worker.State.SUCCEEDED))

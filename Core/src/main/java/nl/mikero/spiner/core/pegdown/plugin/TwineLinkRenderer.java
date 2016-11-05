@@ -1,7 +1,7 @@
 package nl.mikero.spiner.core.pegdown.plugin;
 
 import com.google.inject.Inject;
-import nl.mikero.spiner.core.embedder.ImageEmbedder;
+import nl.mikero.spiner.core.transformer.epub.embedder.ImageEmbedder;
 import org.parboiled.common.StringUtils;
 import org.pegdown.LinkRenderer;
 import org.pegdown.ast.ExpImageNode;
