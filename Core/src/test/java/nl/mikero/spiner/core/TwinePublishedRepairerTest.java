@@ -110,7 +110,7 @@ public class TwinePublishedRepairerTest extends TwineRepairerTest {
 
             Assert.assertNotNull(document.getElementsByTagName("style"));
             Node style = document.getElementsByTagName("style").item(0);
-            Assert.assertEquals("* { background-color: #ffffff; }", style.getTextContent());
+            Assert.assertEquals("\n* { background-color: #ffffff; }\n    ", style.getTextContent());
         }
 
         validate(outputStream);
