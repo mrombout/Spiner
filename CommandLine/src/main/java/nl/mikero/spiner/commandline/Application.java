@@ -39,9 +39,9 @@ public class Application {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
 
-    private static final String OPT_FILE = "file";
+    private static final String OPT_INPUT = "file";
     private static final String OPT_OUTPUT = "output";
-    private static final String OPT_FORMAT = "type";
+    private static final String OPT_FORMAT = "format";
     private static final String OPT_HELP = "help";
     private static final String OPT_VERSION = "version";
 
@@ -64,30 +64,31 @@ public class Application {
         this.latexTransformer = latexTransformer;
     }
 
+    @SuppressWarnings("AccessStaticViaInstance")
     private void execute(String[] args) {
         // options
         final Options options = new Options();
 
         Option input = OptionBuilder.hasArg()
-                .withArgName("file")
+                .withArgName("input")
                 .withDescription("location of input HTML file")
-                .withLongOpt(OPT_FILE)
-                .create('f');
+                .withLongOpt(OPT_INPUT)
+                .create('i');
         options.addOption(input);
 
         Option output = OptionBuilder.hasArg()
                 .withArgName("file")
-                .withDescription("location of output EPUB file")
+                .withDescription("location of output file")
                 .withLongOpt(OPT_OUTPUT)
                 .create('o');
         options.addOption(output);
 
-        Option type = OptionBuilder.hasArg()
+        Option format = OptionBuilder.hasArg()
                 .withArgName("format")
                 .withDescription(String.format("output format, one of (%s|%s)", ARG_FORMAT_EPUB, ARG_FORMAT_LATEX)) // TODO: load available options dynamically
                 .withLongOpt(OPT_FORMAT)
-                .create('t');
-        options.addOption(type);
+                .create('f');
+        options.addOption(format);
 
         OptionGroup infoGroup = new OptionGroup();
         infoGroup.addOption(new Option(OPT_HELP, "display this help and exit"));
@@ -133,8 +134,8 @@ public class Application {
         OutputStream outputStream = System.out;
         Transformer transformer = epubTransformer;
 
-        if (cmd.hasOption(OPT_FILE)) {
-            String fileArg = cmd.getOptionValue(OPT_FILE);
+        if (cmd.hasOption(OPT_INPUT)) {
+            String fileArg = cmd.getOptionValue(OPT_INPUT);
             try {
                 inputStream = new BufferedInputStream(new FileInputStream(new File(fileArg)));
             } catch (FileNotFoundException e) {
