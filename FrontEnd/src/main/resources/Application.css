@@ -31,3 +31,16 @@
 .transform-button:disabled {
     -fx-background-color: #bbbbbb;
 }
+
+.progress-indicator {
+    -fx-progress-color: #0e7afe;
+    -fx-spin-enabled: true;
+}
+
+.progress-indicator .indicator {
+    visibility: hidden;
+}
+
+.progress-indicator .text {
+    -fx-font-weight: bold;
+}

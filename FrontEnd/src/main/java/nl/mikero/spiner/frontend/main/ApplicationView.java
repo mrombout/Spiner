@@ -90,12 +90,12 @@ public class ApplicationView {
             }
         }
 
-        dropFileChooser.setImage(progressImage);
+        dropFileChooser.startProgress();
         TransformTask task = new TransformTask(transformService, epubTransformer, inputFile, outputFile);
         new Thread(task).start();
         task.stateProperty().addListener((observable, oldState, newState) -> {
             if(newState.equals(Worker.State.SUCCEEDED))
-                dropFileChooser.setImage(doneImage);
+                dropFileChooser.completeProgress();
         });
         task.exceptionProperty().addListener((observable, oldException, newException) -> {
             if(newException instanceof FileNotFoundException) {
