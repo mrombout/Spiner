@@ -117,4 +117,10 @@ public class DropFileChooser extends BorderPane {
         statusIndicator.setVisible(true);
         statusIndicator.setProgress(1);
     }
+
+    public void stopProgress() {
+        statusImage.setVisible(true);
+        statusIndicator.setVisible(false);
+        statusIndicator.setProgress(0);
+    }
 }

@@ -123,6 +123,9 @@ public class ApplicationView {
                 dropFileChooser.completeProgress();
         });
         task.exceptionProperty().addListener((observable, oldException, newException) -> {
+            newException.printStackTrace();
+
+            dropFileChooser.stopProgress();
             if(newException instanceof FileNotFoundException) {
                 String title = String.format("File '%s' could not be found.", inputFile.toString());
                 String content = title + " Do you want to select a different file and try again?";
