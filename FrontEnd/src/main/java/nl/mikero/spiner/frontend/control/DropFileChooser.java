@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -25,6 +26,8 @@ public class DropFileChooser extends BorderPane {
 
     private ObjectProperty<File> fileProperty = new SimpleObjectProperty<>();
 
+    @FXML
+    private ProgressIndicator statusIndicator;
     @FXML
     private ImageView statusImage;
     @FXML
@@ -48,6 +51,12 @@ public class DropFileChooser extends BorderPane {
         } catch (IOException e) {
             throw new FxmlLoadFailedException("drop_file_chooser.fxml", e);
         }
+    }
+
+    @FXML
+    protected void initialize() {
+        statusIndicator.setVisible(false);
+        statusImage.setVisible(true);
     }
 
     private void createFileChooser() {
@@ -96,4 +105,16 @@ public class DropFileChooser extends BorderPane {
         statusImage.setImage(image);
     }
     public Image getImage() { return statusImage.getImage(); }
+
+    public void startProgress() {
+        statusImage.setVisible(false);
+        statusIndicator.setVisible(true);
+        statusIndicator.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
+    }
+
+    public void completeProgress() {
+        statusImage.setVisible(false);
+        statusIndicator.setVisible(true);
+        statusIndicator.setProgress(1);
+    }
 }
