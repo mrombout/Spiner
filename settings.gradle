@@ -1,4 +1,4 @@
-rootProject.name = 'TurnToPassage.Transformer'
+rootProject.name = 'Spiner'
 
 include 'Core'
 include 'CommandLine'

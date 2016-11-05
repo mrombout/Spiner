@@ -1,3 +1,46 @@
-.header-title {
-    -fx-font-weight: bold !important;
+.application {
+    -fx-background-color: #ffffff;
+}
+.drop-file-chooser {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 20px;
+
+    -fx-border-style: dashed;
+    -fx-border-color: #0e7afe;
+    -fx-border-width: 2px;
+    -fx-border-radius: 20px;
+
+    -fx-cursor: hand;
+}
+
+.transform-button {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-border-width: 0px;
+    -fx-background-color: #0e7afe;
+    -fx-text-fill: #ffffff;
+}
+
+.transform-button:hover {
+    -fx-background-color: #2488fe;
+}
+
+.transform-button:pressed {
+    -fx-background-color: #4fa1fe;
+}
+.transform-button:disabled {
+    -fx-background-color: #bbbbbb;
+}
+
+.progress-indicator {
+    -fx-progress-color: #0e7afe;
+    -fx-spin-enabled: true;
+}
+
+.progress-indicator .indicator {
+    visibility: hidden;
+}
+
+.progress-indicator .text {
+    -fx-font-weight: bold;
 }
