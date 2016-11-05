@@ -35,8 +35,6 @@ import java.util.Optional;
  */
 public class ApplicationView {
     private static final Image fileImage = new Image("/file.png");
-    private static final Image progressImage = new Image("/progress.png");
-    private static final Image doneImage = new Image("/done.png");
 
     private final Alert errorAlert;
 
