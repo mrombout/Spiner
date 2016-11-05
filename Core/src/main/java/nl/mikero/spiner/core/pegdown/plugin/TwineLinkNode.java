@@ -10,7 +10,7 @@ import java.util.Objects;
 /**
  * Represents a Twine link to a passage.
  */
-class TwineLinkNode extends TextNode {
+public class TwineLinkNode extends TextNode {
 
     private final String href;
 
