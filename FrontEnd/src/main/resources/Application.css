@@ -31,3 +31,29 @@
 .transform-button:disabled {
     -fx-background-color: #bbbbbb;
 }
+
+.toggle-button {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #0e7afe;
+    -fx-border-width: 1px;
+    -fx-min-width: 80px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #aaaaaa;
+}
+
+.toggle-button:selected {
+    -fx-background-color: #0e7afe;
+    -fx-background-insets: 0;
+    -fx-text-fill: #ffffff;
+    -fx-border-width: 0px;
+}
+
+.toggle-button.epub {
+    -fx-border-radius: 3px 0 0 3px;
+    -fx-background-radius: 3px 0 0 3px;
+}
+
+.toggle-button.latex {
+    -fx-border-radius: 0 3px 3px 0;
+    -fx-background-radius: 0 3px 3px 0;
+}
