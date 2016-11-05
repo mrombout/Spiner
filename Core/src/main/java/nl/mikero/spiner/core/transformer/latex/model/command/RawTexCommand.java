@@ -6,4 +6,9 @@ public class RawTexCommand implements Command {
     public RawTexCommand(String text) {
         this.text = text;
     }
+
+    @Override
+    public String toString() {
+        return text;
+    }
 }

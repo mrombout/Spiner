@@ -8,4 +8,11 @@ public class Option {
         this.name = name;
         this.value = value;
     }
+
+    @Override
+    public String toString() {
+        if(value != null)
+            return String.format("%s=%s", name, value);
+        return name;
+    }
 }

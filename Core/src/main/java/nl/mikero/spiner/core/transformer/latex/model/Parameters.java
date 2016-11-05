@@ -27,4 +27,15 @@ public class Parameters {
     public AbstractCommand done() {
         return parent;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        for(Parameter parameter : parameters) {
+            sb.append(parameter.toString());
+        }
+
+        return sb.toString();
+    }
 }

@@ -3,8 +3,6 @@ package nl.mikero.spiner.core.transformer.latex.model.command;
 import nl.mikero.spiner.core.transformer.latex.model.Options;
 import nl.mikero.spiner.core.transformer.latex.model.Parameters;
 
-import java.util.Optional;
-
 public class AbstractCommand implements Command {
     private final String commandName;
     private final Options options;
@@ -22,5 +20,10 @@ public class AbstractCommand implements Command {
 
     public Parameters parameters() {
         return parameters;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("\\%s%s%s", commandName, options, parameters);
     }
 }

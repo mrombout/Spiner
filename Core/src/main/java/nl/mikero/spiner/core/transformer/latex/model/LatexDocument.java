@@ -19,4 +19,16 @@ public class LatexDocument {
 
         this.commands.add(command);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        for(Command command : commands) {
+            sb.append(command.toString());
+            sb.append("\n");
+        }
+
+        return sb.toString();
+    }
 }

@@ -17,6 +17,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import nl.mikero.spiner.core.exception.TwineRepairFailedException;
 import nl.mikero.spiner.core.transformer.TransformService;
+import nl.mikero.spiner.core.transformer.Transformer;
 import nl.mikero.spiner.core.transformer.epub.EpubTransformer;
 import nl.mikero.spiner.core.transformer.epub.TwineStoryEpubTransformer;
 import nl.mikero.spiner.core.transformer.latex.LatexTransformer;
@@ -117,7 +118,7 @@ public class ApplicationView {
         }
 
         dropFileChooser.setImage(progressImage);
-        TransformTask task = new TransformTask(transformService, epubFormatButton.isSelected() ? epubTransformer : latexTransformer, inputFile, outputFile);
+        TransformTask task = new TransformTask(transformService, getTransformer(), inputFile, outputFile);
         new Thread(task).start();
         task.stateProperty().addListener((observable, oldState, newState) -> {
             if(newState.equals(Worker.State.SUCCEEDED))
@@ -141,6 +142,10 @@ public class ApplicationView {
         });
     }
 
+    private Transformer getTransformer() {
+        return epubFormatButton.isSelected() ? epubTransformer : latexTransformer;
+    }
+
     private void showErrorAndRetry(String title, String content) {
         errorAlert.setAlertType(Alert.AlertType.ERROR);
         errorAlert.setTitle(title);
@@ -155,6 +160,6 @@ public class ApplicationView {
     }
 
     private String getOutputPath(String path) {
-        return FilenameUtils.removeExtension(path) + ".epub";
+        return String.format("%s.%s", FilenameUtils.removeExtension(path), getTransformer().getExtension());
     }
 }

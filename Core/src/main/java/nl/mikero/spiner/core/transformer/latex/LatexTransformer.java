@@ -7,6 +7,7 @@ import nl.mikero.spiner.core.transformer.latex.model.LatexDocument;
 import nl.mikero.spiner.core.transformer.latex.model.command.AbstractCommand;
 import nl.mikero.spiner.core.transformer.latex.model.command.Environment;
 import nl.mikero.spiner.core.transformer.latex.model.command.RawTexCommand;
+import nl.mikero.spiner.core.transformer.latex.model.command.WhitelineCommand;
 import nl.mikero.spiner.core.twine.model.TwPassagedata;
 import nl.mikero.spiner.core.twine.model.TwStorydata;
 import org.pegdown.LinkRenderer;
@@ -16,6 +17,8 @@ import java.io.OutputStream;
 import java.util.Objects;
 
 public class LatexTransformer implements Transformer {
+    private static final String EXTENSION = "tex";
+
     @Override
     public void transform(TwStorydata story, OutputStream outputStream) {
         Objects.requireNonNull(story);
@@ -27,23 +30,16 @@ public class LatexTransformer implements Transformer {
         // set document information
         book.addCommand(new AbstractCommand("title").parameters().add(story.getName()).done());
         book.addCommand(new AbstractCommand("author").parameters().add(story.getCreator()).done());
-
-        // renew commands
-        book.addCommand(new AbstractCommand("renewcommand").parameters().add("\\gbturntext").add("").done());
+        book.addCommand(new WhitelineCommand());
 
         // begin document
         Environment document = new Environment("document");
-
-        // begin titlepage
-        Environment titlePage = new Environment("titlepage")
-                .addCommand(new AbstractCommand("ThisCenterWallpaper").parameters().add("1.09").add("cover.png").done())
-                .addCommand(new AbstractCommand("null"))
-                .addCommand(new AbstractCommand("newpage"));
-        document.addCommand(titlePage);
+        book.addCommand(document);
 
         // gamebook settings
         document.addCommand(new AbstractCommand("gbheader"));
         document.addCommand(new AbstractCommand("pagenumbering").parameters().add("arabic").done());
+        document.addCommand(new WhitelineCommand());
 
         // passages
         for(TwPassagedata passage : story.getTwPassagedata()) {
@@ -51,6 +47,7 @@ public class LatexTransformer implements Transformer {
 
             document.addCommand(new AbstractCommand("gbsection").parameters().add(passage.getName()).done());
             document.addCommand(new RawTexCommand(passageContent));
+            document.addCommand(new WhitelineCommand());
         }
 
         try {
@@ -62,7 +59,23 @@ public class LatexTransformer implements Transformer {
         }
     }
 
+    @Override
+    public String getExtension() {
+        return EXTENSION;
+    }
+
     private String transformPassageTextToLatex(String passageText) {
-        return passageText.replace("[[", "\\gbturn{").replace("]]", "}");
+        String optionsLinkTemplate      = new AbstractCommand("gbitem").parameters().add("$1").add("$2").done().toString().replace("\\", "\\\\");
+        String optionsLabelLinkTemplate = new AbstractCommand("gbitem").parameters().add("$1").add("$1").done().toString().replace("\\", "\\\\");
+
+        String linkTemplate      = String.format("$1 (%s)", new AbstractCommand("gbturn").parameters().add("$1").done().toString().replace("\\", "\\\\"));
+        String labelLinkTemplate = String.format("$1 (%s)", new AbstractCommand("gbturn").parameters().add("$2").done().toString().replace("\\", "\\\\"));
+
+        passageText = passageText.replaceAll("-\\[\\[(.*?)\\|(.*?)\\]\\]", optionsLinkTemplate);
+        passageText = passageText.replaceAll("-\\[\\[(.*?)\\]\\]", optionsLabelLinkTemplate);
+        passageText = passageText.replaceAll("\\[\\[(.*?)\\|(.*?)\\]\\]", labelLinkTemplate);
+        passageText = passageText.replaceAll("\\[\\[(.*?)\\]\\]", linkTemplate);
+
+        return passageText;
     }
 }

@@ -14,4 +14,6 @@ public interface Transformer {
      * @param outputStream output stream to write transformed story to
      */
     void transform(TwStorydata story, OutputStream outputStream);
+
+    String getExtension();
 }
