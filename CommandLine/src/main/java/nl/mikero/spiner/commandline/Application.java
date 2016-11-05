@@ -5,9 +5,9 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import nl.mikero.spiner.commandline.inject.TwineModule;
 import nl.mikero.spiner.core.transformer.TransformService;
-import nl.mikero.spiner.core.transformer.epub.EpubTransformOptions;
-import nl.mikero.spiner.core.transformer.epub.EpubTransformer;
+import nl.mikero.spiner.core.transformer.Transformer;
 import nl.mikero.spiner.core.transformer.epub.TwineStoryEpubTransformer;
+import nl.mikero.spiner.core.transformer.latex.LatexTransformer;
 import org.apache.commons.cli.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,12 +41,16 @@ public class Application {
 
     private static final String OPT_FILE = "file";
     private static final String OPT_OUTPUT = "output";
-    private static final String OPT_TYPE = "type";
+    private static final String OPT_FORMAT = "type";
     private static final String OPT_HELP = "help";
     private static final String OPT_VERSION = "version";
 
+    private static final String ARG_FORMAT_EPUB = "epub";
+    private static final String ARG_FORMAT_LATEX = "latex";
+
     private final TransformService transformService;
     private final TwineStoryEpubTransformer epubTransformer;
+    private final LatexTransformer latexTransformer;
 
     /**
      * Constructs a new command line spiner application.
@@ -54,9 +58,10 @@ public class Application {
      * @param transformService transform service to use
      */
     @Inject
-    public Application(TransformService transformService, TwineStoryEpubTransformer epubTransformer) {
+    public Application(TransformService transformService, TwineStoryEpubTransformer epubTransformer, LatexTransformer latexTransformer) {
         this.transformService = transformService;
         this.epubTransformer = epubTransformer;
+        this.latexTransformer = latexTransformer;
     }
 
     private void execute(String[] args) {
@@ -78,9 +83,9 @@ public class Application {
         options.addOption(output);
 
         Option type = OptionBuilder.hasArg()
-                .withArgName("type")
-                .withDescription(String.format("output type, one of (epub|latex)")) // TODO: load available options dynamically
-                .withLongOpt(OPT_TYPE)
+                .withArgName("format")
+                .withDescription(String.format("output format, one of (%s|%s)", ARG_FORMAT_EPUB, ARG_FORMAT_LATEX)) // TODO: load available options dynamically
+                .withLongOpt(OPT_FORMAT)
                 .create('t');
         options.addOption(type);
 
@@ -126,6 +131,7 @@ public class Application {
     private void doTransform(CommandLine cmd) throws ParserConfigurationException, TransformerException, SAXException, JAXBException, IOException {
         InputStream inputStream = System.in;
         OutputStream outputStream = System.out;
+        Transformer transformer = epubTransformer;
 
         if (cmd.hasOption(OPT_FILE)) {
             String fileArg = cmd.getOptionValue(OPT_FILE);
@@ -145,8 +151,13 @@ public class Application {
                 System.exit(1);
             }
         }
+        if(cmd.hasOption(OPT_FORMAT)) {
+            String formatArg = cmd.getOptionValue(OPT_FORMAT);
+            if(formatArg.equals(ARG_FORMAT_LATEX))
+                transformer = latexTransformer;
+        }
 
-        transformService.transform(inputStream, outputStream, epubTransformer);
+        transformService.transform(inputStream, outputStream, transformer);
         System.exit(0);
     }
 
