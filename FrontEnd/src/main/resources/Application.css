@@ -57,3 +57,16 @@
     -fx-border-radius: 0 3px 3px 0;
     -fx-background-radius: 0 3px 3px 0;
 }
+
+.progress-indicator {
+    -fx-progress-color: #0e7afe;
+    -fx-spin-enabled: true;
+}
+
+.progress-indicator .indicator {
+    visibility: hidden;
+}
+
+.progress-indicator .text {
+    -fx-font-weight: bold;
+}

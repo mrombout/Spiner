@@ -1,22 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
-<?import javafx.geometry.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
 
-
-<fx:root type="javafx.scene.layout.BorderPane" xmlns="http://javafx.com/javafx/8.0.40"
-         xmlns:fx="http://javafx.com/fxml" styleClass="drop-file-chooser">
+<fx:root styleClass="drop-file-chooser" type="javafx.scene.layout.BorderPane" xmlns="http://javafx.com/javafx/8"
+         xmlns:fx="http://javafx.com/fxml/1">
     <center>
-        <StackPane BorderPane.alignment="CENTER" onMouseClicked="#onStackPaneMouseClicked">
+        <StackPane onMouseClicked="#onStackPaneMouseClicked" BorderPane.alignment="CENTER">
             <children>
                 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="500.0">
                     <children>
-                        <ImageView fx:id="statusImage" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true"  />
-                        <Label fx:id="fileLabel" alignment="BOTTOM_CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308"
-                               maxWidth="-Infinity" text="Click and select or drop a published Twine story..." textAlignment="CENTER" textOverrun="LEADING_ELLIPSIS" />
+                        <ProgressIndicator fx:id="statusIndicator" maxHeight="150.0" maxWidth="150.0" progress="1.0" />
+                        <ImageView fx:id="statusImage" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true"
+                                   preserveRatio="true" visible="false">
+                            <image>
+                                <Image url="@../file.png"/>
+                            </image>
+                        </ImageView>
+                        <Label fx:id="fileLabel" alignment="BOTTOM_CENTER" contentDisplay="CENTER"
+                               maxHeight="1.7976931348623157E308" maxWidth="-Infinity"
+                               text="Click and select or drop a published Twine story..." textAlignment="CENTER"
+                               textOverrun="LEADING_ELLIPSIS"/>
                     </children>
                 </StackPane>
             </children>
