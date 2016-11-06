@@ -1,12 +1,8 @@
 package nl.mikero.spiner.core.transformer.epub;
 
 import com.google.inject.Inject;
-import nl.mikero.spiner.core.twine.TwineArchiveParser;
 import nl.mikero.spiner.core.exception.TwineRepairFailedException;
 import nl.mikero.spiner.core.exception.TwineValidationFailedException;
-import nl.mikero.spiner.core.twine.model.TwStoriesdata;
-import nl.mikero.spiner.core.twine.model.TwStorydata;
-import nl.mikero.spiner.core.twine.extended.ExtendTwineXmlTransformer;
 import nl.mikero.spiner.core.twine.TwineRepairer;
 import nl.mikero.spiner.core.inject.ArchiveRepairer;
 import nl.mikero.spiner.core.inject.PublishedRepairer;
@@ -16,10 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
 import javax.xml.XMLConstants;
-import javax.xml.bind.JAXBException;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Source;
-import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
@@ -29,6 +22,8 @@ import java.util.Objects;
 
 /**
  * A facade to the Spine core functionalities.
+ *
+ * @deprecated use {@link TwineStoryEpubTransformer} instead
  */
 @Deprecated
 public class EpubTransformer {
@@ -37,27 +32,16 @@ public class EpubTransformer {
     private final TwineRepairer publishedRepairer;
     private final TwineRepairer archiveRepairer;
 
-    private final TwineStoryEpubTransformer twineStoryEpubTransformer;
-    private final TwineArchiveParser twineArchiveParser;
-
-    private final ExtendTwineXmlTransformer extendTwineXmlTransformer;
-
     /**
      * Constructs a new EpubTransformer.
      *
      * @param publishedRepairer         repairer to use for published twine stories
      * @param archiveRepairer           repaired to use for twine archives
-     * @param twineStoryEpubTransformer transformer to use
-     * @param twineArchiveParser        twine archive parse to use
-     * @param extendTwineXmlTransformer
      */
     @Inject
-    public EpubTransformer(@PublishedRepairer TwineRepairer publishedRepairer, @ArchiveRepairer TwineRepairer archiveRepairer, TwineStoryEpubTransformer twineStoryEpubTransformer, TwineArchiveParser twineArchiveParser, ExtendTwineXmlTransformer extendTwineXmlTransformer) {
+    public EpubTransformer(@PublishedRepairer TwineRepairer publishedRepairer, @ArchiveRepairer TwineRepairer archiveRepairer) {
         this.publishedRepairer = Objects.requireNonNull(publishedRepairer);
         this.archiveRepairer = Objects.requireNonNull(archiveRepairer);
-        this.twineStoryEpubTransformer = Objects.requireNonNull(twineStoryEpubTransformer);
-        this.twineArchiveParser = Objects.requireNonNull(twineArchiveParser);
-        this.extendTwineXmlTransformer = Objects.requireNonNull(extendTwineXmlTransformer);
     }
 
     /**

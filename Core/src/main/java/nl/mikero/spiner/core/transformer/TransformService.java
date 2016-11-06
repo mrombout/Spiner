@@ -16,11 +16,22 @@ import javax.xml.transform.TransformerException;
 import java.io.*;
 import java.util.Objects;
 
+/**
+ * Transforms an {@link InputStream} into a different format using a {@link Transformer} and outputs it to an
+ * {@link OutputStream}.
+ */
 public class TransformService {
     private final TwineRepairer publishedRepairer;
     private final ExtendTwineXmlTransformer extendTwineXmlTransformer;
     private final TwineArchiveParser twineArchiveParser;
 
+    /**
+     * Constructs a new TransformService.
+     *
+     * @param publishedRepairer repairer to use for published twine stories
+     * @param extendTwineXmlTransformer twine extended to use
+     * @param twineArchiveParser twine archive parser to use
+     */
     @Inject
     public TransformService(@PublishedRepairer TwineRepairer publishedRepairer, ExtendTwineXmlTransformer extendTwineXmlTransformer, TwineArchiveParser twineArchiveParser) {
         this.publishedRepairer = publishedRepairer;
@@ -33,6 +44,12 @@ public class TransformService {
      *
      * @param inputStream input stream to a published Twine story or archive
      * @param outputStream output stream to write the transformed input to
+     * @param transformer transformer to use
+     * @throws IOException
+     * @throws TransformerException
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws JAXBException
      */
     public void transform(InputStream inputStream, OutputStream outputStream, Transformer transformer) throws IOException, TransformerException, ParserConfigurationException, SAXException, JAXBException {
         Objects.requireNonNull(inputStream);

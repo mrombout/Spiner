@@ -10,15 +10,22 @@ import nl.mikero.spiner.core.transformer.latex.model.command.RawTexCommand;
 import nl.mikero.spiner.core.transformer.latex.model.command.WhitelineCommand;
 import nl.mikero.spiner.core.twine.model.TwPassagedata;
 import nl.mikero.spiner.core.twine.model.TwStorydata;
-import org.pegdown.LinkRenderer;
-import org.pegdown.PegDownProcessor;
 
 import java.io.OutputStream;
 import java.util.Objects;
 
+/**
+ * Transforms a Twine story into a LaTeX document based on the <code>gamebook</code> package.
+ */
 public class LatexTransformer implements Transformer {
     private static final String EXTENSION = "tex";
 
+    /**
+     * Transforms a Twine story into a LaTeX document.
+     *
+     * @param story story to transform
+     * @param outputStream output stream to write transformed story to
+     */
     @Override
     public void transform(TwStorydata story, OutputStream outputStream) {
         Objects.requireNonNull(story);
@@ -59,6 +66,9 @@ public class LatexTransformer implements Transformer {
         }
     }
 
+    /**
+     * @return tex extension (tex)
+     */
     @Override
     public String getExtension() {
         return EXTENSION;

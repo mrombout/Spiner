@@ -56,6 +56,8 @@ public class Application {
      * Constructs a new command line spiner application.
      *
      * @param transformService transform service to use
+     * @param epubTransformer transformer for the epub format
+     * @param latexTransformer transformer for the latex format
      */
     @Inject
     public Application(TransformService transformService, TwineStoryEpubTransformer epubTransformer, LatexTransformer latexTransformer) {

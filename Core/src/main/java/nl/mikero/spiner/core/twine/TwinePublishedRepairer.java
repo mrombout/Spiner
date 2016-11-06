@@ -1,21 +1,9 @@
 package nl.mikero.spiner.core.twine;
 
 import nl.mikero.spiner.core.exception.TwineRepairFailedException;
-import org.apache.commons.codec.CharEncoding;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.output.*;
-import org.apache.commons.io.output.ByteArrayOutputStream;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.w3c.tidy.Tidy;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
@@ -34,20 +22,6 @@ public class TwinePublishedRepairer implements TwineRepairer {
      * newlines).
      */
     private static final Pattern REGEX_TW_STORYDATA = Pattern.compile("(?s)<tw-storydata (.*)>(.*)<\\/tw-storydata>");
-
-    private static final String ELEM_TW_STORIESDATA = "tw-storiesdata";
-    private static final String ELEM_TW_STORYDATA = "tw-storydata";
-    private static final String ELEM_TW_PASSAGEDATA = "tw-passagedata";
-    private static final String ELEM_STYLE = "style";
-
-    private static final String ATTR_PID = "pid";
-    private static final String ATTR_NAME = "name";
-    private static final String ATTR_TAGS = "tags";
-    private static final String ATTR_POSITION = "position";
-    private static final String ATTR_TYPE = "type";
-    private static final String ATTR_ID = "id";
-    private static final String ATTR_ROLE = "role";
-    private static final String ATTR_STYLE = "style";
 
     private final Tidy tidy;
 

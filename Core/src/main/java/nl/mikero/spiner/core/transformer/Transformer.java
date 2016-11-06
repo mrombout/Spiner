@@ -15,5 +15,10 @@ public interface Transformer {
      */
     void transform(TwStorydata story, OutputStream outputStream);
 
+    /**
+     * Returns the extension belonging to the file format this transformer supports.
+     *
+     * @return file extension, without a leading <code>.</code>
+     */
     String getExtension();
 }

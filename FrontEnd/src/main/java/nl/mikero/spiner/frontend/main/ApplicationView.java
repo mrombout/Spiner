@@ -1,8 +1,6 @@
 package nl.mikero.spiner.frontend.main;
 
 import com.google.inject.Inject;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,7 +10,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import nl.mikero.spiner.core.exception.TwineRepairFailedException;
@@ -25,6 +22,8 @@ import nl.mikero.spiner.frontend.TransformTask;
 import nl.mikero.spiner.frontend.control.DropFileChooser;
 import nl.mikero.spiner.frontend.exception.FxmlLoadFailedException;
 import org.apache.commons.io.FilenameUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.Optional;
@@ -33,7 +32,7 @@ import java.util.Optional;
  * Main Application GUI.
  */
 public class ApplicationView {
-    private static final Image fileImage = new Image("/file.png");
+    private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationView.class);
 
     private final Alert errorAlert;
 
@@ -75,8 +74,6 @@ public class ApplicationView {
 
     @FXML
     protected void initialize() {
-        dropFileChooser.setImage(fileImage);
-
         FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("HTML Files (*.html, *.htm, *.xhtml)", "*.html", "*.htm", "*.xhtml");
         dropFileChooser.getExtensionFilters().add(extensionFilter);
 
@@ -122,7 +119,7 @@ public class ApplicationView {
                 dropFileChooser.completeProgress();
         });
         task.exceptionProperty().addListener((observable, oldException, newException) -> {
-            newException.printStackTrace();
+            LOGGER.error("Could not transform document.", newException);
 
             dropFileChooser.stopProgress();
             if(newException instanceof FileNotFoundException) {

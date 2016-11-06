@@ -18,9 +18,6 @@ public class EpubTransformerTest {
 
     private TwineRepairer mockPublishedRepairer;
     private TwineRepairer mockArchiveRepairer;
-    private TwineStoryEpubTransformer mockTwineStoryEpubTransformer;
-    private TwineArchiveParser mockTwineArchiveParser;
-    private ExtendTwineXmlTransformer mockExendTwineXmlTransformer;
 
     private EpubTransformer epubTransformer;
 
@@ -28,11 +25,8 @@ public class EpubTransformerTest {
     public void setUp() {
         mockPublishedRepairer = new TwineRepairerMock(getClass().getResourceAsStream("/xml/valid.xml"));
         mockArchiveRepairer = new TwineRepairerMock(getClass().getResourceAsStream("/xml/valid.xml"));
-        mockTwineStoryEpubTransformer = mock(TwineStoryEpubTransformer.class);
-        mockTwineArchiveParser = mock(TwineArchiveParser.class);
-        mockExendTwineXmlTransformer = mock(ExtendTwineXmlTransformer.class);
 
-        this.epubTransformer = new EpubTransformer(mockPublishedRepairer, mockArchiveRepairer, mockTwineStoryEpubTransformer, mockTwineArchiveParser, mockExendTwineXmlTransformer);
+        this.epubTransformer = new EpubTransformer(mockPublishedRepairer, mockArchiveRepairer);
     }
 
     @Test(expected = NullPointerException.class)
@@ -91,7 +85,7 @@ public class EpubTransformerTest {
         TwineRepairer mockPublishedRepairer = new TwineRepairerMock(getClass().getResourceAsStream("/xml/invalid.xml"));
         TwineRepairer mockArchiveRepairer = new TwineRepairerMock(getClass().getResourceAsStream("/xml/invalid.xml"));
 
-        EpubTransformer epubTransformer = new EpubTransformer(mockPublishedRepairer, mockArchiveRepairer, mockTwineStoryEpubTransformer, mockTwineArchiveParser, mockExendTwineXmlTransformer);
+        EpubTransformer epubTransformer = new EpubTransformer(mockPublishedRepairer, mockArchiveRepairer);
 
         // Act
         boolean result;
@@ -134,7 +128,7 @@ public class EpubTransformerTest {
         TwineRepairer mockPublishedRepairer = new TwineRepairerMock(getClass().getResourceAsStream("/xml/invalid.xml"));
         TwineRepairer mockArchiveRepairer = new TwineRepairerMock(getClass().getResourceAsStream("/xml/invalid.xml"));
 
-        EpubTransformer epubTransformer = new EpubTransformer(mockPublishedRepairer, mockArchiveRepairer, mockTwineStoryEpubTransformer, mockTwineArchiveParser, mockExendTwineXmlTransformer);
+        EpubTransformer epubTransformer = new EpubTransformer(mockPublishedRepairer, mockArchiveRepairer);
 
         // Act
         boolean result;
