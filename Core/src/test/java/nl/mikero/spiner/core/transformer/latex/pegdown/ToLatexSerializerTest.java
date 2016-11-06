@@ -3,6 +3,7 @@ package nl.mikero.spiner.core.transformer.latex.pegdown;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.pegdown.Extensions;
 import org.pegdown.LinkRenderer;
 import org.pegdown.PegDownProcessor;
 import org.pegdown.ast.*;
@@ -15,7 +16,7 @@ public class ToLatexSerializerTest {
 
     @Before
     public void setUp() {
-        pegDownProcessor = new PegDownProcessor();
+        pegDownProcessor = new PegDownProcessor(Extensions.WIKILINKS | Extensions.QUOTES | Extensions.TASKLISTITEMS);
         serializer = new ToLatexSerializer(new LinkRenderer());
     }
 
@@ -59,7 +60,6 @@ public class ToLatexSerializerTest {
     }
 
     @Test
-    @Ignore("Not parsed correctly, markdown formatting wrong?")
     public void toLatex_BlockQuote_DisplayQuote() {
         // Arrange
         String markdown = "\n> The first quote line\n" +
@@ -89,7 +89,6 @@ public class ToLatexSerializerTest {
     }
 
     @Test
-    @Ignore("Not parsed correctly, markdown formatting wrong?")
     public void toLatex_DefinitionListNode_Enumerate() {
         // Arrange
         String markdown = "Definition\n" +
@@ -103,5 +102,19 @@ public class ToLatexSerializerTest {
 
         // Assert
         assertEquals("\\begin{description}\n  \\item{And then some definition}\n  \\item{And then some more}\n\\end{description}", result);
+    }
+
+    @Test
+    public void toLatex_TaskListItems_GbOptions() {
+        // Arrange
+        String markdown = "* [ ] [[Link1]]\n" +
+                "* [ ] [[Label2|Link2]]";
+        RootNode rootNode = pegDownProcessor.parseMarkdown(markdown.toCharArray());
+
+        // Act
+        String result = serializer.toLatex(rootNode);
+
+        // Assert
+        assertEquals("\\begin{gboptions}\n  \\gboption{Link1}{Link1}\n  \\gboption{Label2}{Link2}\n\\end{gboptions}", result);
     }
 }
