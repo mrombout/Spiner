@@ -1,6 +1,5 @@
-package nl.mikero.spiner.core;
+package nl.mikero.spiner.core.twine;
 
-import nl.mikero.spiner.core.twine.TwineArchiveRepairer;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

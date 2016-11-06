@@ -1,4 +1,4 @@
-package nl.mikero.spiner.core.transformer;
+package nl.mikero.spiner.core.twine.extended;
 
 import nl.mikero.spiner.core.twine.extended.ExtendTwineXmlTransformer;
 import org.junit.Before;

@@ -4,13 +4,14 @@ import nl.mikero.spiner.core.transformer.latex.model.command.AbstractCommand;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Parameters {
     private final AbstractCommand parent;
     private final List<Parameter> parameters;
 
     public Parameters(AbstractCommand parent) {
-        this.parent = parent;
+        this.parent = Objects.requireNonNull(parent);
         this.parameters = new ArrayList<>();
     }
 

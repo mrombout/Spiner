@@ -1,7 +1,6 @@
 package nl.mikero.spiner.core.transformer.latex.model;
 
 import nl.mikero.spiner.core.transformer.latex.model.command.Command;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -9,7 +8,7 @@ import java.util.Objects;
 /**
  * A simple object model for a LaTeX document.
  */
-public class LatexDocument {
+public class LatexDocument extends LatexContainer {
     private final List<Command> commands;
 
     /**

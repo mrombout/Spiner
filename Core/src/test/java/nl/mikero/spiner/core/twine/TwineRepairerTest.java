@@ -1,4 +1,4 @@
-package nl.mikero.spiner.core;
+package nl.mikero.spiner.core.twine;
 
 import org.junit.Assert;
 import org.xml.sax.SAXException;
