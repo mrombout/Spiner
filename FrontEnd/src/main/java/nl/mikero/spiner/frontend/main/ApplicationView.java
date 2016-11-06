@@ -18,7 +18,6 @@ import javafx.stage.FileChooser;
 import nl.mikero.spiner.core.exception.TwineRepairFailedException;
 import nl.mikero.spiner.core.transformer.TransformService;
 import nl.mikero.spiner.core.transformer.Transformer;
-import nl.mikero.spiner.core.transformer.epub.EpubTransformer;
 import nl.mikero.spiner.core.transformer.epub.TwineStoryEpubTransformer;
 import nl.mikero.spiner.core.transformer.latex.LatexTransformer;
 import nl.mikero.spiner.frontend.dialog.ExceptionDialog;

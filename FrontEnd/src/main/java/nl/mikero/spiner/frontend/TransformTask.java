@@ -3,7 +3,6 @@ package nl.mikero.spiner.frontend;
 import javafx.concurrent.Task;
 import nl.mikero.spiner.core.transformer.TransformService;
 import nl.mikero.spiner.core.transformer.Transformer;
-import nl.mikero.spiner.core.transformer.epub.EpubTransformer;
 
 import java.io.*;
 

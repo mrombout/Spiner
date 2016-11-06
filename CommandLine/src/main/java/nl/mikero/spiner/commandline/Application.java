@@ -64,31 +64,32 @@ public class Application {
         this.latexTransformer = latexTransformer;
     }
 
-    @SuppressWarnings("AccessStaticViaInstance")
     private void execute(String[] args) {
         // options
         final Options options = new Options();
 
-        Option input = OptionBuilder.hasArg()
-                .withArgName("input")
-                .withDescription("location of input HTML file")
-                .withLongOpt(OPT_INPUT)
-                .create('i');
+        Option format = Option.builder("f")
+                .argName("format")
+                .desc(String.format("output format, one of (%s|%s)", ARG_FORMAT_EPUB, ARG_FORMAT_LATEX))
+                .longOpt(OPT_FORMAT)
+                .required()
+                .build();
+        options.addOption(format);
+
+        Option input = Option.builder("i")
+                .argName("input")
+                .desc("location of input HTML file")
+                .longOpt(OPT_INPUT)
+                .required()
+                .build();
         options.addOption(input);
 
-        Option output = OptionBuilder.hasArg()
-                .withArgName("file")
-                .withDescription("location of output file")
-                .withLongOpt(OPT_OUTPUT)
-                .create('o');
+        Option output = Option.builder("o")
+                .argName("file")
+                .desc("location of output file")
+                .longOpt(OPT_OUTPUT)
+                .build();
         options.addOption(output);
-
-        Option format = OptionBuilder.hasArg()
-                .withArgName("format")
-                .withDescription(String.format("output format, one of (%s|%s)", ARG_FORMAT_EPUB, ARG_FORMAT_LATEX)) // TODO: load available options dynamically
-                .withLongOpt(OPT_FORMAT)
-                .create('f');
-        options.addOption(format);
 
         OptionGroup infoGroup = new OptionGroup();
         infoGroup.addOption(new Option(OPT_HELP, "display this help and exit"));
@@ -96,7 +97,7 @@ public class Application {
         options.addOptionGroup(infoGroup);
 
         // parse
-        CommandLineParser parser = new BasicParser();
+        CommandLineParser parser = new DefaultParser();
         try {
             CommandLine cmd = parser.parse(options, args);
 

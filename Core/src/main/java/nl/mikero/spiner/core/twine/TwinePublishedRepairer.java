@@ -1,6 +1,7 @@
 package nl.mikero.spiner.core.twine;
 
 import nl.mikero.spiner.core.exception.TwineRepairFailedException;
+import org.apache.commons.codec.CharEncoding;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.*;
 import org.apache.commons.io.output.ByteArrayOutputStream;
@@ -88,7 +89,7 @@ public class TwinePublishedRepairer implements TwineRepairer {
         Objects.requireNonNull(outputStream);
 
         try {
-            String input = IOUtils.toString(inputStream);
+            String input = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
 
             Matcher matcher = REGEX_TW_STORYDATA.matcher(input);
             if(!matcher.find())
