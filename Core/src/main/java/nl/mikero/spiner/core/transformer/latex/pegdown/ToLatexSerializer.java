@@ -1,16 +1,10 @@
 package nl.mikero.spiner.core.transformer.latex.pegdown;
 
-import nl.mikero.spiner.core.transformer.latex.model.LatexContainer;
-import nl.mikero.spiner.core.transformer.latex.model.command.AbstractCommand;
-import nl.mikero.spiner.core.transformer.latex.model.command.Environment;
-import nl.mikero.spiner.core.transformer.latex.model.command.RawTexCommand;
 import org.pegdown.LinkRenderer;
 import org.pegdown.Printer;
 import org.pegdown.ast.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.Objects;
 
 public class ToLatexSerializer implements Visitor {
@@ -55,12 +49,13 @@ public class ToLatexSerializer implements Visitor {
 
     @Override
     public void visit(BlockQuoteNode node) {
-        throw new NotImplementedException();
+        // TODO: Needs csquotes package
+        printIndentedEnvironment(node, "displayquote");
     }
 
     @Override
     public void visit(BulletListNode node) {
-        throw new NotImplementedException();
+        printIndentedEnvironment(node, "enumerate");
     }
 
     @Override
@@ -70,7 +65,7 @@ public class ToLatexSerializer implements Visitor {
 
     @Override
     public void visit(DefinitionListNode node) {
-        throw new NotImplementedException();
+        printIndentedEnvironment(node, "description");
     }
 
     @Override
@@ -85,12 +80,14 @@ public class ToLatexSerializer implements Visitor {
 
     @Override
     public void visit(ExpImageNode node) {
-        throw new NotImplementedException();
+        String text = printChildrenToString(node);
+        printLink(linkRenderer.render(node, text));
     }
 
     @Override
     public void visit(ExpLinkNode node) {
-        throw new NotImplementedException();
+        String text = printChildrenToString(node);
+        printLink(linkRenderer.render(node, text));
     }
 
     @Override
@@ -100,7 +97,9 @@ public class ToLatexSerializer implements Visitor {
 
     @Override
     public void visit(HtmlBlockNode node) {
-        throw new NotImplementedException();
+        String text = node.getText();
+        if(text.length() > 0) printer.println();
+        printer.print(text);
     }
 
     @Override
@@ -110,17 +109,18 @@ public class ToLatexSerializer implements Visitor {
 
     @Override
     public void visit(ListItemNode node) {
-        throw new NotImplementedException();
+        // TODO: Support for TaskListNode?
+        printConditionallyIndentedCommand(node, "item");
     }
 
     @Override
     public void visit(MailLinkNode node) {
-        throw new NotImplementedException();
+        printLink(linkRenderer.render(node));
     }
 
     @Override
     public void visit(OrderedListNode node) {
-        throw new NotImplementedException();
+        printIndentedEnvironment(node, "itemize");
     }
 
     @Override
@@ -130,7 +130,23 @@ public class ToLatexSerializer implements Visitor {
 
     @Override
     public void visit(QuotedNode node) {
-        throw new NotImplementedException();
+        switch(node.getType()) {
+            case DoubleAngle:
+                printer.print("\\guillemotleft");
+                visitChildren(node);
+                printer.print("\\guillemotright");
+                break;
+            case Double:
+                printer.print("‘‘");
+                visitChildren(node);
+                printer.print("’’");
+                break;
+            case Single:
+                printer.print("‘");
+                visitChildren(node);
+                printer.print("’");
+                break;
+        }
     }
 
     @Override
@@ -150,41 +166,42 @@ public class ToLatexSerializer implements Visitor {
 
     @Override
     public void visit(SimpleNode node) {
-//        switch(node.getType()) {
-//            case Apostrophe:
-//                container.peek().addCommand(new AbstractCommand("textquotesingle"));
-//                break;
-//            case Ellipsis:
-//                container.peek().addCommand(new AbstractCommand("ldots"));
-//                break;
-//            case Emdash:
-//                container.peek().addCommand(new AbstractCommand("textemdash"));
-//                break;
-//            case Endash:
-//                container.peek().addCommand(new AbstractCommand("textendash"));
-//                break;
-//            case HRule:
-//                container.peek().addCommand(new AbstractCommand("rule").parameters().add("0.5\textwidth").add(".4pt").done());
-//                break;
-//            case Linebreak:
-//                container.peek().addCommand(new AbstractCommand("linebreak"));
-//                break;
-//            case Nbsp:
-//                container.peek().addCommand(new RawTexCommand("~"));
-//                break;
-//            default:
-//                throw new IllegalStateException();
-//        }
+        switch(node.getType()) {
+            case Apostrophe:
+                printer.print("’");
+                break;
+            case Ellipsis:
+                printCommand("ldots");
+                break;
+            case Emdash:
+                printer.print("---");
+                break;
+            case Endash:
+                printer.print("--");
+                break;
+            case HRule:
+                printer.println().print("\\rule{0.5\\textwidth}{.4pt}");
+                break;
+            case Linebreak:
+                printCommand("linebreak");
+                break;
+            case Nbsp:
+                printCommand("~");
+                break;
+            default:
+                throw new IllegalStateException();
+        }
     }
 
     @Override
     public void visit(SpecialTextNode node) {
-        throw new NotImplementedException();
+        printer.printEncoded(node.getText());
     }
 
     @Override
     public void visit(StrikeNode node) {
-        throw new NotImplementedException();
+        // TODO: Needs \\usepackage[normalem]{ulem}
+        printCommand(node, "sout");
     }
 
     @Override
@@ -242,7 +259,7 @@ public class ToLatexSerializer implements Visitor {
 
     @Override
     public void visit(WikiLinkNode node) {
-        throw new NotImplementedException();
+        printLink(linkRenderer.render(node));
     }
 
     @Override
@@ -257,13 +274,20 @@ public class ToLatexSerializer implements Visitor {
 
     @Override
     public void visit(Node node) {
-        throw new NotImplementedException();
+//        for(ToLatexSerializerPlugin plugin : plugins) {
+//            if(plugin.visit(node, this, printer))
+//                return
+//        }
     }
 
     private void visitChildren(SuperNode node) {
         for(Node child : node.getChildren()) {
             child.accept(this);
         }
+    }
+
+    private void printCommand(String command) {
+        printer.print("\\").print(command);
     }
 
     private void printCommand(TextNode node, String command) {
@@ -276,5 +300,38 @@ public class ToLatexSerializer implements Visitor {
         printer.print("\\").print(command).print("{");
         visitChildren(node);
         printer.print("}");
+    }
+
+    private void printIndentedEnvironment(SuperNode node, String environment) {
+        printer.println().print("\\begin{").print(environment).print("}").indent(+2);
+        visitChildren(node);
+        printer.indent(-2).println().print("\\end{").print(environment).print("}");
+    }
+
+    private void printConditionallyIndentedCommand(SuperNode node, String command) {
+        if(node.getChildren().size() > 1) {
+            printer.println().print("\\").print(command).print("{").indent(+2);
+            visitChildren(node);
+            printer.indent(-2).println().print("}");
+        } else {
+            boolean startWasNewLine = printer.endsWithNewLine();
+
+            printer.println().print("\\").print(command).print("{");
+            visitChildren(node);
+            printer.print("}").printchkln(startWasNewLine);
+        }
+    }
+
+    private String printChildrenToString(SuperNode node) {
+        Printer priorPrinter = printer;
+        printer = new Printer();
+        visitChildren(node);
+        String result = printer.getString();
+        printer = priorPrinter;
+        return result;
+    }
+
+    private void printLink(LinkRenderer.Rendering rendering) {
+        printer.print("\\gbturn{").print(rendering.text).print("}");
     }
 }
