@@ -1,6 +1,7 @@
 package nl.mikero.spiner.core.transformer.latex.pegdown;
 
 import nl.mikero.spiner.core.pegdown.plugin.LatexVerbatimSerializer;
+import org.parboiled.common.StringUtils;
 import org.pegdown.DefaultVerbatimSerializer;
 import org.pegdown.LinkRenderer;
 import org.pegdown.Printer;
@@ -101,12 +102,15 @@ public class ToLatexSerializer implements Visitor {
 
     @Override
     public void visit(DefinitionNode node) {
-        throw new NotImplementedException();
+        printer.print(' ');
+        visitChildren(node);
     }
 
     @Override
     public void visit(DefinitionTermNode node) {
-        throw new NotImplementedException();
+        printer.println().print("\\").print("item").print("[");
+        visitChildren(node);
+        printer.print("]");
     }
 
     @Override
@@ -190,7 +194,7 @@ public class ToLatexSerializer implements Visitor {
     @Override
     public void visit(ParaNode node) {
         boolean startWithNewLine = printer.endsWithNewLine();
-        printer.println();
+        //printer.println();
         printer.println();
         visitChildren(node);
         if(startWithNewLine) {

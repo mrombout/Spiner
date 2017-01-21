@@ -16,7 +16,7 @@ public class ToLatexSerializerTest {
 
     @Before
     public void setUp() {
-        pegDownProcessor = new PegDownProcessor(Extensions.WIKILINKS | Extensions.QUOTES | Extensions.TASKLISTITEMS);
+        pegDownProcessor = new PegDownProcessor(Extensions.WIKILINKS | Extensions.QUOTES | Extensions.TASKLISTITEMS | Extensions.DEFINITIONS);
         serializer = new ToLatexSerializer(new LinkRenderer());
     }
 
@@ -70,7 +70,7 @@ public class ToLatexSerializerTest {
         String result = serializer.toLatex(rootNode);
 
         // Assert
-        assertEquals("\\begin{displayquote}\n  A single line quote\n\\end{displayquote}", result);
+        assertEquals("\\begin{displayquote}\n  The first quote line And the second one\n\\end{displayquote}", result);
     }
 
     @Test
@@ -92,7 +92,7 @@ public class ToLatexSerializerTest {
     public void toLatex_DefinitionListNode_Enumerate() {
         // Arrange
         String markdown = "Definition\n" +
-                ": And then some definition\n" +
+                ": And then some definition\n\n" +
                 "Another definition\n" +
                 ": And then some more";
         RootNode rootNode = pegDownProcessor.parseMarkdown(markdown.toCharArray());
@@ -101,10 +101,11 @@ public class ToLatexSerializerTest {
         String result = serializer.toLatex(rootNode);
 
         // Assert
-        assertEquals("\\begin{description}\n  \\item{And then some definition}\n  \\item{And then some more}\n\\end{description}", result);
+        assertEquals("\\begin{description}\n  \\item[Definition] And then some definition\n  \\item[Another definition] And then some more\n\\end{description}", result);
     }
 
     @Test
+    @Ignore("Not implemented yet")
     public void toLatex_TaskListItems_GbOptions() {
         // Arrange
         String markdown = "* [ ] [[Link1]]\n" +

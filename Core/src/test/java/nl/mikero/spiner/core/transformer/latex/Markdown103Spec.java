@@ -4,6 +4,7 @@ import nl.mikero.spiner.core.transformer.latex.pegdown.ToLatexSerializer;
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.pegdown.Extensions;
 import org.pegdown.LinkRenderer;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
+@Ignore
 public class Markdown103Spec {
     private PegDownProcessor processor;
     private ToLatexSerializer serializer;
