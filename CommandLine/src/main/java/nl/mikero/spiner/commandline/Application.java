@@ -70,13 +70,15 @@ public class Application {
         // options
         final Options options = new Options();
 
+        OptionGroup transformGroup = new OptionGroup();
+
         Option format = Option.builder("f")
                 .argName("format")
                 .desc(String.format("output format, one of (%s|%s)", ARG_FORMAT_EPUB, ARG_FORMAT_LATEX))
                 .longOpt(OPT_FORMAT)
                 .required()
                 .build();
-        options.addOption(format);
+        transformGroup.addOption(format);
 
         Option input = Option.builder("i")
                 .argName("input")
@@ -84,14 +86,16 @@ public class Application {
                 .longOpt(OPT_INPUT)
                 .required()
                 .build();
-        options.addOption(input);
+        transformGroup.addOption(input);
 
         Option output = Option.builder("o")
                 .argName("file")
                 .desc("location of output file")
                 .longOpt(OPT_OUTPUT)
                 .build();
-        options.addOption(output);
+        transformGroup.addOption(output);
+
+        options.addOptionGroup(transformGroup);
 
         OptionGroup infoGroup = new OptionGroup();
         infoGroup.addOption(new Option(OPT_HELP, "display this help and exit"));
@@ -113,8 +117,6 @@ public class Application {
         } catch (Exception e) {
             LOGGER.error("Error: {}", e.getMessage(), e);
         }
-
-        System.exit(1);
     }
 
     private void doOptVersion() {
@@ -123,13 +125,11 @@ public class Application {
         System.out.println("License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>");
         System.out.println("This is free software: you are free to change and redistribute it.");
         System.out.println("There is NO WARRANTY, to the extend permitted by law.");
-        System.exit(0);
     }
 
     private void doOptHelp(Options options) {
         HelpFormatter formatter = new HelpFormatter();
         formatter.printHelp("spiner", options, true);
-        System.exit(0);
     }
 
     private void doTransform(CommandLine cmd) throws ParserConfigurationException, TransformerException, SAXException, JAXBException, IOException {
@@ -162,7 +162,6 @@ public class Application {
         }
 
         transformService.transform(inputStream, outputStream, transformer);
-        System.exit(0);
     }
 
     /**
