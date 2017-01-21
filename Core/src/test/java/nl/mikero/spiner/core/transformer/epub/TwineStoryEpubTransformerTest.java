@@ -1,4 +1,4 @@
-package nl.mikero.spiner.core.transformer;
+package nl.mikero.spiner.core.transformer.epub;
 
 import static org.junit.Assert.*;
 import nl.mikero.spiner.core.transformer.epub.embedder.ResourceEmbedder;

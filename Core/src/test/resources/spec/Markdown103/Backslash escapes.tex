@@ -1,0 +1,116 @@
+These should all get escaped:
+
+Backslash: \textbackslash
+
+Backtick: `
+
+Asterisk: *
+
+Underscore: \_
+
+Left brace: \textbraceleft
+
+Right brace: \textbraceright
+
+Left bracket: [
+
+Right bracket: ]
+
+Left paren: (
+
+Right paren: )
+
+Greater-than: \textgreater
+
+Hash: \#
+
+Period: .
+
+Bang: !
+
+Plus: +
+
+Minus: -
+
+These should not, because they occur within a code block:
+\begin{verbatim}
+  Backslash: \textbackslash\textbackslash
+
+Backtick: \textbackslash`
+
+Asterisk: \textbackslash*
+
+Underscore: \textbackslash\_
+
+Left brace: \textbackslash\textbraceleft
+
+Right brace: \textbackslash\textbraceright
+
+Left bracket: \textbackslash[
+
+Right bracket: \textbackslash]
+
+Left paren: \textbackslash(
+
+Right paren: \textbackslash)
+
+Greater-than: \textbackslash\textgreater
+
+Hash: \textbackslash\#
+
+Period: \textbackslash.
+
+Bang: \textbackslash!
+
+Plus: \textbackslash+
+
+Minus: \textbackslash-
+\end{verbatim}
+
+Nor should these, which occur in code spans:
+
+Backslash: \lstinline{\textbackslash\textbackslash}
+
+Backtick: \lstinline{\textbackslash`}
+
+Asterisk: \lstinline{\textbackslash*}
+
+Underscore: \lstinline{\textbackslash\_}
+
+Left brace: \lstinline{\textbackslash\textbraceleft}
+
+Right brace: \lstinline{\textbackslash\textbraceright}
+
+Left bracket: \lstinline{\textbackslash[}
+
+Right bracket: \lstinline{\textbackslash]}
+
+Left paren: \lstinline{\textbackslash(}
+
+Right paren: \lstinline{\textbackslash)}
+
+Greater-than: \lstinline{\textbackslash\textgreater}
+
+Hash: \lstinline{\textbackslash\#}
+
+Period: \lstinline{\textbackslash.}
+
+Bang: \lstinline{\textbackslash!}
+
+Plus: \lstinline{\textbackslash+}
+
+Minus: \lstinline{\textbackslash-}
+
+These should get escaped, even though they're matching pairs for other Markdown constructs:
+
+*asterisks*
+
+\_underscores\_
+
+`backticks`
+
+This is a code span with a literal backslash-backtick sequence: \lstinline{\textbackslash`}
+
+This is a tag with unescaped backticks <span attr='`ticks`'>bar</span>.
+
+This is a tag with backslashes <span attr='\\backslashes\\'>bar</span>.

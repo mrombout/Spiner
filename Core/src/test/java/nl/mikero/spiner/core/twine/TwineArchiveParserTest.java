@@ -1,4 +1,4 @@
-package nl.mikero.spiner.core;
+package nl.mikero.spiner.core.twine;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;

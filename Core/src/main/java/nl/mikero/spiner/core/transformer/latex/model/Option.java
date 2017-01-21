@@ -3,6 +3,8 @@ package nl.mikero.spiner.core.transformer.latex.model;
 /**
  * A LaTex command option.
  */
+import java.util.Objects;
+
 public class Option {
     private final String name;
     private final String value;
@@ -14,8 +16,13 @@ public class Option {
      * @param value option value
      */
     public Option(String name, String value) {
-        this.name = name;
+        this.name = Objects.requireNonNull(name);
         this.value = value;
+
+        if(this.name.isEmpty())
+            throw new IllegalArgumentException("Option name must not be empty.");
+        if(this.value != null && this.value.isEmpty())
+            throw new IllegalArgumentException("Option value must not be empty, perhaps you meant to use null?");
     }
 
     /**
