@@ -9,6 +9,8 @@ import nl.mikero.spiner.core.transformer.Transformer;
 import nl.mikero.spiner.core.transformer.epub.TwineStoryEpubTransformer;
 import nl.mikero.spiner.core.transformer.latex.LatexTransformer;
 import org.apache.commons.cli.*;
+import org.apache.commons.io.input.CloseShieldInputStream;
+import org.apache.commons.io.output.CloseShieldOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
@@ -133,35 +135,40 @@ public class Application {
     }
 
     private void doTransform(CommandLine cmd) throws ParserConfigurationException, TransformerException, SAXException, JAXBException, IOException {
-        InputStream inputStream = System.in;
-        OutputStream outputStream = System.out;
+        InputStream inputStream = new CloseShieldInputStream(System.in);
+        OutputStream outputStream = new CloseShieldOutputStream(System.out);
         Transformer transformer = epubTransformer;
 
-        if (cmd.hasOption(OPT_INPUT)) {
-            String fileArg = cmd.getOptionValue(OPT_INPUT);
-            try {
-                inputStream = new BufferedInputStream(new FileInputStream(new File(fileArg)));
-            } catch (FileNotFoundException e) {
-                LOGGER.error("Input file {} could not be found.", fileArg, e);
-                System.exit(1);
+        try {
+            if (cmd.hasOption(OPT_INPUT)) {
+                String fileArg = cmd.getOptionValue(OPT_INPUT);
+                try {
+                    inputStream = new BufferedInputStream(new FileInputStream(new File(fileArg)));
+                } catch (FileNotFoundException e) {
+                    LOGGER.error("Input file {} could not be found.", fileArg, e);
+                    System.exit(1);
+                }
             }
-        }
-        if (cmd.hasOption(OPT_OUTPUT)) {
-            String outputArg = cmd.getOptionValue(OPT_OUTPUT);
-            try {
-                outputStream = new BufferedOutputStream(new FileOutputStream(new File(outputArg)));
-            } catch (FileNotFoundException e) {
-                LOGGER.error("Output file {} could not be found.", outputArg, e);
-                System.exit(1);
+            if (cmd.hasOption(OPT_OUTPUT)) {
+                String outputArg = cmd.getOptionValue(OPT_OUTPUT);
+                try {
+                    outputStream = new BufferedOutputStream(new FileOutputStream(new File(outputArg)));
+                } catch (FileNotFoundException e) {
+                    LOGGER.error("Output file {} could not be found.", outputArg, e);
+                    System.exit(1);
+                }
             }
-        }
-        if(cmd.hasOption(OPT_FORMAT)) {
-            String formatArg = cmd.getOptionValue(OPT_FORMAT);
-            if(formatArg.equals(ARG_FORMAT_LATEX))
-                transformer = latexTransformer;
-        }
+            if(cmd.hasOption(OPT_FORMAT)) {
+                String formatArg = cmd.getOptionValue(OPT_FORMAT);
+                if(formatArg.equals(ARG_FORMAT_LATEX))
+                    transformer = latexTransformer;
+            }
 
-        transformService.transform(inputStream, outputStream, transformer);
+            transformService.transform(inputStream, outputStream, transformer);
+        } finally {
+            inputStream.close();
+            outputStream.close();
+        }
     }
 
     /**
