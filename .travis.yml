@@ -2,6 +2,17 @@ language: java
 jdk:
   - oraclejdk8
 addons:
+  sonarqube:
+    token:
+      secure: SjmgsKGcIIzkhLXYX7jGVHtHVOsj7rUDKlQSZLQQreXUfIYxvGsXLw+jsn1reSNli7Wj5aOjdaiCJtFwzPx9J3oC4hCQBH3lt9AVmDDBwhiLok7a4Ynz5kSxgIHCSjYVY8TDvt2CRbtrftGFot5UcHk/wI6pbsa3tJnLBBEONRfiv18s1SAOTnnju8KuSzLhh/8wQrqOkDwEXk7tBLpJ7MFC0OrlL/upZSpAczbNbot/RjOtubGVsn0LyNPTcAxmKTUW8oPISUxyGMLHv+QybO4wUzrdvdAFCGW2791105Lzqj9DdUecBIoIIxnku2rSVfggCerQlCC5NhCgIZ2Ewt08kTVpuJzrk6F2HX0un7hfMPD6VICZHw3k3Wcl297F88OFA/p8s9GVqO+25eX2AeMKr7e130Bl3+BU0LvVtIJmOzT6JZtTl796BzmO5GXVkZfk6E0V+fc5GV3B2DMeKE5W49UTOsom6CKLWH8ri1V+3SmLn9pOH/UCXk9ea2OQ7Hg+u7md6gP2yYt5RUgGX1/oaQkHN4Kzepkb0cv8fyuXfkvYE5NDJHnTf7NVZf+5/SSzRaSgpx3uqGyKKF3dkwWO7x47b3mxROQa5CAcPqo0FcITdIoDT48aMf/TvCauNKYjjztHaB41eu86qL41ZOI7A71jGV0QJ9pFLg+ncKo=
   apt:
     packages:
       - oracle-java8-installer
+script:
+  - ./gradlew sonarqube
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.sonar/cache'
+    - '$HOME/.gradle'
+    - '.gradle'
