@@ -62,7 +62,8 @@ public class ResourceEmbedder implements Visitor {
     }
 
     @Override
-    public void visit(AbbreviationNode node) { visitChildren(node);
+    public void visit(AbbreviationNode node) {
+        visitChildren(node);
     }
 
     @Override

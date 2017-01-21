@@ -1,15 +1,16 @@
 package nl.mikero.spiner.core.transformer.latex;
 
+import com.google.inject.Inject;
 import nl.mikero.spiner.core.exception.TwineTransformationWriteException;
 import nl.mikero.spiner.core.transformer.Transformer;
 import nl.mikero.spiner.core.transformer.latex.model.GamebookLatexDocument;
 import nl.mikero.spiner.core.transformer.latex.model.LatexDocument;
-import nl.mikero.spiner.core.transformer.latex.model.command.AbstractCommand;
-import nl.mikero.spiner.core.transformer.latex.model.command.Environment;
-import nl.mikero.spiner.core.transformer.latex.model.command.RawTexCommand;
-import nl.mikero.spiner.core.transformer.latex.model.command.WhitelineCommand;
+import nl.mikero.spiner.core.transformer.latex.model.command.*;
+import nl.mikero.spiner.core.transformer.latex.pegdown.ToLatexSerializer;
 import nl.mikero.spiner.core.twine.model.TwPassagedata;
 import nl.mikero.spiner.core.twine.model.TwStorydata;
+import org.pegdown.PegDownProcessor;
+import org.pegdown.ast.RootNode;
 
 import java.io.OutputStream;
 import java.util.Objects;
@@ -19,6 +20,15 @@ import java.util.Objects;
  */
 public class LatexTransformer implements Transformer {
     private static final String EXTENSION = "tex";
+
+    private final PegDownProcessor processor;
+    private ToLatexSerializer serializer;
+
+    @Inject
+    public LatexTransformer(PegDownProcessor processor, ToLatexSerializer serializer) {
+        this.processor = Objects.requireNonNull(processor);
+        this.serializer = Objects.requireNonNull(serializer);
+    }
 
     /**
      * Transforms a Twine story into a LaTeX document.
@@ -33,6 +43,11 @@ public class LatexTransformer implements Transformer {
 
         // create a new document
         LatexDocument book = new GamebookLatexDocument();
+
+        // add required packages
+        book.addCommand(new UsePackageCommand().parameters().add("hyperref").done());
+        book.addCommand(new UsePackageCommand().parameters().add("csquotes").done());
+        book.addCommand(new UsePackageCommand().options().add("ulem").done().parameters().add("normalem").done());
 
         // set document information
         book.addCommand(new AbstractCommand("title").parameters().add(story.getName()).done());
@@ -75,17 +90,7 @@ public class LatexTransformer implements Transformer {
     }
 
     private String transformPassageTextToLatex(String passageText) {
-        String optionsLinkTemplate      = new AbstractCommand("gbitem").parameters().add("$1").add("$2").done().toString().replace("\\", "\\\\");
-        String optionsLabelLinkTemplate = new AbstractCommand("gbitem").parameters().add("$1").add("$1").done().toString().replace("\\", "\\\\");
-
-        String linkTemplate      = String.format("$1 (%s)", new AbstractCommand("gbturn").parameters().add("$1").done().toString().replace("\\", "\\\\"));
-        String labelLinkTemplate = String.format("$1 (%s)", new AbstractCommand("gbturn").parameters().add("$2").done().toString().replace("\\", "\\\\"));
-
-        passageText = passageText.replaceAll("-\\[\\[(.*?)\\|(.*?)\\]\\]", optionsLinkTemplate);
-        passageText = passageText.replaceAll("-\\[\\[(.*?)\\]\\]", optionsLabelLinkTemplate);
-        passageText = passageText.replaceAll("\\[\\[(.*?)\\|(.*?)\\]\\]", labelLinkTemplate);
-        passageText = passageText.replaceAll("\\[\\[(.*?)\\]\\]", linkTemplate);
-
-        return passageText;
+        RootNode node = processor.parseMarkdown(passageText.toCharArray());
+        return serializer.toLatex(node);
     }
 }

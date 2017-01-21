@@ -2,7 +2,6 @@ package nl.mikero.spiner.core.transformer.latex.model.command;
 
 import nl.mikero.spiner.core.transformer.latex.model.LatexContainer;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;

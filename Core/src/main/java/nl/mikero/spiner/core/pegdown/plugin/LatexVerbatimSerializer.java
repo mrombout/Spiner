@@ -5,18 +5,29 @@ import org.pegdown.Printer;
 import org.pegdown.VerbatimSerializer;
 import org.pegdown.ast.VerbatimNode;
 
+import java.util.Objects;
+
 public class LatexVerbatimSerializer implements VerbatimSerializer {
     public static final LatexVerbatimSerializer INSTANCE = new LatexVerbatimSerializer();
     
     @Override
     public void serialize(VerbatimNode node, Printer printer) {
-        printer.println().print("\\begin{verbatim}").indent(+2).println();
+        Objects.requireNonNull(node);
+        Objects.requireNonNull(printer);
+
+        printer.println().print("\\begin{verbatim}");
+
         String text = node.getText();
-        while(text.charAt(0) == '\n') {
-            printer.print("\\\\");
+        if(!text.isEmpty())
+            printer.indent(+2);
+        printer.println();
+
+        while(!text.isEmpty() && text.charAt(0) == '\n') {
+            printer.print("\\\\").printchkln();
             text = text.substring(1);
         }
         printer.print(LatexEncoder.encode(text));
-        printer.indent(-2).print("\\end{verbatim}");
+
+        printer.indent(-2).println().print("\\end{verbatim}");
     }
 }

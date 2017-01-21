@@ -11,7 +11,7 @@ repositories {
 
 dependencies {
     testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-all:1.10.19'
+    testCompile 'org.mockito:mockito-core:2.6.4'
 
     compile 'nl.siegmann.epublib:epublib-core:3.1'
     compile 'org.pegdown:pegdown:1.6.0'

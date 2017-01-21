@@ -1,5 +1,6 @@
 package nl.mikero.spiner.core.twine.extended;
 
+import nl.mikero.spiner.core.exception.ExtendTwineXmlTransformFailedException;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -27,27 +28,28 @@ public class ExtendTwineXmlTransformer {
      *
      * @param input regular twine xml input, may not be null
      * @param output extended twine xml output, may not be null
-     * @throws ParserConfigurationException when parser is not configured correctly
-     * @throws TransformerException when xsl transformation failed
-     * @throws IOException when an IO error occurs
-     * @throws SAXException when a parse error occurs
+     * @throws ExtendTwineXmlTransformFailedException when transformation fails
      */
-    public void transform(InputStream input, OutputStream output) throws ParserConfigurationException, TransformerException, IOException, SAXException {
+    public void transform(InputStream input, OutputStream output) {
         Objects.requireNonNull(input);
         Objects.requireNonNull(output);
 
-        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = documentBuilderFactory.newDocumentBuilder();
-        Document document = builder.parse(input);
+        try {
+            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = documentBuilderFactory.newDocumentBuilder();
+            Document document = builder.parse(input);
 
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
 
-        StreamSource stylesheetSource = new StreamSource(getClass().getResourceAsStream("/extend.xsl"));
-        Transformer transformer = transformerFactory.newTransformer(stylesheetSource);
+            StreamSource stylesheetSource = new StreamSource(getClass().getResourceAsStream("/extend.xsl"));
+            Transformer transformer = transformerFactory.newTransformer(stylesheetSource);
 
-        DOMSource source = new DOMSource(document);
-        StreamResult result = new StreamResult(output);
-        transformer.transform(source, result);
+            DOMSource source = new DOMSource(document);
+            StreamResult result = new StreamResult(output);
+            transformer.transform(source, result);
+        } catch (ParserConfigurationException | SAXException | IOException | TransformerException e) {
+            throw new ExtendTwineXmlTransformFailedException(e);
+        }
     }
 
 }

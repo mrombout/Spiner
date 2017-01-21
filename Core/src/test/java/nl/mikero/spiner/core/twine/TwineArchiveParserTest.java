@@ -3,6 +3,7 @@ package nl.mikero.spiner.core.twine;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
+import nl.mikero.spiner.core.exception.TwineParseFailedException;
 import nl.mikero.spiner.core.twine.model.TwStoriesdata;
 import nl.mikero.spiner.core.twine.TwineArchiveParser;
 import org.junit.Before;
@@ -55,8 +56,8 @@ public class TwineArchiveParserTest {
         assertTrue(result.getTwStorydata().get(0).getTwPassagedata().get(0).getValue().contains("\n"));
     }
 
-    @Test(expected = JAXBException.class)
-    public void parse_InvalidXmlFile_ThrowsException() throws Exception {
+    @Test(expected = TwineParseFailedException.class)
+    public void parse_InvalidXmlFile_ThrowsTwineParseFailedException() throws Exception {
         // Arrange
 
         // Act

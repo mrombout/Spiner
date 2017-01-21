@@ -46,9 +46,7 @@ public final class EpubTransformOptions {
     public static EpubTransformOptions fromXtwMetadata(XtwMetadata xtwMetadata) {
         Metadata metadata = createMetadata(xtwMetadata);
 
-        EpubTransformOptions options = new EpubTransformOptions(metadata);
-
-        return options;
+        return new EpubTransformOptions(metadata);
     }
 
     private static Metadata createMetadata(XtwMetadata xtwMetadata) {

@@ -1,6 +1,7 @@
 package nl.mikero.spiner.core.transformer;
 
 import com.google.inject.Inject;
+import nl.mikero.spiner.core.exception.TwineTransformationFailedException;
 import nl.mikero.spiner.core.inject.PublishedRepairer;
 import nl.mikero.spiner.core.twine.TwineArchiveParser;
 import nl.mikero.spiner.core.twine.TwineRepairer;
@@ -45,15 +46,12 @@ public class TransformService {
      * @param inputStream input stream to a published Twine story or archive
      * @param outputStream output stream to write the transformed input to
      * @param transformer transformer to use
-     * @throws IOException
-     * @throws TransformerException
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws JAXBException
+     * @throws TwineTransformationFailedException when transformation fails
      */
-    public void transform(InputStream inputStream, OutputStream outputStream, Transformer transformer) throws IOException, TransformerException, ParserConfigurationException, SAXException, JAXBException {
+    public void transform(InputStream inputStream, OutputStream outputStream, Transformer transformer) {
         Objects.requireNonNull(inputStream);
         Objects.requireNonNull(outputStream);
+        Objects.requireNonNull(transformer);
 
         try (ByteArrayOutputStream repairedInput = new ByteArrayOutputStream();
              ByteArrayOutputStream transformedInput = new ByteArrayOutputStream()) {
@@ -64,6 +62,8 @@ public class TransformService {
             for (TwStorydata twStorydata : stories.getTwStorydata()) {
                 transformer.transform(twStorydata, outputStream);
             }
+        } catch (Exception e) {
+            throw new TwineTransformationFailedException("Could not transform input.", e);
         }
     }
 

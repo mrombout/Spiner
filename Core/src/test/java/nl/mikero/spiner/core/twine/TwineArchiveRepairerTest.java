@@ -1,9 +1,18 @@
 package nl.mikero.spiner.core.twine;
 
+import nl.mikero.spiner.core.exception.TwineRepairFailedException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.AdditionalMatchers;
+import org.mockito.Matchers;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
+import org.mockito.stubbing.OngoingStubbing;
 
+import javax.management.openmbean.InvalidOpenTypeException;
 import java.io.*;
 
 public class TwineArchiveRepairerTest extends TwineRepairerTest {
@@ -52,6 +61,20 @@ public class TwineArchiveRepairerTest extends TwineRepairerTest {
         // Act
         try(InputStream inputStream = getClass().getResourceAsStream("/html/valid-archive.html")) {
             repairer.repair(inputStream, null);
+        }
+
+        // Assert
+    }
+
+    @Test(expected = TwineRepairFailedException.class)
+    public void repair_OutputInvalid_ThrowsTwineRepairFailedException() throws Exception {
+        // Arrange
+        final OutputStream os = Mockito.mock(OutputStream.class);
+        Mockito.doThrow(IOException.class).when(os).write(Matchers.any());
+
+        // Act
+        try(InputStream inputStream = getClass().getResourceAsStream("/html/valid-archive.html")) {
+            repairer.repair(inputStream, os);
         }
 
         // Assert

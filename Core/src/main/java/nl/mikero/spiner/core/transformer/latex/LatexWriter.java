@@ -3,6 +3,7 @@ package nl.mikero.spiner.core.transformer.latex;
 import nl.mikero.spiner.core.transformer.latex.model.LatexDocument;
 
 import java.io.*;
+import java.util.Objects;
 
 /**
  * Writes a {@link LatexDocument} to an {@link OutputStream}.
@@ -16,8 +17,11 @@ public class LatexWriter {
      * @throws IOException
      */
     public void write(LatexDocument document, OutputStream outputStream) throws IOException {
-        Writer writer = new OutputStreamWriter(outputStream, "UTF-8");
-        writer.write(document.toString());
-        writer.close();
+        Objects.requireNonNull(document);
+        Objects.requireNonNull(outputStream);
+
+        try(Writer writer = new OutputStreamWriter(outputStream, "UTF-8")) {
+            writer.write(document.toString());
+        }
     }
 }

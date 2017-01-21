@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.pegdown.Extensions;
 import org.pegdown.LinkRenderer;
 import org.pegdown.PegDownProcessor;
+import org.pegdown.Printer;
 import org.pegdown.ast.RootNode;
 
 import java.io.IOException;
@@ -23,7 +24,7 @@ public class Markdown103Spec {
     @Before
     public void setUp() {
         processor = new PegDownProcessor(Extensions.WIKILINKS | Extensions.QUOTES | Extensions.TASKLISTITEMS);
-        serializer = new ToLatexSerializer(new LinkRenderer());
+        serializer = new ToLatexSerializer(new LinkRenderer(), new Printer());
     }
 
     @Test

@@ -13,6 +13,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import nl.mikero.spiner.core.exception.TwineRepairFailedException;
+import nl.mikero.spiner.core.exception.TwineTransformationFailedException;
 import nl.mikero.spiner.core.transformer.TransformService;
 import nl.mikero.spiner.core.transformer.Transformer;
 import nl.mikero.spiner.core.transformer.epub.TwineStoryEpubTransformer;
@@ -21,6 +22,7 @@ import nl.mikero.spiner.frontend.dialog.ExceptionDialog;
 import nl.mikero.spiner.frontend.TransformTask;
 import nl.mikero.spiner.frontend.control.DropFileChooser;
 import nl.mikero.spiner.frontend.exception.FxmlLoadFailedException;
+import nl.mikero.spiner.frontend.io.FileInputOutputStream;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +35,8 @@ import java.util.Optional;
  */
 public class ApplicationView {
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationView.class);
+
+    private static final String LOG_MSG_TRANSFORM_FAIL = "Could not transform document.";
 
     private final Alert errorAlert;
 
@@ -112,31 +116,61 @@ public class ApplicationView {
         }
 
         dropFileChooser.startProgress();
-        TransformTask task = new TransformTask(transformService, getTransformer(), inputFile, outputFile);
-        new Thread(task).start();
+
+        try {
+            TransformTask task = createTransformTask(inputFile, outputFile);
+            new Thread(task).start();
+        } catch (IOException e) {
+            LOGGER.error(LOG_MSG_TRANSFORM_FAIL, e);
+            handleException(e, inputFile);
+        }
+    }
+
+    private TransformTask createTransformTask(File inputFile, File outputFile) throws IOException {
+        FileInputOutputStream finout = new FileInputOutputStream(inputFile, outputFile);
+
+        TransformTask task = new TransformTask(transformService, getTransformer(), finout.getInputStream(), finout.getOutputStream());
         task.stateProperty().addListener((observable, oldState, newState) -> {
             if(newState.equals(Worker.State.SUCCEEDED))
                 dropFileChooser.completeProgress();
-        });
-        task.exceptionProperty().addListener((observable, oldException, newException) -> {
-            LOGGER.error("Could not transform document.", newException);
 
-            dropFileChooser.stopProgress();
-            if(newException instanceof FileNotFoundException) {
-                String title = String.format("File '%s' could not be found.", inputFile.toString());
-                String content = title + " Do you want to select a different file and try again?";
-
-                showErrorAndRetry(title, content);
-            } else if(newException instanceof TwineRepairFailedException) {
-                String title = String.format("File '%s' could not be repaired.", inputFile.toString());
-                String content = title + " The file might be in a format that Spiner does not understand. Do you want to select a different file and try again?";
-
-                showErrorAndRetry(title, content);
-            } else if(newException instanceof IOException) {
-                ExceptionDialog exceptionDialog = new ExceptionDialog(newException);
-                exceptionDialog.showAndWait();
+            if(newState.equals(Worker.State.SUCCEEDED) || newState.equals(Worker.State.FAILED)) {
+                try {
+                    finout.close();
+                } catch (IOException e) {
+                    throw new TwineTransformationFailedException(LOG_MSG_TRANSFORM_FAIL, e);
+                }
             }
         });
+        task.exceptionProperty().addListener((observable, oldException, newException) -> {
+            LOGGER.error(LOG_MSG_TRANSFORM_FAIL, newException);
+            handleException(newException, inputFile);
+        });
+
+        return task;
+    }
+
+    private void handleException(Throwable throwable, File inputFile) {
+        dropFileChooser.stopProgress();
+
+        Throwable actualThrowable = throwable;
+        if(throwable instanceof TwineTransformationFailedException)
+            actualThrowable = throwable.getCause();
+
+        if(actualThrowable instanceof FileNotFoundException) {
+            String title = String.format("File '%s' could not be found.", inputFile.toString());
+            String content = title + " Do you want to select a different file and try again?";
+
+            showErrorAndRetry(title, content);
+        } else if(actualThrowable instanceof TwineRepairFailedException) {
+            String title = String.format("File '%s' could not be repaired.", inputFile.toString());
+            String content = title + " The file might be in a format that Spiner does not understand. Do you want to select a different file and try again?";
+
+            showErrorAndRetry(title, content);
+        } else if(actualThrowable instanceof IOException) {
+            ExceptionDialog exceptionDialog = new ExceptionDialog(actualThrowable);
+            exceptionDialog.showAndWait();
+        }
     }
 
     private Transformer getTransformer() {

@@ -1,9 +1,15 @@
 package nl.mikero.spiner.frontend.exception;
 
+import java.util.Objects;
+
 /**
  * Thrown when an FXML failed to load.
  */
 public class FxmlLoadFailedException extends RuntimeException {
+
+    private FxmlLoadFailedException() {
+        throw new IllegalAccessError();
+    }
 
     /**
      * Constructs a new FxmlLoadFailedException.
@@ -13,5 +19,11 @@ public class FxmlLoadFailedException extends RuntimeException {
      */
     public FxmlLoadFailedException(String fileName, Throwable cause) {
         super(String.format("Could not load '%s'.", fileName), cause);
+
+        Objects.requireNonNull(fileName);
+        Objects.requireNonNull(cause);
+
+        if(fileName.isEmpty())
+            throw new IllegalArgumentException("Argument 'fileName' may not be empty.");
     }
 }

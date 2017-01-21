@@ -13,32 +13,29 @@ public class TransformTask extends Task<Void> {
     private final TransformService transformService;
     private final Transformer transformer;
 
-    private final File inputFile;
-    private final File outputFile;
+    private final InputStream inputStream;
+    private final OutputStream outputStream;
 
     /**
      * Constructs a new TransformTask.
      *
      * @param transformService transformer service to use
      * @param transformer transformer to use
-     * @param inputFile twine input file
-     * @param outputFile transform output file
+     * @param inputStream twine input file
+     * @param outputStream transform output file
      */
-    public TransformTask(TransformService transformService, Transformer transformer, File inputFile, File outputFile) {
+    public TransformTask(TransformService transformService, Transformer transformer, InputStream inputStream, OutputStream outputStream) {
         this.transformService = transformService;
         this.transformer = transformer;
-        this.inputFile = inputFile;
-        this.outputFile = outputFile;
+        this.inputStream = inputStream;
+        this.outputStream = outputStream;
     }
 
     @Override
     protected Void call() throws Exception {
         updateProgress(0, 1);
-        try(InputStream in = new BufferedInputStream(new FileInputStream(inputFile));
-            OutputStream out = new BufferedOutputStream(new FileOutputStream(outputFile))) {
-            transformService.transform(in, out, transformer);
-            updateProgress(1, 1);
-        }
+        transformService.transform(inputStream, outputStream, transformer);
+        updateProgress(1, 1);
 
         return null;
     }

@@ -46,6 +46,7 @@ public class Application {
     private static final String OPT_FORMAT = "format";
     private static final String OPT_HELP = "help";
     private static final String OPT_VERSION = "version";
+    private static final String OPT_DEBUG = "debug";
 
     private static final String ARG_FORMAT_EPUB = "epub";
     private static final String ARG_FORMAT_LATEX = "latex";
@@ -53,6 +54,8 @@ public class Application {
     private final TransformService transformService;
     private final TwineStoryEpubTransformer epubTransformer;
     private final LatexTransformer latexTransformer;
+
+    private boolean showDebugOutput;
 
     /**
      * Constructs a new command line spiner application.
@@ -66,6 +69,8 @@ public class Application {
         this.transformService = transformService;
         this.epubTransformer = epubTransformer;
         this.latexTransformer = latexTransformer;
+
+        this.showDebugOutput = false;
     }
 
     private void execute(String[] args) {
@@ -104,10 +109,15 @@ public class Application {
         infoGroup.addOption(new Option(OPT_VERSION, "output version information and exit"));
         options.addOptionGroup(infoGroup);
 
+        options.addOption(new Option(OPT_DEBUG, "display detailed output when an error occurs"));
+
         // parse
         CommandLineParser parser = new DefaultParser();
         try {
             CommandLine cmd = parser.parse(options, args);
+
+            if(cmd.hasOption(OPT_DEBUG))
+                showDebugOutput = true;
 
             if (cmd.hasOption(OPT_VERSION)) {
                 doOptVersion();
@@ -139,23 +149,26 @@ public class Application {
         OutputStream outputStream = new CloseShieldOutputStream(System.out);
         Transformer transformer = epubTransformer;
 
+        FileInputStream fin = null;
+        FileOutputStream fout = null;
+
         try {
             if (cmd.hasOption(OPT_INPUT)) {
                 String fileArg = cmd.getOptionValue(OPT_INPUT);
                 try {
-                    inputStream = new BufferedInputStream(new FileInputStream(new File(fileArg)));
+                    fin = new FileInputStream(new File(fileArg));
+                    inputStream = new BufferedInputStream(fin);
                 } catch (FileNotFoundException e) {
-                    LOGGER.error("Input file {} could not be found.", fileArg, e);
-                    System.exit(1);
+                    handleError(String.format("Input file %s could not be found.", fileArg), e, 1);
                 }
             }
             if (cmd.hasOption(OPT_OUTPUT)) {
                 String outputArg = cmd.getOptionValue(OPT_OUTPUT);
                 try {
-                    outputStream = new BufferedOutputStream(new FileOutputStream(new File(outputArg)));
+                    fout = new FileOutputStream(new File(outputArg));
+                    outputStream = new BufferedOutputStream(fout);
                 } catch (FileNotFoundException e) {
-                    LOGGER.error("Output file {} could not be found.", outputArg, e);
-                    System.exit(1);
+                    handleError(String.format("Output file %s could not be found.", outputArg), e, 1);
                 }
             }
             if(cmd.hasOption(OPT_FORMAT)) {
@@ -168,7 +181,18 @@ public class Application {
         } finally {
             inputStream.close();
             outputStream.close();
+            if(fin != null)
+                fin.close();
+            if(fout != null)
+                fout.close();
         }
+    }
+
+    private void handleError(String msg, Throwable throwable, int status) {
+        System.out.println(msg);
+        if(showDebugOutput)
+            throwable.printStackTrace();
+        System.exit(status);
     }
 
     /**

@@ -1,20 +1,25 @@
 package nl.mikero.spiner.core.transformer.latex.pegdown;
 
 import nl.mikero.spiner.core.pegdown.plugin.LatexVerbatimSerializer;
-import org.parboiled.common.StringUtils;
-import org.pegdown.DefaultVerbatimSerializer;
 import org.pegdown.LinkRenderer;
 import org.pegdown.Printer;
 import org.pegdown.VerbatimSerializer;
 import org.pegdown.ast.*;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.regex.Matcher;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ToLatexSerializer implements Visitor {
+    private static final Map<Integer, String> SUPPORTED_LEVELS = Collections.unmodifiableMap(Stream.of(
+            new AbstractMap.SimpleEntry<>(1, "chapter"),
+            new AbstractMap.SimpleEntry<>(2, "section"),
+            new AbstractMap.SimpleEntry<>(3, "subsection"),
+            new AbstractMap.SimpleEntry<>(4, "subsubsection"),
+            new AbstractMap.SimpleEntry<>(5, "paragraph"),
+            new AbstractMap.SimpleEntry<>(6, "subparagraph")
+    ).collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue)));
+
     private Printer printer;
     private LinkRenderer linkRenderer;
 
@@ -23,9 +28,9 @@ public class ToLatexSerializer implements Visitor {
 
     private Map<String, VerbatimSerializer> verbatimSerializers;
 
-    public ToLatexSerializer(LinkRenderer linkRenderer) {
+    public ToLatexSerializer(LinkRenderer linkRenderer, Printer printer) {
         this.linkRenderer = linkRenderer;
-        this.printer = new Printer();
+        this.printer = printer;
 
         this.references = new HashMap<>();
         this.abbreviations = new HashMap<>();
@@ -75,13 +80,11 @@ public class ToLatexSerializer implements Visitor {
 
     @Override
     public void visit(AutoLinkNode node) {
-        // TODO: Needs hyperref package
         printCommand(node, "url");
     }
 
     @Override
     public void visit(BlockQuoteNode node) {
-        // TODO: Needs csquotes package
         printIndentedEnvironment(node, "displayquote");
     }
 
@@ -115,8 +118,7 @@ public class ToLatexSerializer implements Visitor {
 
     @Override
     public void visit(ExpImageNode node) {
-        String text = printChildrenToString(node);
-        printLink(linkRenderer.render(node, text));
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -127,47 +129,15 @@ public class ToLatexSerializer implements Visitor {
 
     @Override
     public void visit(HeaderNode node) {
-        switch(node.getLevel()) {
-            case 1:
-                printer.println();
-                printer.println();
-                printCommand(node, "chapter");
-                break;
-            case 2:
-                printer.println();
-                printer.println();
-                printCommand(node, "section");
-                break;
-            case 3:
-                printer.println();
-                printer.println();
-                printCommand(node, "subsection");
-                break;
-            case 4:
-                printer.println();
-                printer.println();
-                printCommand(node, "subsubsection");
-                break;
-            case 5:
-                printer.println();
-                printer.println();
-                printCommand(node, "paragraph");
-                break;
-            case 6:
-                printer.println();
-                printer.println();
-                printCommand(node, "subparagraph");
-                break;
-            default:
-                throw new IllegalStateException();
-        }
+        if(!SUPPORTED_LEVELS.containsKey(node.getLevel()))
+            throw new IllegalStateException(String.format("Header level '%d' is not supported, must be 1 to 6.", node.getLevel()));
+
+        printBreakBeforeCommand(node, SUPPORTED_LEVELS.get(node.getLevel()));
     }
 
     @Override
     public void visit(HtmlBlockNode node) {
-//        String text = node.getText();
-//        if(text.length() > 0) printer.println();
-//        printer.print(text);
+        /* html is ignored */
     }
 
     @Override
@@ -194,7 +164,6 @@ public class ToLatexSerializer implements Visitor {
     @Override
     public void visit(ParaNode node) {
         boolean startWithNewLine = printer.endsWithNewLine();
-        //printer.println();
         printer.println();
         visitChildren(node);
         if(startWithNewLine) {
@@ -207,9 +176,9 @@ public class ToLatexSerializer implements Visitor {
     public void visit(QuotedNode node) {
         switch(node.getType()) {
             case DoubleAngle:
-                printer.print("\\guillemotleft");
+                printer.print("\\guillemotleft{}");
                 visitChildren(node);
-                printer.print("\\guillemotright");
+                printer.print("\\guillemotright{}");
                 break;
             case Double:
                 printer.print("‘‘");
@@ -231,7 +200,7 @@ public class ToLatexSerializer implements Visitor {
 
     @Override
     public void visit(RefImageNode node) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -243,7 +212,8 @@ public class ToLatexSerializer implements Visitor {
             printer.print('[').print(text).print(']');
             if(node.separatorSpace != null) {
                 printer.print(node.separatorSpace).print('[');
-                if(node.referenceKey != null) printer.print(key);
+                if(node.referenceKey != null)
+                    printer.print(key);
                 printer.print(']');
             }
         } else {
@@ -276,8 +246,6 @@ public class ToLatexSerializer implements Visitor {
             case Nbsp:
                 printCommand("~");
                 break;
-            default:
-                throw new IllegalStateException();
         }
     }
 
@@ -289,7 +257,6 @@ public class ToLatexSerializer implements Visitor {
 
     @Override
     public void visit(StrikeNode node) {
-        // TODO: Needs \\usepackage[normalem]{ulem}
         printCommand(node, "sout");
     }
 
@@ -308,37 +275,37 @@ public class ToLatexSerializer implements Visitor {
 
     @Override
     public void visit(TableBodyNode node) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void visit(TableCaptionNode node) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void visit(TableCellNode node) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void visit(TableColumnNode node) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void visit(TableHeaderNode node) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void visit(TableNode node) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void visit(TableRowNode node) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -372,10 +339,7 @@ public class ToLatexSerializer implements Visitor {
 
     @Override
     public void visit(Node node) {
-//        for(ToLatexSerializerPlugin plugin : plugins) {
-//            if(plugin.visit(node, this, printer))
-//                return
-//        }
+        /* do nothing */
     }
 
     private void visitChildren(SuperNode node) {
@@ -429,11 +393,12 @@ public class ToLatexSerializer implements Visitor {
         return result;
     }
 
-    private void printBreakBeforeTag(SuperNode node, String tag) {
+    private void printBreakBeforeCommand(SuperNode node, String tag) {
         boolean starWasNewLine = printer.endsWithNewLine();
         printer.println();
         printCommand(node, tag);
-        if(starWasNewLine) printer.println();
+        if(starWasNewLine)
+            printer.println();
     }
 
     private void printLink(LinkRenderer.Rendering rendering) {
@@ -449,6 +414,8 @@ public class ToLatexSerializer implements Visitor {
                 case '\n':
                 case '\t':
                     continue;
+                default:
+                    break;
             }
             sb.append(Character.toLowerCase(c));
         }

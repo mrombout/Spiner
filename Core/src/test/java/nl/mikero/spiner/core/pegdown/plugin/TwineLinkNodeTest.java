@@ -1,5 +1,6 @@
 package nl.mikero.spiner.core.pegdown.plugin;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.pegdown.ast.Node;
 import org.pegdown.ast.Visitor;
@@ -68,4 +69,15 @@ public class TwineLinkNodeTest {
         verify(visitor, times(1)).visit((Node) node);
     }
 
+    @Test
+    public void toString_ValidData_ReturnsValueTwiceSeperatedByPipe() {
+        // Arrange
+        TwineLinkNode node = new TwineLinkNode("MyTest");
+
+        // Act
+        String result = node.toString();
+
+        // Assert
+        Assert.assertEquals("TwineLinkNode [0-0] 'MyTest'|MyTest", result);
+    }
 }

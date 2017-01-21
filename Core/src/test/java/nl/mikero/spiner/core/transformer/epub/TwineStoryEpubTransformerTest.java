@@ -154,4 +154,14 @@ public class TwineStoryEpubTransformerTest {
         }
     }
 
+    @Test
+    public void getExtension_Default_ReturnsEpub() {
+        // Arrange
+
+        // Act
+        String result = convertor.getExtension();
+
+        // Assert
+        assertEquals("epub", result);
+    }
 }

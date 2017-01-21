@@ -7,6 +7,7 @@ import org.pegdown.ast.Visitor;
 import org.pegdown.plugins.ToHtmlSerializerPlugin;
 
 import java.text.MessageFormat;
+import java.util.Objects;
 
 /**
  * Serializes a TwineLinkNode into a standard HTML url.
@@ -16,6 +17,10 @@ import java.text.MessageFormat;
 public class TwineLinkSerializer implements ToHtmlSerializerPlugin {
     @Override
     public boolean visit(Node node, Visitor visitor, Printer printer) {
+        Objects.requireNonNull(node);
+        Objects.requireNonNull(visitor);
+        Objects.requireNonNull(printer);
+
         if (node instanceof TwineLinkNode) {
             TwineLinkNode twineLinkNode = (TwineLinkNode) node;
 

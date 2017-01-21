@@ -1,14 +1,17 @@
 package nl.mikero.spiner.core.transformer.epub.embedder;
 
 import nl.siegmann.epublib.domain.Book;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.pegdown.ast.*;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 public class ResourceEmbedderTest {
@@ -167,4 +170,171 @@ public class ResourceEmbedderTest {
         // Assert
     }
 
+    @Test
+    public void embed_AnchorLinkNode_NoResourceEmbedded() {
+        // Arrange
+        Book book = new Book();
+        RootNode rootNode = new RootNode();
+        rootNode.getChildren().add(new AnchorLinkNode("Foo"));
+
+        // Act
+        embedder.embed(book, rootNode);
+
+        // Assert
+        assertTrue(book.getResources().isEmpty());
+    }
+
+    @Test
+    public void embed_AutoLinkNode_NoResourceEmbedded() {
+        // Arrange
+        Book book = new Book();
+        RootNode rootNode = new RootNode();
+        rootNode.getChildren().add(new AutoLinkNode("Foo"));
+
+        // Act
+        embedder.embed(book, rootNode);
+
+        // Assert
+        assertTrue(book.getResources().isEmpty());
+    }
+
+    @Test
+    public void embed_CodeNode_NoResourceEmbedded() {
+        // Arrange
+        Book book = new Book();
+        RootNode rootNode = new RootNode();
+        rootNode.getChildren().add(new CodeNode("Foo"));
+
+        // Act
+        embedder.embed(book, rootNode);
+
+        // Assert
+        assertTrue(book.getResources().isEmpty());
+    }
+
+    @Test
+    public void embed_HtmlBlockNode_NoResourceEmbedded() {
+        // Arrange
+        Book book = new Book();
+        RootNode rootNode = new RootNode();
+        rootNode.getChildren().add(new HtmlBlockNode("Foo"));
+
+        // Act
+        embedder.embed(book, rootNode);
+
+        // Assert
+        assertTrue(book.getResources().isEmpty());
+    }
+
+    @Test
+    public void embed_InlineHtmlNode_NoResourceEmbedded() {
+        // Arrange
+        Book book = new Book();
+        RootNode rootNode = new RootNode();
+        rootNode.getChildren().add(new InlineHtmlNode("Foo"));
+
+        // Act
+        embedder.embed(book, rootNode);
+
+        // Assert
+        assertTrue(book.getResources().isEmpty());
+    }
+
+    @Test
+    public void embed_MailLinkNode_NoResourceEmbedded() {
+        // Arrange
+        Book book = new Book();
+        RootNode rootNode = new RootNode();
+        rootNode.getChildren().add(new MailLinkNode("Foo"));
+
+        // Act
+        embedder.embed(book, rootNode);
+
+        // Assert
+        assertTrue(book.getResources().isEmpty());
+    }
+
+    @Test
+    public void embed_SimpleNode_NoResourceEmbedded() {
+        // Arrange
+        Book book = new Book();
+        RootNode rootNode = new RootNode();
+        rootNode.getChildren().add(new SimpleNode(SimpleNode.Type.Apostrophe));
+
+        // Act
+        embedder.embed(book, rootNode);
+
+        // Assert
+        assertTrue(book.getResources().isEmpty());
+    }
+
+    @Test
+    public void embed_SpecialTextNode_NoResourceEmbedded() {
+        // Arrange
+        Book book = new Book();
+        RootNode rootNode = new RootNode();
+        rootNode.getChildren().add(new SpecialTextNode("Foo"));
+
+        // Act
+        embedder.embed(book, rootNode);
+
+        // Assert
+        assertTrue(book.getResources().isEmpty());
+    }
+
+    @Test
+    public void embed_VerbatimNode_NoResourceEmbedded() {
+        // Arrange
+        Book book = new Book();
+        RootNode rootNode = new RootNode();
+        rootNode.getChildren().add(new VerbatimNode("Foo"));
+
+        // Act
+        embedder.embed(book, rootNode);
+
+        // Assert
+        assertTrue(book.getResources().isEmpty());
+    }
+
+    @Test
+    public void embed_WikiLinkNode_NoResourceEmbedded() {
+        // Arrange
+        Book book = new Book();
+        RootNode rootNode = new RootNode();
+        rootNode.getChildren().add(new WikiLinkNode("Foo"));
+
+        // Act
+        embedder.embed(book, rootNode);
+
+        // Assert
+        assertTrue(book.getResources().isEmpty());
+    }
+
+    @Test
+    public void embed_TextNode_NoResourceEmbedded() {
+        // Arrange
+        Book book = new Book();
+        RootNode rootNode = new RootNode();
+        rootNode.getChildren().add(new TextNode("Foo"));
+
+        // Act
+        embedder.embed(book, rootNode);
+
+        // Assert
+        assertTrue(book.getResources().isEmpty());
+    }
+
+    @Test
+    public void embed_Node_NoResourceEmbedded() {
+        // Arrange
+        Book book = new Book();
+        RootNode rootNode = new RootNode();
+        rootNode.getChildren().add(Mockito.mock(Node.class));
+
+        // Act
+        embedder.embed(book, rootNode);
+
+        // Assert
+        assertTrue(book.getResources().isEmpty());
+    }
 }
