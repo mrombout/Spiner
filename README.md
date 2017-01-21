@@ -4,7 +4,8 @@
 
 Spiner is a set of tools that allows you to easily author you own Choose Your Own Adventure books using [Twine 2](http://twinery.org/). This set consists of an application, which transforms your published Twine story into either an EPUB ebook, or a real book using [LaTeX](https://www.latex-project.org/), an awesome typesetting system.
 
-[![Build Status](https://travis-ci.org/mrombout/Spiner.svg?branch=master)](https://travis-ci.org/mrombout/Spiner)
+[![Build Status](https://travis-ci.org/mrombout/Spiner.svg?branch=develop)](https://travis-ci.org/mrombout/Spiner)
+[![Technical Debt](https://img.shields.io/sonar/http/sonarqube.com/Spiner/tech_debt.svg)](https://sonarqube.com/dashboard?id=Spiner)
 
 ## Features
 
