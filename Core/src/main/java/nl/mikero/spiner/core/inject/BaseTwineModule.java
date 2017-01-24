@@ -10,12 +10,15 @@ import nl.mikero.spiner.core.transformer.epub.embedder.HashEmbedderFactory;
 import nl.mikero.spiner.core.transformer.epub.embedder.ImageEmbedder;
 import nl.mikero.spiner.core.transformer.epub.embedder.ResourceEmbedder;
 import nl.mikero.spiner.core.transformer.epub.pegdown.TwineLinkSerializer;
+import nl.mikero.spiner.core.transformer.latex.pegdown.ToLatexSerializer;
 import nl.mikero.spiner.core.twine.TwineArchiveRepairer;
 import nl.mikero.spiner.core.twine.TwinePublishedRepairer;
 import nl.mikero.spiner.core.twine.TwineRepairer;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.pegdown.Extensions;
+import org.pegdown.LinkRenderer;
 import org.pegdown.PegDownProcessor;
+import org.pegdown.Printer;
 import org.pegdown.plugins.PegDownPlugins;
 
 public abstract class BaseTwineModule extends AbstractModule {
@@ -47,5 +50,10 @@ public abstract class BaseTwineModule extends AbstractModule {
     @Provides
     public TwineStoryEpubTransformer provideTwineStoryEpubTransformer(PegDownProcessor pegDownProcessor, TwineLinkRenderer twineLinkRenderer, ResourceEmbedder resourceEmbedder) {
         return new TwineStoryEpubTransformer(pegDownProcessor, twineLinkRenderer, resourceEmbedder);
+    }
+
+    @Provides
+    public ToLatexSerializer provideToLatexSerializer() {
+        return new ToLatexSerializer(new LinkRenderer(), new Printer());
     }
 }

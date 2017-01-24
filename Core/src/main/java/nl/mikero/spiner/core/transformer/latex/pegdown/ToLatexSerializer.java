@@ -1,5 +1,6 @@
 package nl.mikero.spiner.core.transformer.latex.pegdown;
 
+import com.google.inject.Inject;
 import nl.mikero.spiner.core.pegdown.plugin.LatexVerbatimSerializer;
 import org.pegdown.LinkRenderer;
 import org.pegdown.Printer;

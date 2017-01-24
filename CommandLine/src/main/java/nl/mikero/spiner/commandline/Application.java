@@ -3,22 +3,19 @@ package nl.mikero.spiner.commandline;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import nl.mikero.spiner.commandline.annotation.DefineOption;
+import nl.mikero.spiner.commandline.annotation.DefineOptions;
+import nl.mikero.spiner.commandline.goal.Goal;
 import nl.mikero.spiner.commandline.inject.TwineModule;
-import nl.mikero.spiner.core.transformer.TransformService;
-import nl.mikero.spiner.core.transformer.Transformer;
-import nl.mikero.spiner.core.transformer.epub.TwineStoryEpubTransformer;
-import nl.mikero.spiner.core.transformer.latex.LatexTransformer;
 import org.apache.commons.cli.*;
-import org.apache.commons.io.input.CloseShieldInputStream;
-import org.apache.commons.io.output.CloseShieldOutputStream;
+import org.apache.commons.cli.Options;
+import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.xml.sax.SAXException;
 
-import javax.xml.bind.JAXBException;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Provides a commandline interface to the Spiner transformation features.
@@ -38,161 +35,67 @@ import java.io.*;
  * @author Mike Rombout
  */
 public class Application {
-
     private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
 
-    private static final String OPT_INPUT = "file";
-    private static final String OPT_OUTPUT = "output";
-    private static final String OPT_FORMAT = "format";
-    private static final String OPT_HELP = "help";
-    private static final String OPT_VERSION = "version";
-    private static final String OPT_DEBUG = "debug";
+    private final Set<Goal> goals;
 
-    private static final String ARG_FORMAT_EPUB = "epub";
-    private static final String ARG_FORMAT_LATEX = "latex";
-
-    private final TransformService transformService;
-    private final TwineStoryEpubTransformer epubTransformer;
-    private final LatexTransformer latexTransformer;
-
-    private boolean showDebugOutput;
-
-    /**
-     * Constructs a new command line spiner application.
-     *
-     * @param transformService transform service to use
-     * @param epubTransformer transformer for the epub format
-     * @param latexTransformer transformer for the latex format
-     */
     @Inject
-    public Application(TransformService transformService, TwineStoryEpubTransformer epubTransformer, LatexTransformer latexTransformer) {
-        this.transformService = transformService;
-        this.epubTransformer = epubTransformer;
-        this.latexTransformer = latexTransformer;
-
-        this.showDebugOutput = false;
+    public Application(Set<Goal> goals) {
+        this.goals = goals;
     }
 
-    private void execute(String[] args) {
-        // options
-        final Options options = new Options();
 
-        OptionGroup transformGroup = new OptionGroup();
+    private void execute(String[] args) throws ParseException, IllegalAccessException, InstantiationException {
+        Map<Option, Goal> definedGoals = new HashMap<>();
 
-        Option format = Option.builder("f")
-                .argName("format")
-                .desc(String.format("output format, one of (%s|%s)", ARG_FORMAT_EPUB, ARG_FORMAT_LATEX))
-                .longOpt(OPT_FORMAT)
-                .required()
-                .build();
-        transformGroup.addOption(format);
+        // definition
+        Options options = new Options();
 
-        Option input = Option.builder("i")
-                .argName("input")
-                .desc("location of input HTML file")
-                .longOpt(OPT_INPUT)
-                .required()
-                .build();
-        transformGroup.addOption(input);
+        for(Goal goal : goals) {
+            Class<? extends Goal> goalClass = goal.getClass();
+            if(goalClass.isAnnotationPresent(DefineOptions.class)) {
+                DefineOptions optionsAnnotation = goalClass.getAnnotation(DefineOptions.class);
 
-        Option output = Option.builder("o")
-                .argName("file")
-                .desc("location of output file")
-                .longOpt(OPT_OUTPUT)
-                .build();
-        transformGroup.addOption(output);
+                for(DefineOption optionAnnotation : optionsAnnotation.value()) {
+                    Option option = createOptionFromAnnotation(optionAnnotation);
+                    options.addOption(option);
 
-        options.addOptionGroup(transformGroup);
+                    definedGoals.put(option, goal);
+                }
+            } else if(goalClass.isAnnotationPresent(DefineOption.class)) {
+                DefineOption optionAnnotation = goalClass.getAnnotation(DefineOption.class);
 
-        OptionGroup infoGroup = new OptionGroup();
-        infoGroup.addOption(new Option(OPT_HELP, "display this help and exit"));
-        infoGroup.addOption(new Option(OPT_VERSION, "output version information and exit"));
-        options.addOptionGroup(infoGroup);
+                Option option = createOptionFromAnnotation(optionAnnotation);
+                options.addOption(option);
 
-        options.addOption(new Option(OPT_DEBUG, "display detailed output when an error occurs"));
-
-        // parse
-        CommandLineParser parser = new DefaultParser();
-        try {
-            CommandLine cmd = parser.parse(options, args);
-
-            if(cmd.hasOption(OPT_DEBUG))
-                showDebugOutput = true;
-
-            if (cmd.hasOption(OPT_VERSION)) {
-                doOptVersion();
-            } else if (cmd.hasOption(OPT_HELP)) {
-                doOptHelp(options);
-            } else {
-                doTransform(cmd);
+                definedGoals.put(option, goal);
             }
-        } catch (Exception e) {
-            LOGGER.error("Error: {}", e.getMessage(), e);
+        }
+
+        // parsing
+        CommandLineParser commandLineParser = new DefaultParser();
+        CommandLine cmd = commandLineParser.parse(options, args);
+
+        // interrogation
+        for(Map.Entry<Option, Goal> entry : definedGoals.entrySet()) {
+            if(cmd.hasOption(entry.getKey().getOpt())) {
+                entry.getValue().execute(cmd, options);
+                System.exit(0);
+            }
         }
     }
 
-    private void doOptVersion() {
-        System.out.println("Spiner 0.0.1");
-        System.out.println("Copyright (C) 2015 Mike Rombout");
-        System.out.println("License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>");
-        System.out.println("This is free software: you are free to change and redistribute it.");
-        System.out.println("There is NO WARRANTY, to the extend permitted by law.");
-    }
-
-    private void doOptHelp(Options options) {
-        HelpFormatter formatter = new HelpFormatter();
-        formatter.printHelp("spiner", options, true);
-    }
-
-    private void doTransform(CommandLine cmd) throws ParserConfigurationException, TransformerException, SAXException, JAXBException, IOException {
-        InputStream inputStream = new CloseShieldInputStream(System.in);
-        OutputStream outputStream = new CloseShieldOutputStream(System.out);
-        Transformer transformer = epubTransformer;
-
-        FileInputStream fin = null;
-        FileOutputStream fout = null;
-
-        try {
-            if (cmd.hasOption(OPT_INPUT)) {
-                String fileArg = cmd.getOptionValue(OPT_INPUT);
-                try {
-                    fin = new FileInputStream(new File(fileArg));
-                    inputStream = new BufferedInputStream(fin);
-                } catch (FileNotFoundException e) {
-                    handleError(String.format("Input file %s could not be found.", fileArg), e, 1);
-                }
-            }
-            if (cmd.hasOption(OPT_OUTPUT)) {
-                String outputArg = cmd.getOptionValue(OPT_OUTPUT);
-                try {
-                    fout = new FileOutputStream(new File(outputArg));
-                    outputStream = new BufferedOutputStream(fout);
-                } catch (FileNotFoundException e) {
-                    handleError(String.format("Output file %s could not be found.", outputArg), e, 1);
-                }
-            }
-            if(cmd.hasOption(OPT_FORMAT)) {
-                String formatArg = cmd.getOptionValue(OPT_FORMAT);
-                if(formatArg.equals(ARG_FORMAT_LATEX))
-                    transformer = latexTransformer;
-            }
-
-            transformService.transform(inputStream, outputStream, transformer);
-        } finally {
-            inputStream.close();
-            outputStream.close();
-            if(fin != null)
-                fin.close();
-            if(fout != null)
-                fout.close();
-        }
-    }
-
-    private void handleError(String msg, Throwable throwable, int status) {
-        System.out.println(msg);
-        if(showDebugOutput)
-            throwable.printStackTrace();
-        System.exit(status);
+    private Option createOptionFromAnnotation(DefineOption optionAnnotation) {
+        return Option.builder(optionAnnotation.opt())
+                .longOpt(optionAnnotation.longOpt())
+                .hasArg(optionAnnotation.hasArg())
+                .argName(optionAnnotation.argName())
+                .required(optionAnnotation.required())
+                .desc(optionAnnotation.description())
+                .numberOfArgs(optionAnnotation.numberOrArgs())
+                .optionalArg(optionAnnotation.optionalArg())
+                .valueSeparator(optionAnnotation.valueSeperator())
+                .build();
     }
 
     /**
@@ -203,7 +106,7 @@ public class Application {
      * @see Application
      * @param args see {@link Application} for list of accepted arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException, IllegalAccessException, InstantiationException {
         Injector injector = Guice.createInjector(new TwineModule());
 
         Application application = injector.getInstance(Application.class);

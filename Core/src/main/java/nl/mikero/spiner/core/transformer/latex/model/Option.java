@@ -1,7 +1,7 @@
 package nl.mikero.spiner.core.transformer.latex.model;
 
 /**
- * A LaTex command option.
+ * A LaTex command goal.
  */
 import java.util.Objects;
 
@@ -12,8 +12,8 @@ public class Option {
     /**
      * Constructs a new Option.
      *
-     * @param name option name
-     * @param value option value
+     * @param name goal name
+     * @param value goal value
      */
     public Option(String name, String value) {
         this.name = Objects.requireNonNull(name);
@@ -26,9 +26,9 @@ public class Option {
     }
 
     /**
-     * Renders this option as a LaTeX option.
+     * Renders this goal as a LaTeX goal.
      *
-     * @return LaTeX option
+     * @return LaTeX goal
      */
     @Override
     public String toString() {
