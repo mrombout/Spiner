@@ -15,7 +15,7 @@ dependencies {
 
     compile 'nl.siegmann.epublib:epublib-core:3.1'
     compile 'org.pegdown:pegdown:1.6.0'
-    compile 'org.jsoup:jsoup:1.10.1'
+    compile 'org.jsoup:jsoup:1.10.2'
     compile 'net.sf.jtidy:jtidy:r938'
     compile 'commons-io:commons-io:2.5'
     compile 'commons-codec:commons-codec:1.10'
