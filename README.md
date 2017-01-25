@@ -6,6 +6,7 @@ Spiner is a set of tools that allows you to easily author you own Choose Your Ow
 
 [![Build Status](https://travis-ci.org/mrombout/Spiner.svg?branch=develop)](https://travis-ci.org/mrombout/Spiner)
 [![Technical Debt](https://img.shields.io/sonar/http/sonarqube.com/Spiner/tech_debt.svg)](https://sonarqube.com/dashboard?id=Spiner)
+[![Dependency Status](https://www.versioneye.com/user/projects/5888fbafc646260046723e0a/badge.svg?style=flat)](https://www.versioneye.com/user/projects/5888fbafc646260046723e0a)
 
 ## Features
 
