@@ -43,7 +43,7 @@ public class LatexContainer {
      * @return valid LaTeX document content
      */
     @Override
-    public final String toString() {
+    public String toString() {
         List<String> commandStrings = getCommands().stream().map(Object::toString).collect(Collectors.toList());
         return String.join("\n", commandStrings);
     }

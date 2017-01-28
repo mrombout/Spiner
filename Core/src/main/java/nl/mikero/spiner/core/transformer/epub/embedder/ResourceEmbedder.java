@@ -41,7 +41,7 @@ public class ResourceEmbedder implements Visitor {
      * @param rootNode root node to run through
      * @see Embedder
      */
-    public final void embed(final Book book, final RootNode rootNode) {
+    public void embed(final Book book, final RootNode rootNode) {
         Objects.requireNonNull(book);
         Objects.requireNonNull(rootNode);
 

@@ -44,7 +44,7 @@ public class TransformService {
      * @param transformer transformer to use
      * @throws TwineTransformationFailedException when transformation fails
      */
-    public final void transform(final InputStream inputStream, final OutputStream outputStream, final Transformer transformer) {
+    public void transform(final InputStream inputStream, final OutputStream outputStream, final Transformer transformer) {
         Objects.requireNonNull(inputStream);
         Objects.requireNonNull(outputStream);
         Objects.requireNonNull(transformer);

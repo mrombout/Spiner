@@ -63,7 +63,7 @@ public class ToLatexSerializer implements Visitor {
      * @param astRoot ast to print as LaTeX
      * @return LaTeX representation of the given astRoot
      */
-    public final String toLatex(final RootNode astRoot) {
+    public String toLatex(final RootNode astRoot) {
         Objects.requireNonNull(astRoot);
 
         printer = new Printer();

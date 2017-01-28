@@ -19,7 +19,7 @@ public class LatexWriter {
      * @param outputStream outputStream to write to
      * @throws IOException if an I/O error occurs
      */
-    public final void write(final LatexDocument document, final OutputStream outputStream) throws IOException {
+    public void write(final LatexDocument document, final OutputStream outputStream) throws IOException {
         Objects.requireNonNull(document);
         Objects.requireNonNull(outputStream);
 
