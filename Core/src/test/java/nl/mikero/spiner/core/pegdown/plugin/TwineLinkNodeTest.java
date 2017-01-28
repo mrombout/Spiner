@@ -78,6 +78,6 @@ public class TwineLinkNodeTest {
         String result = node.toString();
 
         // Assert
-        Assert.assertEquals("TwineLinkNode [0-0] 'MyTest'|MyTest", result);
+        assertEquals("TwineLinkNode [0-0] 'MyTest'|MyTest", result);
     }
 }
