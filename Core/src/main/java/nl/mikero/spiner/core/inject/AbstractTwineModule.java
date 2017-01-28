@@ -48,7 +48,10 @@ public abstract class AbstractTwineModule extends AbstractModule {
     }
 
     @Provides
-    public TwineStoryEpubTransformer provideTwineStoryEpubTransformer(final PegDownProcessor pegDownProcessor, final TwineLinkRenderer twineLinkRenderer, final ResourceEmbedder resourceEmbedder) {
+    public TwineStoryEpubTransformer provideTwineStoryEpubTransformer(
+            final PegDownProcessor pegDownProcessor,
+            final TwineLinkRenderer twineLinkRenderer,
+            final ResourceEmbedder resourceEmbedder) {
         return new TwineStoryEpubTransformer(pegDownProcessor, twineLinkRenderer, resourceEmbedder);
     }
 

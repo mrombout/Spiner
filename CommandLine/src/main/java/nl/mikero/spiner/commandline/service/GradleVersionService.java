@@ -12,16 +12,17 @@ import java.util.Properties;
  */
 public class GradleVersionService implements VersionService {
     private static final Logger LOGGER = LoggerFactory.getLogger(GradleVersionService.class);
+    private static final String PROPERTIES_FILE = "version.properties";
 
     /**
      * Returns the version set in version.properties, which is expanded from build.gradle.
      *
      * @return gradle project version
      */
-    public String get() {
+    public final String get() {
         Properties prop = new Properties();
 
-        try(InputStream input = GradleVersionService.class.getClassLoader().getResourceAsStream("version.properties");) {
+        try(InputStream input = GradleVersionService.class.getClassLoader().getResourceAsStream(PROPERTIES_FILE)) {
             // load a properties file
             prop.load(input);
 

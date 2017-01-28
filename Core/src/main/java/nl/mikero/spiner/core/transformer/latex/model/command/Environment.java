@@ -6,24 +6,38 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * A LaTeX environment.
+ */
 public class Environment extends BasicCommand {
     private final LatexContainer container;
 
     private final Command beginCommand;
     private final Command endCommand;
 
-    public Environment(final String environment) {
+    /**
+     * Constructs a new Environment.
+     *
+     * @param name environment name
+     */
+    public Environment(final String name) {
         super("begin");
-        Objects.requireNonNull(environment);
+        Objects.requireNonNull(name);
 
         this.container = new LatexContainer();
 
-        this.beginCommand = new BasicCommand("begin").parameters().add(environment).done();
-        this.endCommand = new BasicCommand("end").parameters().add(environment).done();
+        this.beginCommand = new BasicCommand("begin").parameters().add(name).done();
+        this.endCommand = new BasicCommand("end").parameters().add(name).done();
 
-        parameters().add(environment);
+        parameters().add(name);
     }
 
+    /**
+     * Add a new {@link Command} to this environment.
+     *
+     * @param command command to add to environment
+     * @return this
+     */
     public Environment addCommand(final Command command) {
         Objects.requireNonNull(command);
         container.addCommand(command);
@@ -35,6 +49,11 @@ public class Environment extends BasicCommand {
         return container;
     }
 
+    /**
+     * Renders environment as a valid LaTeX environment string.
+     *
+     * @return this environment as a LaTex string
+     */
     @Override
     public String toString() {
         List<String> commandStrings = container.getCommands().stream()

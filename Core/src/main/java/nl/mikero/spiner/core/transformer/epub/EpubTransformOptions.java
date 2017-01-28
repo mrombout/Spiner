@@ -3,6 +3,7 @@ package nl.mikero.spiner.core.transformer.epub;
 import nl.mikero.spiner.core.twine.extended.model.XtwMetadata;
 import nl.siegmann.epublib.domain.Author;
 import nl.siegmann.epublib.domain.Date;
+import nl.siegmann.epublib.domain.Identifier;
 import nl.siegmann.epublib.domain.Metadata;
 
 /**
@@ -60,7 +61,7 @@ public final class EpubTransformOptions {
 
         // identifier
         for (XtwMetadata.Identifier identifier : xtwMetadata.getIdentifier()) {
-            nl.siegmann.epublib.domain.Identifier epubIdentifier = new nl.siegmann.epublib.domain.Identifier(identifier.getScheme(), identifier.getValue());
+            Identifier epubIdentifier = new Identifier(identifier.getScheme(), identifier.getValue());
             metadata.addIdentifier(epubIdentifier);
         }
 

@@ -18,8 +18,8 @@ import java.io.*;
 public class TransformCommand implements Command {
     private static final Logger LOGGER = LoggerFactory.getLogger(TransformCommand.class);
 
-    public static final String ARG_FORMAT_EPUB = "epub";
-    public static final String ARG_FORMAT_LATEX = "latex";
+    private static final String ARG_FORMAT_EPUB = "epub";
+    private static final String ARG_FORMAT_LATEX = "latex";
 
     @Parameter(names = {"--format", "-f"}, description = "Format to transform to.")
     private String format = ARG_FORMAT_EPUB;
@@ -38,7 +38,10 @@ public class TransformCommand implements Command {
     private final LatexTransformer latexTransformer;
 
     @Inject
-    public TransformCommand(final TransformService transformService, final TwineStoryEpubTransformer epubTransformer, final LatexTransformer latexTransformer) {
+    public TransformCommand(
+            final TransformService transformService,
+            final TwineStoryEpubTransformer epubTransformer,
+            final LatexTransformer latexTransformer) {
         this.transformService = transformService;
         this.epubTransformer = epubTransformer;
         this.latexTransformer = latexTransformer;
@@ -70,8 +73,8 @@ public class TransformCommand implements Command {
                 }
             }
 
-            if(format != null) {
-                if(format.equals(ARG_FORMAT_LATEX))
+            if (format != null) {
+                if (format.equals(ARG_FORMAT_LATEX))
                     transformer = latexTransformer;
             }
 
@@ -80,12 +83,12 @@ public class TransformCommand implements Command {
             try {
                 inputStream.close();
                 outputStream.close();
-                if(fin != null)
+                if (fin != null)
                     fin.close();
-                if(fout != null)
+                if (fout != null)
                     fout.close();
             } catch (IOException e) {
-                 // TODO: Handle properly
+                // TODO: Handle properly
             }
         }
     }
@@ -93,13 +96,13 @@ public class TransformCommand implements Command {
     /**
      * Prints out the error message and exits with the status code.
      *
-     * @param msg message to print to console
-     * @param cause cause of the error
+     * @param msg    message to print to console
+     * @param cause  cause of the error
      * @param status status code to exit with
      */
     private void handleError(final String msg, final Throwable cause, final int status) {
         System.out.println(msg);
-        if(showDebugOutput)
+        if (showDebugOutput)
             LOGGER.error(msg, cause);
         System.exit(status);
     }

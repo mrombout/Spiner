@@ -6,11 +6,6 @@ import java.util.Objects;
  * Thrown when an FXML failed to load.
  */
 public class FxmlLoadFailedException extends RuntimeException {
-
-    private FxmlLoadFailedException() {
-        throw new IllegalAccessError();
-    }
-
     /**
      * Constructs a new FxmlLoadFailedException.
      *

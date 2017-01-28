@@ -12,7 +12,7 @@ public class HelpCommand implements Command {
     @Parameter(names = {"--help"}, description = "Show help description.", help = true)
     private boolean help = false;
 
-    private JCommander jCommander;
+    private final JCommander jCommander;
 
     /**
      * Constructs a new HelpCommand.
@@ -37,7 +37,7 @@ public class HelpCommand implements Command {
      *
      * @return <code>true</code> if "--help" parameter was given by the user
      */
-    public boolean isHelpCommand() {
+    public final boolean isHelpCommand() {
         return help;
     }
 }

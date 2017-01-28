@@ -68,8 +68,8 @@ public class ApplicationView {
     @FXML
     private HBox header;
 
-    private SpinerApplication application;
-    private Stage primaryStage;
+    private final SpinerApplication application;
+    private final Stage primaryStage;
 
     /**
      * Constructs a new ApplicatieView.
@@ -230,9 +230,5 @@ public class ApplicationView {
 
     private String getOutputPath(final String path) {
         return String.format("%s.%s", FilenameUtils.removeExtension(path), getTransformer().getExtension());
-    }
-
-    public void setPrimaryStage(final Stage primaryStage) {
-        this.primaryStage = primaryStage;
     }
 }

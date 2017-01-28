@@ -44,7 +44,7 @@ public class TwineLinkRenderer extends LinkRenderer {
      * <p>
      * <ul>
      * <li><b>http://website.com</b></li>
-     * <li><b>https://website.com</b></li></li>
+     * <li><b>https://website.com</b></li>
      * <li><b>http://evenwithoutdomain</b></li>
      * </ul>
      * <p>

@@ -139,9 +139,17 @@ public class TwineStoryEpubTransformer implements Transformer {
     }
 
     /**
+     *
+     *
+     *
+     */
+
+    /**
      * Transforms the text of a passage to a valid XHTML document.
      *
+     * @param passageText markdown text from a passage
      * @return a valid xhtml document containing the passage text in the body
+     * @throws TransformerException if markdown can't be transformed to xhtml
      */
     private String transformPassageTextToXhtml(final String passageText) throws TransformerException {
         String xhtml = pdProcessor.markdownToHtml(passageText, twineLinkRenderer);
