@@ -39,13 +39,10 @@ public class Application {
         this.commandFactory = commandFactory;
     }
 
-    private void execute(String[] args) {
+    public void execute(String[] args) {
         // definition
         JCommander jCommander = new JCommander();
         jCommander.setProgramName("spiner");
-
-        MainCommand mainCommand = commandFactory.createMainCommand();
-        jCommander.addObject(mainCommand);
 
         HelpCommand helpCommand = commandFactory.createHelpCommand(jCommander);
         jCommander.addObject(helpCommand);
@@ -64,8 +61,10 @@ public class Application {
             helpCommand.run();
         } else if(versionCommand.version) {
             versionCommand.run();
-        } else if(jCommander.getParsedCommand().equals("transform")) {
-            transformCommand.run();
+        } else if(jCommander.getParsedCommand() != null ) {
+            if(jCommander.getParsedCommand().equals("transform")) {
+                transformCommand.run();
+            }
         } else {
             helpCommand.run();
         }

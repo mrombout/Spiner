@@ -14,27 +14,24 @@ import java.io.*;
 
 @Parameters(separators = "=", commandDescription = "Transform Twine file to EPUB of LaTeX.")
 public class TransformCommand implements Command {
-    @Parameter(names = {"--format", "-f"}, description = "Format to transform to.")
-    public String format = ARG_FORMAT_EPUB;
-
-    @Parameter(names = {"--input", "-i"}, description = "File to transform to format.", required = true)
-    public String input;
-
-    @Parameter(names = {"--output", "-o"}, description = "File to write to.")
-    public String output;
-
     public static final String ARG_FORMAT_EPUB = "epub";
     public static final String ARG_FORMAT_LATEX = "latex";
 
-    private static final String OPT_INPUT = "file";
-    private static final String OPT_OUTPUT = "output";
-    private static final String OPT_FORMAT = "format";
+    @Parameter(names = {"--format", "-f"}, description = "Format to transform to.")
+    private String format = ARG_FORMAT_EPUB;
+
+    @Parameter(names = {"--input", "-i"}, description = "File to transform to format.", required = true)
+    private String inputPath;
+
+    @Parameter(names = {"--output", "-o"}, description = "File to write to.")
+    private String outputPath;
+
+    @Parameter(names = {"--debug", "-x"}, description = "Show debug output.", help = true)
+    private boolean showDebugOutput = false;
 
     private final TransformService transformService;
     private final TwineStoryEpubTransformer epubTransformer;
     private final LatexTransformer latexTransformer;
-
-    private boolean showDebugOutput = false;
 
     @Inject
     public TransformCommand(TransformService transformService, TwineStoryEpubTransformer epubTransformer, LatexTransformer latexTransformer) {
@@ -54,18 +51,18 @@ public class TransformCommand implements Command {
 
         try {
             try {
-                fin = new FileInputStream(new File(input));
+                fin = new FileInputStream(new File(inputPath));
                 inputStream = new BufferedInputStream(fin);
             } catch (FileNotFoundException e) {
-                handleError(String.format("Input file %s could not be found.", input), e, 1);
+                handleError(String.format("Input file %s could not be found.", inputPath), e, 1);
             }
 
-            if (output != null) {
+            if (outputPath != null) {
                 try {
-                    fout = new FileOutputStream(new File(output));
+                    fout = new FileOutputStream(new File(outputPath));
                     outputStream = new BufferedOutputStream(fout);
                 } catch (FileNotFoundException e) {
-                    handleError(String.format("Output file %s could not be found.", output), e, 2);
+                    handleError(String.format("Output file %s could not be found.", outputPath), e, 2);
                 }
             }
 
