@@ -33,11 +33,11 @@ public class Application {
     private final CommandFactory commandFactory;
 
     @Inject
-    public Application(CommandFactory commandFactory) {
+    public Application(final CommandFactory commandFactory) {
         this.commandFactory = commandFactory;
     }
 
-    public void execute(String[] args) {
+    public void execute(final String[] args) {
         // definition
         JCommander jCommander = new JCommander();
         jCommander.setProgramName("spiner");
@@ -76,7 +76,7 @@ public class Application {
      * @see Application
      * @param args see {@link Application} for list of accepted arguments
      */
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         Injector injector = Guice.createInjector(new TwineModule());
 
         Application application = injector.getInstance(Application.class);

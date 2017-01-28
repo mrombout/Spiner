@@ -12,12 +12,12 @@ public class VersionCommand implements Command {
     private PrintStream printStream;
 
     @Inject
-    public VersionCommand(VersionService versionService) {
+    public VersionCommand(final VersionService versionService) {
         this.versionService = versionService;
         this.printStream = System.out;
     }
 
-    public VersionCommand(VersionService versionService, PrintStream printStream) {
+    public VersionCommand(final VersionService versionService, final PrintStream printStream) {
         this(versionService);
         this.printStream = printStream;
     }

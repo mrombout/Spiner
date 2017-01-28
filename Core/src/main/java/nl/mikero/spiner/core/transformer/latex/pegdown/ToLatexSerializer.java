@@ -24,6 +24,11 @@ public class ToLatexSerializer implements Visitor {
             new AbstractMap.SimpleEntry<>(6, "subparagraph")
     ).collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue)));
 
+    private static final String TEX_START = "{";
+    private static final String TEX_END = "}";
+
+    private static final int INDENT_SIZE = 2;
+
     private Printer printer;
     private final LinkRenderer linkRenderer;
 
@@ -51,7 +56,7 @@ public class ToLatexSerializer implements Visitor {
     }
 
     /**
-     * Returns the RootNode as a String in the form of a LaTeX document
+     * Returns the RootNode as a String in the form of a LaTeX document.
      *
      * @param astRoot ast to print as LaTeX
      * @return LaTeX representation of the given astRoot
@@ -65,19 +70,19 @@ public class ToLatexSerializer implements Visitor {
     }
 
     /**
-     * Visits all children of the node and gradually builds a LaTex document
+     * Visits all children of the node and gradually builds a LaTex document.
      *
      * @param node node to build LaTeX representation for
      */
     @Override
     public void visit(final RootNode node) {
-        for(ReferenceNode refNode : node.getReferences()) {
+        for(final ReferenceNode refNode : node.getReferences()) {
             visitChildren(refNode);
             references.put(normalize(printer.getString()), refNode);
             printer.clear();
         }
 
-        for(AbbreviationNode abbrNode : node.getAbbreviations()) {
+        for(final AbbreviationNode abbrNode : node.getAbbreviations()) {
             visitChildren(abbrNode);
             String abbr = printer.getString();
             printer.clear();
@@ -380,34 +385,34 @@ public class ToLatexSerializer implements Visitor {
     }
 
     private void printCommand(final TextNode node, final String command) {
-        printer.print("\\").print(command).print("{");
+        printer.print("\\").print(command).print(TEX_START);
         printer.print(LatexEncoder.encode(node.getText()));
-        printer.print("}");
+        printer.print(TEX_END);
     }
 
     private void printCommand(final SuperNode node, final String command) {
-        printer.print("\\").print(command).print("{");
+        printer.print("\\").print(command).print(TEX_START);
         visitChildren(node);
-        printer.print("}");
+        printer.print(TEX_END);
     }
 
     private void printIndentedEnvironment(final SuperNode node, final String environment) {
-        printer.println().print("\\begin{").print(environment).print("}").indent(+2);
+        printer.println().print("\\begin").print(TEX_START).print(environment).print(TEX_END).indent(+INDENT_SIZE);
         visitChildren(node);
-        printer.indent(-2).println().print("\\end{").print(environment).print("}");
+        printer.indent(-INDENT_SIZE).println().print("\\end").print(TEX_START).print(environment).print(TEX_END);
     }
 
     private void printConditionallyIndentedCommand(final SuperNode node, final String command) {
         if(node.getChildren().size() > 1) {
-            printer.println().print("\\").print(command).print("{").indent(+2);
+            printer.println().print("\\").print(command).print(TEX_START).indent(+INDENT_SIZE);
             visitChildren(node);
-            printer.indent(-2).println().print("}");
+            printer.indent(-INDENT_SIZE).println().print(TEX_END);
         } else {
             boolean startWasNewLine = printer.endsWithNewLine();
 
-            printer.println().print("\\").print(command).print("{");
+            printer.println().print("\\").print(command).print(TEX_START);
             visitChildren(node);
-            printer.print("}").printchkln(startWasNewLine);
+            printer.print(TEX_END).printchkln(startWasNewLine);
         }
     }
 
@@ -429,7 +434,7 @@ public class ToLatexSerializer implements Visitor {
     }
 
     private void printLink(final LinkRenderer.Rendering rendering) {
-        printer.print("\\gbturn{").print(rendering.text).print("}");
+        printer.print("\\gbturn").print(TEX_START).print(rendering.text).print(TEX_END);
     }
 
     private String normalize(final String input) {

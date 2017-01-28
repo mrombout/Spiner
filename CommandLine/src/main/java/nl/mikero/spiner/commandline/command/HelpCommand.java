@@ -12,7 +12,7 @@ public class HelpCommand implements Command {
     private JCommander jCommander;
 
     @Inject
-    public HelpCommand(@Assisted JCommander jCommander) {
+    public HelpCommand(@Assisted final JCommander jCommander) {
         this.jCommander = jCommander;
     }
 

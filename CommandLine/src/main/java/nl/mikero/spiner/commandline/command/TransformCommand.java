@@ -38,7 +38,7 @@ public class TransformCommand implements Command {
     private final LatexTransformer latexTransformer;
 
     @Inject
-    public TransformCommand(TransformService transformService, TwineStoryEpubTransformer epubTransformer, LatexTransformer latexTransformer) {
+    public TransformCommand(final TransformService transformService, final TwineStoryEpubTransformer epubTransformer, final LatexTransformer latexTransformer) {
         this.transformService = transformService;
         this.epubTransformer = epubTransformer;
         this.latexTransformer = latexTransformer;
@@ -90,7 +90,7 @@ public class TransformCommand implements Command {
         }
     }
 
-    private void handleError(String msg, Throwable throwable, int status) {
+    private void handleError(final String msg, final Throwable throwable, final int status) {
         System.out.println(msg);
         if(showDebugOutput)
             LOGGER.error(msg, throwable);

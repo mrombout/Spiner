@@ -30,7 +30,7 @@ public class TransformService {
      * @param twineArchiveParser twine archive parser to use
      */
     @Inject
-    public TransformService(@PublishedRepairer TwineRepairer publishedRepairer, ExtendTwineXmlTransformer extendTwineXmlTransformer, TwineArchiveParser twineArchiveParser) {
+    public TransformService(@PublishedRepairer final TwineRepairer publishedRepairer, final ExtendTwineXmlTransformer extendTwineXmlTransformer, final TwineArchiveParser twineArchiveParser) {
         this.publishedRepairer = publishedRepairer;
         this.extendTwineXmlTransformer = extendTwineXmlTransformer;
         this.twineArchiveParser = twineArchiveParser;
@@ -44,7 +44,7 @@ public class TransformService {
      * @param transformer transformer to use
      * @throws TwineTransformationFailedException when transformation fails
      */
-    public void transform(InputStream inputStream, OutputStream outputStream, Transformer transformer) {
+    public void transform(final InputStream inputStream, final OutputStream outputStream, final Transformer transformer) {
         Objects.requireNonNull(inputStream);
         Objects.requireNonNull(outputStream);
         Objects.requireNonNull(transformer);
@@ -63,19 +63,19 @@ public class TransformService {
         }
     }
 
-    private void repair(InputStream inputStream, OutputStream outputStream) throws IOException {
+    private void repair(final InputStream inputStream, final OutputStream outputStream) throws IOException {
         try (InputStream in = new ByteArrayInputStream(IOUtils.toByteArray(inputStream))) {
             publishedRepairer.repair(in, outputStream);
         }
     }
 
-    private void extend(ByteArrayOutputStream repairedOutput, OutputStream transformedOutput) throws IOException {
+    private void extend(final ByteArrayOutputStream repairedOutput, final OutputStream transformedOutput) throws IOException {
         try(InputStream in = new ByteArrayInputStream(repairedOutput.toByteArray())) {
             extendTwineXmlTransformer.transform(in, transformedOutput);
     }
     }
 
-    private TwStoriesdata parse(ByteArrayOutputStream transformedInput) throws IOException {
+    private TwStoriesdata parse(final ByteArrayOutputStream transformedInput) throws IOException {
         try (InputStream in = new ByteArrayInputStream(transformedInput.toByteArray())) {
             return twineArchiveParser.parse(in);
         }

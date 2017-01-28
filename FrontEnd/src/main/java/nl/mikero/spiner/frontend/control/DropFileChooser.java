@@ -67,7 +67,7 @@ public class DropFileChooser extends BorderPane {
     }
 
     @FXML
-    private void onStackPaneMouseClicked(MouseEvent mouseEvent) {
+    private void onStackPaneMouseClicked(final MouseEvent mouseEvent) {
         openFileChooser();
     }
 

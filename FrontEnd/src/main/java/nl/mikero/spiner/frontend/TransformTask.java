@@ -24,7 +24,7 @@ public class TransformTask extends Task<Void> {
      * @param inputStream twine input file
      * @param outputStream transform output file
      */
-    public TransformTask(TransformService transformService, Transformer transformer, InputStream inputStream, OutputStream outputStream) {
+    public TransformTask(final TransformService transformService, final Transformer transformer, final InputStream inputStream, final OutputStream outputStream) {
         this.transformService = transformService;
         this.transformer = transformer;
         this.inputStream = inputStream;
