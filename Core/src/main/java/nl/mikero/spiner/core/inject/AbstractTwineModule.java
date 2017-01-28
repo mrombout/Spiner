@@ -26,7 +26,7 @@ import org.pegdown.plugins.PegDownPlugins;
  */
 public abstract class AbstractTwineModule extends AbstractModule {
     @Override
-    protected final void configure() {
+    protected void configure() {
         bind(TwineRepairer.class).annotatedWith(ArchiveRepairer.class).to(TwineArchiveRepairer.class);
         bind(TwineRepairer.class).annotatedWith(PublishedRepairer.class).to(TwinePublishedRepairer.class);
     }

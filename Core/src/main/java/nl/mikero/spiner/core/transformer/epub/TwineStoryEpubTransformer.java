@@ -35,7 +35,13 @@ import java.util.Objects;
  */
 public class TwineStoryEpubTransformer implements Transformer {
     private static final Logger LOGGER = LoggerFactory.getLogger(TwineStoryEpubTransformer.class);
+
     private static final String EXTENSION = "epub";
+
+    private static final String ATTR_CLASS = "class";
+    public static final String ATTR_TYPE = "type";
+    public static final String ATTR_REL = "rel";
+    public static final String ATTR_HREF = "href";
 
     private final PegDownProcessor pdProcessor;
     private final TwineLinkRenderer twineLinkRenderer;
@@ -51,7 +57,10 @@ public class TwineStoryEpubTransformer implements Transformer {
      * @param resourceEmbedder resource embedder to use, may not be null
      */
     @Inject
-    public TwineStoryEpubTransformer(final PegDownProcessor pdProcessor, final TwineLinkRenderer twineLinkRenderer, final ResourceEmbedder resourceEmbedder) {
+    public TwineStoryEpubTransformer(
+            final PegDownProcessor pdProcessor,
+            final TwineLinkRenderer twineLinkRenderer,
+            final ResourceEmbedder resourceEmbedder) {
         this.pdProcessor = Objects.requireNonNull(pdProcessor);
         this.twineLinkRenderer = Objects.requireNonNull(twineLinkRenderer);
         this.resourceEmbedder = Objects.requireNonNull(resourceEmbedder);
@@ -71,7 +80,10 @@ public class TwineStoryEpubTransformer implements Transformer {
      */
     @Override
     public final void transform(final TwStorydata story, final OutputStream outputStream) {
-        transform(story, outputStream, story.getXtwMetadata() != null ? EpubTransformOptions.fromXtwMetadata(story.getXtwMetadata()) : EpubTransformOptions.EMPTY);
+        EpubTransformOptions options = EpubTransformOptions.EMPTY;
+        if(story.getXtwMetadata() != null)
+             options = EpubTransformOptions.fromXtwMetadata(story.getXtwMetadata());
+        transform(story, outputStream, options);
     }
 
     @Override
@@ -154,14 +166,14 @@ public class TwineStoryEpubTransformer implements Transformer {
 
             // add stylesheet
             Element style = document.createElement("link");
-            style.setAttribute("type", "text/css");
-            style.setAttribute("rel", "stylesheet");
-            style.setAttribute("href", "Story.css");
+            style.setAttribute(ATTR_TYPE, "text/css");
+            style.setAttribute(ATTR_REL, "stylesheet");
+            style.setAttribute(ATTR_HREF, "Story.css");
             head.appendChild(style);
 
             // add ttp class to body
             Element body = (Element) document.getElementsByTagName("body").item(0);
-            body.setAttribute("class", body.getAttribute("class") + " ttp");
+            body.setAttribute(ATTR_CLASS, body.getAttribute(ATTR_CLASS) + " ttp");
 
             // transform xml
             TransformerFactory transformerFactory = TransformerFactory.newInstance();

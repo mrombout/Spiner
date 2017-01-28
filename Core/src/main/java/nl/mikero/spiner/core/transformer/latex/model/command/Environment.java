@@ -10,6 +10,9 @@ import java.util.stream.Collectors;
  * A LaTeX environment.
  */
 public class Environment extends BasicCommand {
+    private static final String CMD_BEGIN = "begin";
+    private static final String CMD_END = "end";
+
     private final LatexContainer container;
 
     private final Command beginCommand;
@@ -21,13 +24,13 @@ public class Environment extends BasicCommand {
      * @param name environment name
      */
     public Environment(final String name) {
-        super("begin");
+        super(CMD_BEGIN);
         Objects.requireNonNull(name);
 
         this.container = new LatexContainer();
 
-        this.beginCommand = new BasicCommand("begin").parameters().add(name).done();
-        this.endCommand = new BasicCommand("end").parameters().add(name).done();
+        this.beginCommand = new BasicCommand(CMD_BEGIN).parameters().add(name).done();
+        this.endCommand = new BasicCommand(CMD_END).parameters().add(name).done();
 
         parameters().add(name);
     }
