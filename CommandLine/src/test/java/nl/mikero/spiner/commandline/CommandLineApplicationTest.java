@@ -21,6 +21,7 @@ public class CommandLineApplicationTest {
         mockCommandFactory = Mockito.mock(CommandFactory.class);
 
         mockHelpCommand = Mockito.mock(HelpCommand.class);
+        Mockito.doNothing().when(mockHelpCommand).run();
         Mockito.when(mockCommandFactory.createHelpCommand(Mockito.any())).thenReturn(mockHelpCommand);
 
         mockVersionCommand = Mockito.mock(VersionCommand.class);
