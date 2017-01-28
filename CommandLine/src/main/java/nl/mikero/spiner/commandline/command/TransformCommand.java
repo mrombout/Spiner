@@ -1,45 +1,28 @@
-package nl.mikero.spiner.commandline.goal;
+package nl.mikero.spiner.commandline.command;
 
+import com.beust.jcommander.Parameter;
+import com.beust.jcommander.Parameters;
 import com.google.inject.Inject;
-import nl.mikero.spiner.commandline.annotation.DefineOption;
 import nl.mikero.spiner.core.transformer.TransformService;
 import nl.mikero.spiner.core.transformer.Transformer;
 import nl.mikero.spiner.core.transformer.epub.TwineStoryEpubTransformer;
 import nl.mikero.spiner.core.transformer.latex.LatexTransformer;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.Options;
 import org.apache.commons.io.input.CloseShieldInputStream;
 import org.apache.commons.io.output.CloseShieldOutputStream;
 
 import java.io.*;
 
-@DefineOption(
-        opt = "f",
-        longOpt = "format",
-        description = "output format, one of (epub|latex)",
-        hasArg = true,
-        argName = "format"
-)
-@DefineOption(
-        opt = "i",
-        longOpt = "input",
-        description = "location of input HTML file",
-        hasArg = true,
-        argName = "input"
-)
-@DefineOption(
-        opt = "o",
-        longOpt = "output",
-        description = "location of output file",
-        hasArg = true,
-        argName = "output"
-)
-@DefineOption(
-        opt = "d",
-        longOpt = "debug",
-        description = "display detailed output when an error occurs"
-)
-public class TransformGoal implements Goal {
+@Parameters(separators = "=", commandDescription = "Transform Twine file to EPUB of LaTeX.")
+public class TransformCommand implements Command {
+    @Parameter(names = {"--format", "-f"}, description = "Format to transform to.")
+    public String format = ARG_FORMAT_EPUB;
+
+    @Parameter(names = {"--input", "-i"}, description = "File to transform to format.", required = true)
+    public String input;
+
+    @Parameter(names = {"--output", "-o"}, description = "File to write to.")
+    public String output;
+
     public static final String ARG_FORMAT_EPUB = "epub";
     public static final String ARG_FORMAT_LATEX = "latex";
 
@@ -54,14 +37,14 @@ public class TransformGoal implements Goal {
     private boolean showDebugOutput = false;
 
     @Inject
-    public TransformGoal(TransformService transformService, TwineStoryEpubTransformer epubTransformer, LatexTransformer latexTransformer) {
+    public TransformCommand(TransformService transformService, TwineStoryEpubTransformer epubTransformer, LatexTransformer latexTransformer) {
         this.transformService = transformService;
         this.epubTransformer = epubTransformer;
         this.latexTransformer = latexTransformer;
     }
 
     @Override
-    public void execute(CommandLine cmd, Options options) {
+    public void run() {
         InputStream inputStream = new CloseShieldInputStream(System.in);
         OutputStream outputStream = new CloseShieldOutputStream(System.out);
         Transformer transformer = epubTransformer;
@@ -70,27 +53,24 @@ public class TransformGoal implements Goal {
         FileOutputStream fout = null;
 
         try {
-            if (cmd.hasOption(OPT_INPUT)) {
-                String fileArg = cmd.getOptionValue(OPT_INPUT);
-                try {
-                    fin = new FileInputStream(new File(fileArg));
-                    inputStream = new BufferedInputStream(fin);
-                } catch (FileNotFoundException e) {
-                    handleError(String.format("Input file %s could not be found.", fileArg), e, 1);
-                }
+            try {
+                fin = new FileInputStream(new File(input));
+                inputStream = new BufferedInputStream(fin);
+            } catch (FileNotFoundException e) {
+                handleError(String.format("Input file %s could not be found.", input), e, 1);
             }
-            if (cmd.hasOption(OPT_OUTPUT)) {
-                String outputArg = cmd.getOptionValue(OPT_OUTPUT);
+
+            if (output != null) {
                 try {
-                    fout = new FileOutputStream(new File(outputArg));
+                    fout = new FileOutputStream(new File(output));
                     outputStream = new BufferedOutputStream(fout);
                 } catch (FileNotFoundException e) {
-                    handleError(String.format("Output file %s could not be found.", outputArg), e, 1);
+                    handleError(String.format("Output file %s could not be found.", output), e, 2);
                 }
             }
-            if(cmd.hasOption(OPT_FORMAT)) {
-                String formatArg = cmd.getOptionValue(OPT_FORMAT);
-                if(formatArg.equals(ARG_FORMAT_LATEX))
+
+            if(format != null) {
+                if(format.equals(ARG_FORMAT_LATEX))
                     transformer = latexTransformer;
             }
 
@@ -104,7 +84,7 @@ public class TransformGoal implements Goal {
                 if(fout != null)
                     fout.close();
             } catch (IOException e) {
-                // TODO: Handle properly
+                 // TODO: Handle properly
             }
         }
     }

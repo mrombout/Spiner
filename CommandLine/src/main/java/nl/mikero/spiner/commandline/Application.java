@@ -1,20 +1,15 @@
 package nl.mikero.spiner.commandline;
 
+import com.beust.jcommander.JCommander;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import nl.mikero.spiner.commandline.annotation.DefineOption;
-import nl.mikero.spiner.commandline.annotation.DefineOptions;
-import nl.mikero.spiner.commandline.goal.Goal;
+import nl.mikero.spiner.commandline.command.*;
+import nl.mikero.spiner.commandline.factory.CommandFactory;
 import nl.mikero.spiner.commandline.inject.TwineModule;
-import org.apache.commons.cli.*;
-import org.apache.commons.cli.Options;
-import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -37,65 +32,43 @@ import java.util.Set;
 public class Application {
     private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
 
-    private final Set<Goal> goals;
+    private CommandFactory commandFactory;
 
     @Inject
-    public Application(Set<Goal> goals) {
-        this.goals = goals;
+    public Application(CommandFactory commandFactory) {
+        this.commandFactory = commandFactory;
     }
 
-
-    private void execute(String[] args) throws ParseException, IllegalAccessException, InstantiationException {
-        Map<Option, Goal> definedGoals = new HashMap<>();
-
+    private void execute(String[] args) {
         // definition
-        Options options = new Options();
+        JCommander jCommander = new JCommander();
+        jCommander.setProgramName("spiner");
 
-        for(Goal goal : goals) {
-            Class<? extends Goal> goalClass = goal.getClass();
-            if(goalClass.isAnnotationPresent(DefineOptions.class)) {
-                DefineOptions optionsAnnotation = goalClass.getAnnotation(DefineOptions.class);
+        MainCommand mainCommand = commandFactory.createMainCommand();
+        jCommander.addObject(mainCommand);
 
-                for(DefineOption optionAnnotation : optionsAnnotation.value()) {
-                    Option option = createOptionFromAnnotation(optionAnnotation);
-                    options.addOption(option);
+        HelpCommand helpCommand = commandFactory.createHelpCommand(jCommander);
+        jCommander.addObject(helpCommand);
 
-                    definedGoals.put(option, goal);
-                }
-            } else if(goalClass.isAnnotationPresent(DefineOption.class)) {
-                DefineOption optionAnnotation = goalClass.getAnnotation(DefineOption.class);
+        VersionCommand versionCommand = commandFactory.createVersionCommand();
+        jCommander.addObject(versionCommand);
 
-                Option option = createOptionFromAnnotation(optionAnnotation);
-                options.addOption(option);
-
-                definedGoals.put(option, goal);
-            }
-        }
+        TransformCommand transformCommand = commandFactory.createTransformCommand();
+        jCommander.addCommand("transform", transformCommand);
 
         // parsing
-        CommandLineParser commandLineParser = new DefaultParser();
-        CommandLine cmd = commandLineParser.parse(options, args);
+        jCommander.parse(args);
 
         // interrogation
-        for(Map.Entry<Option, Goal> entry : definedGoals.entrySet()) {
-            if(cmd.hasOption(entry.getKey().getOpt())) {
-                entry.getValue().execute(cmd, options);
-                System.exit(0);
-            }
+        if(helpCommand.help) {
+            helpCommand.run();
+        } else if(versionCommand.version) {
+            versionCommand.run();
+        } else if(jCommander.getParsedCommand().equals("transform")) {
+            transformCommand.run();
+        } else {
+            helpCommand.run();
         }
-    }
-
-    private Option createOptionFromAnnotation(DefineOption optionAnnotation) {
-        return Option.builder(optionAnnotation.opt())
-                .longOpt(optionAnnotation.longOpt())
-                .hasArg(optionAnnotation.hasArg())
-                .argName(optionAnnotation.argName())
-                .required(optionAnnotation.required())
-                .desc(optionAnnotation.description())
-                .numberOfArgs(optionAnnotation.numberOrArgs())
-                .optionalArg(optionAnnotation.optionalArg())
-                .valueSeparator(optionAnnotation.valueSeperator())
-                .build();
     }
 
     /**
@@ -106,7 +79,7 @@ public class Application {
      * @see Application
      * @param args see {@link Application} for list of accepted arguments
      */
-    public static void main(String[] args) throws ParseException, IllegalAccessException, InstantiationException {
+    public static void main(String[] args) {
         Injector injector = Guice.createInjector(new TwineModule());
 
         Application application = injector.getInstance(Application.class);

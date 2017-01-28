@@ -1,7 +1,7 @@
 package nl.mikero.spiner.commandline.inject;
 
-import com.google.inject.multibindings.Multibinder;
-import nl.mikero.spiner.commandline.goal.*;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
+import nl.mikero.spiner.commandline.factory.CommandFactory;
 import nl.mikero.spiner.core.inject.BaseTwineModule;
 
 /**
@@ -12,10 +12,7 @@ public class TwineModule extends BaseTwineModule {
     protected void configure() {
         super.configure();
 
-        Multibinder<Goal> binder = Multibinder.newSetBinder(binder(), Goal.class);
-        binder.addBinding().to(HelpGoal.class);
-        binder.addBinding().to(VersionGoal.class);
-        binder.addBinding().to(TransformGoal.class);
-        binder.addBinding().to(WatchGoal.class);
+        install(new FactoryModuleBuilder()
+            .build(CommandFactory.class));
     }
 }
