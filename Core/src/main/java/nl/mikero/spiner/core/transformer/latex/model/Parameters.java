@@ -29,17 +29,17 @@ public class Parameters {
      * @param value parameter to add
      * @return this
      */
-    public Parameters add(final String value) {
+    public final Parameters add(final String value) {
         this.parameters.add(new Parameter(value));
 
         return this;
     }
 
-    public BasicCommand and() {
+    public final BasicCommand and() {
         return parent;
     }
 
-    public BasicCommand done() {
+    public final BasicCommand done() {
         return parent;
     }
 
@@ -49,7 +49,7 @@ public class Parameters {
      * @return latex representation of parameter collection
      */
     @Override
-    public String toString() {
+    public final String toString() {
         StringBuilder sb = new StringBuilder();
 
         for(Parameter parameter : parameters) {

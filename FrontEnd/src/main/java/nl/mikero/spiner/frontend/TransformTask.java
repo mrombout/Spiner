@@ -33,7 +33,7 @@ public class TransformTask extends Task<Void> {
     }
 
     @Override
-    protected Void call() {
+    protected final Void call() {
         updateProgress(0, 1);
         transformService.transform(inputStream, outputStream, transformer);
         updateProgress(1, 1);

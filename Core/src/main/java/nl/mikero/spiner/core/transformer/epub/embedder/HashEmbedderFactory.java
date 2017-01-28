@@ -32,7 +32,7 @@ public class HashEmbedderFactory implements EmbedderFactory {
     }
 
     @Override
-    public Embedder get(final ExpImageNode node) {
+    public final Embedder get(final ExpImageNode node) {
         if (imageEmbedder == null) {
             imageEmbedder = new ImageEmbedder(messageDigest);
         }

@@ -47,17 +47,17 @@ public class TwineLinkNode extends TextNode {
      *
      * @return href of this node
      */
-    public String getHref() {
+    public final String getHref() {
         return href;
     }
 
     @Override
-    public void accept(final Visitor visitor) {
+    public final void accept(final Visitor visitor) {
         visitor.visit((Node) this);
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
         return MessageFormat.format("{0}|{1}", super.toString(), getHref());
     }
 }

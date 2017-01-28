@@ -21,6 +21,9 @@ import org.pegdown.PegDownProcessor;
 import org.pegdown.Printer;
 import org.pegdown.plugins.PegDownPlugins;
 
+/**
+ * Configures Guice.
+ */
 public abstract class AbstractTwineModule extends AbstractModule {
     @Override
     protected void configure() {
@@ -28,18 +31,34 @@ public abstract class AbstractTwineModule extends AbstractModule {
         bind(TwineRepairer.class).annotatedWith(PublishedRepairer.class).to(TwinePublishedRepairer.class);
     }
 
+    /**
+     * Provides an {@link EmbedderFactory}.
+     *
+     * @return an embedder factory
+     */
     @Provides
-    public EmbedderFactory provideEmbedderFactoy() {
+    public final EmbedderFactory provideEmbedderFactoy() {
         return new HashEmbedderFactory(DigestUtils.getSha256Digest());
     }
 
+    /**
+     * Provides an {@link ImageEmbedder}.
+     *
+     * @return an image embedder
+     */
     @Provides
-    public ImageEmbedder provideImageEmbedder() {
+    public final ImageEmbedder provideImageEmbedder() {
         return new ImageEmbedder(DigestUtils.getSha256Digest());
     }
 
+    /**
+     * Provides a PegDownProcessor.
+     *
+     * @param twineLinkSerializer a twine link serializer
+     * @return a pregdown processor
+     */
     @Provides
-    public PegDownProcessor providePegDownProcessor(final TwineLinkSerializer twineLinkSerializer) {
+    public final PegDownProcessor providePegDownProcessor(final TwineLinkSerializer twineLinkSerializer) {
         return new PegDownProcessor(Extensions.WIKILINKS, PegDownPlugins.builder()
                 .withPlugin(TwineLinkParser.class)
                 .withHtmlSerializer(twineLinkSerializer)
@@ -47,16 +66,29 @@ public abstract class AbstractTwineModule extends AbstractModule {
         );
     }
 
+    /**
+     * Provides a {@link TwineStoryEpubTransformer}.
+     *
+     * @param pegDownProcessor a pegdown processor
+     * @param twineLinkRenderer a twine link renderer
+     * @param resourceEmbedder a resource embedder
+     * @return a twine story epub transformer
+     */
     @Provides
-    public TwineStoryEpubTransformer provideTwineStoryEpubTransformer(
+    public final TwineStoryEpubTransformer provideTwineStoryEpubTransformer(
             final PegDownProcessor pegDownProcessor,
             final TwineLinkRenderer twineLinkRenderer,
             final ResourceEmbedder resourceEmbedder) {
         return new TwineStoryEpubTransformer(pegDownProcessor, twineLinkRenderer, resourceEmbedder);
     }
 
+    /**
+     * Provides a LaTeX serializer.
+     *
+     * @return a LaTeX serializer
+     */
     @Provides
-    public ToLatexSerializer provideToLatexSerializer() {
+    public final ToLatexSerializer provideToLatexSerializer() {
         return new ToLatexSerializer(new LinkRenderer(), new Printer());
     }
 }

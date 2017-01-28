@@ -7,7 +7,7 @@ import nl.mikero.spiner.core.inject.AbstractTwineModule;
  */
 public class TwineModule extends AbstractTwineModule {
     @Override
-    protected void configure() {
+    protected final void configure() {
         super.configure();
         bind(TwineModule.class).toInstance(this);
     }

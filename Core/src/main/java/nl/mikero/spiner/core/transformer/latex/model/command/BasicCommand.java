@@ -4,7 +4,7 @@ import nl.mikero.spiner.core.transformer.latex.model.Options;
 import nl.mikero.spiner.core.transformer.latex.model.Parameters;
 
 /**
- * Abstract LaTeX command.
+ * A basic LaTeX command.
  */
 public class BasicCommand implements Command {
     private final String commandName;
@@ -27,7 +27,7 @@ public class BasicCommand implements Command {
      *
      * @return options
      */
-    public Options options() {
+    public final Options options() {
         return options;
     }
 
@@ -36,7 +36,7 @@ public class BasicCommand implements Command {
      *
      * @return parameters
      */
-    public Parameters parameters() {
+    public final Parameters parameters() {
         return parameters;
     }
 
@@ -46,7 +46,7 @@ public class BasicCommand implements Command {
      * @return valid LaTeX representation of this command
      */
     @Override
-    public String toString() {
+    public final String toString() {
         return String.format("\\%s%s%s", commandName, options, parameters);
     }
 }

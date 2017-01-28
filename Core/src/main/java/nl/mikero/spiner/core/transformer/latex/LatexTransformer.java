@@ -43,7 +43,7 @@ public class LatexTransformer implements Transformer {
      * @param outputStream output stream to write transformed story to
      */
     @Override
-    public void transform(final TwStorydata story, final OutputStream outputStream) {
+    public final void transform(final TwStorydata story, final OutputStream outputStream) {
         Objects.requireNonNull(story);
         Objects.requireNonNull(outputStream);
 
@@ -91,7 +91,7 @@ public class LatexTransformer implements Transformer {
      * @return tex extension (tex)
      */
     @Override
-    public String getExtension() {
+    public final String getExtension() {
         return EXTENSION;
     }
 
@@ -101,7 +101,7 @@ public class LatexTransformer implements Transformer {
      * @param passageText passage markdown text
      * @return converted LaTeX string
      */
-    private String transformPassageTextToLatex(final String passageText) {
+    private final String transformPassageTextToLatex(final String passageText) {
         RootNode node = processor.parseMarkdown(passageText.toCharArray());
         return serializer.toLatex(node);
     }

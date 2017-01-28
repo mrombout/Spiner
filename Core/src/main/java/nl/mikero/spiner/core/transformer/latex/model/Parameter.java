@@ -2,6 +2,9 @@ package nl.mikero.spiner.core.transformer.latex.model;
 
 import java.util.Objects;
 
+/**
+ * A LaTeX command parameter.
+ */
 public class Parameter {
     private final String value;
 

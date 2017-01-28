@@ -95,7 +95,7 @@ public class ApplicationView {
     }
 
     @FXML
-    protected void initialize() {
+    protected final void initialize() {
         FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter(FILTER_DESCRIPTION, "*.html", "*.htm", "*.xhtml");
         dropFileChooser.getExtensionFilters().add(extensionFilter);
 
@@ -126,17 +126,17 @@ public class ApplicationView {
     }
 
     @FXML
-    protected void onCloseButtonClicked(final ActionEvent actionEvent) {
+    protected final void onCloseButtonClicked(final ActionEvent actionEvent) {
         Platform.exit();
     }
 
     @FXML
-    protected void onHelpButtonClicked(final ActionEvent actionEvent) {
+    protected final void onHelpButtonClicked(final ActionEvent actionEvent) {
         application.getHostServices().showDocument("https://spiner.readme.io");
     }
 
     @FXML
-    protected void onTransformButtonClicked(final ActionEvent actionEvent) {
+    protected final void onTransformButtonClicked(final ActionEvent actionEvent) {
         final File inputFile = dropFileChooser.getFile();
         final File outputFile = new File(getOutputPath(inputFile.getAbsolutePath()));
 

@@ -23,7 +23,7 @@ public class RawTexCommand implements Command {
      * @return LaTex command
      */
     @Override
-    public String toString() {
+    public final String toString() {
         return tex;
     }
 }

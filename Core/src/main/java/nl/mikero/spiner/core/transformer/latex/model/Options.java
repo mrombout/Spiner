@@ -16,7 +16,7 @@ public class Options {
     private final Map<String, Option> options;
 
     /**
-     * Constructs a new Options
+     * Constructs a new Options.
      *
      * @param parent command these options belong to
      */

@@ -64,7 +64,7 @@ public class TwinePublishedRepairer implements TwineRepairer {
      * @throws TwineRepairFailedException when the input stream can not be repaired
      */
     @Override
-    public void repair(final InputStream inputStream, final OutputStream outputStream) {
+    public final void repair(final InputStream inputStream, final OutputStream outputStream) {
         Objects.requireNonNull(inputStream);
         Objects.requireNonNull(outputStream);
 
