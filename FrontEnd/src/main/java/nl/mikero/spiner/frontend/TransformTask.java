@@ -25,6 +25,7 @@ public class TransformTask extends Task<Void> {
      * @param outputStream transform output file
      */
     public TransformTask(final TransformService transformService, final Transformer transformer, final InputStream inputStream, final OutputStream outputStream) {
+        super();
         this.transformService = transformService;
         this.transformer = transformer;
         this.inputStream = inputStream;
@@ -32,7 +33,7 @@ public class TransformTask extends Task<Void> {
     }
 
     @Override
-    protected Void call() throws Exception {
+    protected Void call() {
         updateProgress(0, 1);
         transformService.transform(inputStream, outputStream, transformer);
         updateProgress(1, 1);

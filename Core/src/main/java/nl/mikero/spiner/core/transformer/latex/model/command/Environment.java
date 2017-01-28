@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class Environment extends AbstractCommand {
+public class Environment extends BasicCommand {
     private final LatexContainer container;
 
     private final Command beginCommand;
@@ -18,8 +18,8 @@ public class Environment extends AbstractCommand {
 
         this.container = new LatexContainer();
 
-        this.beginCommand = new AbstractCommand("begin").parameters().add(environment).done();
-        this.endCommand = new AbstractCommand("end").parameters().add(environment).done();
+        this.beginCommand = new BasicCommand("begin").parameters().add(environment).done();
+        this.endCommand = new BasicCommand("end").parameters().add(environment).done();
 
         parameters().add(environment);
     }

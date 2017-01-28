@@ -1,6 +1,6 @@
 package nl.mikero.spiner.core.transformer.latex.model;
 
-import nl.mikero.spiner.core.transformer.latex.model.command.AbstractCommand;
+import nl.mikero.spiner.core.transformer.latex.model.command.BasicCommand;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -23,7 +23,7 @@ public class LatexContainerTest {
         // Arrange
         LatexContainer container = new LatexContainer();
 
-        AbstractCommand command1 = new AbstractCommand("command1");
+        BasicCommand command1 = new BasicCommand("command1");
         container.addCommand(command1);
 
         // Act
@@ -38,10 +38,10 @@ public class LatexContainerTest {
         // Arrange
         LatexContainer container = new LatexContainer();
 
-        AbstractCommand command1 = new AbstractCommand("command1");
+        BasicCommand command1 = new BasicCommand("command1");
         container.addCommand(command1);
 
-        AbstractCommand command2 = new AbstractCommand("command2");
+        BasicCommand command2 = new BasicCommand("command2");
         container.addCommand(command2);
 
         // Act

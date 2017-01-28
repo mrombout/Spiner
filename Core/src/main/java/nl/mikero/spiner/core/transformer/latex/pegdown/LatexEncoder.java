@@ -2,7 +2,7 @@ package nl.mikero.spiner.core.transformer.latex.pegdown;
 
 import java.util.regex.Matcher;
 
-public class LatexEncoder {
+public final class LatexEncoder {
     private LatexEncoder() {
         throw new IllegalAccessError("Utility class");
     }

@@ -30,7 +30,7 @@ public class ExtendTwineXmlTransformer {
      * @param output extended twine xml output, may not be null
      * @throws ExtendTwineXmlTransformFailedException when transformation fails
      */
-    public void transform(InputStream input, OutputStream output) {
+    public void transform(final InputStream input, final OutputStream output) {
         Objects.requireNonNull(input);
         Objects.requireNonNull(output);
 

@@ -36,6 +36,7 @@ public class DropFileChooser extends BorderPane {
      * Constructs a new DropFileChooser.
      */
     public DropFileChooser() {
+        super();
         loadFxml();
         createFileChooser();
     }

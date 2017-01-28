@@ -1,6 +1,6 @@
 package nl.mikero.spiner.core.transformer.latex.model;
 
-import nl.mikero.spiner.core.transformer.latex.model.command.AbstractCommand;
+import nl.mikero.spiner.core.transformer.latex.model.command.BasicCommand;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  * Represents zero or more options in a LaTeX command.
  */
 public class Options {
-    private final AbstractCommand parent;
+    private final BasicCommand parent;
     private final Map<String, Option> options;
 
     /**
@@ -20,7 +20,7 @@ public class Options {
      *
      * @param parent command these options belong to
      */
-    public Options(final AbstractCommand parent) {
+    public Options(final BasicCommand parent) {
         this.parent = Objects.requireNonNull(parent);
         this.options = new HashMap<>();
     }
@@ -52,14 +52,14 @@ public class Options {
     /**
      * @return parent
      */
-    public AbstractCommand and() {
+    public BasicCommand and() {
         return parent;
     }
 
     /**
      * @return parent
      */
-    public AbstractCommand done() {
+    public BasicCommand done() {
         return parent;
     }
 

@@ -1,6 +1,6 @@
 package nl.mikero.spiner.core.transformer.latex.model;
 
-import nl.mikero.spiner.core.transformer.latex.model.command.AbstractCommand;
+import nl.mikero.spiner.core.transformer.latex.model.command.BasicCommand;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.Objects;
  * Collection of {@link Parameter}.
  */
 public class Parameters {
-    private final AbstractCommand parent;
+    private final BasicCommand parent;
     private final List<Parameter> parameters;
 
     /**
@@ -18,7 +18,7 @@ public class Parameters {
      *
      * @param parent parent command
      */
-    public Parameters(final AbstractCommand parent) {
+    public Parameters(final BasicCommand parent) {
         this.parent = Objects.requireNonNull(parent);
         this.parameters = new ArrayList<>();
     }
@@ -35,11 +35,11 @@ public class Parameters {
         return this;
     }
 
-    public AbstractCommand and() {
+    public BasicCommand and() {
         return parent;
     }
 
-    public AbstractCommand done() {
+    public BasicCommand done() {
         return parent;
     }
 

@@ -84,7 +84,7 @@ public class ImageEmbedder implements Embedder {
         messageDigest.reset();
     }
 
-    private String getFileName(String hash, URL url) {
+    private String getFileName(final String hash, final URL url) {
         String originalFileName = FilenameUtils.getName(url.toString());
         String originalExtension = FilenameUtils.getExtension(originalFileName);
 

@@ -65,6 +65,7 @@ public class TwineLinkRenderer extends LinkRenderer {
      */
     @Inject
     public TwineLinkRenderer(final ImageEmbedder imageEmbedder) {
+        super();
         this.imageEmbedder = imageEmbedder;
     }
 

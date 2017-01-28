@@ -55,9 +55,9 @@ public class Application {
         jCommander.parse(args);
 
         // interrogation
-        if(helpCommand.help) {
+        if(helpCommand.isHelpCommand()) {
             helpCommand.run();
-        } else if(versionCommand.version) {
+        } else if(versionCommand.isVersionCommand()) {
             versionCommand.run();
         } else if(jCommander.getParsedCommand() != null ) {
             if(jCommander.getParsedCommand().equals("transform")) {

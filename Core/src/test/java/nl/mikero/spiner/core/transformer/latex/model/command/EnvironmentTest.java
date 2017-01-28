@@ -31,7 +31,7 @@ public class EnvironmentTest {
     public void toString_OneCommand_EnvironmentContainsSingleCommand() {
         // Arrange
         Environment environment = new Environment("dummy");
-        environment.addCommand(new AbstractCommand("command1"));
+        environment.addCommand(new BasicCommand("command1"));
 
         // Act
         String result = environment.toString();
@@ -44,8 +44,8 @@ public class EnvironmentTest {
     public void toString_TwoCommands_EnvironmentContainsTwoCommands() {
         // Arrange
         Environment environment = new Environment("dummy");
-        environment.addCommand(new AbstractCommand("command1"));
-        environment.addCommand(new AbstractCommand("command2"));
+        environment.addCommand(new BasicCommand("command1"));
+        environment.addCommand(new BasicCommand("command2"));
 
         // Act
         String result = environment.toString();
@@ -69,7 +69,7 @@ public class EnvironmentTest {
     public void addCommand_Command_AddsToContainer() {
         // Arrange
         Environment environment = new Environment("dummy");
-        AbstractCommand command = new AbstractCommand("command1");
+        BasicCommand command = new BasicCommand("command1");
 
         // Act
         environment.addCommand(command);

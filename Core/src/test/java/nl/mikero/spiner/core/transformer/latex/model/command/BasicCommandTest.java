@@ -7,14 +7,14 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class AbstractCommandTest {
+public class BasicCommandTest {
     @Test
     public void options_DefaultConstruction_ReturnsOptions() {
         // Arrange
-        AbstractCommand abstractCommand = new AbstractCommand("dummy");
+        BasicCommand basicCommand = new BasicCommand("dummy");
 
         // Act
-        Options result = abstractCommand.options();
+        Options result = basicCommand.options();
 
         // Assert
         assertNotNull(result);
@@ -23,10 +23,10 @@ public class AbstractCommandTest {
     @Test
     public void parameters_DefaultConstruction_ReturnsParameters() {
         // Arrange
-        AbstractCommand abstractCommand = new AbstractCommand("dummy");
+        BasicCommand basicCommand = new BasicCommand("dummy");
 
         // Act
-        Parameters result = abstractCommand.parameters();
+        Parameters result = basicCommand.parameters();
 
         // Assert
         assertNotNull(result);
@@ -35,10 +35,10 @@ public class AbstractCommandTest {
     @Test
     public void toString_DefaultConstruction_ReturnsCommandName() {
         // Arrange
-        AbstractCommand abstractCommand = new AbstractCommand("dummy");
+        BasicCommand basicCommand = new BasicCommand("dummy");
 
         // Act
-        String result = abstractCommand.toString();
+        String result = basicCommand.toString();
 
         // Assert
         assertEquals("\\dummy", result);
@@ -47,10 +47,10 @@ public class AbstractCommandTest {
     @Test
     public void toString_OneOption_ReturnsCommandNameWithOption() {
         // Arrange
-        AbstractCommand abstractCommand = new AbstractCommand("dummy").options().add("option1").done();
+        BasicCommand basicCommand = new BasicCommand("dummy").options().add("option1").done();
 
         // Act
-        String result = abstractCommand.toString();
+        String result = basicCommand.toString();
 
         // Assert
         assertEquals("\\dummy[option1]", result);
@@ -59,10 +59,10 @@ public class AbstractCommandTest {
     @Test
     public void toString_TwoOptions_ReturnsCommandNameWithTwoOptions() {
         // Arrange
-        AbstractCommand abstractCommand = new AbstractCommand("dummy").options().add("option1").add("option2").done();
+        BasicCommand basicCommand = new BasicCommand("dummy").options().add("option1").add("option2").done();
 
         // Act
-        String result = abstractCommand.toString();
+        String result = basicCommand.toString();
 
         // Assert
         assertEquals("\\dummy[option1,option2]", result);
@@ -71,10 +71,10 @@ public class AbstractCommandTest {
     @Test
     public void toString_OneParameter_ReturnsCommandNameWithParameter() {
         // Arrange
-        AbstractCommand abstractCommand = new AbstractCommand("dummy").parameters().add("parameter1").done();
+        BasicCommand basicCommand = new BasicCommand("dummy").parameters().add("parameter1").done();
 
         // Act
-        String result = abstractCommand.toString();
+        String result = basicCommand.toString();
 
         // Assert
         assertEquals("\\dummy{parameter1}", result);
@@ -83,10 +83,10 @@ public class AbstractCommandTest {
     @Test
     public void toString_TwoParameters_ReturnsCommandNAmeWithTwoParameters() {
         // Arrange
-        AbstractCommand abstractCommand = new AbstractCommand("dummy").parameters().add("parameter1").add("parameter2").done();
+        BasicCommand basicCommand = new BasicCommand("dummy").parameters().add("parameter1").add("parameter2").done();
 
         // Act
-        String result = abstractCommand.toString();
+        String result = basicCommand.toString();
 
         // Assert
         assertEquals("\\dummy{parameter1}{parameter2}", result);
@@ -95,10 +95,10 @@ public class AbstractCommandTest {
     @Test
     public void toString_OneOptionOneParameter_ReturnsCommandNameWithOptionAndParameter() {
         // Arrange
-        AbstractCommand abstractCommand = new AbstractCommand("dummy").parameters().add("parameter1").and().options().add("option1").done();
+        BasicCommand basicCommand = new BasicCommand("dummy").parameters().add("parameter1").and().options().add("option1").done();
 
         // Act
-        String result = abstractCommand.toString();
+        String result = basicCommand.toString();
 
         // Assert
         assertEquals("\\dummy[option1]{parameter1}", result);
@@ -107,12 +107,12 @@ public class AbstractCommandTest {
     @Test
     public void toString_TwoOptionsTwoParameters_ReturnsCommandNameWithTwoOptionsAndTwoParameters() {
         // Arrange
-        AbstractCommand abstractCommand = new AbstractCommand("dummy")
+        BasicCommand basicCommand = new BasicCommand("dummy")
                 .parameters().add("parameter1").add("parameter2").and()
                 .options().add("option1").add("option2").done();
 
         // Act
-        String result = abstractCommand.toString();
+        String result = basicCommand.toString();
 
         // Assert
         assertEquals("\\dummy[option1,option2]{parameter1}{parameter2}", result);

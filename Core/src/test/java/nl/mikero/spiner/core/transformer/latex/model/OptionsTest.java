@@ -1,6 +1,6 @@
 package nl.mikero.spiner.core.transformer.latex.model;
 
-import nl.mikero.spiner.core.transformer.latex.model.command.AbstractCommand;
+import nl.mikero.spiner.core.transformer.latex.model.command.BasicCommand;
 import nl.mikero.spiner.core.transformer.latex.model.command.Command;
 import org.junit.Test;
 
@@ -21,7 +21,7 @@ public class OptionsTest {
     @Test
     public void toString_NoOptions_ReturnsEmptyString() {
         // Arrange
-        Options options = new Options(new AbstractCommand("dummy"));
+        Options options = new Options(new BasicCommand("dummy"));
 
         // Act
         String result = options.toString();
@@ -33,7 +33,7 @@ public class OptionsTest {
     @Test
     public void toString_OneOption_ReturnsValidOneOption() {
         // Arrange
-        Options options = new Options(new AbstractCommand("dummy")).add("option1");
+        Options options = new Options(new BasicCommand("dummy")).add("option1");
 
         // Act
         String result = options.toString();
@@ -45,7 +45,7 @@ public class OptionsTest {
     @Test
     public void toString_TwoOptions_ReturnsValidTwoOptions() {
         // Arrange
-        Options options = new Options(new AbstractCommand("dummy")).add("option1").add("option2");
+        Options options = new Options(new BasicCommand("dummy")).add("option1").add("option2");
 
         // Act
         String result = options.toString();
@@ -57,26 +57,26 @@ public class OptionsTest {
     @Test
     public void and_ValidParent_ReturnsParent() {
         // Arrange
-        AbstractCommand abstractCommand = new AbstractCommand("dummy");
-        Options options = new Options(abstractCommand);
+        BasicCommand basicCommand = new BasicCommand("dummy");
+        Options options = new Options(basicCommand);
 
         // Act
         Command result = options.and();
 
         // Assert
-        assertEquals(abstractCommand, result);
+        assertEquals(basicCommand, result);
     }
 
     @Test
     public void done_ValidParent_ReturnsParent() {
         // Arrange
-        AbstractCommand abstractCommand = new AbstractCommand("dummy");
-        Options options = new Options(abstractCommand);
+        BasicCommand basicCommand = new BasicCommand("dummy");
+        Options options = new Options(basicCommand);
 
         // Act
         Command result = options.done();
 
         // Assert
-        assertEquals(abstractCommand, result);
+        assertEquals(basicCommand, result);
     }
 }

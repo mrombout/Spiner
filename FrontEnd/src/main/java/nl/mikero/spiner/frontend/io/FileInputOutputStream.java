@@ -15,7 +15,7 @@ public class FileInputOutputStream implements AutoCloseable {
     private FileInputStream input;
     private FileOutputStream output;
 
-    public FileInputOutputStream(File inputFile, File outputFile) throws IOException {
+    public FileInputOutputStream(final File inputFile, final File outputFile) throws IOException {
         input = FileUtils.openInputStream(inputFile);
 
         try {

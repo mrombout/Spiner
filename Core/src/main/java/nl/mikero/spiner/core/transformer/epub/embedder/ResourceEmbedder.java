@@ -208,7 +208,7 @@ public class ResourceEmbedder implements Visitor {
         visitChildren(node);
     }
 
-    protected void visitChildren(SuperNode node) {
+    private void visitChildren(final SuperNode node) {
         for (Node child : node.getChildren()) {
             child.accept(this);
         }

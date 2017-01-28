@@ -56,8 +56,8 @@ public class LatexTransformer implements Transformer {
         book.addCommand(new UsePackageCommand().options().add("ulem").done().parameters().add("normalem").done());
 
         // set document information
-        book.addCommand(new AbstractCommand("title").parameters().add(story.getName()).done());
-        book.addCommand(new AbstractCommand("author").parameters().add(story.getCreator()).done());
+        book.addCommand(new BasicCommand("title").parameters().add(story.getName()).done());
+        book.addCommand(new BasicCommand("author").parameters().add(story.getCreator()).done());
         book.addCommand(new WhitelineCommand());
 
         // begin document
@@ -65,15 +65,15 @@ public class LatexTransformer implements Transformer {
         book.addCommand(document);
 
         // gamebook settings
-        document.addCommand(new AbstractCommand("gbheader"));
-        document.addCommand(new AbstractCommand("pagenumbering").parameters().add("arabic").done());
+        document.addCommand(new BasicCommand("gbheader"));
+        document.addCommand(new BasicCommand("pagenumbering").parameters().add("arabic").done());
         document.addCommand(new WhitelineCommand());
 
         // passages
         for(TwPassagedata passage : story.getTwPassagedata()) {
             String passageContent = transformPassageTextToLatex(passage.getValue());
 
-            document.addCommand(new AbstractCommand("gbsection").parameters().add(passage.getName()).done());
+            document.addCommand(new BasicCommand("gbsection").parameters().add(passage.getName()).done());
             document.addCommand(new RawTexCommand(passageContent));
             document.addCommand(new WhitelineCommand());
         }

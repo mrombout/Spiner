@@ -6,17 +6,17 @@ import nl.mikero.spiner.core.transformer.latex.model.Parameters;
 /**
  * Abstract LaTeX command.
  */
-public class AbstractCommand implements Command {
+public class BasicCommand implements Command {
     private final String commandName;
     private final Options options;
     private final Parameters parameters;
 
     /**
-     * Constructs a new AbstractCommand.
+     * Constructs a new BasicCommand.
      *
      * @param commandName name of the LaTeX command
      */
-    public AbstractCommand(final String commandName) {
+    public BasicCommand(final String commandName) {
         this.commandName = commandName;
         this.options = new Options(this);
         this.parameters = new Parameters(this);
