@@ -41,7 +41,7 @@ public class VersionCommand implements Command {
      * Prints the version information.
      */
     @Override
-    public final void run() {
+    public void run() {
         printStream.println("Spiner " + versionService.get() + "\n" +
                 "Copyright (C) 2015 Mike Rombout\n" +
                 "License GPLv3+: GNU GPL isVersion 3 or later <http://gnu.org/licenses/gpl.html>\n" +
