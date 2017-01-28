@@ -11,6 +11,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Serializes Markdown to LaTeX.
+ */
 public class ToLatexSerializer implements Visitor {
     private static final Map<Integer, String> SUPPORTED_LEVELS = Collections.unmodifiableMap(Stream.of(
             new AbstractMap.SimpleEntry<>(1, "chapter"),
@@ -27,8 +30,14 @@ public class ToLatexSerializer implements Visitor {
     private final Map<String, ReferenceNode> references;
     private final Map<String, String> abbreviations;
 
-    private Map<String, VerbatimSerializer> verbatimSerializers;
+    private final Map<String, VerbatimSerializer> verbatimSerializers;
 
+    /**
+     * Constructs a new ToLatexSerializer.
+     *
+     * @param linkRenderer LinkRenderer to render links with
+     * @param printer Printer to print to
+     */
     @Inject
     public ToLatexSerializer(final LinkRenderer linkRenderer, final Printer printer) {
         this.linkRenderer = linkRenderer;
@@ -41,6 +50,12 @@ public class ToLatexSerializer implements Visitor {
         this.verbatimSerializers.put(VerbatimSerializer.DEFAULT, LatexVerbatimSerializer.INSTANCE);
     }
 
+    /**
+     * Returns the RootNode as a String in the form of a LaTeX document
+     *
+     * @param astRoot ast to print as LaTeX
+     * @return LaTeX representation of the given astRoot
+     */
     public String toLatex(final RootNode astRoot) {
         Objects.requireNonNull(astRoot);
 
@@ -49,6 +64,11 @@ public class ToLatexSerializer implements Visitor {
         return printer.getString();
     }
 
+    /**
+     * Visits all children of the node and gradually builds a LaTex document
+     *
+     * @param node node to build LaTeX representation for
+     */
     @Override
     public void visit(final RootNode node) {
         for(ReferenceNode refNode : node.getReferences()) {
@@ -70,6 +90,11 @@ public class ToLatexSerializer implements Visitor {
         visitChildren(node);
     }
 
+    /**
+     * AbbreviationNodes are currently ignored.
+     *
+     * @param node ignored
+     */
     @Override
     public void visit(final AbbreviationNode node) {
         /* nop */
@@ -395,7 +420,7 @@ public class ToLatexSerializer implements Visitor {
         return result;
     }
 
-    private void printBreakBeforeCommand(final SuperNode node, String tag) {
+    private void printBreakBeforeCommand(final SuperNode node, final String tag) {
         boolean starWasNewLine = printer.endsWithNewLine();
         printer.println();
         printCommand(node, tag);
