@@ -101,18 +101,27 @@ public class DropFileChooser extends BorderPane {
         fileProperty.set(file);
     }
 
+    /**
+     * Sets this file chooser to start state;
+     */
     public void startProgress() {
         statusImage.setVisible(false);
         statusIndicator.setVisible(true);
         statusIndicator.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
     }
 
+    /**
+     * Sets this file chooser to complete state.
+     */
     public void completeProgress() {
         statusImage.setVisible(false);
         statusIndicator.setVisible(true);
         statusIndicator.setProgress(1);
     }
 
+    /**
+     * Sets this file choose to stop state.
+     */
     public void stopProgress() {
         statusImage.setVisible(true);
         statusIndicator.setVisible(false);

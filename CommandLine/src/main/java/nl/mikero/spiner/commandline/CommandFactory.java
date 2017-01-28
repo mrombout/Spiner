@@ -1,4 +1,4 @@
-package nl.mikero.spiner.commandline.factory;
+package nl.mikero.spiner.commandline;
 
 import com.beust.jcommander.JCommander;
 import nl.mikero.spiner.commandline.command.*;

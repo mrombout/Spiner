@@ -1,15 +1,12 @@
-package nl.mikero.spiner.commandline.inject;
+package nl.mikero.spiner.commandline;
 
 import com.google.inject.assistedinject.FactoryModuleBuilder;
-import nl.mikero.spiner.commandline.factory.CommandFactory;
-import nl.mikero.spiner.commandline.service.GradleVersionService;
-import nl.mikero.spiner.commandline.service.VersionService;
 import nl.mikero.spiner.core.inject.AbstractTwineModule;
 
 /**
  * Configures Google Guice dependency injection framework.
  */
-public class TwineModule extends AbstractTwineModule {
+public class CommandLineModule extends AbstractTwineModule {
     @Override
     protected void configure() {
         super.configure();

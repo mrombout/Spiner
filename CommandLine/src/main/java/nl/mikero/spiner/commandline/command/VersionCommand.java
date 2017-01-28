@@ -2,7 +2,7 @@ package nl.mikero.spiner.commandline.command;
 
 import com.beust.jcommander.Parameter;
 import com.google.inject.Inject;
-import nl.mikero.spiner.commandline.service.VersionService;
+import nl.mikero.spiner.commandline.VersionService;
 
 import java.io.PrintStream;
 
@@ -32,7 +32,7 @@ public class VersionCommand implements Command {
                 "There is NO WARRANTY, to the extend permitted by law.\n");
     }
 
-    public boolean isVersionCommand() {
+    public final boolean isVersionCommand() {
         return isVersion;
     }
 }

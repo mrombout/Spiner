@@ -1,4 +1,4 @@
-package nl.mikero.spiner.commandline.service;
+package nl.mikero.spiner.commandline;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +13,7 @@ import java.util.Properties;
 public class GradleVersionService implements VersionService {
     private static final Logger LOGGER = LoggerFactory.getLogger(GradleVersionService.class);
     private static final String PROPERTIES_FILE = "version.properties";
+    private static final String UNKNOWN_VERSION = "UNKNOWN";
 
     /**
      * Returns the version set in version.properties, which is expanded from build.gradle.
@@ -27,10 +28,10 @@ public class GradleVersionService implements VersionService {
             prop.load(input);
 
             // get the property value and print it out
-            return prop.getProperty("version", "UNKNOWN");
+            return prop.getProperty("version", UNKNOWN_VERSION);
         } catch (IOException e) {
             LOGGER.error("Couldn't read version from version.properties.", e);
-            return "UNKNOWN";
+            return UNKNOWN_VERSION;
         }
     }
 }

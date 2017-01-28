@@ -28,7 +28,12 @@ public class LatexContainer {
         this.commands.add(command);
     }
 
-    public List<Command> getCommands() {
+    /**
+     * Returns the commands inside this container.
+     *
+     * @return commands inside this container
+     */
+    public final List<Command> getCommands() {
         return commands;
     }
 
@@ -38,7 +43,7 @@ public class LatexContainer {
      * @return valid LaTeX document content
      */
     @Override
-    public String toString() {
+    public final String toString() {
         List<String> commandStrings = getCommands().stream().map(Object::toString).collect(Collectors.toList());
         return String.join("\n", commandStrings);
     }

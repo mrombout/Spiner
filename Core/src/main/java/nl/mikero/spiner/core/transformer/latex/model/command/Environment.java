@@ -45,7 +45,12 @@ public class Environment extends BasicCommand {
         return this;
     }
 
-    public LatexContainer getContainer() {
+    /**
+     * Returns the {@link LatexContainer} this environment uses.
+     *
+     * @return container of this environment
+     */
+    public final LatexContainer getContainer() {
         return container;
     }
 
@@ -55,7 +60,7 @@ public class Environment extends BasicCommand {
      * @return this environment as a LaTex string
      */
     @Override
-    public String toString() {
+    public final String toString() {
         List<String> commandStrings = container.getCommands().stream()
                 .map(command -> "\t" + command.toString().replace("\n", "\n\t")).collect(Collectors.toList());
         String environmentContent = String.join("\n", commandStrings);

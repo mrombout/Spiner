@@ -89,7 +89,7 @@ public class TwineLinkRenderer extends LinkRenderer {
 
             Matcher externalLinkMatcher = EXTERNAL_LINK.matcher(url);
             if(!externalLinkMatcher.find()) {
-                url+= ".xhtml";
+                url += ".xhtml";
             }
 
             text = matcher.group(GROUP_LABEL);

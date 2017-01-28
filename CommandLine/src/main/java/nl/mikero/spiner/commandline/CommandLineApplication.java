@@ -5,10 +5,6 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import nl.mikero.spiner.commandline.command.*;
-import nl.mikero.spiner.commandline.factory.CommandFactory;
-import nl.mikero.spiner.commandline.inject.TwineModule;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Provides a commandline interface to the Spiner transformation features.
@@ -27,13 +23,11 @@ import org.slf4j.LoggerFactory;
  *
  * @author Mike Rombout
  */
-public class Application {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
-
+public class CommandLineApplication {
     private final CommandFactory commandFactory;
 
     @Inject
-    public Application(final CommandFactory commandFactory) {
+    public CommandLineApplication(final CommandFactory commandFactory) {
         this.commandFactory = commandFactory;
     }
 
@@ -71,15 +65,15 @@ public class Application {
     /**
      * Starts the command line application.
      *
-     * See documentation on {@link Application} for list of accepted arguments.
+     * See documentation on {@link CommandLineApplication} for list of accepted arguments.
      *
-     * @see Application
-     * @param args see {@link Application} for list of accepted arguments
+     * @see CommandLineApplication
+     * @param args see {@link CommandLineApplication} for list of accepted arguments
      */
     public static void main(final String[] args) {
-        Injector injector = Guice.createInjector(new TwineModule());
+        Injector injector = Guice.createInjector(new CommandLineModule());
 
-        Application application = injector.getInstance(Application.class);
+        CommandLineApplication application = injector.getInstance(CommandLineApplication.class);
         application.execute(args);
     }
 

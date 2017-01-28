@@ -1,7 +1,5 @@
 package nl.mikero.spiner.commandline;
 
-import nl.mikero.spiner.commandline.service.GradleVersionService;
-import nl.mikero.spiner.commandline.service.VersionService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package nl.mikero.spiner.commandline.service;
+package nl.mikero.spiner.commandline;
 
 /**
  * Returns the current application version.

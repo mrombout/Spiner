@@ -12,8 +12,8 @@ import java.io.IOException;
 public class FileInputOutputStream implements AutoCloseable {
     private static final Logger LOGGER = LoggerFactory.getLogger(FileInputOutputStream.class);
 
-    private FileInputStream input;
-    private FileOutputStream output;
+    private final FileInputStream input;
+    private final FileOutputStream output;
 
     public FileInputOutputStream(final File inputFile, final File outputFile) throws IOException {
         input = FileUtils.openInputStream(inputFile);
