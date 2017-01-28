@@ -63,18 +63,40 @@ public class TransformService {
         }
     }
 
+    /**
+     * Reads input, repairs and writes to output.
+     *
+     * @param inputStream twine xml input
+     * @param outputStream repaired twine xml output
+     * @throws IOException if repair fails
+     * @see nl.mikero.spiner.core.twine.TwineArchiveRepairer
+     */
     private void repair(final InputStream inputStream, final OutputStream outputStream) throws IOException {
         try (InputStream in = new ByteArrayInputStream(IOUtils.toByteArray(inputStream))) {
             publishedRepairer.repair(in, outputStream);
         }
     }
 
+    /**
+     * Reads input, extends and writes to output.
+     *
+     * @param repairedOutput repaired twine xml input
+     * @param transformedOutput extended twine xml output
+     * @throws IOException if extend fails
+     */
     private void extend(final ByteArrayOutputStream repairedOutput, final OutputStream transformedOutput) throws IOException {
         try(InputStream in = new ByteArrayInputStream(repairedOutput.toByteArray())) {
             extendTwineXmlTransformer.transform(in, transformedOutput);
-    }
+        }
     }
 
+    /**
+     * Reads input, parses and returns TwStoriesdata.
+     *
+     * @param transformedInput twine xml input
+     * @return TwStoriesdata based on xml input
+     * @throws IOException if parse fails
+     */
     private TwStoriesdata parse(final ByteArrayOutputStream transformedInput) throws IOException {
         try (InputStream in = new ByteArrayInputStream(transformedInput.toByteArray())) {
             return twineArchiveParser.parse(in);

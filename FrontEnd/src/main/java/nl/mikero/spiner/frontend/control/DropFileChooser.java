@@ -96,7 +96,7 @@ public class DropFileChooser extends BorderPane {
         return fileProperty.get();
     }
 
-    public void setFile(File file) {
+    public void setFile(final File file) {
         fileProperty.set(file);
     }
 

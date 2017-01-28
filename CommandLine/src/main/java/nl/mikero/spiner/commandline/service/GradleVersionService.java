@@ -7,9 +7,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+/**
+ * Returns the current project version set in build.gradle.
+ */
 public class GradleVersionService implements VersionService {
     private static final Logger LOGGER = LoggerFactory.getLogger(GradleVersionService.class);
 
+    /**
+     * Returns the version set in version.properties, which is expanded from build.gradle.
+     *
+     * @return gradle project version
+     */
     public String get() {
         Properties prop = new Properties();
 

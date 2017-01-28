@@ -15,7 +15,7 @@ import nl.mikero.spiner.frontend.main.ApplicationView;
  */
 public class SpinerApplication extends Application {
     @Override
-    public void start(Stage primaryStage) {
+    public void start(final Stage primaryStage) {
         Injector injector = Guice.createInjector(new TwineModule());
 
         ApplicationView applicationView = new ApplicationView(this, primaryStage);
@@ -35,7 +35,7 @@ public class SpinerApplication extends Application {
      *
      * @param args options arguments, currently not accepting any
      */
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         launch(args);
     }
 }

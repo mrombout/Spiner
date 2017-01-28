@@ -24,6 +24,12 @@ public class LatexTransformer implements Transformer {
     private final PegDownProcessor processor;
     private final ToLatexSerializer serializer;
 
+    /**
+     * Constructs a new LatexTransformer.
+     *
+     * @param processor pegdown processor to use
+     * @param serializer latex serializer to use
+     */
     @Inject
     public LatexTransformer(final PegDownProcessor processor, final ToLatexSerializer serializer) {
         this.processor = Objects.requireNonNull(processor);

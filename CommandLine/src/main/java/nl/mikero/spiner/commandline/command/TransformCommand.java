@@ -90,10 +90,17 @@ public class TransformCommand implements Command {
         }
     }
 
-    private void handleError(final String msg, final Throwable throwable, final int status) {
+    /**
+     * Prints out the error message and exits with the status code.
+     *
+     * @param msg message to print to console
+     * @param cause cause of the error
+     * @param status status code to exit with
+     */
+    private void handleError(final String msg, final Throwable cause, final int status) {
         System.out.println(msg);
         if(showDebugOutput)
-            LOGGER.error(msg, throwable);
+            LOGGER.error(msg, cause);
         System.exit(status);
     }
 }
