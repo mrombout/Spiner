@@ -33,7 +33,7 @@ public class HelpCommand implements Command {
     }
 
     /**
-     * Returns wether the help parameter what given by the user.
+     * Returns wether the help parameter was given by the user.
      *
      * @return <code>true</code> if "--help" parameter was given by the user
      */

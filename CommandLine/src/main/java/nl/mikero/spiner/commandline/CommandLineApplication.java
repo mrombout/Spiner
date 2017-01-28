@@ -26,11 +26,21 @@ import nl.mikero.spiner.commandline.command.*;
 public class CommandLineApplication {
     private final CommandFactory commandFactory;
 
+    /**
+     * Constructs a new CommandLineApplication.
+     *
+     * @param commandFactory command factory to use
+     */
     @Inject
     public CommandLineApplication(final CommandFactory commandFactory) {
         this.commandFactory = commandFactory;
     }
 
+    /**
+     * Command line application entry point.
+     *
+     * @param args args given by the user
+     */
     public final void execute(final String[] args) {
         // definition
         JCommander jCommander = new JCommander();

@@ -20,12 +20,13 @@ public final class EpubTransformOptions {
 
     private final Metadata metadata;
 
+    /**
+     * Constructs a new EpubTransformOptions.
+     *
+     * @param metadata metadata
+     */
     private EpubTransformOptions(final Metadata metadata) {
         this.metadata = metadata;
-    }
-
-    public Metadata getMetadata() {
-        return metadata;
     }
 
     /**
@@ -50,6 +51,12 @@ public final class EpubTransformOptions {
         return new EpubTransformOptions(metadata);
     }
 
+    /**
+     * Creates Metadata from XtwMetadata.
+     *
+     * @param xtwMetadata extended metadata
+     * @return metadata based on given extended metadata
+     */
     private static Metadata createMetadata(final XtwMetadata xtwMetadata) {
         Metadata metadata = new Metadata();
 
@@ -101,6 +108,15 @@ public final class EpubTransformOptions {
         // rights
         metadata.setRights(xtwMetadata.getRights());
 
+        return metadata;
+    }
+
+    /**
+     * Returns the metadata.
+     *
+     * @return metadata
+     */
+    public Metadata getMetadata() {
         return metadata;
     }
 }

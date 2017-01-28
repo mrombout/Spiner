@@ -14,7 +14,10 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 
-@Parameters(separators = "=", commandDescription = "Transform Twine file to EPUB of LaTeX.")
+/**
+ * Transform Twine file to EPUB or LaTeX.
+ */
+@Parameters(separators = "=", commandDescription = "Transform Twine file to EPUB or LaTeX.")
 public class TransformCommand implements Command {
     private static final Logger LOGGER = LoggerFactory.getLogger(TransformCommand.class);
 
@@ -37,6 +40,13 @@ public class TransformCommand implements Command {
     private final TwineStoryEpubTransformer epubTransformer;
     private final LatexTransformer latexTransformer;
 
+    /**
+     * Constructs a new TransformCommand.
+     *
+     * @param transformService transform service to use
+     * @param epubTransformer transform service to use to transform to epub
+     * @param latexTransformer transform service to use to transform to LaTeX
+     */
     @Inject
     public TransformCommand(
             final TransformService transformService,
@@ -47,6 +57,9 @@ public class TransformCommand implements Command {
         this.latexTransformer = latexTransformer;
     }
 
+    /**
+     * Transform the input file to the output file in the given format.
+     */
     @Override
     public final void run() {
         InputStream inputStream = new CloseShieldInputStream(System.in);

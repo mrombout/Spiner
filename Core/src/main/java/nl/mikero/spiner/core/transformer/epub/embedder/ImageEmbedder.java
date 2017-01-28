@@ -84,6 +84,13 @@ public class ImageEmbedder implements Embedder {
         messageDigest.reset();
     }
 
+    /**
+     * Returns the filename for a given hash and URL.
+     *
+     * @param hash hash of the file
+     * @param url url of the file
+     * @return filename to store/embed the file at
+     */
     private String getFileName(final String hash, final URL url) {
         String originalFileName = FilenameUtils.getName(url.toString());
         String originalExtension = FilenameUtils.getExtension(originalFileName);
