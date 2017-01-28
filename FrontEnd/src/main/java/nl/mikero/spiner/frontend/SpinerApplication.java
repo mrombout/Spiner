@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import nl.mikero.spiner.frontend.inject.TwineModule;
 import nl.mikero.spiner.frontend.main.ApplicationView;
 
@@ -16,10 +17,13 @@ public class SpinerApplication extends Application {
     @Override
     public void start(Stage primaryStage) {
         Injector injector = Guice.createInjector(new TwineModule());
-        ApplicationView applicationView = injector.getInstance(ApplicationView.class);
+
+        ApplicationView applicationView = new ApplicationView(this, primaryStage);
+        injector.injectMembers(applicationView);
 
         Scene scene = new Scene(applicationView.getView());
 
+        primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/icon.png")));
         primaryStage.setTitle("Spiner");
         primaryStage.setScene(scene);

@@ -1,5 +1,6 @@
 package nl.mikero.spiner.core.transformer.latex.pegdown;
 
+import com.google.inject.Inject;
 import nl.mikero.spiner.core.pegdown.plugin.LatexVerbatimSerializer;
 import org.pegdown.LinkRenderer;
 import org.pegdown.Printer;
@@ -28,6 +29,7 @@ public class ToLatexSerializer implements Visitor {
 
     private Map<String, VerbatimSerializer> verbatimSerializers;
 
+    @Inject
     public ToLatexSerializer(LinkRenderer linkRenderer, Printer printer) {
         this.linkRenderer = linkRenderer;
         this.printer = printer;
