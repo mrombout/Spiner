@@ -88,6 +88,8 @@ public class LatexTransformer implements Transformer {
     }
 
     /**
+     * Returns the LaTeX file extension.
+     *
      * @return tex extension (tex)
      */
     @Override
@@ -101,7 +103,7 @@ public class LatexTransformer implements Transformer {
      * @param passageText passage markdown text
      * @return converted LaTeX string
      */
-    private final String transformPassageTextToLatex(final String passageText) {
+    private String transformPassageTextToLatex(final String passageText) {
         RootNode node = processor.parseMarkdown(passageText.toCharArray());
         return serializer.toLatex(node);
     }

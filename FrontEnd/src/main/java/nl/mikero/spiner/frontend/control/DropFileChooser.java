@@ -75,8 +75,8 @@ public class DropFileChooser extends BorderPane {
      * Open and show the native file chooser.
      */
     public final void openFileChooser() {
-        File file;
-        if((file = fileChooser.showOpenDialog(this.getScene().getWindow())) != null) {
+        File file = fileChooser.showOpenDialog(this.getScene().getWindow());
+        if(file != null) {
             setFile(file);
             fileLabel.setText(getFile().getAbsolutePath());
             fileChooser.setInitialDirectory(getFile().getParentFile());

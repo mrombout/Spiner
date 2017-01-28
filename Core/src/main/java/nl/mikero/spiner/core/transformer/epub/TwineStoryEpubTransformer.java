@@ -39,9 +39,9 @@ public class TwineStoryEpubTransformer implements Transformer {
     private static final String EXTENSION = "epub";
 
     private static final String ATTR_CLASS = "class";
-    public static final String ATTR_TYPE = "type";
-    public static final String ATTR_REL = "rel";
-    public static final String ATTR_HREF = "href";
+    private static final String ATTR_TYPE = "type";
+    private static final String ATTR_REL = "rel";
+    private static final String ATTR_HREF = "href";
 
     private final PegDownProcessor pdProcessor;
     private final TwineLinkRenderer twineLinkRenderer;

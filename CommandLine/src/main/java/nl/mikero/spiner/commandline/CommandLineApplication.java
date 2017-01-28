@@ -63,7 +63,7 @@ public class CommandLineApplication {
             helpCommand.run();
         } else if(versionCommand.isVersionCommand()) {
             versionCommand.run();
-        } else if(jCommander.getParsedCommand() != null ) {
+        } else if(jCommander.getParsedCommand() != null) {
             if(jCommander.getParsedCommand().equals("transform")) {
                 transformCommand.run();
             }
@@ -77,7 +77,6 @@ public class CommandLineApplication {
      *
      * See documentation on {@link CommandLineApplication} for list of accepted arguments.
      *
-     * @see CommandLineApplication
      * @param args see {@link CommandLineApplication} for list of accepted arguments
      */
     public static void main(final String[] args) {

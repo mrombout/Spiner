@@ -109,7 +109,7 @@ public class ResourceEmbedder implements Visitor {
      * @param url string to create url from
      * @return url from string
      */
-    private final URL createUrlFromString(final String url) {
+    private URL createUrlFromString(final String url) {
         try {
             return new URL(url);
         } catch (MalformedURLException e) {

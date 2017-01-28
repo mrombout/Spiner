@@ -87,7 +87,7 @@ public class TransformCommand implements Command {
             }
 
             if (format != null && format.equals(ARG_FORMAT_LATEX)) {
-                    transformer = latexTransformer;
+                transformer = latexTransformer;
             }
 
             transformService.transform(inputStream, outputStream, transformer);

@@ -9,6 +9,8 @@ import java.util.Objects;
 
 public class LatexVerbatimSerializer implements VerbatimSerializer {
     public static final LatexVerbatimSerializer INSTANCE = new LatexVerbatimSerializer();
+
+    private static final int INDENT_DEPTH = 2;
     
     @Override
     public final void serialize(final VerbatimNode node, final Printer printer) {
@@ -19,7 +21,7 @@ public class LatexVerbatimSerializer implements VerbatimSerializer {
 
         String text = node.getText();
         if(!text.isEmpty())
-            printer.indent(+2);
+            printer.indent(+INDENT_DEPTH);
         printer.println();
 
         while(!text.isEmpty() && text.charAt(0) == '\n') {
@@ -28,6 +30,6 @@ public class LatexVerbatimSerializer implements VerbatimSerializer {
         }
         printer.print(LatexEncoder.encode(text));
 
-        printer.indent(-2).println().print("\\end{verbatim}");
+        printer.indent(-INDENT_DEPTH).println().print("\\end{verbatim}");
     }
 }

@@ -28,10 +28,10 @@ public class Options {
     /**
      * Add a new goal key value pair.
      *
-     * @see Option
      * @param name goal name
      * @param value goal value
      * @return this
+     * @see Option
      */
     public final Options add(final String name, final String value) {
         options.put(name, new Option(name, value));
@@ -50,6 +50,8 @@ public class Options {
     }
 
     /**
+     * Returns parent.
+     *
      * @return parent
      */
     public final BasicCommand and() {
@@ -57,6 +59,8 @@ public class Options {
     }
 
     /**
+     * Returns parent.
+     *
      * @return parent
      */
     public final BasicCommand done() {
