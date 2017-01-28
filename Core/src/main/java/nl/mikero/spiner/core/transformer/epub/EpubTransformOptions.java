@@ -19,7 +19,7 @@ public final class EpubTransformOptions {
 
     private final Metadata metadata;
 
-    private EpubTransformOptions(Metadata metadata) {
+    private EpubTransformOptions(final Metadata metadata) {
         this.metadata = metadata;
     }
 
@@ -43,13 +43,13 @@ public final class EpubTransformOptions {
      * @param xtwMetadata xml extended twine metadata object
      * @return a {@link EpubTransformOptions} contains all the metadata specified in {@link XtwMetadata}
      */
-    public static EpubTransformOptions fromXtwMetadata(XtwMetadata xtwMetadata) {
+    public static EpubTransformOptions fromXtwMetadata(final XtwMetadata xtwMetadata) {
         Metadata metadata = createMetadata(xtwMetadata);
 
         return new EpubTransformOptions(metadata);
     }
 
-    private static Metadata createMetadata(XtwMetadata xtwMetadata) {
+    private static Metadata createMetadata(final XtwMetadata xtwMetadata) {
         Metadata metadata = new Metadata();
 
         // title

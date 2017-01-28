@@ -13,7 +13,7 @@ public class TwineRepairFailedException extends RuntimeException {
      * @param message exception message
      * @param cause cause of this cause
      */
-    public TwineRepairFailedException(String message, Throwable cause) {
+    public TwineRepairFailedException(final String message, final Throwable cause) {
         super(message, cause);
     }
 

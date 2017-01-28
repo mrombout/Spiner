@@ -1,6 +1,5 @@
 package nl.mikero.spiner.core.pegdown.plugin;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.pegdown.ast.Node;
 import org.pegdown.ast.Visitor;

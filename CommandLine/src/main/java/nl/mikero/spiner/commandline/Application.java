@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
 public class Application {
     private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
 
-    private CommandFactory commandFactory;
+    private final CommandFactory commandFactory;
 
     @Inject
     public Application(CommandFactory commandFactory) {

@@ -11,7 +11,7 @@ public class TwineTransformationWriteException extends RuntimeException {
      * @param message exception message
      * @param cause cause of this cause
      */
-    public TwineTransformationWriteException(String message, Throwable cause) {
+    public TwineTransformationWriteException(final String message, final Throwable cause) {
         super(message, cause);
     }
 }

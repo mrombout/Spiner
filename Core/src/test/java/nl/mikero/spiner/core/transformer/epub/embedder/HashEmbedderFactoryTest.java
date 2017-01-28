@@ -11,6 +11,7 @@ import java.security.MessageDigest;
 
 public class HashEmbedderFactoryTest {
 
+    @SuppressWarnings("FieldCanBeLocal")
     private MessageDigest mockDigest;
     private HashEmbedderFactory factory;
 

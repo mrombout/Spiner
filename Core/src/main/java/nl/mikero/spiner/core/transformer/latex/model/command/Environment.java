@@ -12,7 +12,7 @@ public class Environment extends AbstractCommand {
     private final Command beginCommand;
     private final Command endCommand;
 
-    public Environment(String environment) {
+    public Environment(final String environment) {
         super("begin");
         Objects.requireNonNull(environment);
 
@@ -24,7 +24,7 @@ public class Environment extends AbstractCommand {
         parameters().add(environment);
     }
 
-    public Environment addCommand(Command command) {
+    public Environment addCommand(final Command command) {
         Objects.requireNonNull(command);
         container.addCommand(command);
 

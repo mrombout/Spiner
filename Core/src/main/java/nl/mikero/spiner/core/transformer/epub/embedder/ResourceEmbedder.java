@@ -67,12 +67,12 @@ public class ResourceEmbedder implements Visitor {
     }
 
     @Override
-    public void visit(BlockQuoteNode node) {
+    public void visit(final BlockQuoteNode node) {
         visitChildren(node);
     }
 
     @Override
-    public void visit(BulletListNode node) {
+    public void visit(final BulletListNode node) {
         visitChildren(node);
     }
 
@@ -199,7 +199,7 @@ public class ResourceEmbedder implements Visitor {
     }
 
     @Override
-    public void visit(TableRowNode node) {
+    public void visit(final TableRowNode node) {
         visitChildren(node);
     }
 

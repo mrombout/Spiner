@@ -11,7 +11,7 @@ public class LatexVerbatimSerializer implements VerbatimSerializer {
     public static final LatexVerbatimSerializer INSTANCE = new LatexVerbatimSerializer();
     
     @Override
-    public void serialize(VerbatimNode node, Printer printer) {
+    public void serialize(final VerbatimNode node, final Printer printer) {
         Objects.requireNonNull(node);
         Objects.requireNonNull(printer);
 

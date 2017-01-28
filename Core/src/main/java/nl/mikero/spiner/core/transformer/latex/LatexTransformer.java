@@ -22,10 +22,10 @@ public class LatexTransformer implements Transformer {
     private static final String EXTENSION = "tex";
 
     private final PegDownProcessor processor;
-    private ToLatexSerializer serializer;
+    private final ToLatexSerializer serializer;
 
     @Inject
-    public LatexTransformer(PegDownProcessor processor, ToLatexSerializer serializer) {
+    public LatexTransformer(final PegDownProcessor processor, final ToLatexSerializer serializer) {
         this.processor = Objects.requireNonNull(processor);
         this.serializer = Objects.requireNonNull(serializer);
     }
@@ -37,7 +37,7 @@ public class LatexTransformer implements Transformer {
      * @param outputStream output stream to write transformed story to
      */
     @Override
-    public void transform(TwStorydata story, OutputStream outputStream) {
+    public void transform(final TwStorydata story, final OutputStream outputStream) {
         Objects.requireNonNull(story);
         Objects.requireNonNull(outputStream);
 
@@ -89,7 +89,7 @@ public class LatexTransformer implements Transformer {
         return EXTENSION;
     }
 
-    private String transformPassageTextToLatex(String passageText) {
+    private String transformPassageTextToLatex(final String passageText) {
         RootNode node = processor.parseMarkdown(passageText.toCharArray());
         return serializer.toLatex(node);
     }

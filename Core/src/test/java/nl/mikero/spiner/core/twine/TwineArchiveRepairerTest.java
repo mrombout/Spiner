@@ -4,6 +4,7 @@ import nl.mikero.spiner.core.exception.TwineRepairFailedException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
 
@@ -64,7 +65,7 @@ public class TwineArchiveRepairerTest extends TwineRepairerTest {
     public void repair_OutputInvalid_ThrowsTwineRepairFailedException() throws Exception {
         // Arrange
         final OutputStream os = Mockito.mock(OutputStream.class);
-        Mockito.doThrow(IOException.class).when(os).write(Matchers.any());
+        Mockito.doThrow(IOException.class).when(os).write(ArgumentMatchers.any());
 
         // Act
         try(InputStream inputStream = getClass().getResourceAsStream("/html/valid-archive.html")) {

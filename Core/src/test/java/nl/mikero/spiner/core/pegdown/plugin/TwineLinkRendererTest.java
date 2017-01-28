@@ -11,6 +11,7 @@ import static org.junit.Assert.*;
 
 public class TwineLinkRendererTest {
 
+    @SuppressWarnings("FieldCanBeLocal")
     private ImageEmbedder mockImageEmbedder;
     private TwineLinkRenderer linkRenderer;
 

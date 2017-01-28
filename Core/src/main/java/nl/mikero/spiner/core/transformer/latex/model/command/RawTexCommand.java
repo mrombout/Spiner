@@ -5,7 +5,7 @@ import java.util.Objects;
 public class RawTexCommand implements Command {
     private final String text;
 
-    public RawTexCommand(String text) {
+    public RawTexCommand(final String text) {
         this.text = Objects.requireNonNull(text);
     }
 

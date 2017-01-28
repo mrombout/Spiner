@@ -10,12 +10,12 @@ public class Parameters {
     private final AbstractCommand parent;
     private final List<Parameter> parameters;
 
-    public Parameters(AbstractCommand parent) {
+    public Parameters(final AbstractCommand parent) {
         this.parent = Objects.requireNonNull(parent);
         this.parameters = new ArrayList<>();
     }
 
-    public Parameters add(String value) {
+    public Parameters add(final String value) {
         this.parameters.add(new Parameter(value));
 
         return this;

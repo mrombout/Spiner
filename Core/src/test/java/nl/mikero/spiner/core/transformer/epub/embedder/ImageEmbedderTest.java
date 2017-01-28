@@ -17,6 +17,7 @@ import static org.junit.Assert.*;
 
 public class ImageEmbedderTest {
 
+    @SuppressWarnings("FieldCanBeLocal")
     private MessageDigest digest;
     private ImageEmbedder embedder;
 

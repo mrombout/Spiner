@@ -73,13 +73,13 @@ public class TransformService {
         }
     }
 
-    private void extend(ByteArrayOutputStream repairedOutput, OutputStream transformedOutput) throws IOException, TransformerException, ParserConfigurationException, SAXException {
+    private void extend(ByteArrayOutputStream repairedOutput, OutputStream transformedOutput) throws IOException {
         try(InputStream in = new ByteArrayInputStream(repairedOutput.toByteArray())) {
             extendTwineXmlTransformer.transform(in, transformedOutput);
     }
     }
 
-    private TwStoriesdata parse(ByteArrayOutputStream transformedInput) throws IOException, JAXBException, SAXException {
+    private TwStoriesdata parse(ByteArrayOutputStream transformedInput) throws IOException {
         try (InputStream in = new ByteArrayInputStream(transformedInput.toByteArray())) {
             return twineArchiveParser.parse(in);
         }

@@ -1,8 +1,5 @@
 package nl.mikero.spiner.core.transformer.latex.model;
 
-/**
- * A LaTeX parameter.
- */
 import java.util.Objects;
 
 public class Parameter {
@@ -13,7 +10,7 @@ public class Parameter {
      *
      * @param value parameter value
      */
-    public Parameter(String value) {
+    public Parameter(final String value) {
         this.value = Objects.requireNonNull(value);
         if(this.value != null && this.value.isEmpty())
             throw new IllegalArgumentException("Parameter value must not be empty");

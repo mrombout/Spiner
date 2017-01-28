@@ -22,7 +22,7 @@ public class ToLatexSerializer implements Visitor {
     ).collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue)));
 
     private Printer printer;
-    private LinkRenderer linkRenderer;
+    private final LinkRenderer linkRenderer;
 
     private final Map<String, ReferenceNode> references;
     private final Map<String, String> abbreviations;
@@ -30,7 +30,7 @@ public class ToLatexSerializer implements Visitor {
     private Map<String, VerbatimSerializer> verbatimSerializers;
 
     @Inject
-    public ToLatexSerializer(LinkRenderer linkRenderer, Printer printer) {
+    public ToLatexSerializer(final LinkRenderer linkRenderer, final Printer printer) {
         this.linkRenderer = linkRenderer;
         this.printer = printer;
 
@@ -41,7 +41,7 @@ public class ToLatexSerializer implements Visitor {
         this.verbatimSerializers.put(VerbatimSerializer.DEFAULT, LatexVerbatimSerializer.INSTANCE);
     }
 
-    public String toLatex(RootNode astRoot) {
+    public String toLatex(final RootNode astRoot) {
         Objects.requireNonNull(astRoot);
 
         printer = new Printer();
@@ -50,7 +50,7 @@ public class ToLatexSerializer implements Visitor {
     }
 
     @Override
-    public void visit(RootNode node) {
+    public void visit(final RootNode node) {
         for(ReferenceNode refNode : node.getReferences()) {
             visitChildren(refNode);
             references.put(normalize(printer.getString()), refNode);
@@ -71,66 +71,66 @@ public class ToLatexSerializer implements Visitor {
     }
 
     @Override
-    public void visit(AbbreviationNode node) {
+    public void visit(final AbbreviationNode node) {
         /* nop */
     }
 
     @Override
-    public void visit(AnchorLinkNode node) {
+    public void visit(final AnchorLinkNode node) {
         printLink(linkRenderer.render(node));
     }
 
     @Override
-    public void visit(AutoLinkNode node) {
+    public void visit(final AutoLinkNode node) {
         printCommand(node, "url");
     }
 
     @Override
-    public void visit(BlockQuoteNode node) {
+    public void visit(final BlockQuoteNode node) {
         printIndentedEnvironment(node, "displayquote");
     }
 
     @Override
-    public void visit(BulletListNode node) {
+    public void visit(final BulletListNode node) {
         printIndentedEnvironment(node, "enumerate");
     }
 
     @Override
-    public void visit(CodeNode node) {
+    public void visit(final CodeNode node) {
         printCommand(node, "lstinline");
     }
 
     @Override
-    public void visit(DefinitionListNode node) {
+    public void visit(final DefinitionListNode node) {
         printIndentedEnvironment(node, "description");
     }
 
     @Override
-    public void visit(DefinitionNode node) {
+    public void visit(final DefinitionNode node) {
         printer.print(' ');
         visitChildren(node);
     }
 
     @Override
-    public void visit(DefinitionTermNode node) {
+    public void visit(final DefinitionTermNode node) {
         printer.println().print("\\").print("item").print("[");
         visitChildren(node);
         printer.print("]");
     }
 
     @Override
-    public void visit(ExpImageNode node) {
+    public void visit(final ExpImageNode node) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void visit(ExpLinkNode node) {
+    public void visit(final ExpLinkNode node) {
         String text = printChildrenToString(node);
         printLink(linkRenderer.render(node, text));
     }
 
     @Override
-    public void visit(HeaderNode node) {
+    public void visit(final HeaderNode node) {
         if(!SUPPORTED_LEVELS.containsKey(node.getLevel()))
             throw new IllegalStateException(String.format("Header level '%d' is not supported, must be 1 to 6.", node.getLevel()));
 
@@ -138,33 +138,33 @@ public class ToLatexSerializer implements Visitor {
     }
 
     @Override
-    public void visit(HtmlBlockNode node) {
+    public void visit(final HtmlBlockNode node) {
         /* html is ignored */
     }
 
     @Override
-    public void visit(InlineHtmlNode node) {
+    public void visit(final InlineHtmlNode node) {
         printer.print(node.getText());
     }
     
     @Override
-    public void visit(ListItemNode node) {
+    public void visit(final ListItemNode node) {
         // TODO: Support for TaskListNode?
         printConditionallyIndentedCommand(node, "item");
     }
 
     @Override
-    public void visit(MailLinkNode node) {
+    public void visit(final MailLinkNode node) {
         printLink(linkRenderer.render(node));
     }
 
     @Override
-    public void visit(OrderedListNode node) {
+    public void visit(final OrderedListNode node) {
         printIndentedEnvironment(node, "itemize");
     }
 
     @Override
-    public void visit(ParaNode node) {
+    public void visit(final ParaNode node) {
         boolean startWithNewLine = printer.endsWithNewLine();
         printer.println();
         visitChildren(node);
@@ -175,7 +175,7 @@ public class ToLatexSerializer implements Visitor {
     }
 
     @Override
-    public void visit(QuotedNode node) {
+    public void visit(final QuotedNode node) {
         switch(node.getType()) {
             case DoubleAngle:
                 printer.print("\\guillemotleft{}");
@@ -196,17 +196,17 @@ public class ToLatexSerializer implements Visitor {
     }
 
     @Override
-    public void visit(ReferenceNode node) {
+    public void visit(final ReferenceNode node) {
         /* reference nodes are not printed */
     }
 
     @Override
-    public void visit(RefImageNode node) {
+    public void visit(final RefImageNode node) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void visit(RefLinkNode node) {
+    public void visit(final RefLinkNode node) {
         String text = printChildrenToString(node);
         String key = node.referenceKey != null ? printChildrenToString(node.referenceKey) : text;
         ReferenceNode refNode = references.get(normalize(key));
@@ -224,7 +224,7 @@ public class ToLatexSerializer implements Visitor {
     }
 
     @Override
-    public void visit(SimpleNode node) {
+    public void visit(final SimpleNode node) {
         switch(node.getType()) {
             case Apostrophe:
                 printer.print("’");
@@ -252,18 +252,18 @@ public class ToLatexSerializer implements Visitor {
     }
 
     @Override
-    public void visit(SpecialTextNode node) {
+    public void visit(final SpecialTextNode node) {
         String text = node.getText();
         printer.print(LatexEncoder.encode(text));
     }
 
     @Override
-    public void visit(StrikeNode node) {
+    public void visit(final StrikeNode node) {
         printCommand(node, "sout");
     }
 
     @Override
-    public void visit(StrongEmphSuperNode node) {
+    public void visit(final StrongEmphSuperNode node) {
         if(node.isClosed()) {
             if(node.isStrong())
                 printCommand(node, "textbf");
@@ -276,42 +276,42 @@ public class ToLatexSerializer implements Visitor {
     }
 
     @Override
-    public void visit(TableBodyNode node) {
+    public void visit(final TableBodyNode node) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void visit(TableCaptionNode node) {
+    public void visit(final TableCaptionNode node) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void visit(TableCellNode node) {
+    public void visit(final TableCellNode node) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void visit(TableColumnNode node) {
+    public void visit(final TableColumnNode node) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void visit(TableHeaderNode node) {
+    public void visit(final TableHeaderNode node) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void visit(TableNode node) {
+    public void visit(final TableNode node) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void visit(TableRowNode node) {
+    public void visit(final TableRowNode node) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void visit(VerbatimNode node) {
+    public void visit(final VerbatimNode node) {
         VerbatimSerializer serializer = lookupSerializer(node.getType());
         serializer.serialize(node, printer);
     }
@@ -325,54 +325,54 @@ public class ToLatexSerializer implements Visitor {
     }
 
     @Override
-    public void visit(WikiLinkNode node) {
+    public void visit(final WikiLinkNode node) {
         printLink(linkRenderer.render(node));
     }
 
     @Override
-    public void visit(TextNode node) {
+    public void visit(final TextNode node) {
         printer.print(node.getText());
     }
 
     @Override
-    public void visit(SuperNode node) {
+    public void visit(final SuperNode node) {
         visitChildren(node);
     }
 
     @Override
-    public void visit(Node node) {
+    public void visit(final Node node) {
         /* do nothing */
     }
 
-    private void visitChildren(SuperNode node) {
+    private void visitChildren(final SuperNode node) {
         for(Node child : node.getChildren()) {
             child.accept(this);
         }
     }
 
-    private void printCommand(String command) {
+    private void printCommand(final String command) {
         printer.print("\\").print(command);
     }
 
-    private void printCommand(TextNode node, String command) {
+    private void printCommand(final TextNode node, final String command) {
         printer.print("\\").print(command).print("{");
         printer.print(LatexEncoder.encode(node.getText()));
         printer.print("}");
     }
 
-    private void printCommand(SuperNode node, String command) {
+    private void printCommand(final SuperNode node, final String command) {
         printer.print("\\").print(command).print("{");
         visitChildren(node);
         printer.print("}");
     }
 
-    private void printIndentedEnvironment(SuperNode node, String environment) {
+    private void printIndentedEnvironment(final SuperNode node, final String environment) {
         printer.println().print("\\begin{").print(environment).print("}").indent(+2);
         visitChildren(node);
         printer.indent(-2).println().print("\\end{").print(environment).print("}");
     }
 
-    private void printConditionallyIndentedCommand(SuperNode node, String command) {
+    private void printConditionallyIndentedCommand(final SuperNode node, final String command) {
         if(node.getChildren().size() > 1) {
             printer.println().print("\\").print(command).print("{").indent(+2);
             visitChildren(node);
@@ -386,7 +386,7 @@ public class ToLatexSerializer implements Visitor {
         }
     }
 
-    private String printChildrenToString(SuperNode node) {
+    private String printChildrenToString(final SuperNode node) {
         Printer priorPrinter = printer;
         printer = new Printer();
         visitChildren(node);
@@ -395,7 +395,7 @@ public class ToLatexSerializer implements Visitor {
         return result;
     }
 
-    private void printBreakBeforeCommand(SuperNode node, String tag) {
+    private void printBreakBeforeCommand(final SuperNode node, String tag) {
         boolean starWasNewLine = printer.endsWithNewLine();
         printer.println();
         printCommand(node, tag);
@@ -403,11 +403,11 @@ public class ToLatexSerializer implements Visitor {
             printer.println();
     }
 
-    private void printLink(LinkRenderer.Rendering rendering) {
+    private void printLink(final LinkRenderer.Rendering rendering) {
         printer.print("\\gbturn{").print(rendering.text).print("}");
     }
 
-    private String normalize(String input) {
+    private String normalize(final String input) {
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < input.length(); i++) {
             char c = input.charAt(i);

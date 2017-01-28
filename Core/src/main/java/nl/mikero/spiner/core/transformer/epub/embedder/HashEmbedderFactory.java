@@ -27,7 +27,7 @@ public class HashEmbedderFactory implements EmbedderFactory {
      * @param messageDigest message digest to use
      */
     @Inject
-    public HashEmbedderFactory(MessageDigest messageDigest) {
+    public HashEmbedderFactory(final MessageDigest messageDigest) {
         this.messageDigest = messageDigest;
     }
 

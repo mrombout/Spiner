@@ -20,7 +20,7 @@ public class TwineLinkNode extends TextNode {
      *
      * @param value value to use as the href and text of the new node
      */
-    public TwineLinkNode(String value) {
+    public TwineLinkNode(final String value) {
         this(value, value);
     }
 
@@ -33,7 +33,7 @@ public class TwineLinkNode extends TextNode {
      *             the value of text
      * @param href href for the new node
      */
-    public TwineLinkNode(String text, String href) {
+    public TwineLinkNode(final String text, final String href) {
         super(text);
         this.href = Objects.requireNonNull(href);
 
@@ -52,7 +52,7 @@ public class TwineLinkNode extends TextNode {
     }
 
     @Override
-    public void accept(Visitor visitor) {
+    public void accept(final Visitor visitor) {
         visitor.visit((Node) this);
     }
 

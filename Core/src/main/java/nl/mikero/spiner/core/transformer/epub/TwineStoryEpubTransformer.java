@@ -51,7 +51,7 @@ public class TwineStoryEpubTransformer implements Transformer {
      * @param resourceEmbedder resource embedder to use, may not be null
      */
     @Inject
-    public TwineStoryEpubTransformer(PegDownProcessor pdProcessor, TwineLinkRenderer twineLinkRenderer, ResourceEmbedder resourceEmbedder) {
+    public TwineStoryEpubTransformer(final PegDownProcessor pdProcessor, final TwineLinkRenderer twineLinkRenderer, final ResourceEmbedder resourceEmbedder) {
         this.pdProcessor = Objects.requireNonNull(pdProcessor);
         this.twineLinkRenderer = Objects.requireNonNull(twineLinkRenderer);
         this.resourceEmbedder = Objects.requireNonNull(resourceEmbedder);
@@ -70,7 +70,7 @@ public class TwineStoryEpubTransformer implements Transformer {
      * @param outputStream output stream to write epub to
      */
     @Override
-    public void transform(TwStorydata story, OutputStream outputStream) {
+    public void transform(final TwStorydata story, final OutputStream outputStream) {
         transform(story, outputStream, story.getXtwMetadata() != null ? EpubTransformOptions.fromXtwMetadata(story.getXtwMetadata()) : EpubTransformOptions.EMPTY);
     }
 
@@ -86,7 +86,7 @@ public class TwineStoryEpubTransformer implements Transformer {
      * @param outputStream output stream to write EPUB to, may not be null
      * @param options transform options, contains EPUB metadata, may not me null
      */
-    public void transform(TwStorydata story, OutputStream outputStream, EpubTransformOptions options) {
+    public void transform(final TwStorydata story, final OutputStream outputStream, final EpubTransformOptions options) {
         Objects.requireNonNull(story);
         Objects.requireNonNull(outputStream);
         Objects.requireNonNull(options);
@@ -131,7 +131,7 @@ public class TwineStoryEpubTransformer implements Transformer {
         }
     }
 
-    private void embedResources(Book book, TwStorydata story) {
+    private void embedResources(final Book book, final TwStorydata story) {
         for(TwPassagedata passage : story.getTwPassagedata()) {
             RootNode rootNode = pdProcessor.parseMarkdown(passage.getValue().toCharArray());
             resourceEmbedder.embed(book, rootNode);
@@ -143,7 +143,7 @@ public class TwineStoryEpubTransformer implements Transformer {
      *
      * @return a valid xhtml document containing the passage text in the body
      */
-    private String transformPassageTextToXhtml(String passageText) throws TransformerException {
+    private String transformPassageTextToXhtml(final String passageText) throws TransformerException {
         String xhtml = pdProcessor.markdownToHtml(passageText, twineLinkRenderer);
 
         try(InputStream in = new ByteArrayInputStream(xhtml.getBytes(StandardCharsets.UTF_8)); ByteArrayOutputStream out = new ByteArrayOutputStream()) {

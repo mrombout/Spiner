@@ -3,6 +3,7 @@ package nl.mikero.spiner.core.transformer.latex.pegdown;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
 import org.pegdown.Extensions;
@@ -146,7 +147,7 @@ public class ToLatexSerializerTest {
     public void visit_AnchorLinkNode_Unknown() {
         // Arrange
         AnchorLinkNode node = new AnchorLinkNode("Foo");
-        Mockito.when(mockLinkRenderer.render(Matchers.eq(node)))
+        Mockito.when(mockLinkRenderer.render(ArgumentMatchers.eq(node)))
                 .thenReturn(new LinkRenderer.Rendering("HREF", "TEXT"));
 
         // Act
@@ -290,7 +291,7 @@ public class ToLatexSerializerTest {
     public void visit_ExpLinkNode_ThrownUnsupportedOperationException() {
         // Arrange
         ExpLinkNode node = new ExpLinkNode("Foo", "Bar", new TextNode("Widget"));
-        Mockito.when(mockLinkRenderer.render(Matchers.eq(node), Matchers.any()))
+        Mockito.when(mockLinkRenderer.render(ArgumentMatchers.eq(node), ArgumentMatchers.any()))
                 .thenReturn(new LinkRenderer.Rendering("HREF", "TEXT"));
 
         // Act
@@ -328,7 +329,7 @@ public class ToLatexSerializerTest {
     public void visit_MailLinkNode_Unknown() {
         // Arrange
         MailLinkNode node = new MailLinkNode("foo@bar.com");
-        Mockito.when(mockLinkRenderer.render(Matchers.eq(node)))
+        Mockito.when(mockLinkRenderer.render(ArgumentMatchers.eq(node)))
                 .thenReturn(new LinkRenderer.Rendering("foo@bar.com", "foo@bar.com"));
 
         // Act

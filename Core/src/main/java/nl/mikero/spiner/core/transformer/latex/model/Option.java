@@ -1,8 +1,5 @@
 package nl.mikero.spiner.core.transformer.latex.model;
 
-/**
- * A LaTex command goal.
- */
 import java.util.Objects;
 
 public class Option {
@@ -15,7 +12,7 @@ public class Option {
      * @param name goal name
      * @param value goal value
      */
-    public Option(String name, String value) {
+    public Option(final String name, final String value) {
         this.name = Objects.requireNonNull(name);
         this.value = value;
 

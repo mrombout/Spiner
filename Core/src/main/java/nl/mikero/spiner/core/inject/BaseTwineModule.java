@@ -39,7 +39,7 @@ public abstract class BaseTwineModule extends AbstractModule {
     }
 
     @Provides
-    public PegDownProcessor providePegDownProcessor(TwineLinkSerializer twineLinkSerializer) {
+    public PegDownProcessor providePegDownProcessor(final TwineLinkSerializer twineLinkSerializer) {
         return new PegDownProcessor(Extensions.WIKILINKS, PegDownPlugins.builder()
                 .withPlugin(TwineLinkParser.class)
                 .withHtmlSerializer(twineLinkSerializer)
@@ -48,7 +48,7 @@ public abstract class BaseTwineModule extends AbstractModule {
     }
 
     @Provides
-    public TwineStoryEpubTransformer provideTwineStoryEpubTransformer(PegDownProcessor pegDownProcessor, TwineLinkRenderer twineLinkRenderer, ResourceEmbedder resourceEmbedder) {
+    public TwineStoryEpubTransformer provideTwineStoryEpubTransformer(final PegDownProcessor pegDownProcessor, final TwineLinkRenderer twineLinkRenderer, final ResourceEmbedder resourceEmbedder) {
         return new TwineStoryEpubTransformer(pegDownProcessor, twineLinkRenderer, resourceEmbedder);
     }
 

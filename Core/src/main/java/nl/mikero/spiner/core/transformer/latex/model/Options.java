@@ -20,7 +20,7 @@ public class Options {
      *
      * @param parent command these options belong to
      */
-    public Options(AbstractCommand parent) {
+    public Options(final AbstractCommand parent) {
         this.parent = Objects.requireNonNull(parent);
         this.options = new HashMap<>();
     }
@@ -33,7 +33,7 @@ public class Options {
      * @param value goal value
      * @return this
      */
-    public Options add(String name, String value) {
+    public Options add(final String name, final String value) {
         options.put(name, new Option(name, value));
 
         return this;
@@ -45,7 +45,7 @@ public class Options {
      * @param name goal name
      * @return this
      */
-    public Options add(String name) {
+    public Options add(final String name) {
         return add(name, null);
     }
 

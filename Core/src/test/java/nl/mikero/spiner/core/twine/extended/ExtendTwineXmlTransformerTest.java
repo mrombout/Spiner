@@ -24,10 +24,13 @@ import static org.junit.Assert.*;
 
 public class ExtendTwineXmlTransformerTest {
 
+    @SuppressWarnings("FieldCanBeLocal")
     private DocumentBuilderFactory documentBuilderFactory;
     private DocumentBuilder documentBuilder;
 
+    @SuppressWarnings("FieldCanBeLocal")
     private SchemaFactory schemaFactory;
+    @SuppressWarnings("FieldCanBeLocal")
     private Schema schema;
 
     private Validator validator;

@@ -11,7 +11,7 @@ public class TwineValidationFailedException extends Exception {
      * @param message exception message
      * @param cause cause of this exception
      */
-    public TwineValidationFailedException(String message, Throwable cause) {
+    public TwineValidationFailedException(final String message, final Throwable cause) {
         super(message, cause);
     }
 }

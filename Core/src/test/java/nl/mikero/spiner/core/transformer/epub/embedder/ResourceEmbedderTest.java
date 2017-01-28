@@ -14,6 +14,7 @@ import static org.mockito.Mockito.*;
 
 public class ResourceEmbedderTest {
 
+    @SuppressWarnings("FieldCanBeLocal")
     private EmbedderFactory embedderFactory;
     private Embedder mockEmbedder;
     private ResourceEmbedder embedder;

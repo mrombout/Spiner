@@ -8,7 +8,7 @@ public class AbstractCommand implements Command {
     private final Options options;
     private final Parameters parameters;
 
-    public AbstractCommand(String commandName) {
+    public AbstractCommand(final String commandName) {
         this.commandName = commandName;
         this.options = new Options(this);
         this.parameters = new Parameters(this);

@@ -7,7 +7,7 @@ public class LatexEncoder {
         throw new IllegalAccessError("Utility class");
     }
 
-    public static String encode(String inputText) {
+    public static String encode(final String inputText) {
         return inputText
             .replaceAll("\\\\", Matcher.quoteReplacement("\\textbackslash"))
             .replaceAll("\\_", Matcher.quoteReplacement("\\_"))

@@ -16,7 +16,7 @@ public class LatexWriter {
      * @param outputStream outputStream to write to
      * @throws IOException
      */
-    public void write(LatexDocument document, OutputStream outputStream) throws IOException {
+    public void write(final LatexDocument document, final OutputStream outputStream) throws IOException {
         Objects.requireNonNull(document);
         Objects.requireNonNull(outputStream);
 

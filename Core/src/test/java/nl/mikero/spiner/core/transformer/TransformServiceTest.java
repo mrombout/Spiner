@@ -9,6 +9,7 @@ import nl.mikero.spiner.core.twine.model.TwStorydata;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
 import org.xml.sax.SAXException;
@@ -28,7 +29,9 @@ import static org.junit.Assert.assertThat;
 public class TransformServiceTest {
     private TransformService service;
 
+    @SuppressWarnings("FieldCanBeLocal")
     private TwineRepairer mockTwineRepairer;
+    @SuppressWarnings("FieldCanBeLocal")
     private ExtendTwineXmlTransformer mockExtendTwineXmlTransformer;
     private TwineArchiveParser mockTwineArchiveParser;
 
@@ -88,7 +91,7 @@ public class TransformServiceTest {
         TwStorydata story2 = new TwStorydata();
         TwStorydata story3 = new TwStorydata();
 
-        Mockito.when(mockTwineArchiveParser.parse(Matchers.any())).thenAnswer(invocation -> {
+        Mockito.when(mockTwineArchiveParser.parse(ArgumentMatchers.any())).thenAnswer(invocation -> {
             TwStoriesdata data = new TwStoriesdata();
 
             data.getTwStorydata().add(story1);
@@ -114,13 +117,13 @@ public class TransformServiceTest {
         OutputStream outputStream = Mockito.mock(OutputStream.class);
         Transformer transformer = Mockito.mock(Transformer.class);
 
-        Mockito.when(mockTwineArchiveParser.parse(Matchers.any())).thenAnswer(invocation -> new TwStoriesdata());
+        Mockito.when(mockTwineArchiveParser.parse(ArgumentMatchers.any())).thenAnswer(invocation -> new TwStoriesdata());
 
         // Act
         service.transform(inputStream, outputStream, transformer);
 
         // Assert
-        Mockito.verify(transformer, Mockito.never()).transform(Matchers.any(), Matchers.eq(outputStream));
+        Mockito.verify(transformer, Mockito.never()).transform(ArgumentMatchers.any(), ArgumentMatchers.eq(outputStream));
     }
 
     @Test
@@ -130,7 +133,7 @@ public class TransformServiceTest {
         OutputStream outputStream = Mockito.mock(OutputStream.class);
         Transformer transformer = Mockito.mock(Transformer.class);
 
-        Mockito.when(mockTwineArchiveParser.parse(Matchers.any())).thenAnswer(invocation -> {
+        Mockito.when(mockTwineArchiveParser.parse(ArgumentMatchers.any())).thenAnswer(invocation -> {
             throw new TooManyListenersException();
         });
 
