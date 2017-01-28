@@ -4,15 +4,9 @@ import nl.mikero.spiner.core.exception.TwineRepairFailedException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.AdditionalMatchers;
 import org.mockito.Matchers;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
-import org.mockito.stubbing.OngoingStubbing;
 
-import javax.management.openmbean.InvalidOpenTypeException;
 import java.io.*;
 
 public class TwineArchiveRepairerTest extends TwineRepairerTest {

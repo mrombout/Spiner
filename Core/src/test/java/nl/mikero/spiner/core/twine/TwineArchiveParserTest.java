@@ -5,11 +5,9 @@ import static org.junit.Assert.*;
 
 import nl.mikero.spiner.core.exception.TwineParseFailedException;
 import nl.mikero.spiner.core.twine.model.TwStoriesdata;
-import nl.mikero.spiner.core.twine.TwineArchiveParser;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.xml.bind.JAXBException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;

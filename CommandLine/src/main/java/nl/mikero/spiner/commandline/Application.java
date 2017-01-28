@@ -10,8 +10,6 @@ import nl.mikero.spiner.commandline.inject.TwineModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Set;
-
 /**
  * Provides a commandline interface to the Spiner transformation features.
  * <p>

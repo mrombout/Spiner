@@ -1,17 +1,15 @@
 package nl.mikero.spiner.core.transformer.epub.embedder;
 
 import nl.siegmann.epublib.domain.Book;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 import org.pegdown.ast.*;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 public class ResourceEmbedderTest {
@@ -329,7 +327,7 @@ public class ResourceEmbedderTest {
         // Arrange
         Book book = new Book();
         RootNode rootNode = new RootNode();
-        rootNode.getChildren().add(Mockito.mock(Node.class));
+        rootNode.getChildren().add(mock(Node.class));
 
         // Act
         embedder.embed(book, rootNode);
