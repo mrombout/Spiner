@@ -9,6 +9,7 @@ import java.io.OutputStream;
  */
 public interface Transformer {
     /**
+     * Transforms a Twine story to another format.
      *
      * @param story story to transform
      * @param outputStream output stream to write transformed story to

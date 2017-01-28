@@ -44,7 +44,7 @@ public class TwineLinkRenderer extends LinkRenderer {
      * <p>
      * <ul>
      * <li><b>http://website.com</b></li>
-     * <li><b>https://website.com</b></li></li>
+     * <li><b>https://website.com</b></li>
      * <li><b>http://evenwithoutdomain</b></li>
      * </ul>
      * <p>
@@ -65,6 +65,7 @@ public class TwineLinkRenderer extends LinkRenderer {
      */
     @Inject
     public TwineLinkRenderer(final ImageEmbedder imageEmbedder) {
+        super();
         this.imageEmbedder = imageEmbedder;
     }
 
@@ -88,7 +89,7 @@ public class TwineLinkRenderer extends LinkRenderer {
 
             Matcher externalLinkMatcher = EXTERNAL_LINK.matcher(url);
             if(!externalLinkMatcher.find()) {
-                url+= ".xhtml";
+                url += ".xhtml";
             }
 
             text = matcher.group(GROUP_LABEL);

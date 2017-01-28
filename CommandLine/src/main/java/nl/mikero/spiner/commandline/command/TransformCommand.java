@@ -14,12 +14,15 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 
-@Parameters(separators = "=", commandDescription = "Transform Twine file to EPUB of LaTeX.")
+/**
+ * Transform Twine file to EPUB or LaTeX.
+ */
+@Parameters(separators = "=", commandDescription = "Transform Twine file to EPUB or LaTeX.")
 public class TransformCommand implements Command {
     private static final Logger LOGGER = LoggerFactory.getLogger(TransformCommand.class);
 
-    public static final String ARG_FORMAT_EPUB = "epub";
-    public static final String ARG_FORMAT_LATEX = "latex";
+    private static final String ARG_FORMAT_EPUB = "epub";
+    private static final String ARG_FORMAT_LATEX = "latex";
 
     @Parameter(names = {"--format", "-f"}, description = "Format to transform to.")
     private String format = ARG_FORMAT_EPUB;
@@ -37,15 +40,28 @@ public class TransformCommand implements Command {
     private final TwineStoryEpubTransformer epubTransformer;
     private final LatexTransformer latexTransformer;
 
+    /**
+     * Constructs a new TransformCommand.
+     *
+     * @param transformService transform service to use
+     * @param epubTransformer transform service to use to transform to epub
+     * @param latexTransformer transform service to use to transform to LaTeX
+     */
     @Inject
-    public TransformCommand(TransformService transformService, TwineStoryEpubTransformer epubTransformer, LatexTransformer latexTransformer) {
+    public TransformCommand(
+            final TransformService transformService,
+            final TwineStoryEpubTransformer epubTransformer,
+            final LatexTransformer latexTransformer) {
         this.transformService = transformService;
         this.epubTransformer = epubTransformer;
         this.latexTransformer = latexTransformer;
     }
 
+    /**
+     * Transform the input file to the output file in the given format.
+     */
     @Override
-    public void run() {
+    public final void run() {
         InputStream inputStream = new CloseShieldInputStream(System.in);
         OutputStream outputStream = new CloseShieldOutputStream(System.out);
         Transformer transformer = epubTransformer;
@@ -70,9 +86,8 @@ public class TransformCommand implements Command {
                 }
             }
 
-            if(format != null) {
-                if(format.equals(ARG_FORMAT_LATEX))
-                    transformer = latexTransformer;
+            if (format != null && format.equals(ARG_FORMAT_LATEX)) {
+                transformer = latexTransformer;
             }
 
             transformService.transform(inputStream, outputStream, transformer);
@@ -80,20 +95,27 @@ public class TransformCommand implements Command {
             try {
                 inputStream.close();
                 outputStream.close();
-                if(fin != null)
+                if (fin != null)
                     fin.close();
-                if(fout != null)
+                if (fout != null)
                     fout.close();
             } catch (IOException e) {
-                 // TODO: Handle properly
+                handleError("Error closing streams.", e, 3);
             }
         }
     }
 
-    private void handleError(String msg, Throwable throwable, int status) {
+    /**
+     * Prints out the error message and exits with the status code.
+     *
+     * @param msg    message to print to console
+     * @param cause  cause of the error
+     * @param status status code to exit with
+     */
+    private void handleError(final String msg, final Throwable cause, final int status) {
         System.out.println(msg);
-        if(showDebugOutput)
-            LOGGER.error(msg, throwable);
+        if (showDebugOutput)
+            LOGGER.error(msg, cause);
         System.exit(status);
     }
 }

@@ -1,13 +1,13 @@
 package nl.mikero.spiner.frontend.inject;
 
-import nl.mikero.spiner.core.inject.BaseTwineModule;
+import nl.mikero.spiner.core.inject.AbstractTwineModule;
 
 /**
  * Configures Google Guice dependency injection framework.
  */
-public class TwineModule extends BaseTwineModule {
+public class TwineModule extends AbstractTwineModule {
     @Override
-    protected void configure() {
+    protected final void configure() {
         super.configure();
         bind(TwineModule.class).toInstance(this);
     }

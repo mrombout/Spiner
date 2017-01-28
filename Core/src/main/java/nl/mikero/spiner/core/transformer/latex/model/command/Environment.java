@@ -6,37 +6,64 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class Environment extends AbstractCommand {
+/**
+ * A LaTeX environment.
+ */
+public class Environment extends BasicCommand {
+    private static final String CMD_BEGIN = "begin";
+    private static final String CMD_END = "end";
+
     private final LatexContainer container;
 
     private final Command beginCommand;
     private final Command endCommand;
 
-    public Environment(final String environment) {
-        super("begin");
-        Objects.requireNonNull(environment);
+    /**
+     * Constructs a new Environment.
+     *
+     * @param name environment name
+     */
+    public Environment(final String name) {
+        super(CMD_BEGIN);
+        Objects.requireNonNull(name);
 
         this.container = new LatexContainer();
 
-        this.beginCommand = new AbstractCommand("begin").parameters().add(environment).done();
-        this.endCommand = new AbstractCommand("end").parameters().add(environment).done();
+        this.beginCommand = new BasicCommand(CMD_BEGIN).parameters().add(name).done();
+        this.endCommand = new BasicCommand(CMD_END).parameters().add(name).done();
 
-        parameters().add(environment);
+        parameters().add(name);
     }
 
-    public Environment addCommand(final Command command) {
+    /**
+     * Add a new {@link Command} to this environment.
+     *
+     * @param command command to add to environment
+     * @return this
+     */
+    public final Environment addCommand(final Command command) {
         Objects.requireNonNull(command);
         container.addCommand(command);
 
         return this;
     }
 
-    public LatexContainer getContainer() {
+    /**
+     * Returns the {@link LatexContainer} this environment uses.
+     *
+     * @return container of this environment
+     */
+    public final LatexContainer getContainer() {
         return container;
     }
 
+    /**
+     * Renders environment as a valid LaTeX environment string.
+     *
+     * @return this environment as a LaTex string
+     */
     @Override
-    public String toString() {
+    public final String toString() {
         List<String> commandStrings = container.getCommands().stream()
                 .map(command -> "\t" + command.toString().replace("\n", "\n\t")).collect(Collectors.toList());
         String environmentContent = String.join("\n", commandStrings);

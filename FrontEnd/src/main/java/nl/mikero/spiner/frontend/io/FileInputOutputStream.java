@@ -12,10 +12,10 @@ import java.io.IOException;
 public class FileInputOutputStream implements AutoCloseable {
     private static final Logger LOGGER = LoggerFactory.getLogger(FileInputOutputStream.class);
 
-    private FileInputStream input;
-    private FileOutputStream output;
+    private final FileInputStream input;
+    private final FileOutputStream output;
 
-    public FileInputOutputStream(File inputFile, File outputFile) throws IOException {
+    public FileInputOutputStream(final File inputFile, final File outputFile) throws IOException {
         input = FileUtils.openInputStream(inputFile);
 
         try {
@@ -26,16 +26,16 @@ public class FileInputOutputStream implements AutoCloseable {
         }
     }
 
-    public FileInputStream getInputStream() {
+    public final FileInputStream getInputStream() {
         return input;
     }
 
-    public FileOutputStream getOutputStream() {
+    public final FileOutputStream getOutputStream() {
         return output;
     }
 
     @Override
-    public void close() throws IOException {
+    public final void close() throws IOException {
         try {
             input.close();
             output.close();

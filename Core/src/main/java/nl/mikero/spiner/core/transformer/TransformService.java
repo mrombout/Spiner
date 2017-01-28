@@ -9,11 +9,7 @@ import nl.mikero.spiner.core.twine.extended.ExtendTwineXmlTransformer;
 import nl.mikero.spiner.core.twine.model.TwStoriesdata;
 import nl.mikero.spiner.core.twine.model.TwStorydata;
 import org.apache.commons.io.IOUtils;
-import org.xml.sax.SAXException;
 
-import javax.xml.bind.JAXBException;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
 import java.io.*;
 import java.util.Objects;
 
@@ -34,7 +30,7 @@ public class TransformService {
      * @param twineArchiveParser twine archive parser to use
      */
     @Inject
-    public TransformService(@PublishedRepairer TwineRepairer publishedRepairer, ExtendTwineXmlTransformer extendTwineXmlTransformer, TwineArchiveParser twineArchiveParser) {
+    public TransformService(@PublishedRepairer final TwineRepairer publishedRepairer, final ExtendTwineXmlTransformer extendTwineXmlTransformer, final TwineArchiveParser twineArchiveParser) {
         this.publishedRepairer = publishedRepairer;
         this.extendTwineXmlTransformer = extendTwineXmlTransformer;
         this.twineArchiveParser = twineArchiveParser;
@@ -48,7 +44,7 @@ public class TransformService {
      * @param transformer transformer to use
      * @throws TwineTransformationFailedException when transformation fails
      */
-    public void transform(InputStream inputStream, OutputStream outputStream, Transformer transformer) {
+    public void transform(final InputStream inputStream, final OutputStream outputStream, final Transformer transformer) {
         Objects.requireNonNull(inputStream);
         Objects.requireNonNull(outputStream);
         Objects.requireNonNull(transformer);
@@ -67,19 +63,43 @@ public class TransformService {
         }
     }
 
-    private void repair(InputStream inputStream, OutputStream outputStream) throws IOException {
+    /**
+     * Reads input, repairs and writes to output.
+     *
+     * @param inputStream twine xml input
+     * @param outputStream repaired twine xml output
+     * @throws IOException if repair fails
+     * @see nl.mikero.spiner.core.twine.TwineArchiveRepairer
+     */
+    private void repair(final InputStream inputStream, final OutputStream outputStream) throws IOException {
         try (InputStream in = new ByteArrayInputStream(IOUtils.toByteArray(inputStream))) {
             publishedRepairer.repair(in, outputStream);
         }
     }
 
-    private void extend(ByteArrayOutputStream repairedOutput, OutputStream transformedOutput) throws IOException {
+    /**
+     * Reads input, extends and writes to output.
+     *
+     * @param repairedOutput repaired twine xml input
+     * @param transformedOutput extended twine xml output
+     * @throws IOException if extend fails
+     */
+    private void extend(
+            final ByteArrayOutputStream repairedOutput,
+            final OutputStream transformedOutput) throws IOException {
         try(InputStream in = new ByteArrayInputStream(repairedOutput.toByteArray())) {
             extendTwineXmlTransformer.transform(in, transformedOutput);
-    }
+        }
     }
 
-    private TwStoriesdata parse(ByteArrayOutputStream transformedInput) throws IOException {
+    /**
+     * Reads input, parses and returns TwStoriesdata.
+     *
+     * @param transformedInput twine xml input
+     * @return TwStoriesdata based on xml input
+     * @throws IOException if parse fails
+     */
+    private TwStoriesdata parse(final ByteArrayOutputStream transformedInput) throws IOException {
         try (InputStream in = new ByteArrayInputStream(transformedInput.toByteArray())) {
             return twineArchiveParser.parse(in);
         }

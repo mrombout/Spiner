@@ -16,6 +16,7 @@ public interface Embedder {
      *
      * @param url url of the image as defined by the user in twine
      * @return path of resource inside the EPUB file
+     * @throws IOException if href can't be created
      */
     String getHref(URL url) throws IOException;
 
@@ -24,6 +25,7 @@ public interface Embedder {
      *
      * @param book book to embed resource in
      * @param url url to resource that should be embedded
+     * @throws IOException if url can not be embedded
      */
     void embed(Book book, URL url) throws IOException;
 

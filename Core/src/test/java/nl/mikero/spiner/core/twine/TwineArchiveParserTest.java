@@ -1,8 +1,5 @@
 package nl.mikero.spiner.core.twine;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
-
 import nl.mikero.spiner.core.exception.TwineParseFailedException;
 import nl.mikero.spiner.core.twine.model.TwStoriesdata;
 import org.junit.Before;
@@ -12,6 +9,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.*;
 
 public class TwineArchiveParserTest {
 

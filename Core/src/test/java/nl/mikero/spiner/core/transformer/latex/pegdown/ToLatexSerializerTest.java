@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
-import org.mockito.Matchers;
 import org.mockito.Mockito;
 import org.pegdown.Extensions;
 import org.pegdown.LinkRenderer;
@@ -15,7 +14,7 @@ import org.pegdown.ast.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class ToLatexSerializerTest {
     private PegDownProcessor pegDownProcessor;

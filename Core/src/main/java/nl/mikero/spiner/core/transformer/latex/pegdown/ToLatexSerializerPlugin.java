@@ -6,7 +6,7 @@ import org.pegdown.ast.Visitor;
 
 public interface ToLatexSerializerPlugin {
     /**
-     * Visit the given node
+     * Visit the given node.
      *
      * @param node The node to visit
      * @param visitor The visitor, for delegating back to handling children, etc

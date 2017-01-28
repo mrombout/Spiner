@@ -4,7 +4,10 @@ import nl.mikero.spiner.core.exception.TwineRepairFailedException;
 import org.apache.commons.io.IOUtils;
 import org.w3c.tidy.Tidy;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Properties;
@@ -25,6 +28,9 @@ public class TwinePublishedRepairer implements TwineRepairer {
 
     private final Tidy tidy;
 
+    /**
+     * Constructs a new TwinePublishedRepairer.
+     */
     public TwinePublishedRepairer() {
         this.tidy = new Tidy();
         tidy.setInputEncoding("UTF-8");
@@ -58,7 +64,7 @@ public class TwinePublishedRepairer implements TwineRepairer {
      * @throws TwineRepairFailedException when the input stream can not be repaired
      */
     @Override
-    public void repair(InputStream inputStream, OutputStream outputStream) {
+    public final void repair(final InputStream inputStream, final OutputStream outputStream) {
         Objects.requireNonNull(inputStream);
         Objects.requireNonNull(outputStream);
 

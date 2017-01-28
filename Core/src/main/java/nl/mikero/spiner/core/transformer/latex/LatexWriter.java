@@ -2,7 +2,10 @@ package nl.mikero.spiner.core.transformer.latex;
 
 import nl.mikero.spiner.core.transformer.latex.model.LatexDocument;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.Objects;
 
 /**
@@ -14,7 +17,7 @@ public class LatexWriter {
      *
      * @param document document to write to outputStream
      * @param outputStream outputStream to write to
-     * @throws IOException
+     * @throws IOException if an I/O error occurs
      */
     public void write(final LatexDocument document, final OutputStream outputStream) throws IOException {
         Objects.requireNonNull(document);

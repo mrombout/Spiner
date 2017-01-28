@@ -3,6 +3,7 @@ package nl.mikero.spiner.core.transformer.epub;
 import nl.mikero.spiner.core.twine.extended.model.XtwMetadata;
 import nl.siegmann.epublib.domain.Author;
 import nl.siegmann.epublib.domain.Date;
+import nl.siegmann.epublib.domain.Identifier;
 import nl.siegmann.epublib.domain.Metadata;
 
 /**
@@ -19,12 +20,13 @@ public final class EpubTransformOptions {
 
     private final Metadata metadata;
 
+    /**
+     * Constructs a new EpubTransformOptions.
+     *
+     * @param metadata metadata
+     */
     private EpubTransformOptions(final Metadata metadata) {
         this.metadata = metadata;
-    }
-
-    public Metadata getMetadata() {
-        return metadata;
     }
 
     /**
@@ -49,6 +51,12 @@ public final class EpubTransformOptions {
         return new EpubTransformOptions(metadata);
     }
 
+    /**
+     * Creates Metadata from XtwMetadata.
+     *
+     * @param xtwMetadata extended metadata
+     * @return metadata based on given extended metadata
+     */
     private static Metadata createMetadata(final XtwMetadata xtwMetadata) {
         Metadata metadata = new Metadata();
 
@@ -60,7 +68,7 @@ public final class EpubTransformOptions {
 
         // identifier
         for (XtwMetadata.Identifier identifier : xtwMetadata.getIdentifier()) {
-            nl.siegmann.epublib.domain.Identifier epubIdentifier = new nl.siegmann.epublib.domain.Identifier(identifier.getScheme(), identifier.getValue());
+            Identifier epubIdentifier = new Identifier(identifier.getScheme(), identifier.getValue());
             metadata.addIdentifier(epubIdentifier);
         }
 
@@ -100,6 +108,15 @@ public final class EpubTransformOptions {
         // rights
         metadata.setRights(xtwMetadata.getRights());
 
+        return metadata;
+    }
+
+    /**
+     * Returns the metadata.
+     *
+     * @return metadata
+     */
+    public Metadata getMetadata() {
         return metadata;
     }
 }

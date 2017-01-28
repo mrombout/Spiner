@@ -1,6 +1,7 @@
 package nl.mikero.spiner.frontend.main;
 
-import com.google.inject.Inject;
+import java.io.*;
+import java.util.Optional;
 import javafx.application.Platform;
 import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
@@ -11,10 +12,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
+import com.google.inject.Inject;
 import nl.mikero.spiner.core.exception.TwineRepairFailedException;
 import nl.mikero.spiner.core.exception.TwineTransformationFailedException;
 import nl.mikero.spiner.core.transformer.TransformService;
@@ -31,9 +33,6 @@ import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
-import java.util.Optional;
-
 /**
  * Main Application GUI.
  */
@@ -42,10 +41,12 @@ public class ApplicationView {
 
     private static final String LOG_MSG_TRANSFORM_FAIL = "Could not transform document.";
 
+    private static final String FILTER_DESCRIPTION = "HTML Files (*.html, *.htm, *.xhtml)";
+
     private final Alert errorAlert;
 
-    private double xOffset = 0;
-    private double yOffset = 0;
+    private double xOffset;
+    private double yOffset;
 
     @Inject
     private TransformService transformService;
@@ -54,8 +55,6 @@ public class ApplicationView {
     @Inject
     private LatexTransformer latexTransformer;
 
-    @FXML
-    private BorderPane applicationView;
     @FXML
     private DropFileChooser dropFileChooser;
     @FXML
@@ -68,8 +67,8 @@ public class ApplicationView {
     @FXML
     private HBox header;
 
-    private SpinerApplication application;
-    private Stage primaryStage;
+    private final SpinerApplication application;
+    private final Stage primaryStage;
 
     /**
      * Constructs a new ApplicatieView.
@@ -77,14 +76,14 @@ public class ApplicationView {
      * @param application application
      * @param stage parent stage
      */
-    public ApplicationView(SpinerApplication application, Stage stage) {
+    public ApplicationView(final SpinerApplication application, final Stage stage) {
         this.errorAlert = new Alert(Alert.AlertType.ERROR);
 
         this.application = application;
         this.primaryStage = stage;
     }
 
-    public Parent getView() {
+    public final Parent getView() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Application.fxml"));
         fxmlLoader.setController(this);
 
@@ -96,8 +95,8 @@ public class ApplicationView {
     }
 
     @FXML
-    protected void initialize() {
-        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("HTML Files (*.html, *.htm, *.xhtml)", "*.html", "*.htm", "*.xhtml");
+    protected final void initialize() {
+        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter(FILTER_DESCRIPTION, "*.html", "*.htm", "*.xhtml");
         dropFileChooser.getExtensionFilters().add(extensionFilter);
 
         transformButton.setDisable(true);
@@ -127,17 +126,17 @@ public class ApplicationView {
     }
 
     @FXML
-    protected void onCloseButtonClicked(ActionEvent actionEvent) {
+    protected final void onCloseButtonClicked(final ActionEvent actionEvent) {
         Platform.exit();
     }
 
     @FXML
-    protected void onHelpButtonClicked(ActionEvent actionEvent) {
+    protected final void onHelpButtonClicked(final ActionEvent actionEvent) {
         application.getHostServices().showDocument("https://spiner.readme.io");
     }
 
     @FXML
-    protected void onTransformButtonClicked(ActionEvent actionEvent) {
+    protected final void onTransformButtonClicked(final ActionEvent actionEvent) {
         final File inputFile = dropFileChooser.getFile();
         final File outputFile = new File(getOutputPath(inputFile.getAbsolutePath()));
 
@@ -164,7 +163,7 @@ public class ApplicationView {
         }
     }
 
-    private TransformTask createTransformTask(File inputFile, File outputFile) throws IOException {
+    private TransformTask createTransformTask(final File inputFile, final File outputFile) throws IOException {
         FileInputOutputStream finout = new FileInputOutputStream(inputFile, outputFile);
 
         TransformTask task = new TransformTask(transformService, getTransformer(), finout.getInputStream(), finout.getOutputStream());
@@ -188,7 +187,7 @@ public class ApplicationView {
         return task;
     }
 
-    private void handleException(Throwable throwable, File inputFile) {
+    private void handleException(final Throwable throwable, final File inputFile) {
         dropFileChooser.stopProgress();
 
         Throwable actualThrowable = throwable;
@@ -215,7 +214,7 @@ public class ApplicationView {
         return epubFormatButton.isSelected() ? epubTransformer : latexTransformer;
     }
 
-    private void showErrorAndRetry(String title, String content) {
+    private void showErrorAndRetry(final String title, final String content) {
         errorAlert.setAlertType(Alert.AlertType.ERROR);
         errorAlert.setTitle(title);
         errorAlert.setHeaderText(title);
@@ -228,11 +227,7 @@ public class ApplicationView {
         }
     }
 
-    private String getOutputPath(String path) {
+    private String getOutputPath(final String path) {
         return String.format("%s.%s", FilenameUtils.removeExtension(path), getTransformer().getExtension());
-    }
-
-    public void setPrimaryStage(Stage primaryStage) {
-        this.primaryStage = primaryStage;
     }
 }

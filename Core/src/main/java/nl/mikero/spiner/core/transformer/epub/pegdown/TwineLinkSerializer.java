@@ -16,7 +16,7 @@ import java.util.Objects;
  */
 public class TwineLinkSerializer implements ToHtmlSerializerPlugin {
     @Override
-    public boolean visit(final Node node, final Visitor visitor, final Printer printer) {
+    public final boolean visit(final Node node, final Visitor visitor, final Printer printer) {
         Objects.requireNonNull(node);
         Objects.requireNonNull(visitor);
         Objects.requireNonNull(printer);

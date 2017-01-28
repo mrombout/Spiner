@@ -22,13 +22,18 @@ public class LatexContainer {
      *
      * @param command command to add, may not be null
      */
-    public void addCommand(final Command command) {
+    public final void addCommand(final Command command) {
         Objects.requireNonNull(command);
 
         this.commands.add(command);
     }
 
-    public List<Command> getCommands() {
+    /**
+     * Returns the commands inside this container.
+     *
+     * @return commands inside this container
+     */
+    public final List<Command> getCommands() {
         return commands;
     }
 

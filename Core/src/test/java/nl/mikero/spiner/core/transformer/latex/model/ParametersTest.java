@@ -1,6 +1,6 @@
 package nl.mikero.spiner.core.transformer.latex.model;
 
-import nl.mikero.spiner.core.transformer.latex.model.command.AbstractCommand;
+import nl.mikero.spiner.core.transformer.latex.model.command.BasicCommand;
 import nl.mikero.spiner.core.transformer.latex.model.command.Command;
 import org.junit.Test;
 
@@ -21,7 +21,7 @@ public class ParametersTest {
     @Test
     public void toString_NoParameters_ReturnsEmptyString() {
         // Arrange
-        Parameters parameters = new Parameters(new AbstractCommand("dummy"));
+        Parameters parameters = new Parameters(new BasicCommand("dummy"));
 
         // Act
         String result = parameters.toString();
@@ -33,7 +33,7 @@ public class ParametersTest {
     @Test
     public void toString_OneParameters_ReturnsValidOneParameter() {
         // Arrange
-        Parameters parameters = new Parameters(new AbstractCommand("dummy")).add("parameter1");
+        Parameters parameters = new Parameters(new BasicCommand("dummy")).add("parameter1");
 
         // Act
         String result = parameters.toString();
@@ -45,7 +45,7 @@ public class ParametersTest {
     @Test
     public void toString_TwoParameters_ReturnsValidTwoParameters() {
         // Arrange
-        Parameters parameters = new Parameters(new AbstractCommand("dummy")).add("parameter1").add("parameter2");
+        Parameters parameters = new Parameters(new BasicCommand("dummy")).add("parameter1").add("parameter2");
 
         // Act
         String result = parameters.toString();
@@ -57,26 +57,26 @@ public class ParametersTest {
     @Test
     public void and_ValidParent_ReturnsParent() {
         // Arrange
-        AbstractCommand abstractCommand = new AbstractCommand("dummy");
-        Parameters parameters = new Parameters(abstractCommand);
+        BasicCommand basicCommand = new BasicCommand("dummy");
+        Parameters parameters = new Parameters(basicCommand);
 
         // Act
         Command result = parameters.and();
 
         // Assert
-        assertEquals(abstractCommand, result);
+        assertEquals(basicCommand, result);
     }
 
     @Test
     public void done_ValidParent_ReturnsParent() {
         // Arrange
-        AbstractCommand abstractCommand = new AbstractCommand("dummy");
-        Parameters parameters = new Parameters(abstractCommand);
+        BasicCommand basicCommand = new BasicCommand("dummy");
+        Parameters parameters = new Parameters(basicCommand);
 
         // Act
         Command result = parameters.done();
 
         // Assert
-        assertEquals(abstractCommand, result);
+        assertEquals(basicCommand, result);
     }
 }

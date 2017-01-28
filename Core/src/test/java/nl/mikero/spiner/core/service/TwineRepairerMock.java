@@ -1,7 +1,7 @@
 package nl.mikero.spiner.core.service;
 
-import nl.mikero.spiner.core.twine.TwineRepairer;
 import nl.mikero.spiner.core.exception.TwineRepairFailedException;
+import nl.mikero.spiner.core.twine.TwineRepairer;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;

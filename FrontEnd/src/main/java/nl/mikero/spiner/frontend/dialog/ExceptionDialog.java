@@ -19,7 +19,7 @@ public class ExceptionDialog extends Alert {
      *
      * @param exception exception to render information of
      */
-    public ExceptionDialog(Throwable exception) {
+    public ExceptionDialog(final Throwable exception) {
         super(AlertType.ERROR);
 
         setTitle(exception.getClass().getSimpleName());

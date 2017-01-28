@@ -1,26 +1,26 @@
 package nl.mikero.spiner.core.transformer.latex.model;
 
-import nl.mikero.spiner.core.transformer.latex.model.command.AbstractCommand;
+import nl.mikero.spiner.core.transformer.latex.model.command.BasicCommand;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.*;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
  * Represents zero or more options in a LaTeX command.
  */
 public class Options {
-    private final AbstractCommand parent;
+    private final BasicCommand parent;
     private final Map<String, Option> options;
 
     /**
-     * Constructs a new Options
+     * Constructs a new Options.
      *
      * @param parent command these options belong to
      */
-    public Options(final AbstractCommand parent) {
+    public Options(final BasicCommand parent) {
         this.parent = Objects.requireNonNull(parent);
         this.options = new HashMap<>();
     }
@@ -28,12 +28,12 @@ public class Options {
     /**
      * Add a new goal key value pair.
      *
-     * @see Option
      * @param name goal name
      * @param value goal value
      * @return this
+     * @see Option
      */
-    public Options add(final String name, final String value) {
+    public final Options add(final String name, final String value) {
         options.put(name, new Option(name, value));
 
         return this;
@@ -45,21 +45,25 @@ public class Options {
      * @param name goal name
      * @return this
      */
-    public Options add(final String name) {
+    public final Options add(final String name) {
         return add(name, null);
     }
 
     /**
+     * Returns parent.
+     *
      * @return parent
      */
-    public AbstractCommand and() {
+    public final BasicCommand and() {
         return parent;
     }
 
     /**
+     * Returns parent.
+     *
      * @return parent
      */
-    public AbstractCommand done() {
+    public final BasicCommand done() {
         return parent;
     }
 
@@ -69,7 +73,7 @@ public class Options {
      * @return options as LaTeX options
      */
     @Override
-    public String toString() {
+    public final String toString() {
         if(options.isEmpty())
             return "";
         List<String> optionStrings = options.values().stream().map(Option::toString).collect(Collectors.toList());

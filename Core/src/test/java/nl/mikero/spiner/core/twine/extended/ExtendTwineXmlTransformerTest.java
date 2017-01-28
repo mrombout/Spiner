@@ -1,6 +1,5 @@
 package nl.mikero.spiner.core.twine.extended;
 
-import nl.mikero.spiner.core.twine.extended.ExtendTwineXmlTransformer;
 import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
@@ -18,9 +17,13 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class ExtendTwineXmlTransformerTest {
 

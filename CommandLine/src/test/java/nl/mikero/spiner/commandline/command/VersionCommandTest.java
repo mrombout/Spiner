@@ -1,6 +1,6 @@
 package nl.mikero.spiner.commandline.command;
 
-import nl.mikero.spiner.commandline.service.VersionService;
+import nl.mikero.spiner.commandline.VersionService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;

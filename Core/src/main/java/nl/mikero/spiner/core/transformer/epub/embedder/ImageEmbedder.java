@@ -47,7 +47,7 @@ public class ImageEmbedder implements Embedder {
      * @param url url of the image as defined by the user in twine
      */
     @Override
-    public String getHref(final URL url) throws IOException {
+    public final String getHref(final URL url) throws IOException {
         String hash = DigestUtils.sha256Hex(url.openStream());
         return getFileName(hash, url);
     }
@@ -64,7 +64,7 @@ public class ImageEmbedder implements Embedder {
      * @throws IOException when file contents can not be read
      */
     @Override
-    public void embed(final Book book, final URL url) throws IOException {
+    public final void embed(final Book book, final URL url) throws IOException {
         Objects.requireNonNull(book);
         Objects.requireNonNull(url);
 
@@ -84,7 +84,14 @@ public class ImageEmbedder implements Embedder {
         messageDigest.reset();
     }
 
-    private String getFileName(String hash, URL url) {
+    /**
+     * Returns the filename for a given hash and URL.
+     *
+     * @param hash hash of the file
+     * @param url url of the file
+     * @return filename to store/embed the file at
+     */
+    private String getFileName(final String hash, final URL url) {
         String originalFileName = FilenameUtils.getName(url.toString());
         String originalExtension = FilenameUtils.getExtension(originalFileName);
 

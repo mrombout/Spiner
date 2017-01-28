@@ -8,7 +8,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import nl.mikero.spiner.frontend.exception.FxmlLoadFailedException;
@@ -36,6 +35,7 @@ public class DropFileChooser extends BorderPane {
      * Constructs a new DropFileChooser.
      */
     public DropFileChooser() {
+        super();
         loadFxml();
         createFileChooser();
     }
@@ -53,7 +53,7 @@ public class DropFileChooser extends BorderPane {
     }
 
     @FXML
-    protected void initialize() {
+    protected final void initialize() {
         statusIndicator.setVisible(false);
         statusImage.setVisible(true);
     }
@@ -62,21 +62,21 @@ public class DropFileChooser extends BorderPane {
         fileChooser = new FileChooser();
     }
 
-    public ObservableList<FileChooser.ExtensionFilter> getExtensionFilters() {
+    public final ObservableList<FileChooser.ExtensionFilter> getExtensionFilters() {
         return fileChooser.getExtensionFilters();
     }
 
     @FXML
-    private void onStackPaneMouseClicked(MouseEvent mouseEvent) {
+    private void onStackPaneMouseClicked() {
         openFileChooser();
     }
 
     /**
      * Open and show the native file chooser.
      */
-    public void openFileChooser() {
-        File file;
-        if((file = fileChooser.showOpenDialog(this.getScene().getWindow())) != null) {
+    public final void openFileChooser() {
+        File file = fileChooser.showOpenDialog(this.getScene().getWindow());
+        if(file != null) {
             setFile(file);
             fileLabel.setText(getFile().getAbsolutePath());
             fileChooser.setInitialDirectory(getFile().getParentFile());
@@ -88,31 +88,40 @@ public class DropFileChooser extends BorderPane {
      *
      * @return propert for the currently selected file, may be empty when no file is selected.
      */
-    public ObjectProperty<File> fileProperty() {
+    public final ObjectProperty<File> fileProperty() {
         return fileProperty;
     }
 
-    public File getFile() {
+    public final File getFile() {
         return fileProperty.get();
     }
 
-    public void setFile(File file) {
+    public final void setFile(final File file) {
         fileProperty.set(file);
     }
 
-    public void startProgress() {
+    /**
+     * Sets this file chooser to start state.
+     */
+    public final void startProgress() {
         statusImage.setVisible(false);
         statusIndicator.setVisible(true);
         statusIndicator.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
     }
 
-    public void completeProgress() {
+    /**
+     * Sets this file chooser to complete state.
+     */
+    public final void completeProgress() {
         statusImage.setVisible(false);
         statusIndicator.setVisible(true);
         statusIndicator.setProgress(1);
     }
 
-    public void stopProgress() {
+    /**
+     * Sets this file choose to stop state.
+     */
+    public final void stopProgress() {
         statusImage.setVisible(true);
         statusIndicator.setVisible(false);
         statusIndicator.setProgress(0);

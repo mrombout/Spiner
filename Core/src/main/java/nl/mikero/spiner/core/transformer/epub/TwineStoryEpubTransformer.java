@@ -1,13 +1,13 @@
 package nl.mikero.spiner.core.transformer.epub;
 
 import com.google.inject.Inject;
-import nl.mikero.spiner.core.transformer.Transformer;
-import nl.mikero.spiner.core.transformer.epub.embedder.ResourceEmbedder;
 import nl.mikero.spiner.core.exception.TwineTransformationFailedException;
 import nl.mikero.spiner.core.exception.TwineTransformationWriteException;
+import nl.mikero.spiner.core.pegdown.plugin.TwineLinkRenderer;
+import nl.mikero.spiner.core.transformer.Transformer;
+import nl.mikero.spiner.core.transformer.epub.embedder.ResourceEmbedder;
 import nl.mikero.spiner.core.twine.model.TwPassagedata;
 import nl.mikero.spiner.core.twine.model.TwStorydata;
-import nl.mikero.spiner.core.pegdown.plugin.TwineLinkRenderer;
 import nl.siegmann.epublib.domain.Book;
 import nl.siegmann.epublib.domain.Resource;
 import nl.siegmann.epublib.epub.EpubWriter;
@@ -35,7 +35,13 @@ import java.util.Objects;
  */
 public class TwineStoryEpubTransformer implements Transformer {
     private static final Logger LOGGER = LoggerFactory.getLogger(TwineStoryEpubTransformer.class);
+
     private static final String EXTENSION = "epub";
+
+    private static final String ATTR_CLASS = "class";
+    private static final String ATTR_TYPE = "type";
+    private static final String ATTR_REL = "rel";
+    private static final String ATTR_HREF = "href";
 
     private final PegDownProcessor pdProcessor;
     private final TwineLinkRenderer twineLinkRenderer;
@@ -51,7 +57,10 @@ public class TwineStoryEpubTransformer implements Transformer {
      * @param resourceEmbedder resource embedder to use, may not be null
      */
     @Inject
-    public TwineStoryEpubTransformer(final PegDownProcessor pdProcessor, final TwineLinkRenderer twineLinkRenderer, final ResourceEmbedder resourceEmbedder) {
+    public TwineStoryEpubTransformer(
+            final PegDownProcessor pdProcessor,
+            final TwineLinkRenderer twineLinkRenderer,
+            final ResourceEmbedder resourceEmbedder) {
         this.pdProcessor = Objects.requireNonNull(pdProcessor);
         this.twineLinkRenderer = Objects.requireNonNull(twineLinkRenderer);
         this.resourceEmbedder = Objects.requireNonNull(resourceEmbedder);
@@ -70,12 +79,15 @@ public class TwineStoryEpubTransformer implements Transformer {
      * @param outputStream output stream to write epub to
      */
     @Override
-    public void transform(final TwStorydata story, final OutputStream outputStream) {
-        transform(story, outputStream, story.getXtwMetadata() != null ? EpubTransformOptions.fromXtwMetadata(story.getXtwMetadata()) : EpubTransformOptions.EMPTY);
+    public final void transform(final TwStorydata story, final OutputStream outputStream) {
+        EpubTransformOptions options = EpubTransformOptions.EMPTY;
+        if(story.getXtwMetadata() != null)
+             options = EpubTransformOptions.fromXtwMetadata(story.getXtwMetadata());
+        transform(story, outputStream, options);
     }
 
     @Override
-    public String getExtension() {
+    public final String getExtension() {
         return EXTENSION;
     }
 
@@ -86,7 +98,7 @@ public class TwineStoryEpubTransformer implements Transformer {
      * @param outputStream output stream to write EPUB to, may not be null
      * @param options transform options, contains EPUB metadata, may not me null
      */
-    public void transform(final TwStorydata story, final OutputStream outputStream, final EpubTransformOptions options) {
+    public final void transform(final TwStorydata story, final OutputStream outputStream, final EpubTransformOptions options) {
         Objects.requireNonNull(story);
         Objects.requireNonNull(outputStream);
         Objects.requireNonNull(options);
@@ -141,7 +153,9 @@ public class TwineStoryEpubTransformer implements Transformer {
     /**
      * Transforms the text of a passage to a valid XHTML document.
      *
+     * @param passageText markdown text from a passage
      * @return a valid xhtml document containing the passage text in the body
+     * @throws TransformerException if markdown can't be transformed to xhtml
      */
     private String transformPassageTextToXhtml(final String passageText) throws TransformerException {
         String xhtml = pdProcessor.markdownToHtml(passageText, twineLinkRenderer);
@@ -152,14 +166,14 @@ public class TwineStoryEpubTransformer implements Transformer {
 
             // add stylesheet
             Element style = document.createElement("link");
-            style.setAttribute("type", "text/css");
-            style.setAttribute("rel", "stylesheet");
-            style.setAttribute("href", "Story.css");
+            style.setAttribute(ATTR_TYPE, "text/css");
+            style.setAttribute(ATTR_REL, "stylesheet");
+            style.setAttribute(ATTR_HREF, "Story.css");
             head.appendChild(style);
 
             // add ttp class to body
             Element body = (Element) document.getElementsByTagName("body").item(0);
-            body.setAttribute("class", body.getAttribute("class") + " ttp");
+            body.setAttribute(ATTR_CLASS, body.getAttribute(ATTR_CLASS) + " ttp");
 
             // transform xml
             TransformerFactory transformerFactory = TransformerFactory.newInstance();

@@ -4,13 +4,12 @@ import com.beust.jcommander.MissingCommandException;
 import nl.mikero.spiner.commandline.command.HelpCommand;
 import nl.mikero.spiner.commandline.command.TransformCommand;
 import nl.mikero.spiner.commandline.command.VersionCommand;
-import nl.mikero.spiner.commandline.factory.CommandFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-public class ApplicationTest {
-    private Application application;
+public class CommandLineApplicationTest {
+    private CommandLineApplication application;
 
     private CommandFactory mockCommandFactory;
     private HelpCommand mockHelpCommand;
@@ -22,6 +21,7 @@ public class ApplicationTest {
         mockCommandFactory = Mockito.mock(CommandFactory.class);
 
         mockHelpCommand = Mockito.mock(HelpCommand.class);
+        Mockito.doNothing().when(mockHelpCommand).run();
         Mockito.when(mockCommandFactory.createHelpCommand(Mockito.any())).thenReturn(mockHelpCommand);
 
         mockVersionCommand = Mockito.mock(VersionCommand.class);
@@ -30,7 +30,7 @@ public class ApplicationTest {
         mockTransformCommand = Mockito.mock(TransformCommand.class);
         Mockito.when(mockCommandFactory.createTransformCommand()).thenReturn(mockTransformCommand);
 
-        application = new Application(mockCommandFactory);
+        application = new CommandLineApplication(mockCommandFactory);
     }
 
     @Test
