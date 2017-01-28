@@ -20,6 +20,7 @@ public class GradleVersionService implements VersionService {
      *
      * @return gradle project version
      */
+    @Override
     public final String get() {
         Properties prop = new Properties();
 

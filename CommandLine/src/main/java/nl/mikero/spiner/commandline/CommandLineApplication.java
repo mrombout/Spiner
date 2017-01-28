@@ -59,12 +59,10 @@ public class CommandLineApplication {
         jCommander.parse(args);
 
         // interrogation
-        if(helpCommand.isHelpCommand()) {
-            helpCommand.run();
-        } else if(versionCommand.isVersionCommand()) {
+        if(versionCommand.isVersionCommand()) {
             versionCommand.run();
         } else if(jCommander.getParsedCommand() != null) {
-            if(jCommander.getParsedCommand().equals("transform")) {
+            if("transform".equals(jCommander.getParsedCommand())) {
                 transformCommand.run();
             }
         } else {
