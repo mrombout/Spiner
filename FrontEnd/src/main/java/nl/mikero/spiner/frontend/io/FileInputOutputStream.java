@@ -35,7 +35,7 @@ public class FileInputOutputStream implements AutoCloseable {
     }
 
     @Override
-    public void close() throws IOException {
+    public final void close() throws IOException {
         try {
             input.close();
             output.close();

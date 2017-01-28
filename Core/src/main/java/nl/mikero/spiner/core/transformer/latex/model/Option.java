@@ -28,7 +28,7 @@ public class Option {
      * @return LaTeX goal
      */
     @Override
-    public String toString() {
+    public final String toString() {
         if(value != null)
             return String.format("%s=%s", name, value);
         return name;

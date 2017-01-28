@@ -76,7 +76,7 @@ public class TwineLinkRenderer extends LinkRenderer {
      * @return link renderer
      */
     @Override
-    public Rendering render(final WikiLinkNode node) {
+    public final Rendering render(final WikiLinkNode node) {
         Matcher matcher = LINKS.matcher(node.getText());
         String url = node.getText();
         String text = node.getText();
@@ -105,7 +105,7 @@ public class TwineLinkRenderer extends LinkRenderer {
      * @return link renderer
      */
     @Override
-    public Rendering render(final ExpImageNode node, final String text) {
+    public final Rendering render(final ExpImageNode node, final String text) {
         String url = node.url;
         try {
             url = imageEmbedder.getHref(new URL(node.url));

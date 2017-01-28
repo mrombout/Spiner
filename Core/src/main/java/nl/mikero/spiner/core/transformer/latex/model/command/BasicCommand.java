@@ -46,7 +46,7 @@ public class BasicCommand implements Command {
      * @return valid LaTeX representation of this command
      */
     @Override
-    public final String toString() {
+    public String toString() {
         return String.format("\\%s%s%s", commandName, options, parameters);
     }
 }

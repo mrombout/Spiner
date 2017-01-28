@@ -31,7 +31,7 @@ public class CommandLineApplication {
         this.commandFactory = commandFactory;
     }
 
-    public void execute(final String[] args) {
+    public final void execute(final String[] args) {
         // definition
         JCommander jCommander = new JCommander();
         jCommander.setProgramName("spiner");

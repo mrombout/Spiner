@@ -27,7 +27,7 @@ public class TwineArchiveParser {
      * @return unmarshalled xml object tree
      * @throws TwineParseFailedException when input could not be parsed
      */
-    public TwStoriesdata parse(final InputStream inputStream) {
+    public final TwStoriesdata parse(final InputStream inputStream) {
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();

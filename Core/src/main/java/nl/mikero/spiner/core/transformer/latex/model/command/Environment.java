@@ -38,7 +38,7 @@ public class Environment extends BasicCommand {
      * @param command command to add to environment
      * @return this
      */
-    public Environment addCommand(final Command command) {
+    public final Environment addCommand(final Command command) {
         Objects.requireNonNull(command);
         container.addCommand(command);
 

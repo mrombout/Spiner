@@ -48,7 +48,7 @@ public class TransformCommand implements Command {
     }
 
     @Override
-    public void run() {
+    public final void run() {
         InputStream inputStream = new CloseShieldInputStream(System.in);
         OutputStream outputStream = new CloseShieldOutputStream(System.out);
         Transformer transformer = epubTransformer;

@@ -8,7 +8,7 @@ import nl.mikero.spiner.core.inject.AbstractTwineModule;
  */
 public class CommandLineModule extends AbstractTwineModule {
     @Override
-    protected void configure() {
+    protected final void configure() {
         super.configure();
 
         bind(VersionService.class).to(GradleVersionService.class);

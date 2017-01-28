@@ -70,12 +70,12 @@ public class TwineStoryEpubTransformer implements Transformer {
      * @param outputStream output stream to write epub to
      */
     @Override
-    public void transform(final TwStorydata story, final OutputStream outputStream) {
+    public final void transform(final TwStorydata story, final OutputStream outputStream) {
         transform(story, outputStream, story.getXtwMetadata() != null ? EpubTransformOptions.fromXtwMetadata(story.getXtwMetadata()) : EpubTransformOptions.EMPTY);
     }
 
     @Override
-    public String getExtension() {
+    public final String getExtension() {
         return EXTENSION;
     }
 
@@ -86,7 +86,7 @@ public class TwineStoryEpubTransformer implements Transformer {
      * @param outputStream output stream to write EPUB to, may not be null
      * @param options transform options, contains EPUB metadata, may not me null
      */
-    public void transform(final TwStorydata story, final OutputStream outputStream, final EpubTransformOptions options) {
+    public final void transform(final TwStorydata story, final OutputStream outputStream, final EpubTransformOptions options) {
         Objects.requireNonNull(story);
         Objects.requireNonNull(outputStream);
         Objects.requireNonNull(options);

@@ -22,7 +22,7 @@ public class LatexContainer {
      *
      * @param command command to add, may not be null
      */
-    public void addCommand(final Command command) {
+    public final void addCommand(final Command command) {
         Objects.requireNonNull(command);
 
         this.commands.add(command);
