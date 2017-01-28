@@ -95,6 +95,12 @@ public class LatexTransformer implements Transformer {
         return EXTENSION;
     }
 
+    /**
+     * Transform passage markdown text to LaTex.
+     *
+     * @param passageText passage markdown text
+     * @return converted LaTeX string
+     */
     private String transformPassageTextToLatex(final String passageText) {
         RootNode node = processor.parseMarkdown(passageText.toCharArray());
         return serializer.toLatex(node);

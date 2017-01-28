@@ -103,6 +103,12 @@ public class ResourceEmbedder implements Visitor {
         visitChildren(node);
     }
 
+    /**
+     * Creates an URL from a string.
+     *
+     * @param url string to create url from
+     * @return url from string
+     */
     private URL createUrlFromString(final String url) {
         try {
             return new URL(url);

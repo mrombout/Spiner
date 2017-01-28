@@ -26,11 +26,11 @@ public class FileInputOutputStream implements AutoCloseable {
         }
     }
 
-    public FileInputStream getInputStream() {
+    public final FileInputStream getInputStream() {
         return input;
     }
 
-    public FileOutputStream getOutputStream() {
+    public final FileOutputStream getOutputStream() {
         return output;
     }
 

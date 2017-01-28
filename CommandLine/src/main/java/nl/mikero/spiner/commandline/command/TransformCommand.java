@@ -73,8 +73,7 @@ public class TransformCommand implements Command {
                 }
             }
 
-            if (format != null) {
-                if (format.equals(ARG_FORMAT_LATEX))
+            if (format != null && format.equals(ARG_FORMAT_LATEX)) {
                     transformer = latexTransformer;
             }
 

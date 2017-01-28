@@ -139,12 +139,6 @@ public class TwineStoryEpubTransformer implements Transformer {
     }
 
     /**
-     *
-     *
-     *
-     */
-
-    /**
      * Transforms the text of a passage to a valid XHTML document.
      *
      * @param passageText markdown text from a passage

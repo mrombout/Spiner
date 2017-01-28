@@ -16,12 +16,12 @@ import nl.mikero.spiner.frontend.main.ApplicationView;
 public class SpinerApplication extends Application {
     @Override
     public void start(final Stage primaryStage) {
-        Injector injector = Guice.createInjector(new TwineModule());
+        final Injector injector = Guice.createInjector(new TwineModule());
 
-        ApplicationView applicationView = new ApplicationView(this, primaryStage);
+        final ApplicationView applicationView = new ApplicationView(this, primaryStage);
         injector.injectMembers(applicationView);
 
-        Scene scene = new Scene(applicationView.getView());
+        final Scene scene = new Scene(applicationView.getView());
 
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/icon.png")));

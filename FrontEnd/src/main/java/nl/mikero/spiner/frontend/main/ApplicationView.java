@@ -12,7 +12,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -41,6 +40,9 @@ public class ApplicationView {
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationView.class);
 
     private static final String LOG_MSG_TRANSFORM_FAIL = "Could not transform document.";
+
+    private static final String FILTER_DESCRIPTION = "HTML Files (*.html, *.htm, *.xhtml)";
+    private static final String FILTER_EXTENSIONS = "";
 
     private final Alert errorAlert;
 
@@ -82,7 +84,7 @@ public class ApplicationView {
         this.primaryStage = stage;
     }
 
-    public Parent getView() {
+    public final Parent getView() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Application.fxml"));
         fxmlLoader.setController(this);
 
@@ -95,7 +97,7 @@ public class ApplicationView {
 
     @FXML
     protected void initialize() {
-        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("HTML Files (*.html, *.htm, *.xhtml)", "*.html", "*.htm", "*.xhtml");
+        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter(FILTER_DESCRIPTION, "*.html", "*.htm", "*.xhtml");
         dropFileChooser.getExtensionFilters().add(extensionFilter);
 
         transformButton.setDisable(true);

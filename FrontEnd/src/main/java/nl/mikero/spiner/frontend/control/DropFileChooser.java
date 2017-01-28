@@ -8,7 +8,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import nl.mikero.spiner.frontend.exception.FxmlLoadFailedException;
@@ -102,7 +101,7 @@ public class DropFileChooser extends BorderPane {
     }
 
     /**
-     * Sets this file chooser to start state;
+     * Sets this file chooser to start state.
      */
     public void startProgress() {
         statusImage.setVisible(false);

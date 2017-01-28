@@ -84,7 +84,9 @@ public class TransformService {
      * @param transformedOutput extended twine xml output
      * @throws IOException if extend fails
      */
-    private void extend(final ByteArrayOutputStream repairedOutput, final OutputStream transformedOutput) throws IOException {
+    private void extend(
+            final ByteArrayOutputStream repairedOutput,
+            final OutputStream transformedOutput) throws IOException {
         try(InputStream in = new ByteArrayInputStream(repairedOutput.toByteArray())) {
             extendTwineXmlTransformer.transform(in, transformedOutput);
         }
