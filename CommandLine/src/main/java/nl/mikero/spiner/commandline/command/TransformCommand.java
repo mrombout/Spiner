@@ -9,11 +9,15 @@ import nl.mikero.spiner.core.transformer.epub.TwineStoryEpubTransformer;
 import nl.mikero.spiner.core.transformer.latex.LatexTransformer;
 import org.apache.commons.io.input.CloseShieldInputStream;
 import org.apache.commons.io.output.CloseShieldOutputStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 
 @Parameters(separators = "=", commandDescription = "Transform Twine file to EPUB of LaTeX.")
 public class TransformCommand implements Command {
+    private static final Logger LOGGER = LoggerFactory.getLogger(TransformCommand.class);
+
     public static final String ARG_FORMAT_EPUB = "epub";
     public static final String ARG_FORMAT_LATEX = "latex";
 
@@ -89,7 +93,7 @@ public class TransformCommand implements Command {
     private void handleError(String msg, Throwable throwable, int status) {
         System.out.println(msg);
         if(showDebugOutput)
-            throwable.printStackTrace();
+            LOGGER.error(msg, throwable);
         System.exit(status);
     }
 }
