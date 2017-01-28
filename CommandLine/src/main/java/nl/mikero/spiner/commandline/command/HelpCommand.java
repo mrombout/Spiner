@@ -28,7 +28,7 @@ public class HelpCommand implements Command {
      * Displays the usage in the console.
      */
     @Override
-    public void run() {
+    public final void run() {
         jCommander.usage();
     }
 

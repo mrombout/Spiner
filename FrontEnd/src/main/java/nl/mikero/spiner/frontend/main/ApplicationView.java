@@ -55,8 +55,6 @@ public class ApplicationView {
     private LatexTransformer latexTransformer;
 
     @FXML
-    private BorderPane applicationView;
-    @FXML
     private DropFileChooser dropFileChooser;
     @FXML
     private Button transformButton;

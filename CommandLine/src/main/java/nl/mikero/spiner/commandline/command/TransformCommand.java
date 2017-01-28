@@ -88,7 +88,7 @@ public class TransformCommand implements Command {
                 if (fout != null)
                     fout.close();
             } catch (IOException e) {
-                // TODO: Handle properly
+                handleError("Error closing streams.", e, 3);
             }
         }
     }
