@@ -26,11 +26,11 @@ public class Options {
     }
 
     /**
-     * Add a new option key value pair.
+     * Add a new goal key value pair.
      *
      * @see Option
-     * @param name option name
-     * @param value option value
+     * @param name goal name
+     * @param value goal value
      * @return this
      */
     public Options add(String name, String value) {
@@ -40,9 +40,9 @@ public class Options {
     }
 
     /**
-     * Add a new option key only.
+     * Add a new goal key only.
      *
-     * @param name option name
+     * @param name goal name
      * @return this
      */
     public Options add(String name) {
