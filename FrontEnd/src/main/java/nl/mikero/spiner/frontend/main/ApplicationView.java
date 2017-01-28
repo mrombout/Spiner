@@ -1,6 +1,7 @@
 package nl.mikero.spiner.frontend.main;
 
 import com.google.inject.Inject;
+import javafx.application.Platform;
 import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,13 +12,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import nl.mikero.spiner.core.exception.TwineRepairFailedException;
 import nl.mikero.spiner.core.exception.TwineTransformationFailedException;
 import nl.mikero.spiner.core.transformer.TransformService;
 import nl.mikero.spiner.core.transformer.Transformer;
 import nl.mikero.spiner.core.transformer.epub.TwineStoryEpubTransformer;
 import nl.mikero.spiner.core.transformer.latex.LatexTransformer;
+import nl.mikero.spiner.frontend.SpinerApplication;
 import nl.mikero.spiner.frontend.dialog.ExceptionDialog;
 import nl.mikero.spiner.frontend.TransformTask;
 import nl.mikero.spiner.frontend.control.DropFileChooser;
@@ -40,6 +44,9 @@ public class ApplicationView {
 
     private final Alert errorAlert;
 
+    private double xOffset = 0;
+    private double yOffset = 0;
+
     @Inject
     private TransformService transformService;
     @Inject
@@ -48,7 +55,7 @@ public class ApplicationView {
     private LatexTransformer latexTransformer;
 
     @FXML
-    private BorderPane application;
+    private BorderPane applicationView;
     @FXML
     private DropFileChooser dropFileChooser;
     @FXML
@@ -58,11 +65,23 @@ public class ApplicationView {
     @FXML
     private ToggleButton latexFormatButton;
 
+    @FXML
+    private HBox header;
+
+    private SpinerApplication application;
+    private Stage primaryStage;
+
     /**
-     * Constructs a new ApplicationView.
+     * Constructs a new ApplicatieView.
+     *
+     * @param application application
+     * @param stage parent stage
      */
-    public ApplicationView() {
+    public ApplicationView(SpinerApplication application, Stage stage) {
         this.errorAlert = new Alert(Alert.AlertType.ERROR);
+
+        this.application = application;
+        this.primaryStage = stage;
     }
 
     public Parent getView() {
@@ -96,6 +115,25 @@ public class ApplicationView {
                 epubFormatButton.requestFocus();
             }
         });
+
+        header.setOnMousePressed(event -> {
+            xOffset = event.getSceneX();
+            yOffset = event.getSceneY();
+        });
+        header.setOnMouseDragged(event -> {
+            primaryStage.setX(event.getScreenX() - xOffset);
+            primaryStage.setY(event.getScreenY() - yOffset);
+        });
+    }
+
+    @FXML
+    protected void onCloseButtonClicked(ActionEvent actionEvent) {
+        Platform.exit();
+    }
+
+    @FXML
+    protected void onHelpButtonClicked(ActionEvent actionEvent) {
+        application.getHostServices().showDocument("https://spiner.readme.io");
     }
 
     @FXML
@@ -192,5 +230,9 @@ public class ApplicationView {
 
     private String getOutputPath(String path) {
         return String.format("%s.%s", FilenameUtils.removeExtension(path), getTransformer().getExtension());
+    }
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
     }
 }
