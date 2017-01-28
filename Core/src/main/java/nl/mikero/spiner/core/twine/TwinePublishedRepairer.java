@@ -28,6 +28,9 @@ public class TwinePublishedRepairer implements TwineRepairer {
 
     private final Tidy tidy;
 
+    /**
+     * Constructs a new TwinePublishedRepairer.
+     */
     public TwinePublishedRepairer() {
         this.tidy = new Tidy();
         tidy.setInputEncoding("UTF-8");

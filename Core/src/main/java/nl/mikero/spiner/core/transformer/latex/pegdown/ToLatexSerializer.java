@@ -24,6 +24,8 @@ public class ToLatexSerializer implements Visitor {
             new AbstractMap.SimpleEntry<>(6, "subparagraph")
     ).collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue)));
 
+    private static final String MSG_INVALID_HEADER_LEVEL = "Header level '%d' is not supported, must be 1 to 6.";
+
     private static final String TEX_START = "{";
     private static final String TEX_END = "}";
 
@@ -162,7 +164,7 @@ public class ToLatexSerializer implements Visitor {
     @Override
     public void visit(final HeaderNode node) {
         if(!SUPPORTED_LEVELS.containsKey(node.getLevel()))
-            throw new IllegalStateException(String.format("Header level '%d' is not supported, must be 1 to 6.", node.getLevel()));
+            throw new IllegalStateException(String.format(MSG_INVALID_HEADER_LEVEL, node.getLevel()));
 
         printBreakBeforeCommand(node, SUPPORTED_LEVELS.get(node.getLevel()));
     }
@@ -396,10 +398,16 @@ public class ToLatexSerializer implements Visitor {
         printer.print(TEX_END);
     }
 
-    private void printIndentedEnvironment(final SuperNode node, final String environment) {
-        printer.println().print("\\begin").print(TEX_START).print(environment).print(TEX_END).indent(+INDENT_SIZE);
+    /**
+     * Prints an indented environment.
+     *
+     * @param node node containing the children of this environment
+     * @param environmentName name of the environment to print
+     */
+    private void printIndentedEnvironment(final SuperNode node, final String environmentName) {
+        printer.println().print("\\begin").print(TEX_START).print(environmentName).print(TEX_END).indent(+INDENT_SIZE);
         visitChildren(node);
-        printer.indent(-INDENT_SIZE).println().print("\\end").print(TEX_START).print(environment).print(TEX_END);
+        printer.indent(-INDENT_SIZE).println().print("\\end").print(TEX_START).print(environmentName).print(TEX_END);
     }
 
     private void printConditionallyIndentedCommand(final SuperNode node, final String command) {
@@ -416,6 +424,12 @@ public class ToLatexSerializer implements Visitor {
         }
     }
 
+    /**
+     * Prints and returns all children as a string.
+     *
+     * @param node node to print
+     * @return LaTeX representation of input node
+     */
     private String printChildrenToString(final SuperNode node) {
         Printer priorPrinter = printer;
         printer = new Printer();
@@ -433,6 +447,11 @@ public class ToLatexSerializer implements Visitor {
             printer.println();
     }
 
+    /**
+     * Prints a link.
+     *
+     * @param rendering rendering to print link for
+     */
     private void printLink(final LinkRenderer.Rendering rendering) {
         printer.print("\\gbturn").print(TEX_START).print(rendering.text).print(TEX_END);
     }

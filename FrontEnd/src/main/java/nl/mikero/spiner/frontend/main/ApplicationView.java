@@ -42,7 +42,6 @@ public class ApplicationView {
     private static final String LOG_MSG_TRANSFORM_FAIL = "Could not transform document.";
 
     private static final String FILTER_DESCRIPTION = "HTML Files (*.html, *.htm, *.xhtml)";
-    private static final String FILTER_EXTENSIONS = "";
 
     private final Alert errorAlert;
 

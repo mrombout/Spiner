@@ -33,7 +33,7 @@ public class Options {
      * @param value goal value
      * @return this
      */
-    public Options add(final String name, final String value) {
+    public final Options add(final String name, final String value) {
         options.put(name, new Option(name, value));
 
         return this;
@@ -45,21 +45,21 @@ public class Options {
      * @param name goal name
      * @return this
      */
-    public Options add(final String name) {
+    public final Options add(final String name) {
         return add(name, null);
     }
 
     /**
      * @return parent
      */
-    public BasicCommand and() {
+    public final BasicCommand and() {
         return parent;
     }
 
     /**
      * @return parent
      */
-    public BasicCommand done() {
+    public final BasicCommand done() {
         return parent;
     }
 
@@ -69,7 +69,7 @@ public class Options {
      * @return options as LaTeX options
      */
     @Override
-    public String toString() {
+    public final String toString() {
         if(options.isEmpty())
             return "";
         List<String> optionStrings = options.values().stream().map(Option::toString).collect(Collectors.toList());
