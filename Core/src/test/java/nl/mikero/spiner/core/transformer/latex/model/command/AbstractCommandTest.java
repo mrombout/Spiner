@@ -4,7 +4,8 @@ import nl.mikero.spiner.core.transformer.latex.model.Options;
 import nl.mikero.spiner.core.transformer.latex.model.Parameters;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class AbstractCommandTest {
     @Test

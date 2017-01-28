@@ -1,13 +1,13 @@
 package nl.mikero.spiner.core.transformer.epub;
 
 import com.google.inject.Inject;
-import nl.mikero.spiner.core.transformer.Transformer;
-import nl.mikero.spiner.core.transformer.epub.embedder.ResourceEmbedder;
 import nl.mikero.spiner.core.exception.TwineTransformationFailedException;
 import nl.mikero.spiner.core.exception.TwineTransformationWriteException;
+import nl.mikero.spiner.core.pegdown.plugin.TwineLinkRenderer;
+import nl.mikero.spiner.core.transformer.Transformer;
+import nl.mikero.spiner.core.transformer.epub.embedder.ResourceEmbedder;
 import nl.mikero.spiner.core.twine.model.TwPassagedata;
 import nl.mikero.spiner.core.twine.model.TwStorydata;
-import nl.mikero.spiner.core.pegdown.plugin.TwineLinkRenderer;
 import nl.siegmann.epublib.domain.Book;
 import nl.siegmann.epublib.domain.Resource;
 import nl.siegmann.epublib.epub.EpubWriter;

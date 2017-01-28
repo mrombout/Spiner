@@ -2,7 +2,10 @@ package nl.mikero.spiner.core.transformer.latex;
 
 import nl.mikero.spiner.core.transformer.latex.model.LatexDocument;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.Objects;
 
 /**

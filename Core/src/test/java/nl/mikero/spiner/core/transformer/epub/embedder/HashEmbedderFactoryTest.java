@@ -4,10 +4,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.pegdown.ast.ExpImageNode;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
-
 import java.security.MessageDigest;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+import static org.mockito.Mockito.mock;
 
 public class HashEmbedderFactoryTest {
 

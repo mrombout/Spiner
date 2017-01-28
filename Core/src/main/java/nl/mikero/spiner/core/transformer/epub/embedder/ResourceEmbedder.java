@@ -29,7 +29,7 @@ public class ResourceEmbedder implements Visitor {
      * @param factory factory used to create embedders
      */
     @Inject
-    public ResourceEmbedder(EmbedderFactory factory) {
+    public ResourceEmbedder(final EmbedderFactory factory) {
         this.factory = factory;
     }
 
@@ -37,11 +37,11 @@ public class ResourceEmbedder implements Visitor {
      * Runs through all the children of the given root node and embeds any
      * nodes that are embeddable.
      *
-     * @see Embedder
      * @param book book to embed resources in
      * @param rootNode root node to run through
+     * @see Embedder
      */
-    public void embed(Book book, RootNode rootNode) {
+    public void embed(final Book book, final RootNode rootNode) {
         Objects.requireNonNull(book);
         Objects.requireNonNull(rootNode);
 
@@ -51,7 +51,7 @@ public class ResourceEmbedder implements Visitor {
     }
 
     @Override
-    public void visit(RootNode node) {
+    public void visit(final RootNode node) {
         for (ReferenceNode refNode : node.getReferences()) {
             visitChildren(refNode);
         }
@@ -62,7 +62,7 @@ public class ResourceEmbedder implements Visitor {
     }
 
     @Override
-    public void visit(AbbreviationNode node) {
+    public void visit(final AbbreviationNode node) {
         visitChildren(node);
     }
 
@@ -77,22 +77,22 @@ public class ResourceEmbedder implements Visitor {
     }
 
     @Override
-    public void visit(DefinitionListNode node) {
+    public void visit(final DefinitionListNode node) {
         visitChildren(node);
     }
 
     @Override
-    public void visit(DefinitionNode node) {
+    public void visit(final DefinitionNode node) {
         visitChildren(node);
     }
 
     @Override
-    public void visit(DefinitionTermNode node) {
+    public void visit(final DefinitionTermNode node) {
         visitChildren(node);
     }
 
     @Override
-    public void visit(ExpImageNode node) {
+    public void visit(final ExpImageNode node) {
         try {
             Embedder embedder = factory.get(node);
             embedder.embed(this.book, createUrlFromString(node.url));
@@ -103,7 +103,7 @@ public class ResourceEmbedder implements Visitor {
         visitChildren(node);
     }
 
-    private URL createUrlFromString(String url) {
+    private URL createUrlFromString(final String url) {
         try {
             return new URL(url);
         } catch (MalformedURLException e) {
@@ -114,87 +114,87 @@ public class ResourceEmbedder implements Visitor {
     }
 
     @Override
-    public void visit(ExpLinkNode node) {
+    public void visit(final ExpLinkNode node) {
         visitChildren(node);
     }
 
     @Override
-    public void visit(HeaderNode node) {
+    public void visit(final HeaderNode node) {
         visitChildren(node);
     }
 
     @Override
-    public void visit(ListItemNode node) {
+    public void visit(final ListItemNode node) {
         visitChildren(node);
     }
 
     @Override
-    public void visit(OrderedListNode node) {
+    public void visit(final OrderedListNode node) {
         visitChildren(node);
     }
 
     @Override
-    public void visit(ParaNode node) {
+    public void visit(final ParaNode node) {
         visitChildren(node);
     }
 
     @Override
-    public void visit(QuotedNode node) {
+    public void visit(final QuotedNode node) {
         visitChildren(node);
     }
 
     @Override
-    public void visit(ReferenceNode node) {
+    public void visit(final ReferenceNode node) {
         visitChildren(node);
     }
 
     @Override
-    public void visit(RefImageNode node) {
+    public void visit(final RefImageNode node) {
         visitChildren(node);
     }
 
     @Override
-    public void visit(RefLinkNode node) {
+    public void visit(final RefLinkNode node) {
         visitChildren(node);
     }
 
     @Override
-    public void visit(StrikeNode node) {
+    public void visit(final StrikeNode node) {
         visitChildren(node);
     }
 
     @Override
-    public void visit(StrongEmphSuperNode node) {
+    public void visit(final StrongEmphSuperNode node) {
         visitChildren(node);
     }
 
     @Override
-    public void visit(TableBodyNode node) {
+    public void visit(final TableBodyNode node) {
         visitChildren(node);
     }
 
     @Override
-    public void visit(TableCaptionNode node) {
+    public void visit(final TableCaptionNode node) {
         visitChildren(node);
     }
 
     @Override
-    public void visit(TableCellNode node) {
+    public void visit(final TableCellNode node) {
         visitChildren(node);
     }
 
     @Override
-    public void visit(TableColumnNode node) {
+    public void visit(final TableColumnNode node) {
         visitChildren(node);
     }
 
     @Override
-    public void visit(TableHeaderNode node) {
+    public void visit(final TableHeaderNode node) {
         visitChildren(node);
     }
 
     @Override
-    public void visit(TableNode node) {
+    public void visit(final TableNode node) {
         visitChildren(node);
     }
 
@@ -204,7 +204,7 @@ public class ResourceEmbedder implements Visitor {
     }
 
     @Override
-    public void visit(SuperNode node) {
+    public void visit(final SuperNode node) {
         visitChildren(node);
     }
 
@@ -215,27 +215,27 @@ public class ResourceEmbedder implements Visitor {
     }
 
     @Override
-    public void visit(AnchorLinkNode node) { /* can't contain embeddedable resources */ }
+    public void visit(final AnchorLinkNode node) { /* can't contain embeddedable resources */ }
     @Override
-    public void visit(AutoLinkNode node) { /* can't contain embeddedable resources */ }
+    public void visit(final AutoLinkNode node) { /* can't contain embeddedable resources */ }
     @Override
-    public void visit(CodeNode node) { /* can't contain embeddedable resources */ }
+    public void visit(final CodeNode node) { /* can't contain embeddedable resources */ }
     @Override
-    public void visit(HtmlBlockNode node) { /* can't contain embeddedable resources */ }
+    public void visit(final HtmlBlockNode node) { /* can't contain embeddedable resources */ }
     @Override
-    public void visit(InlineHtmlNode node) { /* can't contain embeddedable resources */ }
+    public void visit(final InlineHtmlNode node) { /* can't contain embeddedable resources */ }
     @Override
-    public void visit(MailLinkNode node) { /* can't contain embeddedable resources */ }
+    public void visit(final MailLinkNode node) { /* can't contain embeddedable resources */ }
     @Override
-    public void visit(SimpleNode node) { /* can't contain embeddedable resources */ }
+    public void visit(final SimpleNode node) { /* can't contain embeddedable resources */ }
     @Override
-    public void visit(SpecialTextNode node) { /* can't contain embeddedable resources */ }
+    public void visit(final SpecialTextNode node) { /* can't contain embeddedable resources */ }
     @Override
-    public void visit(VerbatimNode node) { /* can't contain embeddedable resources */ }
+    public void visit(final VerbatimNode node) { /* can't contain embeddedable resources */ }
     @Override
-    public void visit(WikiLinkNode node) { /* can't contain embeddedable resources */ }
+    public void visit(final WikiLinkNode node) { /* can't contain embeddedable resources */ }
     @Override
-    public void visit(TextNode node) { /* can't contain embeddedable resources */ }
+    public void visit(final TextNode node) { /* can't contain embeddedable resources */ }
     @Override
-    public void visit(Node node) { /* can't contain embeddedable resources */ }
+    public void visit(final Node node) { /* can't contain embeddedable resources */ }
 }

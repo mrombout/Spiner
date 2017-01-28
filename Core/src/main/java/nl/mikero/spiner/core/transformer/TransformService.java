@@ -9,11 +9,7 @@ import nl.mikero.spiner.core.twine.extended.ExtendTwineXmlTransformer;
 import nl.mikero.spiner.core.twine.model.TwStoriesdata;
 import nl.mikero.spiner.core.twine.model.TwStorydata;
 import org.apache.commons.io.IOUtils;
-import org.xml.sax.SAXException;
 
-import javax.xml.bind.JAXBException;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
 import java.io.*;
 import java.util.Objects;
 

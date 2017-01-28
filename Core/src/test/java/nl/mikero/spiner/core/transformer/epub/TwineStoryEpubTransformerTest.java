@@ -1,13 +1,11 @@
 package nl.mikero.spiner.core.transformer.epub;
 
-import static org.junit.Assert.*;
+import nl.mikero.spiner.core.pegdown.plugin.TwineLinkRenderer;
 import nl.mikero.spiner.core.transformer.epub.embedder.ResourceEmbedder;
 import nl.mikero.spiner.core.twine.model.Style;
 import nl.mikero.spiner.core.twine.model.TwPassagedata;
 import nl.mikero.spiner.core.twine.model.TwStoriesdata;
 import nl.mikero.spiner.core.twine.model.TwStorydata;
-import nl.mikero.spiner.core.pegdown.plugin.TwineLinkRenderer;
-import nl.mikero.spiner.core.transformer.epub.TwineStoryEpubTransformer;
 import nl.siegmann.epublib.domain.Book;
 import nl.siegmann.epublib.domain.Resource;
 import nl.siegmann.epublib.domain.Resources;
@@ -18,9 +16,14 @@ import org.junit.Test;
 import org.pegdown.LinkRenderer;
 import org.pegdown.PegDownProcessor;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.*;
 
 public class TwineStoryEpubTransformerTest {

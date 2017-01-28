@@ -1,11 +1,11 @@
 package nl.mikero.spiner.core.service;
 
-import nl.mikero.spiner.core.twine.extended.model.XtwMetadata;
 import nl.mikero.spiner.core.transformer.epub.EpubTransformOptions;
+import nl.mikero.spiner.core.twine.extended.model.XtwMetadata;
 import nl.siegmann.epublib.domain.Metadata;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class EpubTransformOptionsTest {
 

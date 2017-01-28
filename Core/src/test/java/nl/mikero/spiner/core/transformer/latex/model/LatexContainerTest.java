@@ -3,7 +3,7 @@ package nl.mikero.spiner.core.transformer.latex.model;
 import nl.mikero.spiner.core.transformer.latex.model.command.AbstractCommand;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class LatexContainerTest {
     @Test

@@ -4,7 +4,10 @@ import nl.mikero.spiner.core.exception.TwineRepairFailedException;
 import org.apache.commons.io.IOUtils;
 import org.w3c.tidy.Tidy;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Properties;

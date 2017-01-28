@@ -4,7 +4,8 @@ import nl.mikero.spiner.core.transformer.latex.model.command.AbstractCommand;
 import nl.mikero.spiner.core.transformer.latex.model.command.Command;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class OptionsTest {
     @Test(expected = NullPointerException.class)

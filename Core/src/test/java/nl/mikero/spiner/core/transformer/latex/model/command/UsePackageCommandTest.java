@@ -2,7 +2,7 @@ package nl.mikero.spiner.core.transformer.latex.model.command;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class UsePackageCommandTest {
     @Test
