@@ -1,4 +1,7 @@
-apply plugin: 'java'
+plugins {
+    id "java"
+    id "com.github.samueltbrown.cucumber" version "0.9"
+}
 
 version = '0.0.1'
 
@@ -12,11 +15,16 @@ repositories {
 dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.6.4'
+    
+    cucumberCompile 'info.cukes:cucumber-java:1.2.5'
+    cucumberCompile 'info.cukes:cucumber-guice:1.2.5'
 
     compile('nl.siegmann.epublib:epublib-core:3.1') {
         exclude group: 'org.slf4j'
     }
+
     compile 'org.pegdown:pegdown:1.6.0'
+
     compile 'org.jsoup:jsoup:1.10.2'
     compile 'net.sf.jtidy:jtidy:r938'
     compile 'commons-io:commons-io:2.5'
