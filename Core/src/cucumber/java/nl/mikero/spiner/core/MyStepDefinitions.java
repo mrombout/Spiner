@@ -7,9 +7,7 @@ import cucumber.api.java.en.When;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
 import java.io.InputStream;
-import java.net.URL;
 
 import cucumber.runtime.java.guice.ScenarioScoped;
 import nl.mikero.spiner.core.transformer.TransformService;
@@ -18,10 +16,10 @@ import nl.siegmann.epublib.domain.Book;
 import nl.siegmann.epublib.domain.Resource;
 import nl.siegmann.epublib.epub.EpubReader;
 import org.junit.Assert;
-import sun.misc.IOUtils;
 
 @ScenarioScoped
 public class MyStepDefinitions {
+    public static final String EXT_XHTML = ".xhtml";
     @Inject
     private TransformService transformerService;
 
@@ -35,12 +33,12 @@ public class MyStepDefinitions {
     private Book actualBook;
 
     @Given("^I have the Twine story \"([^\"]*)\"$")
-    public void iHaveTheTwineStory(String twineFile) throws Throwable {
+    public void iHaveTheTwineStory(final String twineFile) throws Throwable {
         givenTwineStory = MyStepDefinitions.class.getClassLoader().getResourceAsStream(twineFile);
     }
 
     @When("^I transform it to \"([^\"]*)\"$")
-    public void iTransformItTo(String format) throws Throwable {
+    public void iTransformItTo(final String format) throws Throwable {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         transformerService.transform(givenTwineStory, outputStream, epubTransformer);
 
@@ -49,12 +47,12 @@ public class MyStepDefinitions {
     }
 
     @Then("^page \"([^\"]*)\" should look like \"([^\"]*)\" in \"([^\"]*)\"$")
-    public void pageShouldLookLikeIn(String actualPage, String expectedPage, String expectedEpubFile) throws Throwable {
-        InputStream expectedInputStream = MyStepDefinitions.class.getClassLoader().getResourceAsStream(expectedEpubFile);
+    public void pageShouldLookLikeIn(final String actualPage, final String expectedPage, final String expectedEpubFile) throws Throwable {
+        InputStream expectedInputStream = getClass().getClassLoader().getResourceAsStream(expectedEpubFile);
         Book expectedBook = epubReader.readEpub(expectedInputStream);
 
-        Resource actualFirst = actualBook.getResources().getByHref(actualPage + ".xhtml");
-        Resource expectedFirst = expectedBook.getResources().getByHref(expectedPage + ".xhtml");
+        Resource actualFirst = actualBook.getResources().getByHref(actualPage + EXT_XHTML);
+        Resource expectedFirst = expectedBook.getResources().getByHref(expectedPage + EXT_XHTML);
 
         String actualData = new String(actualFirst.getData());
         String expectedData = new String(expectedFirst.getData());
