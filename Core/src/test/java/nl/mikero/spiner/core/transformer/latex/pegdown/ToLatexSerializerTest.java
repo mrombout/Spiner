@@ -8,7 +8,6 @@ import org.mockito.Mockito;
 import org.pegdown.Extensions;
 import org.pegdown.LinkRenderer;
 import org.pegdown.PegDownProcessor;
-import org.pegdown.Printer;
 import org.pegdown.ast.*;
 
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 
 public class ToLatexSerializerTest {
     private PegDownProcessor pegDownProcessor;
-    private Printer printer;
+    private LatexPrinter printer;
     private ToLatexSerializer serializer;
 
     private LinkRenderer mockLinkRenderer;
@@ -26,7 +25,7 @@ public class ToLatexSerializerTest {
     @Before
     public void setUp() {
         pegDownProcessor = new PegDownProcessor(Extensions.WIKILINKS | Extensions.QUOTES | Extensions.TASKLISTITEMS | Extensions.DEFINITIONS);
-        printer = new Printer();
+        printer = new LatexPrinter();
         mockLinkRenderer = Mockito.mock(LinkRenderer.class);
         serializer = new ToLatexSerializer(mockLinkRenderer, printer);
     }

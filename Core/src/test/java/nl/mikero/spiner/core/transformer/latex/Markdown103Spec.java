@@ -1,5 +1,6 @@
 package nl.mikero.spiner.core.transformer.latex;
 
+import nl.mikero.spiner.core.transformer.latex.pegdown.LatexPrinter;
 import nl.mikero.spiner.core.transformer.latex.pegdown.ToLatexSerializer;
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
@@ -9,7 +10,6 @@ import org.junit.Test;
 import org.pegdown.Extensions;
 import org.pegdown.LinkRenderer;
 import org.pegdown.PegDownProcessor;
-import org.pegdown.Printer;
 import org.pegdown.ast.RootNode;
 
 import java.io.IOException;
@@ -24,7 +24,7 @@ public class Markdown103Spec {
     @Before
     public void setUp() {
         processor = new PegDownProcessor(Extensions.WIKILINKS | Extensions.QUOTES | Extensions.TASKLISTITEMS);
-        serializer = new ToLatexSerializer(new LinkRenderer(), new Printer());
+        serializer = new ToLatexSerializer(new LinkRenderer(), new LatexPrinter());
     }
 
     @Test
