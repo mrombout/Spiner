@@ -24,6 +24,8 @@ public class LatexPrinter extends org.pegdown.Printer {
      */
     public LatexPrinter printCommand(final String command, final boolean emptyParameters) {
         printCommandStart().print(command);
+        if(emptyParameters)
+            printParamStart().printParamEnd();
         return this;
     }
 
