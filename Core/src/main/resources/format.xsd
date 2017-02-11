@@ -24,6 +24,7 @@
         <xs:attribute name="creator-version" type="xs:string" />
         <xs:attribute name="ifid" type="xs:string" />
         <xs:attribute name="format" type="xs:string" />
+        <xs:attribute name="format-version" type="xs:string" />
         <xs:attribute name="options" type="xs:string" />
         <xs:attribute name="hidden" type="xs:string" />
     </xs:complexType>

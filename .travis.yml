@@ -13,7 +13,9 @@ addons:
     packages:
       - oracle-java8-installer
 script:
+  - ./gradlew check
   - ./gradlew sonarqube
+  - ./gradlew cucumber
 cache:
   directories:
     - '$HOME/.m2/repository'
