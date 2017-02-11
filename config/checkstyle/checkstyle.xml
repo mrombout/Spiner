@@ -162,17 +162,17 @@
             <property name="tokens" value="COMMA"/>
             <property name="option" value="eol"/>
         </module>
-        <module name="SingleSpaceSeparator" />
+        <!--<module name="SingleSpaceSeparator" />-->
         <module name="TypecastParenPad" />
         <module name="WhitespaceAfter">
-            <property name="tokens" value="COMMA, SEMI, TYPECAST, LITERAL_ELSE, LITERAL_DO" />
+            <property name="tokens" value="COMMA, SEMI, TYPECAST" /> <!-- LITERAL_ELSE, LITERAL_DO -->
         </module>
         <module name="WhitespaceAround">
             <property name="tokens" value="ASSIGN, BAND, BAND_ASSIGN, BOR, BOR_ASSIGN, BSR, BSR_ASSIGN, BXOR,
-            BXOR_ASSIGN, COLON, DIV, DIV_ASSIGN, DO_WHILE, EQUAL, GE, GT, LAMBDA, LAND, LCURLY, LE, LITERAL_DO,
+            BXOR_ASSIGN, COLON, DIV, DIV_ASSIGN, DO_WHILE, EQUAL, GE, GT, LAND, LCURLY, LE, LITERAL_DO,
             LITERAL_ELSE, LITERAL_FINALLY, LITERAL_RETURN, LITERAL_SYNCHRONIZED, LOR, LT, MINUS, MINUS_ASSIGN, MOD,
             MOD_ASSIGN, NOT_EQUAL, PLUS, PLUS_ASSIGN, QUESTION, RCURLY, SL, SLIST, SL_ASSIGN, SR, SR_ASSIGN, STAR,
-            STAR_ASSIGN, LITERAL_ASSERT, TYPE_EXTENSION_AND" />
+            STAR_ASSIGN, LITERAL_ASSERT, TYPE_EXTENSION_AND" /> <!-- LAMBDA -->
         </module>
     </module>
 </module>
