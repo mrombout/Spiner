@@ -1,11 +1,6 @@
 package nl.mikero.spiner.core.transformer.epub;
 
 import com.google.inject.Inject;
-import com.vladsch.flexmark.html.HtmlRenderer;
-import com.vladsch.flexmark.parser.Parser;
-import com.vladsch.flexmark.parser.ParserEmulationProfile;
-import com.vladsch.flexmark.util.options.MutableDataHolder;
-import com.vladsch.flexmark.util.options.MutableDataSet;
 import nl.mikero.spiner.core.exception.TwineTransformationFailedException;
 import nl.mikero.spiner.core.exception.TwineTransformationWriteException;
 import nl.mikero.spiner.core.pegdown.plugin.TwineLinkRenderer;
@@ -163,14 +158,7 @@ public class TwineStoryEpubTransformer implements Transformer {
      * @throws TransformerException if markdown can't be transformed to xhtml
      */
     private String transformPassageTextToXhtml(final String passageText) throws TransformerException {
-        MutableDataHolder options = new MutableDataSet();
-        options.setFrom(ParserEmulationProfile.MARKDOWN);
-
-        Parser parser = Parser.builder(options).build();
-        HtmlRenderer renderer = HtmlRenderer.builder(options).build();
-
-        com.vladsch.flexmark.ast.Node node = parser.parse(passageText);
-        String xhtml = renderer.render(node);
+        String xhtml = pdProcessor.markdownToHtml(passageText, twineLinkRenderer);
 
         try(InputStream in = new ByteArrayInputStream(xhtml.getBytes(StandardCharsets.UTF_8)); ByteArrayOutputStream out = new ByteArrayOutputStream()) {
             Document document = tidy.parseDOM(in, new NullOutputStream());
