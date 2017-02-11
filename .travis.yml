@@ -13,6 +13,7 @@ addons:
     packages:
       - oracle-java8-installer
 script:
+  - ./gradlew check
   - ./gradlew sonarqube
 cache:
   directories:
