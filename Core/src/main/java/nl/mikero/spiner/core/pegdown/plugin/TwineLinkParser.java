@@ -15,6 +15,11 @@ import org.pegdown.plugins.InlinePluginParser;
  * </ul>
  */
 public class TwineLinkParser extends Parser implements InlinePluginParser {
+    private static final long MAX_PARSING_TIME_IN_MILLIS = 1000L;
+
+    private static final String LINK_START = "[[";
+    private static final char LINK_SEP = '|';
+    private static final String LINK_END = "]]";
 
     /**
      * Constructs a new TwineLinkParser.
@@ -24,7 +29,7 @@ public class TwineLinkParser extends Parser implements InlinePluginParser {
      * @see TwineLinkParser
      */
     public TwineLinkParser() {
-        super(NONE, 1000L, DefaultParseRunnerProvider);
+        super(NONE, MAX_PARSING_TIME_IN_MILLIS, DefaultParseRunnerProvider);
     }
 
     @Override
@@ -37,21 +42,21 @@ public class TwineLinkParser extends Parser implements InlinePluginParser {
         StringBuilderVar href = new StringBuilderVar();
         StringBuilderVar text = new StringBuilderVar();
         return Sequence(
-                String("[["),
+                String(LINK_START),
                 OneOrMore(
-                        TestNot(String("]]")),
+                        TestNot(String(LINK_END)),
                         ANY,
                         text.append(matchedChar()),
                         Optional(
-                                Ch('|'),
+                                Ch(LINK_SEP),
                                 OneOrMore(
-                                        TestNot(String("]]")),
+                                        TestNot(String(LINK_END)),
                                         ANY,
                                         href.append(matchedChar())
                                 )
                         )
                 ),
-                String("]]"),
+                String(LINK_END),
                 push(new TwineLinkNode(text.getString(), href.isEmpty() ? text.getString() : href.getString()))
         );
     }

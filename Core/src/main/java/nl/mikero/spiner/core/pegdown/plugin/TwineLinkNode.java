@@ -1,11 +1,11 @@
 package nl.mikero.spiner.core.pegdown.plugin;
 
+import java.text.MessageFormat;
+import java.util.Objects;
+
 import org.pegdown.ast.Node;
 import org.pegdown.ast.TextNode;
 import org.pegdown.ast.Visitor;
-
-import java.text.MessageFormat;
-import java.util.Objects;
 
 /**
  * Represents a Twine link to a passage.

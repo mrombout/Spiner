@@ -2,6 +2,9 @@ package nl.mikero.spiner.core.transformer.latex.model;
 
 import java.util.Objects;
 
+/**
+ * A LaTeX command option.
+ */
 public class Option {
     private final String name;
     private final String value;

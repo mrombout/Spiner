@@ -1,37 +1,84 @@
 package nl.mikero.spiner.core.transformer.latex.pegdown;
 
+import java.util.AbstractMap;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import com.google.inject.Inject;
 import nl.mikero.spiner.core.pegdown.plugin.LatexVerbatimSerializer;
 import org.pegdown.LinkRenderer;
-import org.pegdown.Printer;
 import org.pegdown.VerbatimSerializer;
-import org.pegdown.ast.*;
-
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import org.pegdown.ast.AbbreviationNode;
+import org.pegdown.ast.AnchorLinkNode;
+import org.pegdown.ast.AutoLinkNode;
+import org.pegdown.ast.BlockQuoteNode;
+import org.pegdown.ast.BulletListNode;
+import org.pegdown.ast.CodeNode;
+import org.pegdown.ast.DefinitionListNode;
+import org.pegdown.ast.DefinitionNode;
+import org.pegdown.ast.DefinitionTermNode;
+import org.pegdown.ast.ExpImageNode;
+import org.pegdown.ast.ExpLinkNode;
+import org.pegdown.ast.HeaderNode;
+import org.pegdown.ast.HtmlBlockNode;
+import org.pegdown.ast.InlineHtmlNode;
+import org.pegdown.ast.ListItemNode;
+import org.pegdown.ast.MailLinkNode;
+import org.pegdown.ast.Node;
+import org.pegdown.ast.OrderedListNode;
+import org.pegdown.ast.ParaNode;
+import org.pegdown.ast.QuotedNode;
+import org.pegdown.ast.RefImageNode;
+import org.pegdown.ast.RefLinkNode;
+import org.pegdown.ast.ReferenceNode;
+import org.pegdown.ast.RootNode;
+import org.pegdown.ast.SimpleNode;
+import org.pegdown.ast.SpecialTextNode;
+import org.pegdown.ast.StrikeNode;
+import org.pegdown.ast.StrongEmphSuperNode;
+import org.pegdown.ast.SuperNode;
+import org.pegdown.ast.TableBodyNode;
+import org.pegdown.ast.TableCaptionNode;
+import org.pegdown.ast.TableCellNode;
+import org.pegdown.ast.TableColumnNode;
+import org.pegdown.ast.TableHeaderNode;
+import org.pegdown.ast.TableNode;
+import org.pegdown.ast.TableRowNode;
+import org.pegdown.ast.TextNode;
+import org.pegdown.ast.VerbatimNode;
+import org.pegdown.ast.Visitor;
+import org.pegdown.ast.WikiLinkNode;
 
 /**
  * Serializes Markdown to LaTeX.
  */
 public class ToLatexSerializer implements Visitor {
+    private static final int HEADER_1 = 1;
+    private static final int HEADER_2 = 2;
+    private static final int HEADER_3 = 3;
+    private static final int HEADER_4 = 4;
+    private static final int HEADER_5 = 5;
+    private static final int HEADER_6 = 6;
+
     private static final Map<Integer, String> SUPPORTED_LEVELS = Collections.unmodifiableMap(Stream.of(
-            new AbstractMap.SimpleEntry<>(1, "chapter"),
-            new AbstractMap.SimpleEntry<>(2, "section"),
-            new AbstractMap.SimpleEntry<>(3, "subsection"),
-            new AbstractMap.SimpleEntry<>(4, "subsubsection"),
-            new AbstractMap.SimpleEntry<>(5, "paragraph"),
-            new AbstractMap.SimpleEntry<>(6, "subparagraph")
+            new AbstractMap.SimpleEntry<>(HEADER_1, "chapter"),
+            new AbstractMap.SimpleEntry<>(HEADER_2, "section"),
+            new AbstractMap.SimpleEntry<>(HEADER_3, "subsection"),
+            new AbstractMap.SimpleEntry<>(HEADER_4, "subsubsection"),
+            new AbstractMap.SimpleEntry<>(HEADER_5, "paragraph"),
+            new AbstractMap.SimpleEntry<>(HEADER_6, "subparagraph")
     ).collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue)));
 
     private static final String MSG_INVALID_HEADER_LEVEL = "Header level '%d' is not supported, must be 1 to 6.";
-
-    private static final String TEX_START = "{";
-    private static final String TEX_END = "}";
+    private static final String MSG_NODE_NOT_SUPPORTED = "Node '%s' not supported.";
 
     private static final int INDENT_SIZE = 2;
 
-    private Printer printer;
+    private LatexPrinter printer;
     private final LinkRenderer linkRenderer;
 
     private final Map<String, ReferenceNode> references;
@@ -46,7 +93,7 @@ public class ToLatexSerializer implements Visitor {
      * @param printer Printer to print to
      */
     @Inject
-    public ToLatexSerializer(final LinkRenderer linkRenderer, final Printer printer) {
+    public ToLatexSerializer(final LinkRenderer linkRenderer, final LatexPrinter printer) {
         this.linkRenderer = linkRenderer;
         this.printer = printer;
 
@@ -66,7 +113,7 @@ public class ToLatexSerializer implements Visitor {
     public String toLatex(final RootNode astRoot) {
         Objects.requireNonNull(astRoot);
 
-        printer = new Printer();
+        printer = new LatexPrinter();
         astRoot.accept(this);
         return printer.getString();
     }
@@ -145,9 +192,9 @@ public class ToLatexSerializer implements Visitor {
 
     @Override
     public final void visit(final DefinitionTermNode node) {
-        printer.println().print("\\").print("item").print("[");
+        printer.println().printCommand("item").printOptionStart();
         visitChildren(node);
-        printer.print("]");
+        printer.printOptionEnd();
     }
 
     @Override
@@ -201,8 +248,7 @@ public class ToLatexSerializer implements Visitor {
         printer.println();
         visitChildren(node);
         if(startWithNewLine) {
-            printer.println();
-            printer.println();
+            printer.println().println();
         }
     }
 
@@ -210,9 +256,9 @@ public class ToLatexSerializer implements Visitor {
     public final void visit(final QuotedNode node) {
         switch(node.getType()) {
             case DoubleAngle:
-                printer.print("\\guillemotleft{}");
+                printer.printCommand("guillemotleft", true);
                 visitChildren(node);
-                printer.print("\\guillemotright{}");
+                printer.printCommand("guillemotright", true);
                 break;
             case Double:
                 printer.print("‘‘");
@@ -224,6 +270,8 @@ public class ToLatexSerializer implements Visitor {
                 visitChildren(node);
                 printer.print("’");
                 break;
+            default:
+                assert false : String.format(MSG_NODE_NOT_SUPPORTED, node.getType());
         }
     }
 
@@ -243,12 +291,12 @@ public class ToLatexSerializer implements Visitor {
         String key = node.referenceKey != null ? printChildrenToString(node.referenceKey) : text;
         ReferenceNode refNode = references.get(normalize(key));
         if(refNode == null) {
-            printer.print('[').print(text).print(']');
+            printer.printOption(text);
             if(node.separatorSpace != null) {
-                printer.print(node.separatorSpace).print('[');
+                printer.print(node.separatorSpace).printOptionStart();
                 if(node.referenceKey != null)
                     printer.print(key);
-                printer.print(']');
+                printer.printOptionEnd();
             }
         } else {
             printLink(linkRenderer.render(node, refNode.getUrl(), refNode.getTitle(), text));
@@ -262,7 +310,7 @@ public class ToLatexSerializer implements Visitor {
                 printer.print("’");
                 break;
             case Ellipsis:
-                printCommand("ldots");
+                printer.printCommand("ldots");
                 break;
             case Emdash:
                 printer.print("---");
@@ -275,11 +323,13 @@ public class ToLatexSerializer implements Visitor {
                 printer.println().print("\\rule{0.5\\textwidth}{.4pt}");
                 break;
             case Linebreak:
-                printCommand("linebreak");
+                printer.printCommand("linebreak");
                 break;
             case Nbsp:
-                printCommand("~");
+                printer.printCommand("~");
                 break;
+            default:
+                assert false : String.format(MSG_NODE_NOT_SUPPORTED, node.getType());
         }
     }
 
@@ -348,12 +398,16 @@ public class ToLatexSerializer implements Visitor {
         serializer.serialize(node, printer);
     }
 
+    /**
+     * Looks up and returns the {@link org.pegdown.VerbatimSerializer} associated with the given type.
+     *
+     * @param type type to lookup serializer for
+     * @return serializer associated with the given type
+     */
     private VerbatimSerializer lookupSerializer(final String type) {
-        if(type != null && verbatimSerializers.containsKey(type)) {
+        if(type != null && verbatimSerializers.containsKey(type))
             return verbatimSerializers.get(type);
-        } else {
-            return verbatimSerializers.get(VerbatimSerializer.DEFAULT);
-        }
+        return verbatimSerializers.get(VerbatimSerializer.DEFAULT);
     }
 
     @Override
@@ -376,26 +430,37 @@ public class ToLatexSerializer implements Visitor {
         /* do nothing */
     }
 
+    /**
+     * Visits all children of the given node.
+     *
+     * @param node node to visit all children of
+     */
     private void visitChildren(final SuperNode node) {
         for(Node child : node.getChildren()) {
             child.accept(this);
         }
     }
 
-    private void printCommand(final String command) {
-        printer.print("\\").print(command);
-    }
-
+    /**
+     * Prints a command and the `node`s content as a parameter.
+     *
+     * @param node text node to print as parameter
+     * @param command command to print
+     */
     private void printCommand(final TextNode node, final String command) {
-        printer.print("\\").print(command).print(TEX_START);
-        printer.print(LatexEncoder.encode(node.getText()));
-        printer.print(TEX_END);
+        printer.printCommand(command).printParam(LatexEncoder.encode(node.getText()));
     }
 
+    /**
+     * Prints a command and its children as parameters.
+     *
+     * @param node parent node of children to print
+     * @param command command to print
+     */
     private void printCommand(final SuperNode node, final String command) {
-        printer.print("\\").print(command).print(TEX_START);
+        printer.printCommand(command).printParamStart();
         visitChildren(node);
-        printer.print(TEX_END);
+        printer.printParamEnd();
     }
 
     /**
@@ -405,22 +470,22 @@ public class ToLatexSerializer implements Visitor {
      * @param environmentName name of the environment to print
      */
     private void printIndentedEnvironment(final SuperNode node, final String environmentName) {
-        printer.println().print("\\begin").print(TEX_START).print(environmentName).print(TEX_END).indent(+INDENT_SIZE);
+        printer.println().printCommand("begin").printParam(environmentName).indent(+INDENT_SIZE);
         visitChildren(node);
-        printer.indent(-INDENT_SIZE).println().print("\\end").print(TEX_START).print(environmentName).print(TEX_END);
+        printer.indent(-INDENT_SIZE).println().printCommand("end").printParam(environmentName);
     }
 
     private void printConditionallyIndentedCommand(final SuperNode node, final String command) {
         if(node.getChildren().size() > 1) {
-            printer.println().print("\\").print(command).print(TEX_START).indent(+INDENT_SIZE);
+            printer.println().printCommand(command).printParamStart().indent(+INDENT_SIZE);
             visitChildren(node);
-            printer.indent(-INDENT_SIZE).println().print(TEX_END);
+            printer.indent(-INDENT_SIZE).println().printParamEnd();
         } else {
             boolean startWasNewLine = printer.endsWithNewLine();
 
-            printer.println().print("\\").print(command).print(TEX_START);
+            printer.println().printCommand(command).printParamStart();
             visitChildren(node);
-            printer.print(TEX_END).printchkln(startWasNewLine);
+            printer.printParamEnd().printchkln(startWasNewLine);
         }
     }
 
@@ -431,8 +496,8 @@ public class ToLatexSerializer implements Visitor {
      * @return LaTeX representation of input node
      */
     private String printChildrenToString(final SuperNode node) {
-        Printer priorPrinter = printer;
-        printer = new Printer();
+        LatexPrinter priorPrinter = printer;
+        printer = new LatexPrinter();
         visitChildren(node);
         String result = printer.getString();
         printer = priorPrinter;
@@ -453,7 +518,7 @@ public class ToLatexSerializer implements Visitor {
      * @param rendering rendering to print link for
      */
     private void printLink(final LinkRenderer.Rendering rendering) {
-        printer.print("\\gbturn").print(TEX_START).print(rendering.text).print(TEX_END);
+        printer.printCommand("gbturn").printParam(rendering.text);
     }
 
     private String normalize(final String input) {

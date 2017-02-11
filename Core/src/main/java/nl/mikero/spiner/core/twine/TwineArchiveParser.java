@@ -1,10 +1,5 @@
 package nl.mikero.spiner.core.twine;
 
-import nl.mikero.spiner.core.exception.TwineParseFailedException;
-import nl.mikero.spiner.core.twine.model.ObjectFactory;
-import nl.mikero.spiner.core.twine.model.TwStoriesdata;
-import org.xml.sax.SAXException;
-
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -13,6 +8,11 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import java.io.InputStream;
+
+import nl.mikero.spiner.core.exception.TwineParseFailedException;
+import nl.mikero.spiner.core.twine.model.ObjectFactory;
+import nl.mikero.spiner.core.twine.model.TwStoriesdata;
+import org.xml.sax.SAXException;
 
 /**
  * Parses a Twine Archive as exported from Twine 2.
@@ -36,7 +36,8 @@ public class TwineArchiveParser {
             Schema schema = schemaFactory.newSchema(getClass().getResource("/format.xsd"));
             unmarshaller.setSchema(schema);
 
-            JAXBElement<TwStoriesdata> unmarshalledObject = (JAXBElement<TwStoriesdata>) unmarshaller.unmarshal(inputStream);
+            JAXBElement<TwStoriesdata> unmarshalledObject =
+                    (JAXBElement<TwStoriesdata>) unmarshaller.unmarshal(inputStream);
             return unmarshalledObject.getValue();
         } catch (SAXException | JAXBException e) {
             throw new TwineParseFailedException(e);

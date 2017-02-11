@@ -1,12 +1,15 @@
 package nl.mikero.spiner.core.transformer.latex.model;
 
-import nl.mikero.spiner.core.transformer.latex.model.command.Command;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import nl.mikero.spiner.core.transformer.latex.model.command.Command;
+
+/**
+ * Contains a series of LaTeX {@link Command}s.
+ */
 public class LatexContainer {
     private final List<Command> commands;
 

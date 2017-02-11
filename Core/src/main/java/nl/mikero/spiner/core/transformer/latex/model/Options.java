@@ -1,12 +1,12 @@
 package nl.mikero.spiner.core.transformer.latex.model;
 
-import nl.mikero.spiner.core.transformer.latex.model.command.BasicCommand;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import nl.mikero.spiner.core.transformer.latex.model.command.BasicCommand;
 
 /**
  * Represents zero or more options in a LaTeX command.

@@ -1,5 +1,12 @@
 package nl.mikero.spiner.core.transformer;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Objects;
+
 import com.google.inject.Inject;
 import nl.mikero.spiner.core.exception.TwineTransformationFailedException;
 import nl.mikero.spiner.core.inject.PublishedRepairer;
@@ -9,9 +16,6 @@ import nl.mikero.spiner.core.twine.extended.ExtendTwineXmlTransformer;
 import nl.mikero.spiner.core.twine.model.TwStoriesdata;
 import nl.mikero.spiner.core.twine.model.TwStorydata;
 import org.apache.commons.io.IOUtils;
-
-import java.io.*;
-import java.util.Objects;
 
 /**
  * Transforms an {@link InputStream} into a different format using a {@link Transformer} and outputs it to an
@@ -30,7 +34,9 @@ public class TransformService {
      * @param twineArchiveParser twine archive parser to use
      */
     @Inject
-    public TransformService(@PublishedRepairer final TwineRepairer publishedRepairer, final ExtendTwineXmlTransformer extendTwineXmlTransformer, final TwineArchiveParser twineArchiveParser) {
+    public TransformService(@PublishedRepairer final TwineRepairer publishedRepairer,
+                            final ExtendTwineXmlTransformer extendTwineXmlTransformer,
+                            final TwineArchiveParser twineArchiveParser) {
         this.publishedRepairer = publishedRepairer;
         this.extendTwineXmlTransformer = extendTwineXmlTransformer;
         this.twineArchiveParser = twineArchiveParser;
@@ -44,7 +50,9 @@ public class TransformService {
      * @param transformer transformer to use
      * @throws TwineTransformationFailedException when transformation fails
      */
-    public void transform(final InputStream inputStream, final OutputStream outputStream, final Transformer transformer) {
+    public void transform(final InputStream inputStream,
+                          final OutputStream outputStream,
+                          final Transformer transformer) {
         Objects.requireNonNull(inputStream);
         Objects.requireNonNull(outputStream);
         Objects.requireNonNull(transformer);

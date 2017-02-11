@@ -1,9 +1,5 @@
 package nl.mikero.spiner.core.twine;
 
-import nl.mikero.spiner.core.exception.TwineRepairFailedException;
-import org.apache.commons.io.IOUtils;
-import org.w3c.tidy.Tidy;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,6 +9,10 @@ import java.util.Objects;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import nl.mikero.spiner.core.exception.TwineRepairFailedException;
+import org.apache.commons.io.IOUtils;
+import org.w3c.tidy.Tidy;
 
 /**
  * Repairs a published Twine HTML story file to a well-formed XML document that
@@ -33,8 +33,8 @@ public class TwinePublishedRepairer implements TwineRepairer {
      */
     public TwinePublishedRepairer() {
         this.tidy = new Tidy();
-        tidy.setInputEncoding("UTF-8");
-        tidy.setOutputEncoding("UTF-8");
+        tidy.setInputEncoding(StandardCharsets.UTF_8.name());
+        tidy.setOutputEncoding(StandardCharsets.UTF_8.name());
         tidy.setDocType("auto");
         tidy.setXmlOut(true);
         tidy.setXmlTags(true);

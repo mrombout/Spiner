@@ -8,12 +8,12 @@
 
 package nl.mikero.spiner.core.twine.model;
 
-import nl.mikero.spiner.core.twine.extended.model.XtwMetadata;
-
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlElementDecl;
 import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
+
+import nl.mikero.spiner.core.twine.extended.model.XtwMetadata;
 
 
 /**

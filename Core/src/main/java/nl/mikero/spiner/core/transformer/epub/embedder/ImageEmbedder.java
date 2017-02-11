@@ -1,5 +1,12 @@
 package nl.mikero.spiner.core.transformer.epub.embedder;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.security.DigestInputStream;
+import java.security.MessageDigest;
+import java.util.Objects;
+
 import nl.siegmann.epublib.domain.Book;
 import nl.siegmann.epublib.domain.Resource;
 import nl.siegmann.epublib.service.MediatypeService;
@@ -7,13 +14,6 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.security.DigestInputStream;
-import java.security.MessageDigest;
-import java.util.Objects;
 
 /**
  * {@inheritDoc}
@@ -77,7 +77,11 @@ public class ImageEmbedder implements Embedder {
 
         // create resource
         String fileName = getFileName(new String(Hex.encodeHex(messageDigest.digest())), url);
-        Resource imgResource = new Resource(null, fileContent, fileName, MediatypeService.determineMediaType(FilenameUtils.getName(url.toString())));
+        Resource imgResource = new Resource(
+                null,
+                fileContent,
+                fileName,
+                MediatypeService.determineMediaType(FilenameUtils.getName(url.toString())));
 
         book.addResource(imgResource);
 

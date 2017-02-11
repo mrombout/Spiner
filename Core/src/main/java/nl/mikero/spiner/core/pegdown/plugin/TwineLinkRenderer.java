@@ -1,5 +1,10 @@
 package nl.mikero.spiner.core.pegdown.plugin;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.google.inject.Inject;
 import nl.mikero.spiner.core.transformer.epub.embedder.ImageEmbedder;
 import org.parboiled.common.StringUtils;
@@ -8,11 +13,6 @@ import org.pegdown.ast.ExpImageNode;
 import org.pegdown.ast.WikiLinkNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static org.pegdown.FastEncoder.encode;
 

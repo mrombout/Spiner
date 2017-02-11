@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE suppressions PUBLIC "-//Puppy Crawl//DTD Suppressions 1.1//EN" "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
+<suppressions>
+    <suppress files="TheClassToIgnore\.java" checks="[a-zA-Z0-9]*"/>
+
+    <!-- Generated -->
+    <suppress checks="." files="nl[\\/]mikero[\\/]spiner[\\/]core[\\/]twine[\\/]model[\\/]"/>
+    <suppress checks="." files="nl[\\/]mikero[\\/]spiner[\\/]core[\\/]twine[\\/]extended[\\/]model[\\/]"/>
+
+    <!-- Visitors -->
+    <suppress checks="FileLength" files="ToLatexSerializer"/>
+    <suppress checks="MethodCount" files="ToLatexSerializer"/>
+    <suppress checks="ClassFanOutComplexity" files="ToLatexSerializer"/>
+</suppressions>

@@ -1,9 +1,9 @@
 package nl.mikero.spiner.core.transformer.epub.embedder;
 
+import java.security.MessageDigest;
+
 import com.google.inject.Inject;
 import org.pegdown.ast.ExpImageNode;
-
-import java.security.MessageDigest;
 
 /**
  * Embeds resources by using a hash as the resource filename and placing them

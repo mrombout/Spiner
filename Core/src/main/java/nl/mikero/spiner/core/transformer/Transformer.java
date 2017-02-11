@@ -1,8 +1,8 @@
 package nl.mikero.spiner.core.transformer;
 
-import nl.mikero.spiner.core.twine.model.TwStorydata;
-
 import java.io.OutputStream;
+
+import nl.mikero.spiner.core.twine.model.TwStorydata;
 
 /**
  * Transforms a Twine Story to another format.

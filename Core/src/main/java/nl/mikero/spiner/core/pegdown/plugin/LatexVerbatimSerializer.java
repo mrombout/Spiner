@@ -1,12 +1,15 @@
 package nl.mikero.spiner.core.pegdown.plugin;
 
+import java.util.Objects;
+
 import nl.mikero.spiner.core.transformer.latex.pegdown.LatexEncoder;
 import org.pegdown.Printer;
 import org.pegdown.VerbatimSerializer;
 import org.pegdown.ast.VerbatimNode;
 
-import java.util.Objects;
-
+/**
+ * Serializes verbatim content to the LaTeX verbatim environment.
+ */
 public class LatexVerbatimSerializer implements VerbatimSerializer {
     public static final LatexVerbatimSerializer INSTANCE = new LatexVerbatimSerializer();
 

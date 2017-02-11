@@ -1,12 +1,12 @@
 package nl.mikero.spiner.core.twine;
 
-import nl.mikero.spiner.core.exception.TwineRepairFailedException;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
+
+import nl.mikero.spiner.core.exception.TwineRepairFailedException;
 
 /**
  * Repairs a Twine Archive to create a valid XML document that Spiner

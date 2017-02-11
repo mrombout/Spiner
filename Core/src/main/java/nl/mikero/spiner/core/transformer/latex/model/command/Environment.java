@@ -1,10 +1,10 @@
 package nl.mikero.spiner.core.transformer.latex.model.command;
 
-import nl.mikero.spiner.core.transformer.latex.model.LatexContainer;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import nl.mikero.spiner.core.transformer.latex.model.LatexContainer;
 
 /**
  * A LaTeX environment.
@@ -12,6 +12,9 @@ import java.util.stream.Collectors;
 public class Environment extends BasicCommand {
     private static final String CMD_BEGIN = "begin";
     private static final String CMD_END = "end";
+
+    private static final String TAB = "\t";
+    private static final String NEWLINE = "\n";
 
     private final LatexContainer container;
 
@@ -65,8 +68,8 @@ public class Environment extends BasicCommand {
     @Override
     public final String toString() {
         List<String> commandStrings = container.getCommands().stream()
-                .map(command -> "\t" + command.toString().replace("\n", "\n\t")).collect(Collectors.toList());
-        String environmentContent = String.join("\n", commandStrings);
+                .map(command -> TAB + command.toString().replace(NEWLINE, NEWLINE + TAB)).collect(Collectors.toList());
+        String environmentContent = String.join(NEWLINE, commandStrings);
 
         return String.format("%s%n%s%n%s", beginCommand.toString(), environmentContent, endCommand.toString());
     }

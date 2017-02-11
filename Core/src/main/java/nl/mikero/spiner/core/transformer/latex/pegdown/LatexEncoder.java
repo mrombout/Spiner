@@ -6,6 +6,11 @@ import java.util.regex.Matcher;
  * Encodes special characters to their LaTeX equivalents.
  */
 public final class LatexEncoder {
+    /**
+     * Utility class.
+     *
+     * @throws IllegalAccessError since utility classes can't be constructed
+     */
     private LatexEncoder() {
         throw new IllegalAccessError("Utility class");
     }
@@ -19,10 +24,8 @@ public final class LatexEncoder {
     public static String encode(final String inputText) {
         return inputText
             .replaceAll("\\\\", Matcher.quoteReplacement("\\textbackslash"))
-            .replaceAll("\\_", Matcher.quoteReplacement("\\_"))
             .replaceAll("\\{", Matcher.quoteReplacement("\\textbraceleft"))
             .replaceAll("\\}", Matcher.quoteReplacement("\\textbraceright"))
-            .replaceAll("\\>", Matcher.quoteReplacement("\\textgreater"))
-            .replaceAll("\\#", Matcher.quoteReplacement("\\#"));
+            .replaceAll("\\>", Matcher.quoteReplacement("\\textgreater"));
     }
 }

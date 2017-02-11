@@ -1,9 +1,9 @@
 package nl.mikero.spiner.core.transformer.epub.embedder;
 
-import nl.siegmann.epublib.domain.Book;
-
 import java.io.IOException;
 import java.net.URL;
+
+import nl.siegmann.epublib.domain.Book;
 
 /**
  * Embeds a resources and defines the naming and location in the EPUB file.

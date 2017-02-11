@@ -32,8 +32,8 @@ public final class EpubTransformOptions {
     /**
      * Constructs a new {@link EpubTransformOptions} from {@link XtwMetadata}.
      *
-     * Most data maps directly from their {@link EpubTransformOptions} to their EPUB equivalent, but there are a couple of
-     * deviations:
+     * Most data maps directly from their {@link EpubTransformOptions} to their EPUB equivalent, but there are a couple
+     * of deviations:
      *
      * <ul>
      *     <li>&lt;creator&gt; and &lt;contributor&gt; are considered to be the same</li>

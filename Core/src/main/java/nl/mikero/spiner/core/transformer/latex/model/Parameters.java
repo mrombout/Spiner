@@ -1,10 +1,10 @@
 package nl.mikero.spiner.core.transformer.latex.model;
 
-import nl.mikero.spiner.core.transformer.latex.model.command.BasicCommand;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import nl.mikero.spiner.core.transformer.latex.model.command.BasicCommand;
 
 /**
  * Collection of {@link Parameter}.
