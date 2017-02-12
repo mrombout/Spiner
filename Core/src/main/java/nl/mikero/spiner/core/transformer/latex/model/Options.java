@@ -52,18 +52,11 @@ public class Options {
     /**
      * Returns parent.
      *
-     * @return parent
-     */
-    public final BasicCommand and() {
-        return parent;
-    }
-
-    /**
-     * Returns parent.
+     * Usage: `new BasicCommand().parameters().add("param1").add("param2").build().options().add("option1").build()`.
      *
      * @return parent
      */
-    public final BasicCommand done() {
+    public final BasicCommand build() {
         return parent;
     }
 

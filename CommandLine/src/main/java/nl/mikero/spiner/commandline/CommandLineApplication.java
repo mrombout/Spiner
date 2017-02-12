@@ -24,6 +24,8 @@ import nl.mikero.spiner.commandline.command.*;
  * @author Mike Rombout
  */
 public class CommandLineApplication {
+    private static final String CMD_TRANSFORM = "transform";
+
     private final CommandFactory commandFactory;
 
     /**
@@ -53,7 +55,7 @@ public class CommandLineApplication {
         jCommander.addObject(versionCommand);
 
         TransformCommand transformCommand = commandFactory.createTransformCommand();
-        jCommander.addCommand("transform", transformCommand);
+        jCommander.addCommand(CMD_TRANSFORM, transformCommand);
 
         // parsing
         jCommander.parse(args);
@@ -62,7 +64,7 @@ public class CommandLineApplication {
         if(versionCommand.isVersionCommand()) {
             versionCommand.run();
         } else if(jCommander.getParsedCommand() != null) {
-            if("transform".equals(jCommander.getParsedCommand())) {
+            if(CMD_TRANSFORM.equals(jCommander.getParsedCommand())) {
                 transformCommand.run();
             }
         } else {

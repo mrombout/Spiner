@@ -1,5 +1,6 @@
 package nl.mikero.spiner.core.transformer.latex;
 
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Objects;
 
@@ -55,13 +56,13 @@ public class LatexTransformer implements Transformer {
         LatexDocument book = new GamebookLatexDocument();
 
         // add required packages
-        book.addCommand(new UsePackageCommand().parameters().add("hyperref").done());
-        book.addCommand(new UsePackageCommand().parameters().add("csquotes").done());
-        book.addCommand(new UsePackageCommand().options().add("ulem").done().parameters().add("normalem").done());
+        book.addCommand(new UsePackageCommand().parameters().add("hyperref").build());
+        book.addCommand(new UsePackageCommand().parameters().add("csquotes").build());
+        book.addCommand(new UsePackageCommand().options().add("ulem").build().parameters().add("normalem").build());
 
         // set document information
-        book.addCommand(new BasicCommand("title").parameters().add(story.getName()).done());
-        book.addCommand(new BasicCommand("author").parameters().add(story.getCreator()).done());
+        book.addCommand(new BasicCommand("title").parameters().add(story.getName()).build());
+        book.addCommand(new BasicCommand("author").parameters().add(story.getCreator()).build());
         book.addCommand(new WhitelineCommand());
 
         // begin document
@@ -70,14 +71,14 @@ public class LatexTransformer implements Transformer {
 
         // gamebook settings
         document.addCommand(new BasicCommand("gbheader"));
-        document.addCommand(new BasicCommand("pagenumbering").parameters().add("arabic").done());
+        document.addCommand(new BasicCommand("pagenumbering").parameters().add("arabic").build());
         document.addCommand(new WhitelineCommand());
 
         // passages
         for(TwPassagedata passage : story.getTwPassagedata()) {
             String passageContent = transformPassageTextToLatex(passage.getValue());
 
-            document.addCommand(new BasicCommand("gbsection").parameters().add(passage.getName()).done());
+            document.addCommand(new BasicCommand("gbsection").parameters().add(passage.getName()).build());
             document.addCommand(new RawTexCommand(passageContent));
             document.addCommand(new WhitelineCommand());
         }
@@ -86,7 +87,7 @@ public class LatexTransformer implements Transformer {
             // write to stream
             LatexWriter latexWriter = new LatexWriter();
             latexWriter.write(book, outputStream);
-        } catch(Exception e) {
+        } catch(IOException e) {
             throw new TwineTransformationWriteException("Could not write transformed input to output stream.", e);
         }
     }

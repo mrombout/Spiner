@@ -55,26 +55,13 @@ public class ParametersTest {
     }
 
     @Test
-    public void and_ValidParent_ReturnsParent() {
+    public void build_ValidParent_ReturnsParent() {
         // Arrange
         BasicCommand basicCommand = new BasicCommand("dummy");
         Parameters parameters = new Parameters(basicCommand);
 
         // Act
-        Command result = parameters.and();
-
-        // Assert
-        assertEquals(basicCommand, result);
-    }
-
-    @Test
-    public void done_ValidParent_ReturnsParent() {
-        // Arrange
-        BasicCommand basicCommand = new BasicCommand("dummy");
-        Parameters parameters = new Parameters(basicCommand);
-
-        // Act
-        Command result = parameters.done();
+        Command result = parameters.build();
 
         // Assert
         assertEquals(basicCommand, result);

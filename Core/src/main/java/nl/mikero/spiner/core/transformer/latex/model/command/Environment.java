@@ -32,8 +32,8 @@ public class Environment extends BasicCommand {
 
         this.container = new LatexContainer();
 
-        this.beginCommand = new BasicCommand(CMD_BEGIN).parameters().add(name).done();
-        this.endCommand = new BasicCommand(CMD_END).parameters().add(name).done();
+        this.beginCommand = new BasicCommand(CMD_BEGIN).parameters().add(name).build();
+        this.endCommand = new BasicCommand(CMD_END).parameters().add(name).build();
 
         parameters().add(name);
     }

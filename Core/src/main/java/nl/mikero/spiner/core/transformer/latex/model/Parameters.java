@@ -35,11 +35,14 @@ public class Parameters {
         return this;
     }
 
-    public final BasicCommand and() {
-        return parent;
-    }
-
-    public final BasicCommand done() {
+    /**
+     * Returns parent.
+     *
+     * Usage: `new BasicCommand().parameters().add("param1").add("param2").build().options().add("option1").build()`.
+     *
+     * @return parent
+     */
+    public final BasicCommand build() {
         return parent;
     }
 

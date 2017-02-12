@@ -47,7 +47,7 @@ public class BasicCommandTest {
     @Test
     public void toString_OneOption_ReturnsCommandNameWithOption() {
         // Arrange
-        BasicCommand basicCommand = new BasicCommand("dummy").options().add("option1").done();
+        BasicCommand basicCommand = new BasicCommand("dummy").options().add("option1").build();
 
         // Act
         String result = basicCommand.toString();
@@ -59,7 +59,7 @@ public class BasicCommandTest {
     @Test
     public void toString_TwoOptions_ReturnsCommandNameWithTwoOptions() {
         // Arrange
-        BasicCommand basicCommand = new BasicCommand("dummy").options().add("option1").add("option2").done();
+        BasicCommand basicCommand = new BasicCommand("dummy").options().add("option1").add("option2").build();
 
         // Act
         String result = basicCommand.toString();
@@ -71,7 +71,7 @@ public class BasicCommandTest {
     @Test
     public void toString_OneParameter_ReturnsCommandNameWithParameter() {
         // Arrange
-        BasicCommand basicCommand = new BasicCommand("dummy").parameters().add("parameter1").done();
+        BasicCommand basicCommand = new BasicCommand("dummy").parameters().add("parameter1").build();
 
         // Act
         String result = basicCommand.toString();
@@ -83,7 +83,7 @@ public class BasicCommandTest {
     @Test
     public void toString_TwoParameters_ReturnsCommandNAmeWithTwoParameters() {
         // Arrange
-        BasicCommand basicCommand = new BasicCommand("dummy").parameters().add("parameter1").add("parameter2").done();
+        BasicCommand basicCommand = new BasicCommand("dummy").parameters().add("parameter1").add("parameter2").build();
 
         // Act
         String result = basicCommand.toString();
@@ -95,7 +95,13 @@ public class BasicCommandTest {
     @Test
     public void toString_OneOptionOneParameter_ReturnsCommandNameWithOptionAndParameter() {
         // Arrange
-        BasicCommand basicCommand = new BasicCommand("dummy").parameters().add("parameter1").and().options().add("option1").done();
+        BasicCommand basicCommand = new BasicCommand("dummy")
+                .parameters()
+                    .add("parameter1")
+                    .build()
+                .options()
+                    .add("option1")
+                    .build();
 
         // Act
         String result = basicCommand.toString();
@@ -108,8 +114,14 @@ public class BasicCommandTest {
     public void toString_TwoOptionsTwoParameters_ReturnsCommandNameWithTwoOptionsAndTwoParameters() {
         // Arrange
         BasicCommand basicCommand = new BasicCommand("dummy")
-                .parameters().add("parameter1").add("parameter2").and()
-                .options().add("option1").add("option2").done();
+                .parameters()
+                    .add("parameter1")
+                    .add("parameter2")
+                    .build()
+                .options()
+                    .add("option1")
+                    .add("option2")
+                    .build();
 
         // Act
         String result = basicCommand.toString();

@@ -78,6 +78,8 @@ public class ToLatexSerializer implements Visitor {
 
     private static final int INDENT_SIZE = 2;
 
+    private static final String TEX_ITEM = "item";
+
     private LatexPrinter printer;
     private final LinkRenderer linkRenderer;
 
@@ -119,7 +121,7 @@ public class ToLatexSerializer implements Visitor {
     }
 
     /**
-     * Visits all children of the node and gradually builds a LaTex document.
+     * Visits all children of the node and gradually build a LaTex document.
      *
      * @param node node to build LaTeX representation for
      */
@@ -192,7 +194,7 @@ public class ToLatexSerializer implements Visitor {
 
     @Override
     public final void visit(final DefinitionTermNode node) {
-        printer.println().printCommand("item").printOptionStart();
+        printer.println().printCommand(TEX_ITEM).printOptionStart();
         visitChildren(node);
         printer.printOptionEnd();
     }
@@ -229,7 +231,7 @@ public class ToLatexSerializer implements Visitor {
     @Override
     public final void visit(final ListItemNode node) {
         // TODO: Support for TaskListNode?
-        printConditionallyIndentedCommand(node, "item");
+        printConditionallyIndentedCommand(node, TEX_ITEM);
     }
 
     @Override
@@ -527,7 +529,9 @@ public class ToLatexSerializer implements Visitor {
             char c = input.charAt(i);
             switch(c) {
                 case ' ':
+                    // fallthrough
                 case '\n':
+                    // fallthrough
                 case '\t':
                     continue;
                 default:

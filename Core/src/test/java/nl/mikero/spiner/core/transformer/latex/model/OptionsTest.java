@@ -55,26 +55,13 @@ public class OptionsTest {
     }
 
     @Test
-    public void and_ValidParent_ReturnsParent() {
+    public void build_ValidParent_ReturnsParent() {
         // Arrange
         BasicCommand basicCommand = new BasicCommand("dummy");
         Options options = new Options(basicCommand);
 
         // Act
-        Command result = options.and();
-
-        // Assert
-        assertEquals(basicCommand, result);
-    }
-
-    @Test
-    public void done_ValidParent_ReturnsParent() {
-        // Arrange
-        BasicCommand basicCommand = new BasicCommand("dummy");
-        Options options = new Options(basicCommand);
-
-        // Act
-        Command result = options.done();
+        Command result = options.build();
 
         // Assert
         assertEquals(basicCommand, result);

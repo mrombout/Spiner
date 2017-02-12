@@ -13,10 +13,16 @@ public class GamebookLatexDocument extends LatexDocument {
      */
     public GamebookLatexDocument() {
         super();
-        addCommand(new BasicCommand("documentclass").options().add("b5paper").and().parameters().add("article").done());
-        addCommand(new UsePackageCommand().options().add("utf8").and().parameters().add("inputenc").done());
-        addCommand(new UsePackageCommand().parameters().add("wallpaper").done());
-        addCommand(new UsePackageCommand().parameters().add("gamebook").done());
+        addCommand(new BasicCommand("documentclass")
+                .options()
+                    .add("b5paper")
+                    .build()
+                .parameters()
+                    .add("article")
+                    .build());
+        addCommand(new UsePackageCommand().options().add("utf8").build().parameters().add("inputenc").build());
+        addCommand(new UsePackageCommand().parameters().add("wallpaper").build());
+        addCommand(new UsePackageCommand().parameters().add("gamebook").build());
         addCommand(new WhitelineCommand());
     }
 }
