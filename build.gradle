@@ -5,7 +5,6 @@ plugins {
 allprojects {
     apply plugin: 'java'
     apply plugin: 'jacoco'
-    apply plugin: 'checkstyle'
 
     jacoco {
         toolVersion = '0.7.8'
@@ -15,12 +14,6 @@ allprojects {
         reports {
             xml.enabled true
         }
-    }
-
-    checkstyle {
-        toolVersion = "6.16"
-        configFile = rootProject.file('config/checkstyle/checkstyle.xml')
-        ignoreFailures = true
     }
 
     dependencies {
