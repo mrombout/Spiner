@@ -1,17 +1,17 @@
 package nl.mikero.spiner.commandline.command;
 
+import java.io.PrintStream;
+
 import com.beust.jcommander.Parameter;
 import com.google.inject.Inject;
 import nl.mikero.spiner.commandline.VersionService;
-
-import java.io.PrintStream;
 
 /**
  * Prints the version information.
  */
 public class VersionCommand implements Command {
     @Parameter(names = {"--version"}, description = "Show version information.", help = true)
-    private boolean isVersion = false;
+    private boolean isVersion;
 
     private final VersionService versionService;
     private final PrintStream printStream;
