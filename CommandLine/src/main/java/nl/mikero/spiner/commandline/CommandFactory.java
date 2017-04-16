@@ -1,7 +1,9 @@
 package nl.mikero.spiner.commandline;
 
 import com.beust.jcommander.JCommander;
-import nl.mikero.spiner.commandline.command.*;
+import nl.mikero.spiner.commandline.command.HelpCommand;
+import nl.mikero.spiner.commandline.command.TransformCommand;
+import nl.mikero.spiner.commandline.command.VersionCommand;
 
 /**
  * Creates all available commands.

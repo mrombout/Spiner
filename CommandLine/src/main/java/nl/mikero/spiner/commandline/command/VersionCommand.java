@@ -11,7 +11,7 @@ import java.io.PrintStream;
  */
 public class VersionCommand implements Command {
     @Parameter(names = {"--version"}, description = "Show version information.", help = true)
-    private boolean isVersion = false;
+    private boolean isVersion;
 
     private final VersionService versionService;
     private final PrintStream printStream;

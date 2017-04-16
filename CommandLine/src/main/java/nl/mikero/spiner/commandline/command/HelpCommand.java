@@ -10,7 +10,7 @@ import com.google.inject.assistedinject.Assisted;
  */
 public class HelpCommand implements Command {
     @Parameter(names = {"--help"}, description = "Show help description.", help = true)
-    private boolean help = false;
+    private boolean help;
 
     private final JCommander jCommander;
 

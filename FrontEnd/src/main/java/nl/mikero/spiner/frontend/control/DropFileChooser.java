@@ -1,5 +1,10 @@
 package nl.mikero.spiner.frontend.control;
 
+import java.io.File;
+import java.io.IOException;
+
+import nl.mikero.spiner.frontend.exception.FxmlLoadFailedException;
+
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
@@ -10,10 +15,6 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
-import nl.mikero.spiner.frontend.exception.FxmlLoadFailedException;
-
-import java.io.File;
-import java.io.IOException;
 
 /**
  * A file chooser control that allows opening a native file chooser or accepts dropping in files.
@@ -36,10 +37,15 @@ public class DropFileChooser extends BorderPane {
      */
     public DropFileChooser() {
         super();
+
         loadFxml();
-        createFileChooser();
+
+        fileChooser = new FileChooser();
     }
 
+    /**
+     * Loads the FXML view.
+     */
     private void loadFxml() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/control/drop_file_chooser.fxml"));
         fxmlLoader.setRoot(this);
@@ -52,20 +58,29 @@ public class DropFileChooser extends BorderPane {
         }
     }
 
+    /**
+     * Initializes the control.
+     */
     @FXML
     protected final void initialize() {
         statusIndicator.setVisible(false);
         statusImage.setVisible(true);
     }
 
-    private void createFileChooser() {
-        fileChooser = new FileChooser();
-    }
-
+    /**
+     * Returns the fileChoosers extension filters.
+     *
+     * @return fileChoosers extension filters
+     */
     public final ObservableList<FileChooser.ExtensionFilter> getExtensionFilters() {
         return fileChooser.getExtensionFilters();
     }
 
+    /**
+     * Executed when the control is clicked.
+     *
+     * Opens the file chooser.
+     */
     @FXML
     private void onStackPaneMouseClicked() {
         openFileChooser();
@@ -86,16 +101,26 @@ public class DropFileChooser extends BorderPane {
     /**
      * Property for the currently selected file. May be empty when no file is selected.
      *
-     * @return propert for the currently selected file, may be empty when no file is selected.
+     * @return property for the currently selected file, may be empty when no file is selected.
      */
     public final ObjectProperty<File> fileProperty() {
         return fileProperty;
     }
 
+    /**
+     * Returns the selected file.
+     *
+     * @return selected file
+     */
     public final File getFile() {
         return fileProperty.get();
     }
 
+    /**
+     * Sets the selected file.
+     *
+     * @param file selected file
+     */
     public final void setFile(final File file) {
         fileProperty.set(file);
     }

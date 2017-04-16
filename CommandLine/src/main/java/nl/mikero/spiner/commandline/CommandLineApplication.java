@@ -4,7 +4,9 @@ import com.beust.jcommander.JCommander;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import nl.mikero.spiner.commandline.command.*;
+import nl.mikero.spiner.commandline.command.HelpCommand;
+import nl.mikero.spiner.commandline.command.TransformCommand;
+import nl.mikero.spiner.commandline.command.VersionCommand;
 
 /**
  * Provides a commandline interface to the Spiner transformation features.

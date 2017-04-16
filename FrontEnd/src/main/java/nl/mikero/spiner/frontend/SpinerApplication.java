@@ -2,13 +2,14 @@ package nl.mikero.spiner.frontend;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import nl.mikero.spiner.frontend.inject.TwineModule;
+import nl.mikero.spiner.frontend.main.ApplicationView;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import nl.mikero.spiner.frontend.inject.TwineModule;
-import nl.mikero.spiner.frontend.main.ApplicationView;
 
 /**
  * Bootstraps and starts up the JavaFX application.
