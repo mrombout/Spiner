@@ -1,10 +1,12 @@
 package nl.mikero.spiner.frontend;
 
-import javafx.concurrent.Task;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import nl.mikero.spiner.core.transformer.TransformService;
 import nl.mikero.spiner.core.transformer.Transformer;
 
-import java.io.*;
+import javafx.concurrent.Task;
 
 /**
  * Transforms an input Twine XML file to an EPUB file.

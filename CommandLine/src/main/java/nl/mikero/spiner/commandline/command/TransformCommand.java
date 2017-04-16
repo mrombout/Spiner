@@ -1,5 +1,15 @@
 package nl.mikero.spiner.commandline.command;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.File;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 import com.google.inject.Inject;
@@ -11,8 +21,6 @@ import org.apache.commons.io.input.CloseShieldInputStream;
 import org.apache.commons.io.output.CloseShieldOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.*;
 
 /**
  * Transform Twine file to EPUB or LaTeX.
@@ -34,7 +42,7 @@ public class TransformCommand implements Command {
     private String outputPath;
 
     @Parameter(names = {"--debug", "-x"}, description = "Show debug output.", help = true)
-    private boolean showDebugOutput = false;
+    private boolean showDebugOutput;
 
     private final TransformService transformService;
     private final TwineStoryEpubTransformer epubTransformer;
