@@ -3,6 +3,7 @@ package nl.mikero.spiner.frontend.control;
 import java.io.File;
 import java.io.IOException;
 
+import nl.mikero.spiner.frontend.MessagesBundle;
 import nl.mikero.spiner.frontend.exception.FxmlLoadFailedException;
 
 import javafx.beans.property.ObjectProperty;
@@ -20,10 +21,9 @@ import javafx.stage.FileChooser;
  * A file chooser control that allows opening a native file chooser or accepts dropping in files.
  */
 public class DropFileChooser extends BorderPane {
-
-    private FileChooser fileChooser;
-
     private final ObjectProperty<File> fileProperty = new SimpleObjectProperty<>();
+
+    private final FileChooser fileChooser;
 
     @FXML
     private ProgressIndicator statusIndicator;
@@ -48,6 +48,7 @@ public class DropFileChooser extends BorderPane {
      */
     private void loadFxml() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/control/drop_file_chooser.fxml"));
+        fxmlLoader.setResources(MessagesBundle.getBundle());
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
 

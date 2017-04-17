@@ -3,6 +3,7 @@ package nl.mikero.spiner.frontend.main;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.Optional;
 
 import com.google.inject.Inject;
@@ -12,6 +13,7 @@ import nl.mikero.spiner.core.transformer.TransformService;
 import nl.mikero.spiner.core.transformer.Transformer;
 import nl.mikero.spiner.core.transformer.epub.TwineStoryEpubTransformer;
 import nl.mikero.spiner.core.transformer.latex.LatexTransformer;
+import nl.mikero.spiner.frontend.MessagesBundle;
 import nl.mikero.spiner.frontend.SpinerApplication;
 import nl.mikero.spiner.frontend.dialog.ExceptionDialog;
 import nl.mikero.spiner.frontend.TransformTask;
@@ -36,15 +38,19 @@ import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import static nl.mikero.spiner.frontend.MessagesBundle.*;
+
 /**
  * Main Application GUI.
  */
 public class ApplicationView {
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationView.class);
 
-    private static final String LOG_MSG_TRANSFORM_FAIL = "Could not transform document.";
+    private static final String LOG_TRANSFORM_FAIL = "Could not transform document.";
 
     private static final String FILTER_DESCRIPTION = "HTML Files (*.html, *.htm, *.xhtml)";
+
+    private static final String FILE_FXML_APPLICATION = "/Application.fxml";
 
     private final Alert errorAlert;
 
@@ -92,13 +98,14 @@ public class ApplicationView {
      * @return view to display in main window
      */
     public final Parent getView() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Application.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FILE_FXML_APPLICATION));
+        fxmlLoader.setResources(MessagesBundle.getBundle());
         fxmlLoader.setController(this);
 
         try {
             return fxmlLoader.load();
         } catch (IOException e) {
-            throw new FxmlLoadFailedException("Application.fxml", e);
+            throw new FxmlLoadFailedException(FILE_FXML_APPLICATION, e);
         }
     }
 
@@ -161,7 +168,7 @@ public class ApplicationView {
      */
     @FXML
     protected final void onHelpButtonClicked(final ActionEvent actionEvent) {
-        application.getHostServices().showDocument("https://spiner.readme.io");
+        application.getHostServices().showDocument(MSG_DOC_WEBSITE);
     }
 
     /**
@@ -178,9 +185,9 @@ public class ApplicationView {
 
         if(outputFile.exists()) {
             Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-            confirm.setTitle("File already exists.");
-            confirm.setHeaderText(String.format("The file '%s' already exists.", outputFile.getAbsoluteFile()));
-            confirm.setContentText("Do you want to overwrite this file?");
+            confirm.setTitle(MSG_FILE_ALREADY_EXISTS);
+            confirm.setHeaderText(MessageFormat.format(MSG_FILES_ALREADY_EXISTS, outputFile.getAbsoluteFile()));
+            confirm.setContentText(MSG_DO_YOU_WANT_TO_OVERWRITE);
             Optional<ButtonType> result = confirm.showAndWait();
             if(result.isPresent() && result.get() == ButtonType.CANCEL) {
                 dropFileChooser.openFileChooser();
@@ -194,7 +201,7 @@ public class ApplicationView {
             TransformTask task = createTransformTask(inputFile, outputFile);
             new Thread(task).start();
         } catch (IOException e) {
-            LOGGER.error(LOG_MSG_TRANSFORM_FAIL, e);
+            LOGGER.error(LOG_TRANSFORM_FAIL, e);
             handleException(e, inputFile);
         }
     }
@@ -225,12 +232,12 @@ public class ApplicationView {
                 try {
                     finout.close();
                 } catch (IOException e) {
-                    throw new TwineTransformationFailedException(LOG_MSG_TRANSFORM_FAIL, e);
+                    throw new TwineTransformationFailedException(LOG_TRANSFORM_FAIL, e);
                 }
             }
         });
         task.exceptionProperty().addListener((observable, oldException, newException) -> {
-            LOGGER.error(LOG_MSG_TRANSFORM_FAIL, newException);
+            LOGGER.error(LOG_TRANSFORM_FAIL, newException);
             handleException(newException, inputFile);
 
             try {
@@ -257,14 +264,13 @@ public class ApplicationView {
             actualThrowable = throwable.getCause();
 
         if(actualThrowable instanceof FileNotFoundException) {
-            String title = String.format("File '%s' could not be found.", inputFile.toString());
-            String content = title + " Do you want to select a different file and try again?";
+            String title = MessageFormat.format(MSG_FILE_NOT_FOUND, inputFile.toString());
+            String content = String.format("%s %s", title, MessageFormat.format(MSG_SELECT_DIFFERENT_FILE, title));
 
             showErrorAndRetry(title, content);
         } else if(actualThrowable instanceof TwineRepairFailedException) {
-            String title = String.format("File '%s' could not be repaired.", inputFile.toString());
-            String content = title + " The file might be in a format that Spiner does not understand. Do you want to" +
-                    "select a different file and try again?";
+            String title = MessageFormat.format(MSG_FILE_COULD_NOT_BE_REPAIRED, inputFile.toString());
+            String content = String.format("%s %s", title, MessageFormat.format(MSG_FILE_FORMAT_NOT_RECOGNIZED, title));
 
             showErrorAndRetry(title, content);
         } else if(actualThrowable instanceof IOException) {

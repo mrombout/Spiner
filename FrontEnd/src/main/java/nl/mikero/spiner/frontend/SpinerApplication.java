@@ -11,10 +11,17 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
+import static nl.mikero.spiner.frontend.MessagesBundle.MSG_APP_TITLE;
+
 /**
  * Bootstraps and starts up the JavaFX application.
  */
 public class SpinerApplication extends Application {
+    private static final String ICON_APPLICATION = "/icon.png";
+
     @Override
     public final void start(final Stage primaryStage) {
         final Injector injector = Guice.createInjector(new TwineModule());
@@ -25,8 +32,8 @@ public class SpinerApplication extends Application {
         final Scene scene = new Scene(applicationView.getView());
 
         primaryStage.initStyle(StageStyle.UNDECORATED);
-        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/icon.png")));
-        primaryStage.setTitle("Spiner");
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream(ICON_APPLICATION)));
+        primaryStage.setTitle(MSG_APP_TITLE);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
