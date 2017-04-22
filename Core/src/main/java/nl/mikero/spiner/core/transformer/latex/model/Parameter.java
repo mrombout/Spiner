@@ -15,7 +15,7 @@ public class Parameter {
      */
     public Parameter(final String value) {
         this.value = Objects.requireNonNull(value);
-        if(this.value != null && this.value.isEmpty())
+        if(this.value.isEmpty())
             throw new IllegalArgumentException("Parameter value must not be empty");
     }
 
