@@ -232,6 +232,12 @@ public class ApplicationView {
         task.exceptionProperty().addListener((observable, oldException, newException) -> {
             LOGGER.error(LOG_MSG_TRANSFORM_FAIL, newException);
             handleException(newException, inputFile);
+
+            try {
+                finout.close();
+            } catch (IOException e) {
+                throw new TwineTransformationFailedException(LOG_MSG_TRANSFORM_FAIL, e);
+            }
         });
 
         return task;
