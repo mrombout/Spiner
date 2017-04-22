@@ -14,7 +14,7 @@ public class Environment extends BasicCommand {
     private static final String CMD_END = "end";
 
     private static final String TAB = "\t";
-    private static final String NEWLINE = "\n";
+    private static final String NEWLINE = System.lineSeparator();
 
     private final LatexContainer container;
 

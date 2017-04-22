@@ -24,7 +24,7 @@ public class EnvironmentTest {
         String result = environment.toString();
 
         // Arrange
-        assertEquals("\\begin{dummy}\n\n\\end{dummy}", result);
+        assertEquals(String.format("\\begin{dummy}%n%n\\end{dummy}"), result);
     }
 
     @Test
@@ -37,7 +37,7 @@ public class EnvironmentTest {
         String result = environment.toString();
 
         // Arrange
-        assertEquals("\\begin{dummy}\n\t\\command1\n\\end{dummy}", result);
+        assertEquals(String.format("\\begin{dummy}%n\t\\command1%n\\end{dummy}"), result);
     }
 
     @Test
@@ -51,7 +51,7 @@ public class EnvironmentTest {
         String result = environment.toString();
 
         // Arrange
-        assertEquals("\\begin{dummy}\n\t\\command1\n\t\\command2\n\\end{dummy}", result);
+        assertEquals(String.format("\\begin{dummy}%n\t\\command1%n\t\\command2%n\\end{dummy}"), result);
     }
 
     @Test(expected = NullPointerException.class)
