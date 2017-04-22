@@ -2,8 +2,11 @@ package nl.mikero.spiner.frontend.control;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ResourceBundle;
 
-import nl.mikero.spiner.frontend.MessagesBundle;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import nl.mikero.spiner.core.ResourceMessagesBundle;
 import nl.mikero.spiner.frontend.exception.FxmlLoadFailedException;
 
 import javafx.beans.property.ObjectProperty;
@@ -22,6 +25,7 @@ import javafx.stage.FileChooser;
  */
 public class DropFileChooser extends BorderPane {
     private final ObjectProperty<File> fileProperty = new SimpleObjectProperty<>();
+    private final StringProperty textProperty = new SimpleStringProperty(this, "text");
 
     private final FileChooser fileChooser;
 
@@ -48,7 +52,6 @@ public class DropFileChooser extends BorderPane {
      */
     private void loadFxml() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/control/drop_file_chooser.fxml"));
-        fxmlLoader.setResources(MessagesBundle.getBundle());
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
 
@@ -66,6 +69,7 @@ public class DropFileChooser extends BorderPane {
     protected final void initialize() {
         statusIndicator.setVisible(false);
         statusImage.setVisible(true);
+        fileLabel.textProperty().bind(textProperty);
     }
 
     /**
@@ -124,6 +128,33 @@ public class DropFileChooser extends BorderPane {
      */
     public final void setFile(final File file) {
         fileProperty.set(file);
+    }
+
+    /**
+     * Property for the text to display when no file is selected.
+     *
+     * @return property for the text to display when no file is selected.
+     */
+    public final StringProperty textProperty() {
+        return textProperty;
+    }
+
+    /**
+     * Returns the text to display when no file is selected.
+     *
+     * @return the text to display when no file is selected.
+     */
+    public final String getText() {
+        return textProperty.get();
+    }
+
+    /**
+     * Sets the text to display when no file is selected.
+     *
+     * @param text the text to display when no file is selected.
+     */
+    public final void setText(final String text) {
+        textProperty.set(text);
     }
 
     /**

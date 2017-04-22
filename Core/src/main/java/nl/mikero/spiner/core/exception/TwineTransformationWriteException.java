@@ -8,10 +8,9 @@ public class TwineTransformationWriteException extends RuntimeException {
     /**
      * Constructs a new TwineTransformationWriteException.
      *
-     * @param message exception message
      * @param cause cause of this cause
      */
-    public TwineTransformationWriteException(final String message, final Throwable cause) {
-        super(message, cause);
+    public TwineTransformationWriteException(final Throwable cause) {
+        super("Could not write transformed input to output stream", cause);
     }
 }

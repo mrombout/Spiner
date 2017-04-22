@@ -79,7 +79,7 @@
         </HBox>
     </top>
     <center>
-        <DropFileChooser fx:id="dropFileChooser">
+        <DropFileChooser fx:id="dropFileChooser" text="%msg.click_or_drop_to_select_file">
             <BorderPane.margin>
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
             </BorderPane.margin>

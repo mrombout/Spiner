@@ -10,8 +10,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 
-import static nl.mikero.spiner.frontend.MessagesBundle.MSG_THE_STACKTRACE_WAS;
-import static nl.mikero.spiner.frontend.MessagesBundle.MSG_UNEXPECTED_ERROR;
+import static nl.mikero.spiner.frontend.FrontEndMessagesBundle.MSG_THE_STACKTRACE_WAS;
+import static nl.mikero.spiner.frontend.FrontEndMessagesBundle.MSG_UNEXPECTED_ERROR;
 
 /**
  * Dialog that renders an exception.

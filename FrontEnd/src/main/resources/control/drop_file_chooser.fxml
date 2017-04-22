@@ -15,8 +15,7 @@
                     <Image url="@../file.png"/>
                 </ImageView>
                 <Label fx:id="fileLabel" alignment="BOTTOM_CENTER" contentDisplay="CENTER"
-                       maxHeight="1.7976931348623157E308" maxWidth="-Infinity"
-                       text="%msg.click_or_drop_to_select_file" textAlignment="CENTER"
+                       maxHeight="1.7976931348623157E308" maxWidth="-Infinity" textAlignment="CENTER"
                        textOverrun="LEADING_ELLIPSIS"/>
             </StackPane>
         </StackPane>

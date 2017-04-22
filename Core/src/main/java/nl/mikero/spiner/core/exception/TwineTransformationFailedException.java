@@ -8,11 +8,10 @@ public class TwineTransformationFailedException extends RuntimeException {
     /**
      * Constructs a new TwineTransformationFailedException.
      *
-     * @param message exception message
      * @param cause cause of this cause
      */
-    public TwineTransformationFailedException(final String message, final Throwable cause) {
-        super(message, cause);
+    public TwineTransformationFailedException(final Throwable cause) {
+        super("Could not transform document", cause);
     }
 
 }

@@ -7,13 +7,13 @@ import java.text.MessageFormat;
 import java.util.Optional;
 
 import com.google.inject.Inject;
+import nl.mikero.spiner.core.ResourceMessagesBundle;
 import nl.mikero.spiner.core.exception.TwineRepairFailedException;
 import nl.mikero.spiner.core.exception.TwineTransformationFailedException;
 import nl.mikero.spiner.core.transformer.TransformService;
 import nl.mikero.spiner.core.transformer.Transformer;
 import nl.mikero.spiner.core.transformer.epub.TwineStoryEpubTransformer;
 import nl.mikero.spiner.core.transformer.latex.LatexTransformer;
-import nl.mikero.spiner.frontend.MessagesBundle;
 import nl.mikero.spiner.frontend.SpinerApplication;
 import nl.mikero.spiner.frontend.dialog.ExceptionDialog;
 import nl.mikero.spiner.frontend.TransformTask;
@@ -38,7 +38,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import static nl.mikero.spiner.frontend.MessagesBundle.*;
+import static nl.mikero.spiner.frontend.FrontEndMessagesBundle.*;
 
 /**
  * Main Application GUI.
@@ -99,7 +99,7 @@ public class ApplicationView {
      */
     public final Parent getView() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FILE_FXML_APPLICATION));
-        fxmlLoader.setResources(MessagesBundle.getBundle());
+        fxmlLoader.setResources(ResourceMessagesBundle.getBundle());
         fxmlLoader.setController(this);
 
         try {
@@ -232,7 +232,7 @@ public class ApplicationView {
                 try {
                     finout.close();
                 } catch (IOException e) {
-                    throw new TwineTransformationFailedException(LOG_TRANSFORM_FAIL, e);
+                    throw new TwineTransformationFailedException(e);
                 }
             }
         });

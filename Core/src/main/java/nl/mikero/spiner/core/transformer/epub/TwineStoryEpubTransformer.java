@@ -148,7 +148,7 @@ public class TwineStoryEpubTransformer implements Transformer {
                 book.addSection(passage.getName(), passageResource);
             }
         } catch (TransformerException e) {
-            throw new TwineTransformationFailedException("Could not transform document", e);
+            throw new TwineTransformationFailedException(e);
         }
 
         try {
@@ -156,7 +156,7 @@ public class TwineStoryEpubTransformer implements Transformer {
             EpubWriter epubWriter = new EpubWriter();
             epubWriter.write(book, outputStream);
         } catch (IOException e) {
-            throw new TwineTransformationWriteException("Could not write transformed input to output stream", e);
+            throw new TwineTransformationWriteException(e);
         }
     }
 

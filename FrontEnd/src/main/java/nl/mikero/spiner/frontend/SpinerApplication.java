@@ -11,10 +11,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
-
-import static nl.mikero.spiner.frontend.MessagesBundle.MSG_APP_TITLE;
+import static nl.mikero.spiner.frontend.FrontEndMessagesBundle.MSG_APP_TITLE;
 
 /**
  * Bootstraps and starts up the JavaFX application.

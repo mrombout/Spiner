@@ -8,13 +8,21 @@ package nl.mikero.spiner.core.exception;
 public class TwineRepairFailedException extends RuntimeException {
 
     /**
-     * Constructs a new TwineRepairFailedException.
+     * Constructs a new TwineRepairFailedException with the default message.
      *
-     * @param message exception message
-     * @param cause cause of this cause
+     * @param cause cause of this exception
      */
-    public TwineRepairFailedException(final String message, final Throwable cause) {
-        super(message, cause);
+    public TwineRepairFailedException(final Throwable cause) {
+        this("Could not repair input stream", cause);
     }
 
+    /**
+     * Constructs a new TwineRepairFailedException.
+     *
+     * @param msg the detail message
+     * @param cause the cause of this exception
+     */
+    public TwineRepairFailedException(final String msg, final Throwable cause) {
+        super(msg, cause);
+    }
 }

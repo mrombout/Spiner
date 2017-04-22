@@ -10,6 +10,7 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import nl.mikero.spiner.core.exception.NoStorydataException;
 import nl.mikero.spiner.core.exception.TwineRepairFailedException;
 import org.apache.commons.io.IOUtils;
 import org.w3c.tidy.Tidy;
@@ -73,7 +74,7 @@ public class TwinePublishedRepairer implements TwineRepairer {
 
             Matcher matcher = REGEX_TW_STORYDATA.matcher(input);
             if(!matcher.find())
-                throw new TwineRepairFailedException("Input does not contain any <tw-storydata> nodes.", null);
+                throw new NoStorydataException();
             String xmlInput = String.format("<tw-storiesdata>%s</tw-storiesdata>", matcher.group());
 
             try (InputStream in = new ByteArrayInputStream(xmlInput.getBytes(StandardCharsets.UTF_8))) {
@@ -81,9 +82,7 @@ public class TwinePublishedRepairer implements TwineRepairer {
                 tidy.parse(in, outputStream);
             }
         } catch (IOException e) {
-            throw new TwineRepairFailedException("Could not read Twine story file from input stream", e);
-        } catch (IllegalStateException e) {
-            throw new TwineRepairFailedException("Could not repair file due to parsing error", e);
+            throw new TwineRepairFailedException(e);
         }
     }
 }
