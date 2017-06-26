@@ -1,6 +1,13 @@
-apply plugin: 'java'
-
-version = '0.0.1';
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "gradle.plugin.edu.sc.seis.gradle:launch4j:2.3.0"
+    }
+}
 
 repositories {
     mavenCentral()
@@ -8,6 +15,21 @@ repositories {
         url "https://github.com/psiegman/mvn-repo/raw/master/releases"
     }
 }
+
+apply plugin: 'java'
+apply plugin: 'edu.sc.seis.launch4j'
+apply plugin: 'application'
+
+version = '0.1.0';
+
+launch4j {
+    mainClassName = 'nl.mikero.spiner.commandline.CommandLineApplication'
+//    icon = '/FrontEnd/src/main/deploy/package/Spiner.ico'
+    headerType = 'console'
+    outfile = 'spiner-cli.exe'
+}
+
+mainClassName = 'nl.mikero.spiner.commandline.CommandLineApplication'
 
 processResources {
     filesMatching('version.properties') {
