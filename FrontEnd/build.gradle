@@ -1,22 +1,38 @@
-apply plugin: 'java'
-apply from: 'javafx.plugin'
+buildscript {
+    dependencies {
+        classpath group: 'de.dynamicfiles.projects.gradle.plugins', name: 'javafx-gradle-plugin', version: '8.8.2'
+    }
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+}
 
-version = '0.0.1'
+apply plugin: 'java'
+apply plugin: 'javafx-gradle-plugin'
+
+version = '0.1.0'
 
 repositories {
     mavenCentral()
     maven {
         url "https://github.com/psiegman/mvn-repo/raw/master/releases"
     }
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots"
+    }
 }
 
-javafx {
-    mainClass = 'nl.mikero.turntopassage.frontend.TurnToPassageApplication'
+jfx {
+    mainClass = 'nl.mikero.spiner.frontend.SpinerApplication'
+    vendor = 'Mike Rombout'
+    appName = 'Spiner'
 }
 
 dependencies {
     testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:2.8.47'
 
     compile project(':Core')
-    compile 'org.controlsfx:controlsfx:8.20.8'
+    compile 'org.controlsfx:controlsfx:8.40.12'
 }

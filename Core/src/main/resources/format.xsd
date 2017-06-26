@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
+    <xs:include schemaLocation="xtw-metadata.xsd" />
+
     <xs:element name="tw-storiesdata" type="tw-storiesdata" />
 
     <xs:complexType name="tw-storiesdata">
@@ -13,6 +15,7 @@
         <xs:sequence>
             <xs:element name="style" type="style" minOccurs="0" />
             <xs:element name="script" type="script" minOccurs="0" />
+            <xs:element name="xtw-metadata" type="xtw-metadata" minOccurs="0" />
             <xs:element name="tw-passagedata" type="tw-passagedata" maxOccurs="unbounded" />
         </xs:sequence>
         <xs:attribute name="name" type="xs:string" />
@@ -21,7 +24,9 @@
         <xs:attribute name="creator-version" type="xs:string" />
         <xs:attribute name="ifid" type="xs:string" />
         <xs:attribute name="format" type="xs:string" />
+        <xs:attribute name="format-version" type="xs:string" />
         <xs:attribute name="options" type="xs:string" />
+        <xs:attribute name="hidden" type="xs:string" />
     </xs:complexType>
 
     <xs:complexType name="tw-passagedata">
@@ -44,6 +49,7 @@
             </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
+    
     <xs:complexType name="script">
         <xs:simpleContent>
             <xs:extension base="xs:string">

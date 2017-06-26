@@ -1,6 +1,36 @@
-apply plugin: 'java'
+plugins {
+    id "org.sonarqube" version "2.2"
+}
 
-version = '0.0.1'
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'jacoco'
+    apply plugin: 'checkstyle'
+
+    jacoco {
+        toolVersion = '0.7.8'
+    }
+
+    jacocoTestReport {
+        reports {
+            xml.enabled true
+        }
+    }
+
+    checkstyle {
+        toolVersion = "6.16"
+        configFile = rootProject.file('config/checkstyle/checkstyle.xml')
+        ignoreFailures = true
+    }
+
+    dependencies {
+        compile 'org.slf4j:slf4j-api:1.7.25'
+        compile 'ch.qos.logback:logback-core:1.2.3'
+        compile 'ch.qos.logback:logback-classic:1.2.3'
+    }
+}
+
+version = '0.1.0'
 
 repositories {
     mavenCentral()
@@ -11,9 +41,13 @@ repositories {
 
 dependencies {
     testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-all:1.10.19'
+    testCompile 'org.mockito:mockito-core:2.8.47'
 
-    compile 'org.slf4j:slf4j-api:1.7.+'
-    compile 'ch.qos.logback:logback-classic:1.+'
-    compile 'com.google.inject:guice:4.0'
+    compile 'com.google.inject:guice:4.1.0'
+}
+
+sonarqube {
+    properties {
+        property 'sonar.jacoco.reportPaths', 'Core/build/jacoco/test.exec'
+    }
 }

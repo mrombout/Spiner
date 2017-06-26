@@ -1,0 +1,11 @@
+<tw-storiesdata>
+    <tw-storydata name="Setting Metadata" startnode="2" creator="Twine" creator-version="2.0.4"
+                  ifid="8D33902F-AE34-4AA2-8159-BFD2AF5443C1" format="Harlowe" options="">
+        <style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css"></style>
+        <script role="script" id="twine-user-script" type="text/twine-javascript"></script>
+        <tw-passagedata pid="1" name="metadata" tags="" position="712,388">&lt;xtw-metadata&gt;
+            &lt;title&gt;Just a Title!&lt;/ti&gt;
+            &lt;/xtw-metadata&gt;</tw-passagedata>
+        <tw-passagedata pid="2" name="Start" tags="" position="966,380">Here be just a normal passage.</tw-passagedata>
+    </tw-storydata>
+</tw-storiesdata>

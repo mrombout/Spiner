@@ -1,3 +1,110 @@
-.header-title {
-    -fx-font-weight: bold !important;
+.application {
+    -fx-border-color: #fc3b04;
+    -fx-border-style: solid;
+    -fx-border-width: 1px;
+    -fx-background-color: #ffffff;
+}
+.drop-file-chooser {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 20px;
+
+    -fx-border-style: dashed;
+    -fx-border-color: #aaaaaa;
+    -fx-border-width: 2px;
+    -fx-border-radius: 20px;
+
+    -fx-cursor: hand;
+}
+.header {
+    -fx-background-color: #fc3b04;
+    -fx-background-image: url("triangles.png");
+}
+.footer {
+    -fx-background-color: #f6f7f8;
+    -fx-border-color: #dee5e8;
+    -fx-border-style: solid;
+}
+.transform-button {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-border-width: 0px;
+    -fx-background-color: #fc3b04;
+    -fx-text-fill: #ffffff;
+}
+
+.transform-button:hover {
+    -fx-background-color: #e43503;
+}
+
+.transform-button:pressed {
+    -fx-background-color: #fc4f1d;
+}
+.transform-button:disabled {
+    -fx-background-color: #bbbbbb;
+}
+
+.toggle-button {
+    -fx-background-color: transparent;
+    -fx-border-color: #ffffff;
+    -fx-border-width: 1px;
+    -fx-min-width: 80px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+}
+
+.toggle-button:selected {
+    -fx-background-color: #ffffff;
+    -fx-background-insets: 0;
+    -fx-text-fill: #fc3b04;
+    -fx-border-width: 0px;
+}
+
+.toggle-button.epub {
+    -fx-border-radius: 3px 0 0 3px;
+    -fx-background-radius: 3px 0 0 3px;
+}
+
+.toggle-button.latex {
+    -fx-border-radius: 0 3px 3px 0;
+    -fx-background-radius: 0 3px 3px 0;
+}
+
+.progress-indicator {
+    -fx-progress-color: #fc3b04;
+    -fx-spin-enabled: true;
+}
+
+.progress-indicator .indicator {
+    visibility: hidden;
+}
+
+.progress-indicator .text {
+    -fx-font-weight: bold;
+}
+
+.close-button,
+.help-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: #ffffff;
+}
+
+.close-button {
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+}
+.close-button:hover {
+    -fx-background-color: #e43503;
+}
+.close-bottom:pressed {
+    -fx-background-color: transparent;
+}
+
+.help-button {
+    -fx-background-radius: 100%;
+    -fx-opacity: 0.5;
+}
+.help-button:hover {
+    -fx-background-color: #e43503;
+    -fx-opacity: 1.0;
 }
