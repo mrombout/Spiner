@@ -14,7 +14,7 @@ repositories {
 
 dependencies {
     testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:2.7.22'
+    testCompile 'org.mockito:mockito-core:2.8.47'
 
     cucumberCompile 'info.cukes:cucumber-java:1.2.5'
     cucumberCompile 'info.cukes:cucumber-guice:1.2.5'
@@ -24,7 +24,7 @@ dependencies {
     }
 
     compile 'org.pegdown:pegdown:1.6.0'
-    compile 'org.jsoup:jsoup:1.10.2'
+    compile 'org.jsoup:jsoup:1.10.3'
     compile 'net.sf.jtidy:jtidy:r938'
     compile 'commons-io:commons-io:2.5'
     compile 'commons-codec:commons-codec:1.10'

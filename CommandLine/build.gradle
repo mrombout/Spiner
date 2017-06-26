@@ -17,10 +17,10 @@ processResources {
 
 dependencies {
     testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:2.7.22'
+    testCompile 'org.mockito:mockito-core:2.8.47'
 
     compile project(':Core')
     compile 'commons-io:commons-io:2.5'
     compile 'com.google.inject.extensions:guice-assistedinject:4.1.0'
-    compile "com.beust:jcommander:1.69"
+    compile "com.beust:jcommander:1.72"
 }
