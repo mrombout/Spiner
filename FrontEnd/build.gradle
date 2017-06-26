@@ -31,7 +31,7 @@ jfx {
 
 dependencies {
     testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:2.7.22'
+    testCompile 'org.mockito:mockito-core:2.8.47'
 
     compile project(':Core')
     compile 'org.controlsfx:controlsfx:8.40.12'
