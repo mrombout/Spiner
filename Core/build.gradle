@@ -1,6 +1,9 @@
-apply plugin: 'java'
+plugins {
+    id "java"
+    id "com.github.samueltbrown.cucumber" version "0.9"
+}
 
-version = '0.0.1'
+version = '0.1.0'
 
 repositories {
     mavenCentral()
@@ -11,12 +14,19 @@ repositories {
 
 dependencies {
     testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-all:1.10.19'
+    testCompile 'org.mockito:mockito-core:2.8.47'
 
-    compile 'nl.siegmann.epublib:epublib-core:3.1'
-    compile 'org.pegdown:pegdown:1.5.0'
-    compile 'org.jsoup:jsoup:1.8.2'
+    cucumberCompile 'info.cukes:cucumber-java:1.2.5'
+    cucumberCompile 'info.cukes:cucumber-guice:1.2.5'
+
+    compile('nl.siegmann.epublib:epublib-core:3.1') {
+        exclude group: 'org.slf4j'
+    }
+
+    compile 'org.pegdown:pegdown:1.6.0'
+    compile 'org.jsoup:jsoup:1.10.3'
     compile 'net.sf.jtidy:jtidy:r938'
-    compile 'commons-io:commons-io:2.4'
-    compile 'com.google.inject:guice:4.0'
+    compile 'commons-io:commons-io:2.5'
+    compile 'commons-codec:commons-codec:1.10'
+    compile 'com.google.inject:guice:4.1.0'
 }
