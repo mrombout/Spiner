@@ -1,14 +1,19 @@
 package nl.mikero.spiner.core;
 
-import sun.misc.resources.Messages;
-
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
  * Provides convenience methods for translated messages.
  */
-public class ResourceMessagesBundle {
+public final class ResourceMessagesBundle {
+    /**
+     * Utility class.
+     */
+    private ResourceMessagesBundle() {
+
+    }
+
     /**
      * Returns the ResourceMessagesBundle resource bundle for the default locale.
      *
@@ -24,7 +29,7 @@ public class ResourceMessagesBundle {
      * @param locale locale to get bundle for
      * @return resource bundle for locale
      */
-    private static ResourceBundle getBundle(Locale locale) {
+    private static ResourceBundle getBundle(final Locale locale) {
         return ResourceBundle.getBundle("MessagesBundle", locale);
     }
 
@@ -34,7 +39,7 @@ public class ResourceMessagesBundle {
      * @param key key to get translated message for
      * @return translated message string for key
      */
-    public static String getString(String key) {
+    public static String getString(final String key) {
         return getBundle().getString(key);
     }
 
@@ -47,7 +52,7 @@ public class ResourceMessagesBundle {
      * @param key key to get English message for
      * @return English message for key
      */
-    public static String getEnglishString(String key) {
+    public static String getEnglishString(final String key) {
         return getBundle(Locale.ENGLISH).getString(key);
     }
 }

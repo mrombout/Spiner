@@ -1,8 +1,9 @@
 package nl.mikero.spiner.frontend;
 
-import nl.mikero.spiner.core.ResourceMessagesBundle;
-
-public class FrontEndMessagesBundle {
+/**
+ * Provides keys for all translated messages in the graphical user interface.
+ */
+public final class FrontEndMessagesBundle {
     public static final String MSG_APP_TITLE = "msg.application_title";
 
     public static final String MSG_DOC_WEBSITE = "msg.website";
@@ -16,4 +17,11 @@ public class FrontEndMessagesBundle {
 
     public static final String MSG_UNEXPECTED_ERROR = "msg.unexpected_error";
     public static final String MSG_THE_STACKTRACE_WAS = "msg.the_stacktrace_was";
+
+    /**
+     * Utility class.
+     */
+    private FrontEndMessagesBundle() {
+
+    }
 }

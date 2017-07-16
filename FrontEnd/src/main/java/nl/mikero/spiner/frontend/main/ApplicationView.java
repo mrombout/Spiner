@@ -38,7 +38,14 @@ import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import static nl.mikero.spiner.frontend.FrontEndMessagesBundle.*;
+import static nl.mikero.spiner.frontend.FrontEndMessagesBundle.MSG_DOC_WEBSITE;
+import static nl.mikero.spiner.frontend.FrontEndMessagesBundle.MSG_DO_YOU_WANT_TO_OVERWRITE;
+import static nl.mikero.spiner.frontend.FrontEndMessagesBundle.MSG_FILE_ALREADY_EXISTS;
+import static nl.mikero.spiner.frontend.FrontEndMessagesBundle.MSG_FILE_NOT_FOUND;
+import static nl.mikero.spiner.frontend.FrontEndMessagesBundle.MSG_FILE_COULD_NOT_BE_REPAIRED;
+import static nl.mikero.spiner.frontend.FrontEndMessagesBundle.MSG_FILE_FORMAT_NOT_RECOGNIZED;
+import static nl.mikero.spiner.frontend.FrontEndMessagesBundle.MSG_FILES_ALREADY_EXISTS;
+import static nl.mikero.spiner.frontend.FrontEndMessagesBundle.MSG_SELECT_DIFFERENT_FILE;
 
 /**
  * Main Application GUI.
@@ -243,7 +250,7 @@ public class ApplicationView {
             try {
                 finout.close();
             } catch (IOException e) {
-                throw new TwineTransformationFailedException(LOG_MSG_TRANSFORM_FAIL, e);
+                throw new TwineTransformationFailedException(e);
             }
         });
 

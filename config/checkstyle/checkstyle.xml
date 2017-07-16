@@ -77,6 +77,9 @@
         <module name="UnnecessaryParentheses" />
         <module name="VariableDeclarationUsageDistance" />
         <module name="AvoidStarImport" />
+        <module name="ImportOrder">
+            <property name="groups" value="/javafx.*/" />
+        </module>
         <module name="CustomImportOrder">
             <property name="customImportOrderRules"
                       value="STANDARD_JAVA_PACKAGE###THIRD_PARTY_PACKAGE###STATIC" />

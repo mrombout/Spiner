@@ -1,6 +1,5 @@
 package nl.mikero.spiner.frontend.inject;
 
-import nl.mikero.spiner.core.ResourceMessagesBundle;
 import nl.mikero.spiner.core.inject.AbstractTwineModule;
 
 /**
