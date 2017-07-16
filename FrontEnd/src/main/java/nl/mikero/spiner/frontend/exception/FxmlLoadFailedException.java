@@ -1,5 +1,6 @@
 package nl.mikero.spiner.frontend.exception;
 
+import java.text.MessageFormat;
 import java.util.Objects;
 
 /**
@@ -13,7 +14,7 @@ public class FxmlLoadFailedException extends RuntimeException {
      * @param cause cause of this exception
      */
     public FxmlLoadFailedException(final String fileName, final Throwable cause) {
-        super(String.format("Could not load '%s'.", fileName), cause);
+        super(MessageFormat.format("Could not load ''{0}''.", fileName), cause);
 
         Objects.requireNonNull(fileName);
         Objects.requireNonNull(cause);

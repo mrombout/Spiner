@@ -7,6 +7,8 @@ import nl.mikero.spiner.frontend.exception.FxmlLoadFailedException;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,10 +22,10 @@ import javafx.stage.FileChooser;
  * A file chooser control that allows opening a native file chooser or accepts dropping in files.
  */
 public class DropFileChooser extends BorderPane {
-
-    private FileChooser fileChooser;
-
     private final ObjectProperty<File> fileProperty = new SimpleObjectProperty<>();
+    private final StringProperty textProperty = new SimpleStringProperty(this, "text");
+
+    private final FileChooser fileChooser;
 
     @FXML
     private ProgressIndicator statusIndicator;
@@ -65,6 +67,7 @@ public class DropFileChooser extends BorderPane {
     protected final void initialize() {
         statusIndicator.setVisible(false);
         statusImage.setVisible(true);
+        fileLabel.textProperty().bind(textProperty);
     }
 
     /**
@@ -123,6 +126,33 @@ public class DropFileChooser extends BorderPane {
      */
     public final void setFile(final File file) {
         fileProperty.set(file);
+    }
+
+    /**
+     * Property for the text to display when no file is selected.
+     *
+     * @return property for the text to display when no file is selected.
+     */
+    public final StringProperty textProperty() {
+        return textProperty;
+    }
+
+    /**
+     * Returns the text to display when no file is selected.
+     *
+     * @return the text to display when no file is selected.
+     */
+    public final String getText() {
+        return textProperty.get();
+    }
+
+    /**
+     * Sets the text to display when no file is selected.
+     *
+     * @param text the text to display when no file is selected.
+     */
+    public final void setText(final String text) {
+        textProperty.set(text);
     }
 
     /**

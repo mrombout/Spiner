@@ -52,7 +52,7 @@ public class TwineArchiveRepairer implements TwineRepairer {
             // close tw-stories element
             outputStream.write("</tw-storiesdata>".getBytes(StandardCharsets.UTF_8));
         } catch(IOException e) {
-            throw new TwineRepairFailedException("Could not repair input stream", e);
+            throw new TwineRepairFailedException(e);
         }
     }
 

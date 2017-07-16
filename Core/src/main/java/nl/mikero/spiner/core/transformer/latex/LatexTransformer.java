@@ -88,7 +88,7 @@ public class LatexTransformer implements Transformer {
             LatexWriter latexWriter = new LatexWriter();
             latexWriter.write(book, outputStream);
         } catch(IOException e) {
-            throw new TwineTransformationWriteException("Could not write transformed input to output stream.", e);
+            throw new TwineTransformationWriteException(e);
         }
     }
 

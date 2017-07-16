@@ -10,6 +10,6 @@ public class ExtendTwineXmlTransformFailedException extends RuntimeException {
      * @param cause why the transform failed
      */
     public ExtendTwineXmlTransformFailedException(final Throwable cause) {
-        super(cause);
+        super("Input could not be transformed to Extended Twine format.", cause);
     }
 }

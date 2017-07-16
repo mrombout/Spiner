@@ -15,8 +15,7 @@
                     <Image url="@../file.png"/>
                 </ImageView>
                 <Label fx:id="fileLabel" alignment="BOTTOM_CENTER" contentDisplay="CENTER"
-                       maxHeight="1.7976931348623157E308" maxWidth="-Infinity"
-                       text="Click and select or drop a published Twine story..." textAlignment="CENTER"
+                       maxHeight="1.7976931348623157E308" maxWidth="-Infinity" textAlignment="CENTER"
                        textOverrun="LEADING_ELLIPSIS"/>
             </StackPane>
         </StackPane>

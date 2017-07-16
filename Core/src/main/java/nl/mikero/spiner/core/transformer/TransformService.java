@@ -67,7 +67,7 @@ public class TransformService {
                 transformer.transform(twStorydata, outputStream);
             }
         } catch (Exception e) {
-            throw new TwineTransformationFailedException("Could not transform input.", e);
+            throw new TwineTransformationFailedException(e);
         }
     }
 

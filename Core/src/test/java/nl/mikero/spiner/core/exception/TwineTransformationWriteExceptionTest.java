@@ -8,40 +8,14 @@ import static org.mockito.Mockito.mock;
 public class TwineTransformationWriteExceptionTest {
 
     @Test
-    public void constructor_WithMessageNoCause_MessageIsProperlySet() {
-        // Arrange
-        String msg = "Lorum ipsum dolor sit amet.";
-
-        // Act
-        TwineTransformationWriteException exception = new TwineTransformationWriteException(msg, null);
-
-        // Assert
-        assertEquals(msg, exception.getMessage());
-    }
-
-    @Test
-    public void constructor_NoMessageWithCause_MessageIsProperlySet() {
+    public void constructor_WithCause_CauseIsProperlySet() {
         // Arrange
         Exception e = mock(Exception.class);
 
         // Act
-        TwineTransformationWriteException exception = new TwineTransformationWriteException(null, e);
+        TwineTransformationWriteException exception = new TwineTransformationWriteException(e);
 
         // Assert
-        assertEquals(e, exception.getCause());
-    }
-
-    @Test
-    public void constructor_WithMessageWithCause_MessageIsProperlySet() {
-        // Arrange
-        String msg = "Lorum ipsum dolor sit amet.";
-        Exception e = mock(Exception.class);
-
-        // Act
-        TwineTransformationWriteException exception = new TwineTransformationWriteException(msg, e);
-
-        // Assert
-        assertEquals(msg, exception.getMessage());
         assertEquals(e, exception.getCause());
     }
 
