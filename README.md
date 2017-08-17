@@ -8,7 +8,7 @@ Spiner is a set of tools that allows you to easily author you own Choose Your Ow
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/cc6e6f9a08dc4b979d6cfd83f59c3942)](https://www.codacy.com/app/mrombout/Spiner?utm_source=github.com&utm_medium=referral&utm_content=mrombout/Spiner&utm_campaign=badger)
 [![Technical Debt](https://sonarqube.com/api/badges/measure?key=spiner&metric=sqale_debt_ratio)](https://sonarqube.com/dashboard?id=spiner)
-[![Dependency Status](https://www.versioneye.com/user/projects/5888fbafc646260046723e0a/badge.svg?style=flat)](https://www.versioneye.com/user/projects/5888fbafc646260046723e0a)
+[![Dependency Status](https://www.versioneye.com/user/projects/5951962a368b080067e60272/badge.svg?style=flat)](https://www.versioneye.com/user/projects/5951962a368b080067e60272)
 
 ## Features
 
