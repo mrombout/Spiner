@@ -1,6 +1,6 @@
 # Spiner
 
-<img src="http://twinespiner.github.io/images/logo.svg" alt="Spiner" title="Spiner" align="right" width="128" />
+<img src="https://raw.githubusercontent.com/mrombout/Spiner/develop/FrontEnd/src/main/resources/icon.png" alt="Spiner" title="Spiner" align="right" />
 
 Spiner is a set of tools that allows you to easily author you own Choose Your Own Adventure books using [Twine 2](http://twinery.org/). This set consists of an application, which transforms your published Twine story into either an EPUB ebook, or a real book using [LaTeX](https://www.latex-project.org/), an awesome typesetting system.
 
