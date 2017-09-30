@@ -3,7 +3,7 @@ jdk:
   - oraclejdk8
 
 addons:
-  sonarqube:
+  sonarcloud:
     organization: "mrombout-github"
     token:
       secure: "nzB5oQVB/j2moWqy5fTtV2k73lkMSJPNB6ZwriCOwYUXm3lF1KzUDNEfCDcucQrg5xVV3E3x86F+PxH+Yef/kR4JMWZ4vtCZcIu7me6I9mSA9GtQntWD6Gb1IBwc747Y5Js5O0YzjHeK8DUmrP/JsD6D/8huO/4HTlzvHpGnB2EI7bT8o5r6EnEoWjsFZg6FuyTxmAO7kH/aJ96/mzjm7JqVR29pq3cjCKsq34FiJnIV5fkJc2dNrFPk3nBdFjU0o35XVe30gDaXKE4+BUPAoPa3IB6EwLPQoHf1LlFRHuD1ZwnC8P8PfQThb1iwGegSvEycGKXDDzyhJqJXa+DJ9Px83pslJ5HH29umUC741dUgL61A5NDXS6jifcJsnU7oTwPocxIZJKniMMouln3eMpxEcByFq7cf0mQM9+Ia88knpp+PnjXCpmBEIkYmqc5E5eycbnQ6p2pR8nLi8x2ceN0w/xvSCXkItBRSPvZgFQqFhTJAcHVmjKN/xf6QpaUD8eopEDgbmu4G4W1c4VI1cEw5KguVtpglkE6ICWONR3nKWTbe8lytqyjr/WFIkau+ps02kXdmCCWH7316ypYX1zR6hS9hB9/0VPC4Xb5sp/1Pxjq1jAOKkU7a0XVRyBW4byFS8W6NE3s0TTZ2NRJzcfbWbTMkH6TjnWikFNFrKXI="
