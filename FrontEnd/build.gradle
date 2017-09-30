@@ -1,15 +1,16 @@
 buildscript {
-    dependencies {
-        classpath group: 'de.dynamicfiles.projects.gradle.plugins', name: 'javafx-gradle-plugin', version: '8.8.2'
-    }
     repositories {
         mavenLocal()
         mavenCentral()
+    }
+    dependencies {
+        classpath group: 'de.dynamicfiles.projects.gradle.plugins', name: 'javafx-gradle-plugin', version: '8.8.2'
     }
 }
 
 apply plugin: 'java'
 apply plugin: 'javafx-gradle-plugin'
+apply plugin: 'application'
 
 version = '0.1.0'
 
@@ -23,6 +24,19 @@ repositories {
     }
 }
 
+applicationName = "Spiner"
+mainClassName = 'nl.mikero.spiner.frontend.SpinerApplication'
+
+distributions {
+    main {
+        baseName = "Spiner"
+    }
+}
+
+jar {
+    archiveName 'spiner-frontend-' + version + '.jar'
+}
+
 jfx {
     mainClass = 'nl.mikero.spiner.frontend.SpinerApplication'
     vendor = 'Mike Rombout'
@@ -31,8 +45,8 @@ jfx {
 
 dependencies {
     testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:2.8.47'
+    testCompile 'org.mockito:mockito-core:2.10.0'
 
     compile project(':Core')
-    compile 'org.controlsfx:controlsfx:8.40.12'
+    compile 'org.controlsfx:controlsfx:8.40.13'
 }

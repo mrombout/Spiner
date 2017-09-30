@@ -1,5 +1,5 @@
 plugins {
-    id "org.sonarqube" version "2.2"
+    id "org.sonarqube" version "2.5"
 }
 
 allprojects {
@@ -41,7 +41,7 @@ repositories {
 
 dependencies {
     testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:2.8.47'
+    testCompile 'org.mockito:mockito-core:2.10.0'
 
     compile 'com.google.inject:guice:4.1.0'
 }
