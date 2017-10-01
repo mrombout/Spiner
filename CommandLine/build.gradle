@@ -9,6 +9,12 @@ buildscript {
     }
 }
 
+apply plugin: 'java'
+apply plugin: 'edu.sc.seis.launch4j'
+apply plugin: 'application'
+
+version = '0.1.0'
+
 repositories {
     mavenCentral()
     maven {
@@ -16,20 +22,25 @@ repositories {
     }
 }
 
-apply plugin: 'java'
-apply plugin: 'edu.sc.seis.launch4j'
-apply plugin: 'application'
-
-version = '0.1.0';
-
 launch4j {
     mainClassName = 'nl.mikero.spiner.commandline.CommandLineApplication'
-//    icon = '/FrontEnd/src/main/deploy/package/Spiner.ico'
+    icon = '/FrontEnd/src/main/deploy/package/Spiner.ico'
     headerType = 'console'
     outfile = 'spiner-cli.exe'
 }
 
+applicationName = "spiner-cli"
 mainClassName = 'nl.mikero.spiner.commandline.CommandLineApplication'
+
+distributions {
+    main {
+        baseName = "Spiner-CommandLine"
+    }
+}
+
+jar {
+    archiveName 'spiner-cli-' + version + '.jar'
+}
 
 processResources {
     filesMatching('version.properties') {

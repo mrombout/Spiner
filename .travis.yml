@@ -1,30 +1,44 @@
 language: java
 jdk:
-  - oraclejdk8
-
+- oraclejdk8
 addons:
   apt:
     packages:
-      - oracle-java8-installer
-
+    - oracle-java8-installer
+  sonarcloud:
+    organization: mrombout-github
 jobs:
   include:
-    - stage: compile
-      script: ./gradlew assemble
-    - stage: test
-      script: ./gradlew test
-    - stage: analysis
-      addons:
-        sonarcloud:
-          organization: "mrombout-github"
-      script: ./gradlew sonarqube
-    - stage: feature
-      script: ./gradlew cucumber
-    - stage: release
-
+  - stage: compile
+    script: "./gradlew assemble"
+  - stage: test
+    script: "./gradlew test"
+  - stage: analysis
+    script: "./gradlew sonarqube"
+  - stage: feature
+    script: "./gradlew cucumber"
+  - stage: package
+    script: "./gradlew distZip"
+  - stage: package
+    script: "./gradlew distTar"
+  - stage: deploy
+    script: skip
+    deploy:
+      provider: releases
+      api_key:
+        secure: iR/VHlZQRzWurCun+XpuV3fUjS0xcrFBIGfgI8Lyrmx1oyM0IDD8SW0yDXnDq+IiK3waI4v3/MD0pEI2SO8JSEknDrpryhgXi3lqYem9cCT7MDcCqD+f5oXGyB5VTAJNG61nFqfi3CnkYQcCWJHxG6cpvnnYYYrHvtgZJQy7xfnqxBlIfVmaS+pmlpC1PF1JDXM60FblsWZx7aDY38cIusBSGzPHr1n5vQH7rcG2CWeYkgy++PSepC0HxAvv5C2ayYETmD9jPfM7KtHMc0mD+jQBuiRNGibJ8oL97UKIvtlu40kpp67qW6dQEj015BD8kR2wKSUDgqFLkTltR3nnuJXwzmyN8Qwp/yQe0O/EfLP28yF0Z9xT4iQnJzxxRC9lOcTfsCox64SFKuaZfGeoyAYe3S4f1gcyd9gxo4GmkTOCXK1g8LPjRNkbxPRai7AuDJAqbOlrv6I+2L2wGxCyr/Uoo15ua9I0o2iWjz5lrVqRCTHK+Ikcd4AQd4rV+0c+od57yoxh7eNYhodt1KthaH71p+ECQVAx2C8W5Bs5ccoOmZkn3UpXZyiu0TmI8eOVCNzTn3luTi//NAWV0dCgi2dwpu8V7t6EF92X19cNE3PPVY6Y62adlhQU1tk/GcNi9LDwI4NO1xupumBU0b5SS+3XIja+inIUdTFFkRTs7kw=
+      file:
+      - CommandLine/build/distributions/Spiner-CommandLine-0.1.0.zip
+      - CommandLine/build/distributions/Spiner-CommandLine-0.1.0.tar
+      - FrontEnd/build/distributions/Spiner-0.1.0.zip
+      - FrontEnd/build/distributions/Spiner-0.1.0.tar
+      on:
+        tags: true
+      skip_cleanup: true
+      overwrite: true
 cache:
   directories:
-    - '$HOME/.m2/repository'
-    - '$HOME/.sonar/cache'
-    - '$HOME/.gradle'
-    - '.gradle'
+  - "$HOME/.m2/repository"
+  - "$HOME/.sonar/cache"
+  - "$HOME/.gradle"
+  - ".gradle"
