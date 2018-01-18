@@ -46,7 +46,7 @@ Other             | _no download available yet_
 There is also a separate command-line version that works like this:
 
 ```
-usage: java -jar spiner-0.0.1.jar [-f <format>] [-help | -version] [-i <input>] [-o <file>]
+usage: java -jar spiner-0.1.1.jar [-f <format>] [-help | -version] [-i <input>] [-o <file>]
  -f,--format <format>   output format, one of (epub|latex)
  -help                  display this help and exit
  -i,--file <input>      location of input HTML file
@@ -55,7 +55,7 @@ usage: java -jar spiner-0.0.1.jar [-f <format>] [-help | -version] [-i <input>] 
 ```
 
 ```
-java -jar spiner-0.0.1.jar -f "epub" -i "My Cool Story.html" -o "My Cool Story.epub"
+java -jar spiner-0.1.1.jar -f "epub" -i "My Cool Story.html" -o "My Cool Story.epub"
 ```
 
 ## Roadmap
