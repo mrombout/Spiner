@@ -1,14 +1,16 @@
 package nl.mikero.spiner.core.transformer.epub;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
@@ -24,7 +26,6 @@ import nl.siegmann.epublib.domain.Book;
 import nl.siegmann.epublib.domain.Resource;
 import nl.siegmann.epublib.epub.EpubWriter;
 import nl.siegmann.epublib.service.MediatypeService;
-import org.apache.commons.io.output.NullOutputStream;
 import org.pegdown.PegDownProcessor;
 import org.pegdown.ast.RootNode;
 import org.slf4j.Logger;
@@ -32,7 +33,8 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.tidy.Tidy;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 /**
  * Transforms a {@link TwStorydata} object to an EPUB file.
@@ -54,8 +56,6 @@ public class TwineStoryEpubTransformer implements Transformer {
     private final TwineLinkRenderer twineLinkRenderer;
     private final ResourceEmbedder resourceEmbedder;
 
-    private final Tidy tidy;
-
     /**
      * Constructs a new TwineStoryEpubTransformer using the given parameters.
      *
@@ -71,12 +71,6 @@ public class TwineStoryEpubTransformer implements Transformer {
         this.pdProcessor = Objects.requireNonNull(pdProcessor);
         this.twineLinkRenderer = Objects.requireNonNull(twineLinkRenderer);
         this.resourceEmbedder = Objects.requireNonNull(resourceEmbedder);
-
-        this.tidy = new Tidy();
-        tidy.setInputEncoding(StandardCharsets.UTF_8.name());
-        tidy.setOutputEncoding(StandardCharsets.UTF_8.name());
-        tidy.setDocType("omit");
-        tidy.setXHTML(true);
     }
 
     /**
@@ -138,7 +132,7 @@ public class TwineStoryEpubTransformer implements Transformer {
         try {
             for (TwPassagedata passage : story.getTwPassagedata()) {
                 // add passage as chapter
-                String passageContent = transformPassageTextToXhtml(passage.getValue());
+                String passageContent = transformPassageTextToXhtml(passage.getName(), passage.getValue());
                 Resource passageResource = new Resource(
                         ID_AUTO_GEN,
                         passageContent.getBytes(StandardCharsets.UTF_8),
@@ -147,7 +141,7 @@ public class TwineStoryEpubTransformer implements Transformer {
 
                 book.addSection(passage.getName(), passageResource);
             }
-        } catch (TransformerException e) {
+        } catch (TwineTransformationFailedException e) {
             throw new TwineTransformationFailedException("Could not transform document", e);
         }
 
@@ -176,46 +170,63 @@ public class TwineStoryEpubTransformer implements Transformer {
     /**
      * Transforms the text of a passage to a valid XHTML document.
      *
+     * @param name name of the passage
      * @param passageText markdown text from a passage
      * @return a valid xhtml document containing the passage text in the body
-     * @throws TransformerException if markdown can't be transformed to xhtml
+     * @throws TwineTransformationFailedException if markdown can't be transformed to xhtml
      */
-    private String transformPassageTextToXhtml(final String passageText) throws TransformerException {
-        String xhtml = pdProcessor.markdownToHtml(passageText, twineLinkRenderer);
+    private String transformPassageTextToXhtml(final String name, final String passageText) {
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+            final DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            final DocumentBuilder builder = dbf.newDocumentBuilder();
 
-        try(InputStream in = new ByteArrayInputStream(xhtml.getBytes(StandardCharsets.UTF_8));
-            ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-            Document document = tidy.parseDOM(in, new NullOutputStream());
+            // convert markdown to xhtml
+            final String passageContent = pdProcessor.markdownToHtml(passageText, twineLinkRenderer);
+            final String bodyString = String.format("<body>%s</body>", passageContent);
+            final Document passageDocument = builder.parse(new InputSource(new StringReader(bodyString)));
+
+            // create html document
+            final Document htmlDocument = builder.getDOMImplementation()
+                    .createDocument("http://www.w3.org/1999/xhtml", "html", null);
+
+            // create head element
+            final Element headElement = htmlDocument.createElement("head");
+            htmlDocument.getDocumentElement().appendChild(headElement);
+
+            // add title
+            final Element titleElement = htmlDocument.createElement("title");
+            titleElement.setTextContent(name);
+            headElement.appendChild(titleElement);
 
             // add stylesheet
-            Element style = document.createElement("link");
-            style.setAttribute(ATTR_TYPE, "text/css");
-            style.setAttribute(ATTR_REL, "stylesheet");
-            style.setAttribute(ATTR_HREF, STORY_STYLESHEET_FILE);
+            final Element styleElement = htmlDocument.createElement("link");
+            styleElement.setAttribute(ATTR_TYPE, "text/css");
+            styleElement.setAttribute(ATTR_REL, "stylesheet");
+            styleElement.setAttribute(ATTR_HREF, STORY_STYLESHEET_FILE);
+            headElement.appendChild(styleElement);
 
-            Node head = document.getElementsByTagName("head").item(0);
-            head.appendChild(style);
+            // add passage content to document
+            final Node bodyNode = htmlDocument.importNode(passageDocument.getDocumentElement(), true);
+            htmlDocument.getDocumentElement().appendChild(bodyNode);
 
-            // add ttp class to body
-            Element body = (Element) document.getElementsByTagName("body").item(0);
-            body.setAttribute(ATTR_CLASS, body.getAttribute(ATTR_CLASS) + " ttp");
+            // create body element
+            final Element bodyElement = (Element) bodyNode;
+            bodyElement.setAttribute(ATTR_CLASS, bodyElement.getAttribute(ATTR_CLASS) + " ttp");
+            htmlDocument.getDocumentElement().appendChild(bodyNode);
 
             // transform xml
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            javax.xml.transform.Transformer transformer = transformerFactory.newTransformer();
+            final TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            final javax.xml.transform.Transformer transformer = transformerFactory.newTransformer();
 
-            DOMSource source = new DOMSource(document);
-            StreamResult result = new StreamResult(out);
+            final DOMSource source = new DOMSource(htmlDocument);
+            final StreamResult result = new StreamResult(out);
 
             transformer.transform(source, result);
 
             // set return value
-            xhtml = out.toString();
-        } catch (IOException e) {
-            // NOTE: Do nothing, ByteArrayOutputStream never throws IOException on close
-            LOGGER.error("Could not close output stream.", e);
+            return out.toString();
+        } catch (ParserConfigurationException | IOException | SAXException | TransformerException e) {
+            throw new TwineTransformationFailedException(String.format("Could not transform passage '%s'.", name), e);
         }
-
-        return xhtml;
     }
 }

@@ -15,8 +15,6 @@ jobs:
     script: "./gradlew test"
   - stage: analysis
     script: "./gradlew sonarqube"
-  - stage: feature
-    script: "./gradlew cucumber"
   - stage: package
     script: "./gradlew distZip"
   - stage: package

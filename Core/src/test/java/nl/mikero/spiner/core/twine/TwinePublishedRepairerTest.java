@@ -25,7 +25,7 @@ public class TwinePublishedRepairerTest extends TwineRepairerTest {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
         // Act
-        try(InputStream inputStream = getClass().getResourceAsStream("/html/harlowe.html")) {
+        try(InputStream inputStream = getClass().getResourceAsStream("/html/harlowe_2.1.html")) {
             repairer.repair(inputStream, outputStream);
         }
 
@@ -43,7 +43,7 @@ public class TwinePublishedRepairerTest extends TwineRepairerTest {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
         // Act
-        try(InputStream inputStream = getClass().getResourceAsStream("/html/snowman.html")) {
+        try(InputStream inputStream = getClass().getResourceAsStream("/html/snowman_1.3.0.html")) {
             repairer.repair(inputStream, outputStream);
         }
 
@@ -79,7 +79,7 @@ public class TwinePublishedRepairerTest extends TwineRepairerTest {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
         // Act
-        try(InputStream inputStream = getClass().getResourceAsStream("/html/sugarcube.html")) {
+        try(InputStream inputStream = getClass().getResourceAsStream("/html/sugarcube_2.21.0.html")) {
             repairer.repair(inputStream, outputStream);
         }
 
@@ -97,7 +97,7 @@ public class TwinePublishedRepairerTest extends TwineRepairerTest {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
         // Act
-        try(InputStream inputStream = getClass().getResourceAsStream("/html/harlowe.html")) {
+        try(InputStream inputStream = getClass().getResourceAsStream("/html/harlowe_2.1.html")) {
             repairer.repair(inputStream, outputStream);
         }
 
