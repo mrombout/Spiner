@@ -3,7 +3,7 @@ plugins {
     id "com.github.samueltbrown.cucumber" version "0.9"
 }
 
-version = '0.1.0'
+version = '0.1.1'
 
 repositories {
     mavenCentral()
