@@ -1,0 +1,41 @@
+swagger: "2.0"
+info:
+  description: "Spiner API is an API that allows you to easily author you own Choose Your Own Adventure books using Twine 2 and convert them to either an EPUB ebook, or a real book using LaTeX, an awesome typesetting system."
+  version: "1.0.0"
+  title: "Spiner API"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "mike.rombout1@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "spiner.appengine.com"
+basePath: "/v1"
+schemes:
+- "https"
+- "http"
+paths:
+  /{filename}.epub:
+    get:
+      consumes:
+        - "multipart/form-data"
+      produces:
+        - "application/epub+zip"
+      parameters:
+        - in: path
+          name: filename
+          type: string
+          required: true
+          description: "Filename of the converted Twine 2 story. It should not include the file name."
+        - in: formData
+          name: file
+          type: file
+          required: true
+          description: "Twine 2 story to convert to EPUB."
+      responses:
+        200:
+          description: "200 OK"
+        405:
+          description: "405 Invalid Input"
+        500:
+          description: "500 Server Error"
