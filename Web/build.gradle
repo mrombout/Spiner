@@ -6,13 +6,8 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
-    maven {
-        url "https://github.com/psiegman/mvn-repo/raw/master/releases"
-    }
 }
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
-    compile "com.sparkjava:spark-core:2.8.0"
-    compile project(':Core')
 }
