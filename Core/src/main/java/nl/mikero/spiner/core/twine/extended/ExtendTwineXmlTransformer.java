@@ -1,5 +1,6 @@
 package nl.mikero.spiner.core.twine.extended;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -36,10 +37,12 @@ public class ExtendTwineXmlTransformer {
 
         try {
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+            documentBuilderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
             DocumentBuilder builder = documentBuilderFactory.newDocumentBuilder();
             Document document = builder.parse(input);
 
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            transformerFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
 
             StreamSource stylesheetSource = new StreamSource(getClass().getResourceAsStream("/extend.xsl"));
             Transformer transformer = transformerFactory.newTransformer(stylesheetSource);
