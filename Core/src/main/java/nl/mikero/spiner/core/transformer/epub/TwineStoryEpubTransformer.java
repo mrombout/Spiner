@@ -1,5 +1,6 @@
 package nl.mikero.spiner.core.transformer.epub;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -178,6 +179,7 @@ public class TwineStoryEpubTransformer implements Transformer {
     private String transformPassageTextToXhtml(final String name, final String passageText) {
         try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
             final DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
             final DocumentBuilder builder = dbf.newDocumentBuilder();
 
             // convert markdown to xhtml
@@ -216,6 +218,7 @@ public class TwineStoryEpubTransformer implements Transformer {
 
             // transform xml
             final TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            transformerFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
             final javax.xml.transform.Transformer transformer = transformerFactory.newTransformer();
 
             final DOMSource source = new DOMSource(htmlDocument);
