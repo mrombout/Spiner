@@ -17,8 +17,8 @@ import nl.mikero.spiner.core.transformer.latex.model.command.WhitelineCommand;
 import nl.mikero.spiner.core.transformer.latex.pegdown.ToLatexSerializer;
 import nl.mikero.spiner.core.twine.model.TwPassagedata;
 import nl.mikero.spiner.core.twine.model.TwStorydata;
-import org.pegdown.PegDownProcessor;
-import org.pegdown.ast.RootNode;
+//import org.pegdown.PegDownProcessor;
+//import org.pegdown.ast.RootNode;
 
 /**
  * Transforms a Twine story into a LaTeX document based on the <code>gamebook</code> package.
@@ -26,18 +26,18 @@ import org.pegdown.ast.RootNode;
 public class LatexTransformer implements Transformer {
     private static final String EXTENSION = "tex";
 
-    private final PegDownProcessor processor;
+//    private final PegDownProcessor processor;
     private final ToLatexSerializer serializer;
 
     /**
      * Constructs a new LatexTransformer.
      *
-     * @param processor pegdown processor to use
+//     * @param processor pegdown processor to use
      * @param serializer latex serializer to use
      */
     @Inject
-    public LatexTransformer(final PegDownProcessor processor, final ToLatexSerializer serializer) {
-        this.processor = Objects.requireNonNull(processor);
+    public LatexTransformer(/*final PegDownProcessor processor, */final ToLatexSerializer serializer) {
+//        this.processor = Objects.requireNonNull(processor);
         this.serializer = Objects.requireNonNull(serializer);
     }
 
@@ -109,7 +109,8 @@ public class LatexTransformer implements Transformer {
      * @return converted LaTeX string
      */
     private String transformPassageTextToLatex(final String passageText) {
-        RootNode node = processor.parseMarkdown(passageText.toCharArray());
-        return serializer.toLatex(node);
+//        RootNode node = processor.parseMarkdown(passageText.toCharArray());
+//        return serializer.toLatex(node);
+        return null;
     }
 }

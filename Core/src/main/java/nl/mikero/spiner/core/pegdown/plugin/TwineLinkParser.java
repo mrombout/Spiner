@@ -1,9 +1,9 @@
 package nl.mikero.spiner.core.pegdown.plugin;
 
-import org.parboiled.Rule;
-import org.parboiled.support.StringBuilderVar;
-import org.pegdown.Parser;
-import org.pegdown.plugins.InlinePluginParser;
+//import org.parboiled.Rule;
+//import org.parboiled.support.StringBuilderVar;
+//import org.pegdown.Parser;
+//import org.pegdown.plugins.InlinePluginParser;
 
 /**
  * Parses links in the default Twine format.
@@ -14,7 +14,7 @@ import org.pegdown.plugins.InlinePluginParser;
  * <li>[[passage_name]]</li>
  * </ul>
  */
-public class TwineLinkParser extends Parser implements InlinePluginParser {
+public class TwineLinkParser /*extends Parser implements InlinePluginParser*/ {
     private static final long MAX_PARSING_TIME_IN_MILLIS = 1000L;
 
     private static final String LINK_START = "[[";
@@ -29,35 +29,35 @@ public class TwineLinkParser extends Parser implements InlinePluginParser {
      * @see TwineLinkParser
      */
     public TwineLinkParser() {
-        super(NONE, MAX_PARSING_TIME_IN_MILLIS, DefaultParseRunnerProvider);
+//        super(NONE, MAX_PARSING_TIME_IN_MILLIS, DefaultParseRunnerProvider);
     }
 
-    @Override
-    public Rule[] inlinePluginRules() {
-        return new Rule[]{Link()};
-    }
+//    @Override
+//    public Rule[] inlinePluginRules() {
+//        return new Rule[]{Link()};
+//    }
 
-    @Override
-    public Rule Link() {
-        StringBuilderVar href = new StringBuilderVar();
-        StringBuilderVar text = new StringBuilderVar();
-        return Sequence(
-                String(LINK_START),
-                OneOrMore(
-                        TestNot(String(LINK_END)),
-                        ANY,
-                        text.append(matchedChar()),
-                        Optional(
-                                Ch(LINK_SEP),
-                                OneOrMore(
-                                        TestNot(String(LINK_END)),
-                                        ANY,
-                                        href.append(matchedChar())
-                                )
-                        )
-                ),
-                String(LINK_END),
-                push(new TwineLinkNode(text.getString(), href.isEmpty() ? text.getString() : href.getString()))
-        );
-    }
+//    @Override
+//    public Rule Link() {
+//        StringBuilderVar href = new StringBuilderVar();
+//        StringBuilderVar text = new StringBuilderVar();
+//        return Sequence(
+//                String(LINK_START),
+//                OneOrMore(
+//                        TestNot(String(LINK_END)),
+//                        ANY,
+//                        text.append(matchedChar()),
+//                        Optional(
+//                                Ch(LINK_SEP),
+//                                OneOrMore(
+//                                        TestNot(String(LINK_END)),
+//                                        ANY,
+//                                        href.append(matchedChar())
+//                                )
+//                        )
+//                ),
+//                String(LINK_END),
+//                push(new TwineLinkNode(text.getString(), href.isEmpty() ? text.getString() : href.getString()))
+//        );
+//    }
 }

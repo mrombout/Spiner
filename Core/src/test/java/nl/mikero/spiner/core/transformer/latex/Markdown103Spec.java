@@ -1,16 +1,14 @@
 package nl.mikero.spiner.core.transformer.latex;
 
-import nl.mikero.spiner.core.transformer.latex.pegdown.LatexPrinter;
 import nl.mikero.spiner.core.transformer.latex.pegdown.ToLatexSerializer;
 import org.apache.commons.io.IOUtils;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.pegdown.Extensions;
-import org.pegdown.LinkRenderer;
-import org.pegdown.PegDownProcessor;
-import org.pegdown.ast.RootNode;
+//import org.pegdown.Extensions;
+//import org.pegdown.LinkRenderer;
+//import org.pegdown.PegDownProcessor;
+//import org.pegdown.ast.RootNode;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,13 +16,13 @@ import java.nio.charset.StandardCharsets;
 
 @Ignore
 public class Markdown103Spec {
-    private PegDownProcessor processor;
+//    private PegDownProcessor processor;
     private ToLatexSerializer serializer;
 
     @Before
     public void setUp() {
-        processor = new PegDownProcessor(Extensions.WIKILINKS | Extensions.QUOTES | Extensions.TASKLISTITEMS);
-        serializer = new ToLatexSerializer(new LinkRenderer(), new LatexPrinter());
+//        processor = new PegDownProcessor(Extensions.WIKILINKS | Extensions.QUOTES | Extensions.TASKLISTITEMS);
+//        serializer = new ToLatexSerializer(new LinkRenderer(), new LatexPrinter());
     }
 
     @Test
@@ -152,11 +150,11 @@ public class Markdown103Spec {
         IOUtils.closeQuietly(markdownInput);
         IOUtils.closeQuietly(expectedOutputStream);
 
-        RootNode astRoot = processor.parseMarkdown(markdown.toCharArray());
+//        RootNode astRoot = processor.parseMarkdown(markdown.toCharArray());
+//
+//        String actualLatex = serializer.toLatex(astRoot);
 
-        String actualLatex = serializer.toLatex(astRoot);
-
-        Assert.assertEquals(expectedOutput, normalize(actualLatex));
+//        Assert.assertEquals(expectedOutput, normalize(actualLatex));
     }
 
     private String normalize(String string) {

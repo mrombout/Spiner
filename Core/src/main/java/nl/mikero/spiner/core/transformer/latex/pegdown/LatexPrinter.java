@@ -3,7 +3,7 @@ package nl.mikero.spiner.core.transformer.latex.pegdown;
 /**
  * Provides some helper for printing LaTeX code.
  */
-public class LatexPrinter extends org.pegdown.Printer {
+public class LatexPrinter /*extends org.pegdown.Printer*/ {
 
     /**
      * Prints a command (i.e. `\command`).
@@ -35,7 +35,7 @@ public class LatexPrinter extends org.pegdown.Printer {
      * @return this
      */
     public LatexPrinter printCommandStart() {
-        sb.append("\\");
+//        sb.append("\\");
         return this;
     }
 
@@ -56,7 +56,7 @@ public class LatexPrinter extends org.pegdown.Printer {
      * @return this
      */
     public LatexPrinter printParamStart() {
-        sb.append('{');
+//        sb.append('{');
         return this;
     }
 
@@ -66,7 +66,7 @@ public class LatexPrinter extends org.pegdown.Printer {
      * @return this
      */
     public LatexPrinter printParamEnd() {
-        sb.append('}');
+//        sb.append('}');
         return this;
     }
 
@@ -87,7 +87,7 @@ public class LatexPrinter extends org.pegdown.Printer {
      * @return this
      */
     public LatexPrinter printOptionStart() {
-        sb.append('[');
+//        sb.append('[');
         return this;
     }
 
@@ -97,7 +97,7 @@ public class LatexPrinter extends org.pegdown.Printer {
      * @return this
      */
     public LatexPrinter printOptionEnd() {
-        sb.append(']');
+//        sb.append(']');
         return this;
     }
 
@@ -108,7 +108,7 @@ public class LatexPrinter extends org.pegdown.Printer {
      * @return this
      */
     public LatexPrinter print(final char c) {
-        super.print(c);
+//        super.print(c);
         return this;
     }
 
@@ -119,7 +119,7 @@ public class LatexPrinter extends org.pegdown.Printer {
      * @return this
      */
     public LatexPrinter print(final String string) {
-        super.print(string);
+//        super.print(string);
         return this;
     }
 
@@ -129,7 +129,7 @@ public class LatexPrinter extends org.pegdown.Printer {
      * @return this
      */
     public LatexPrinter println() {
-        super.println();
+//        super.println();
         return this;
     }
 
@@ -140,7 +140,7 @@ public class LatexPrinter extends org.pegdown.Printer {
      * @return this
      */
     public LatexPrinter indent(final int delta) {
-        super.indent(delta);
+//        super.indent(delta);
         return this;
     }
 }

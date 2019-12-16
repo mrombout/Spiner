@@ -3,14 +3,14 @@ package nl.mikero.spiner.core.pegdown.plugin;
 import java.text.MessageFormat;
 import java.util.Objects;
 
-import org.pegdown.ast.Node;
-import org.pegdown.ast.TextNode;
-import org.pegdown.ast.Visitor;
+//import org.pegdown.ast.Node;
+//import org.pegdown.ast.TextNode;
+//import org.pegdown.ast.Visitor;
 
 /**
  * Represents a Twine link to a passage.
  */
-public class TwineLinkNode extends TextNode {
+public class TwineLinkNode /*extends TextNode*/ {
 
     private final String href;
 
@@ -34,11 +34,11 @@ public class TwineLinkNode extends TextNode {
      * @param href href for the new node
      */
     public TwineLinkNode(final String text, final String href) {
-        super(text);
+//        super(text);
         this.href = Objects.requireNonNull(href);
 
         if (text.isEmpty()) {
-            append(href);
+//            append(href);
         }
     }
 
@@ -51,10 +51,10 @@ public class TwineLinkNode extends TextNode {
         return href;
     }
 
-    @Override
-    public final void accept(final Visitor visitor) {
-        visitor.visit((Node) this);
-    }
+//    @Override
+//    public final void accept(final Visitor visitor) {
+//        visitor.visit((Node) this);
+//    }
 
     @Override
     public final String toString() {

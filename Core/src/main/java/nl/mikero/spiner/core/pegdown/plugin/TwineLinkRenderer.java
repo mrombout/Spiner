@@ -7,21 +7,21 @@ import java.util.regex.Pattern;
 
 import com.google.inject.Inject;
 import nl.mikero.spiner.core.transformer.epub.embedder.ImageEmbedder;
-import org.parboiled.common.StringUtils;
-import org.pegdown.LinkRenderer;
-import org.pegdown.ast.ExpImageNode;
-import org.pegdown.ast.WikiLinkNode;
+//import org.parboiled.common.StringUtils;
+//import org.pegdown.LinkRenderer;
+//import org.pegdown.ast.ExpImageNode;
+//import org.pegdown.ast.WikiLinkNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.pegdown.FastEncoder.encode;
+//import static org.pegdown.FastEncoder.encode;
 
 /**
  * Renders a WikiLinkNode as a Twine link.
  *
- * @see WikiLinkNode
+// * @see WikiLinkNode
  */
-public class TwineLinkRenderer extends LinkRenderer {
+public class TwineLinkRenderer /*extends LinkRenderer*/ {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TwineLinkRenderer.class);
 
@@ -75,27 +75,27 @@ public class TwineLinkRenderer extends LinkRenderer {
      * @param node wiki link node
      * @return link renderer
      */
-    @Override
-    public Rendering render(final WikiLinkNode node) {
-        Matcher matcher = LINKS.matcher(node.getText());
-        String url = node.getText();
-        String text = node.getText();
-        if (matcher.find()) {
-            if (matcher.group(GROUP_URL).isEmpty()) {
-                url = matcher.group(GROUP_LABEL);
-            } else {
-                url = matcher.group(GROUP_URL);
-            }
-
-            Matcher externalLinkMatcher = EXTERNAL_LINK.matcher(url);
-            if(!externalLinkMatcher.find()) {
-                url += ".xhtml";
-            }
-
-            text = matcher.group(GROUP_LABEL);
-        }
-        return new Rendering(url, text);
-    }
+//    @Override
+//    public Rendering render(final WikiLinkNode node) {
+//        Matcher matcher = LINKS.matcher(node.getText());
+//        String url = node.getText();
+//        String text = node.getText();
+//        if (matcher.find()) {
+//            if (matcher.group(GROUP_URL).isEmpty()) {
+//                url = matcher.group(GROUP_LABEL);
+//            } else {
+//                url = matcher.group(GROUP_URL);
+//            }
+//
+//            Matcher externalLinkMatcher = EXTERNAL_LINK.matcher(url);
+//            if(!externalLinkMatcher.find()) {
+//                url += ".xhtml";
+//            }
+//
+//            text = matcher.group(GROUP_LABEL);
+//        }
+//        return new Rendering(url, text);
+//    }
 
     /**
      * Renders an image node.
@@ -104,17 +104,17 @@ public class TwineLinkRenderer extends LinkRenderer {
      * @param text alt text
      * @return link renderer
      */
-    @Override
-    public Rendering render(final ExpImageNode node, final String text) {
-        String url = node.url;
-        try {
-            url = imageEmbedder.getHref(new URL(node.url));
-        } catch (IOException e) {
+//    @Override
+//    public Rendering render(final ExpImageNode node, final String text) {
+//        String url = node.url;
+//        try {
+//            url = imageEmbedder.getHref(new URL(node.url));
+//        } catch (IOException e) {
             // there's nothing we can do but continue
-            LOGGER.error("Could not load image at url '{}'.", node.url, e);
-        }
-
-        Rendering rendering = new Rendering(url, text);
-        return StringUtils.isEmpty(node.title) ? rendering : rendering.withAttribute("title", encode(node.title));
-    }
+//            LOGGER.error("Could not load image at url '{}'.", node.url, e);
+//        }
+//
+//        Rendering rendering = new Rendering(url, text);
+//        return StringUtils.isEmpty(node.title) ? rendering : rendering.withAttribute("title", encode(node.title));
+//    }
 }

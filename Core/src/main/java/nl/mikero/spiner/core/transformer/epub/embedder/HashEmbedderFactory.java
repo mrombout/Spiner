@@ -3,7 +3,7 @@ package nl.mikero.spiner.core.transformer.epub.embedder;
 import java.security.MessageDigest;
 
 import com.google.inject.Inject;
-import org.pegdown.ast.ExpImageNode;
+//import org.pegdown.ast.ExpImageNode;
 
 /**
  * Embeds resources by using a hash as the resource filename and placing them
@@ -31,12 +31,12 @@ public class HashEmbedderFactory implements EmbedderFactory {
         this.messageDigest = messageDigest;
     }
 
-    @Override
-    public final Embedder get(final ExpImageNode node) {
-        if (imageEmbedder == null) {
-            imageEmbedder = new ImageEmbedder(messageDigest);
-        }
-
-        return imageEmbedder;
-    }
+//    @Override
+//    public final Embedder get(final ExpImageNode node) {
+//        if (imageEmbedder == null) {
+//            imageEmbedder = new ImageEmbedder(messageDigest);
+//        }
+//
+//        return imageEmbedder;
+//    }
 }

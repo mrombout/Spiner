@@ -1,0 +1,38 @@
+package nl.mikero.spiner.core.twine.markdown.extension.twinelink;
+
+import com.vladsch.flexmark.html.HtmlWriter;
+import com.vladsch.flexmark.html.renderer.*;
+import com.vladsch.flexmark.util.data.DataHolder;
+
+import java.util.HashSet;
+import java.util.Set;
+
+public class TwineLinkNodeRenderer implements NodeRenderer {
+    private final TwineLinkOptions options;
+
+    public TwineLinkNodeRenderer(DataHolder options) {
+        this.options = new TwineLinkOptions(options);
+    }
+
+    @Override
+    public Set<NodeRenderingHandler<?>> getNodeRenderingHandlers() {
+        HashSet<NodeRenderingHandler<?>> set = new HashSet<>();
+        set.add(new NodeRenderingHandler<>(TwineLink.class, this::render));
+        return set;
+    }
+
+    private void render(TwineLink node, NodeRendererContext context, HtmlWriter html) {
+        if (!context.isDoNotRenderLinks()) {
+            html.tag("a");
+            html.append(node.getText());
+            html.tag("/a");
+        }
+    }
+
+    public static class Factory implements NodeRendererFactory {
+        @Override
+        public NodeRenderer apply(DataHolder options) {
+            return new TwineLinkNodeRenderer(options);
+        }
+    }
+}

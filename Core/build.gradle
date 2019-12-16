@@ -1,6 +1,6 @@
 plugins {
     id "java"
-    id "com.github.samueltbrown.cucumber" version "0.9"
+//    id "com.github.samueltbrown.cucumber" version "0.9"
 }
 
 version = '0.1.2'
@@ -18,19 +18,21 @@ jar {
 
 dependencies {
     testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:2.10.0'
+    testCompile 'org.mockito:mockito-core:3.2.4'
 
-    cucumberCompile 'info.cukes:cucumber-java:1.2.5'
-    cucumberCompile 'info.cukes:cucumber-guice:1.2.5'
+//    cucumberCompile 'info.cukes:cucumber-java:1.2.5'
+//    cucumberCompile 'info.cukes:cucumber-guice:1.2.5'
 
     compile('nl.siegmann.epublib:epublib-core:3.1') {
         exclude group: 'org.slf4j'
     }
 
-    compile 'org.pegdown:pegdown:1.6.0'
+    compile 'com.vladsch.flexmark:flexmark-all:0.50.44'
     compile 'org.jsoup:jsoup:1.10.3'
     compile 'net.sf.jtidy:jtidy:r938'
     compile 'commons-io:commons-io:2.5'
     compile 'commons-codec:commons-codec:1.10'
-    compile 'com.google.inject:guice:4.1.0'
+    compile 'com.google.inject:guice:4.2.2'
+    compile 'javax.xml.bind:jaxb-api:2.3.1'
+    compile 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
 }

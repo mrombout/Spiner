@@ -16,10 +16,10 @@ import nl.mikero.spiner.core.twine.TwineArchiveRepairer;
 import nl.mikero.spiner.core.twine.TwinePublishedRepairer;
 import nl.mikero.spiner.core.twine.TwineRepairer;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.pegdown.Extensions;
-import org.pegdown.LinkRenderer;
-import org.pegdown.PegDownProcessor;
-import org.pegdown.plugins.PegDownPlugins;
+//import org.pegdown.Extensions;
+//import org.pegdown.LinkRenderer;
+//import org.pegdown.PegDownProcessor;
+//import org.pegdown.plugins.PegDownPlugins;
 
 /**
  * Configures Guice.
@@ -54,32 +54,35 @@ public abstract class AbstractTwineModule extends AbstractModule {
     /**
      * Provides a PegDownProcessor.
      *
+     * TODO: Provide a new markdown processor, probably wrap this to make swapping this out in the future a bit easier.
+     *
      * @param twineLinkSerializer a twine link serializer
      * @return a pregdown processor
      */
-    @Provides
-    public final PegDownProcessor providePegDownProcessor(final TwineLinkSerializer twineLinkSerializer) {
-        return new PegDownProcessor(Extensions.WIKILINKS, PegDownPlugins.builder()
-                .withPlugin(TwineLinkParser.class)
-                .withHtmlSerializer(twineLinkSerializer)
-                .build()
-        );
-    }
+//    @Provides
+//    public final PegDownProcessor providePegDownProcessor(final TwineLinkSerializer twineLinkSerializer) {
+//        return new PegDownProcessor(Extensions.WIKILINKS, PegDownPlugins.builder()
+//                .withPlugin(TwineLinkParser.class)
+//                .withHtmlSerializer(twineLinkSerializer)
+//                .build()
+//        );
+//    }
 
     /**
      * Provides a {@link TwineStoryEpubTransformer}.
      *
-     * @param pegDownProcessor a pegdown processor
+//     * @param pegDownProcessor a pegdown processor
      * @param twineLinkRenderer a twine link renderer
      * @param resourceEmbedder a resource embedder
      * @return a twine story epub transformer
      */
     @Provides
     public final TwineStoryEpubTransformer provideTwineStoryEpubTransformer(
-            final PegDownProcessor pegDownProcessor,
+            /*final PegDownProcessor pegDownProcessor,*/
             final TwineLinkRenderer twineLinkRenderer,
             final ResourceEmbedder resourceEmbedder) {
-        return new TwineStoryEpubTransformer(pegDownProcessor, twineLinkRenderer, resourceEmbedder);
+        //return new TwineStoryEpubTransformer(pegDownProcessor, twineLinkRenderer, resourceEmbedder);
+        return null;
     }
 
     /**
@@ -89,6 +92,6 @@ public abstract class AbstractTwineModule extends AbstractModule {
      */
     @Provides
     public final ToLatexSerializer provideToLatexSerializer() {
-        return new ToLatexSerializer(new LinkRenderer(), new LatexPrinter());
+        return new ToLatexSerializer(/*new LinkRenderer(), */new LatexPrinter());
     }
 }

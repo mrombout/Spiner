@@ -3,6 +3,7 @@ package nl.mikero.spiner.core.transformer.latex;
 import nl.mikero.spiner.core.transformer.latex.model.LatexDocument;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -10,6 +11,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+@Ignore
 public class LatexWriterTest {
     private LatexWriter writer;
 
