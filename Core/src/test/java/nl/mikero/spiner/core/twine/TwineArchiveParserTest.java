@@ -68,6 +68,20 @@ public class TwineArchiveParserTest {
         // Assert
     }
 
+    @Test
+    public void parse_ExtraAttributeInXmlFile_IgnoresAttribute() throws Exception {
+        // Arrange
+
+        // Act
+        TwStoriesdata result;
+        try(InputStream inputStream = getClass().getResourceAsStream("/xml/extra_attribute.xml")) {
+            result = parser.parse(inputStream);
+        }
+
+        // Assert
+        assertNotNull(result);
+    }
+
     @Test(expected = IOException.class)
     public void parse_InputDoesNotExist_ThrowsIOException() throws Exception {
         // Arrange
