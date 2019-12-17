@@ -2,7 +2,7 @@
 
 <img src="https://raw.githubusercontent.com/mrombout/Spiner/develop/FrontEnd/src/main/resources/icon.png" alt="Spiner" title="Spiner" align="right" />
 
-Spiner is a set of tools that allows you to easily author you own Choose Your Own Adventure books using [Twine 2](http://twinery.org/). This set consists of an application, which transforms your published Twine story into either an EPUB ebook, or a real book using [LaTeX](https://www.latex-project.org/), an awesome typesetting system.
+Spiner is a set of tools that allows you to easily author you own Choose Your Own Adventure books using [Twine 2](http://twinery.org/). This set consists of an application, which transforms your published Twine story into an EPUB ebook.
 
 [![Build Status](https://travis-ci.org/mrombout/Spiner.svg?branch=develop)](https://travis-ci.org/mrombout/Spiner)
 
@@ -16,10 +16,8 @@ The following features are currently supported:
 <dl>
  <dt>Markdown</dt>
  <dd>Simple <a href="http://daringfireball.net/projects/markdown/">Markdown</a> syntax can be used to write and format your gamebook (EPUB only).</dd>
- <dt>LaTeX</dt>
- <dd>Turn you Twine story into a real book by transforming your story to a LaTeX, a high-quality typesetting system.</dd>
  <dt>Passage links</dt>
- <dd>Twine passage links (i.e. <code>[[displayed text|passage title]]</code>, <code>[[passage title]]</code>) are automatically converted to your chosen format, either <code>&lt;a&gt;</code> links for EPUB, or `\gbturn` for LaTeX.</dd>
+ <dd>Twine passage links (i.e. <code>[[displayed text|passage title]]</code>, <code>[[passage title]]</code>) are automatically converted to <code>&lt;a&gt;</code> links for EPUB.</dd>
  <dt>Story Stylesheet</dt>
  <dd>Your story stylesheet as defined in Twine will be add to every <code>.xhtml</code> file in your EPUB file.</dt>
  <dt>Images</dt>
@@ -47,7 +45,7 @@ There is also a separate command-line version that works like this:
 
 ```
 usage: java -jar spiner-0.1.2.jar [-f <format>] [-help | -version] [-i <input>] [-o <file>]
- -f,--format <format>   output format, one of (epub|latex)
+ -f,--format <format>   output format, currently only (epub)
  -help                  display this help and exit
  -i,--file <input>      location of input HTML file
  -o,--output <file>     location of output file

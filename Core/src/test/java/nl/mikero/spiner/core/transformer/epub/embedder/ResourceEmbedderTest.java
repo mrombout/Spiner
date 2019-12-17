@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
-@Ignore
 public class ResourceEmbedderTest {
 
     @SuppressWarnings("FieldCanBeLocal")

@@ -7,8 +7,6 @@ import nl.mikero.spiner.core.transformer.epub.embedder.EmbedderFactory;
 import nl.mikero.spiner.core.transformer.epub.embedder.HashEmbedderFactory;
 import nl.mikero.spiner.core.transformer.epub.embedder.ImageEmbedder;
 import nl.mikero.spiner.core.transformer.epub.embedder.ResourceEmbedder;
-import nl.mikero.spiner.core.transformer.latex.pegdown.LatexPrinter;
-import nl.mikero.spiner.core.transformer.latex.pegdown.ToLatexSerializer;
 import nl.mikero.spiner.core.twine.TwineArchiveRepairer;
 import nl.mikero.spiner.core.twine.TwinePublishedRepairer;
 import nl.mikero.spiner.core.twine.TwineRepairer;
@@ -54,15 +52,5 @@ public abstract class AbstractTwineModule extends AbstractModule {
     @Provides
     public final TwineStoryEpubTransformer provideTwineStoryEpubTransformer(final ResourceEmbedder resourceEmbedder) {
         return new TwineStoryEpubTransformer(new PegdownTransitionMarkdownRenderParser(), resourceEmbedder);
-    }
-
-    /**
-     * Provides a LaTeX serializer.
-     *
-     * @return a LaTeX serializer
-     */
-    @Provides
-    public final ToLatexSerializer provideToLatexSerializer() {
-        return new ToLatexSerializer(new LatexPrinter());
     }
 }

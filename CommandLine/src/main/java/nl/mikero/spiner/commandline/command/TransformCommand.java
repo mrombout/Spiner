@@ -16,21 +16,19 @@ import com.google.inject.Inject;
 import nl.mikero.spiner.core.transformer.TransformService;
 import nl.mikero.spiner.core.transformer.Transformer;
 import nl.mikero.spiner.core.transformer.epub.TwineStoryEpubTransformer;
-import nl.mikero.spiner.core.transformer.latex.LatexTransformer;
 import org.apache.commons.io.input.CloseShieldInputStream;
 import org.apache.commons.io.output.CloseShieldOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Transform Twine file to EPUB or LaTeX.
+ * Transform Twine file to EPUB.
  */
-@Parameters(separators = "=", commandDescription = "Transform Twine file to EPUB or LaTeX.")
+@Parameters(separators = "=", commandDescription = "Transform Twine file to EPUB.")
 public class TransformCommand implements Command {
     private static final Logger LOGGER = LoggerFactory.getLogger(TransformCommand.class);
 
     private static final String ARG_FORMAT_EPUB = "epub";
-    private static final String ARG_FORMAT_LATEX = "latex";
 
     @Parameter(names = {"--format", "-f"}, description = "Format to transform to.")
     private String format = ARG_FORMAT_EPUB;
@@ -46,23 +44,17 @@ public class TransformCommand implements Command {
 
     private final TransformService transformService;
     private final TwineStoryEpubTransformer epubTransformer;
-    private final LatexTransformer latexTransformer;
 
     /**
      * Constructs a new TransformCommand.
      *
      * @param transformService transform service to use
      * @param epubTransformer transform service to use to transform to epub
-     * @param latexTransformer transform service to use to transform to LaTeX
      */
     @Inject
-    public TransformCommand(
-            final TransformService transformService,
-            final TwineStoryEpubTransformer epubTransformer,
-            final LatexTransformer latexTransformer) {
+    public TransformCommand(final TransformService transformService, final TwineStoryEpubTransformer epubTransformer) {
         this.transformService = transformService;
         this.epubTransformer = epubTransformer;
-        this.latexTransformer = latexTransformer;
     }
 
     /**
@@ -92,10 +84,6 @@ public class TransformCommand implements Command {
                 } catch (FileNotFoundException e) {
                     handleError(String.format("Output file %s could not be found.", outputPath), e, 2);
                 }
-            }
-
-            if (format != null && format.equals(ARG_FORMAT_LATEX)) {
-                transformer = latexTransformer;
             }
 
             transformService.transform(inputStream, outputStream, transformer);

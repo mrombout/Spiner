@@ -11,7 +11,6 @@ import nl.mikero.spiner.core.exception.TwineTransformationFailedException;
 import nl.mikero.spiner.core.transformer.TransformService;
 import nl.mikero.spiner.core.transformer.Transformer;
 import nl.mikero.spiner.core.transformer.epub.TwineStoryEpubTransformer;
-import nl.mikero.spiner.core.transformer.latex.LatexTransformer;
 import nl.mikero.spiner.frontend.SpinerApplication;
 import nl.mikero.spiner.frontend.dialog.ExceptionDialog;
 import nl.mikero.spiner.frontend.TransformTask;
@@ -55,17 +54,11 @@ public class ApplicationView {
     private TransformService transformService;
     @Inject
     private TwineStoryEpubTransformer epubTransformer;
-    @Inject
-    private LatexTransformer latexTransformer;
 
     @FXML
     private DropFileChooser dropFileChooser;
     @FXML
     private Button transformButton;
-    @FXML
-    private ToggleButton epubFormatButton;
-    @FXML
-    private ToggleButton latexFormatButton;
 
     @FXML
     private HBox header;
@@ -115,19 +108,6 @@ public class ApplicationView {
         transformButton.setDisable(true);
         dropFileChooser.fileProperty().addListener((observable, oldValue, newValue) -> {
             transformButton.setDisable(false);
-        });
-
-        epubFormatButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            if(oldValue && !newValue) {
-                latexFormatButton.setSelected(true);
-                latexFormatButton.requestFocus();
-            }
-        });
-        latexFormatButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            if(oldValue && !newValue) {
-                epubFormatButton.setSelected(true);
-                epubFormatButton.requestFocus();
-            }
         });
 
         header.setOnMousePressed(event -> {
@@ -279,7 +259,7 @@ public class ApplicationView {
      * @return selected transformer
      */
     private Transformer getTransformer() {
-        return epubFormatButton.isSelected() ? epubTransformer : latexTransformer;
+        return epubTransformer;
     }
 
     /**
