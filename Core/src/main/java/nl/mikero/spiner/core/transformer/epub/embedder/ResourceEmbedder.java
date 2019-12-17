@@ -11,46 +11,6 @@ import com.vladsch.flexmark.util.ast.Node;
 import com.vladsch.flexmark.util.ast.NodeVisitor;
 import com.vladsch.flexmark.util.ast.VisitHandler;
 import nl.siegmann.epublib.domain.Book;
-//import org.pegdown.ast.AbbreviationNode;
-//import org.pegdown.ast.AnchorLinkNode;
-//import org.pegdown.ast.AutoLinkNode;
-//import org.pegdown.ast.BlockQuoteNode;
-//import org.pegdown.ast.BulletListNode;
-//import org.pegdown.ast.CodeNode;
-//import org.pegdown.ast.DefinitionListNode;
-//import org.pegdown.ast.DefinitionNode;
-//import org.pegdown.ast.DefinitionTermNode;
-//import org.pegdown.ast.ExpImageNode;
-//import org.pegdown.ast.ExpLinkNode;
-//import org.pegdown.ast.HeaderNode;
-//import org.pegdown.ast.HtmlBlockNode;
-//import org.pegdown.ast.InlineHtmlNode;
-//import org.pegdown.ast.ListItemNode;
-//import org.pegdown.ast.MailLinkNode;
-//import org.pegdown.ast.Node;
-//import org.pegdown.ast.OrderedListNode;
-//import org.pegdown.ast.ParaNode;
-//import org.pegdown.ast.QuotedNode;
-//import org.pegdown.ast.RefImageNode;
-//import org.pegdown.ast.RefLinkNode;
-//import org.pegdown.ast.ReferenceNode;
-//import org.pegdown.ast.RootNode;
-//import org.pegdown.ast.SimpleNode;
-//import org.pegdown.ast.SpecialTextNode;
-//import org.pegdown.ast.StrikeNode;
-//import org.pegdown.ast.StrongEmphSuperNode;
-//import org.pegdown.ast.SuperNode;
-//import org.pegdown.ast.TableBodyNode;
-//import org.pegdown.ast.TableCaptionNode;
-//import org.pegdown.ast.TableCellNode;
-//import org.pegdown.ast.TableColumnNode;
-//import org.pegdown.ast.TableHeaderNode;
-//import org.pegdown.ast.TableNode;
-//import org.pegdown.ast.TableRowNode;
-//import org.pegdown.ast.TextNode;
-//import org.pegdown.ast.VerbatimNode;
-//import org.pegdown.ast.Visitor;
-//import org.pegdown.ast.WikiLinkNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -83,7 +43,7 @@ public class ResourceEmbedder {
     public void visit(Image image) {
         try {
             Embedder embedder = factory.get(image);
-            embedder.embed(this.book, createUrlFromString(image.getUrl().unescape())); // .toString() works?
+            embedder.embed(this.book, createUrlFromString(image.getUrl().unescape()));
         } catch (IOException e) {
             LOGGER.error("Error during embedding of '{}'", image.getUrl().unescape(), e);
         }

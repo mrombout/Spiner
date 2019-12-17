@@ -17,8 +17,6 @@ import nl.mikero.spiner.core.transformer.latex.model.command.WhitelineCommand;
 import nl.mikero.spiner.core.transformer.latex.pegdown.ToLatexSerializer;
 import nl.mikero.spiner.core.twine.model.TwPassagedata;
 import nl.mikero.spiner.core.twine.model.TwStorydata;
-//import org.pegdown.PegDownProcessor;
-//import org.pegdown.ast.RootNode;
 
 /**
  * Transforms a Twine story into a LaTeX document based on the <code>gamebook</code> package.

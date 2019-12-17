@@ -15,12 +15,12 @@ public class TwineLinkExtension implements Parser.ParserExtension, HtmlRenderer.
 
     @Override
     public void rendererOptions(MutableDataHolder options) {
-
+        // no render options supported
     }
 
     @Override
     public void parserOptions(MutableDataHolder options) {
-
+        // no parser options supported
     }
 
     @Override

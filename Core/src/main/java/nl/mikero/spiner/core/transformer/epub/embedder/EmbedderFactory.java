@@ -1,7 +1,5 @@
 package nl.mikero.spiner.core.transformer.epub.embedder;
 
-//import org.pegdown.ast.ExpImageNode;
-
 import com.vladsch.flexmark.ast.Image;
 
 /**

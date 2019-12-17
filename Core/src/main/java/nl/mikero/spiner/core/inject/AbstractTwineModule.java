@@ -12,7 +12,7 @@ import nl.mikero.spiner.core.transformer.latex.pegdown.ToLatexSerializer;
 import nl.mikero.spiner.core.twine.TwineArchiveRepairer;
 import nl.mikero.spiner.core.twine.TwinePublishedRepairer;
 import nl.mikero.spiner.core.twine.TwineRepairer;
-import nl.mikero.spiner.core.twine.markdown.Harlowe310MarkdownRenderParser;
+import nl.mikero.spiner.core.twine.markdown.PegdownTransitionMarkdownRenderParser;
 import org.apache.commons.codec.digest.DigestUtils;
 
 /**
@@ -48,15 +48,12 @@ public abstract class AbstractTwineModule extends AbstractModule {
     /**
      * Provides a {@link TwineStoryEpubTransformer}.
      *
-//     * @param pegDownProcessor a pegdown processor
      * @param resourceEmbedder a resource embedder
      * @return a twine story epub transformer
      */
     @Provides
-    public final TwineStoryEpubTransformer provideTwineStoryEpubTransformer(
-            final ResourceEmbedder resourceEmbedder) {
-        // TODO: Inject something for each supported format
-        return new TwineStoryEpubTransformer(new Harlowe310MarkdownRenderParser(), resourceEmbedder);
+    public final TwineStoryEpubTransformer provideTwineStoryEpubTransformer(final ResourceEmbedder resourceEmbedder) {
+        return new TwineStoryEpubTransformer(new PegdownTransitionMarkdownRenderParser(), resourceEmbedder);
     }
 
     /**
