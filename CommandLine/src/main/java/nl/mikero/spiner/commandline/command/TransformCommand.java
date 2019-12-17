@@ -109,7 +109,7 @@ public class TransformCommand implements Command {
      * @param status status code to exit with
      */
     private void handleError(final String msg, final Throwable cause, final int status) {
-        System.out.println(msg);
+        System.err.println(msg);
         if (showDebugOutput)
             LOGGER.error(msg, cause);
         System.exit(status);
