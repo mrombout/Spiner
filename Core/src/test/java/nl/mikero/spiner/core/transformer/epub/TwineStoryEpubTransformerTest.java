@@ -1,6 +1,5 @@
 package nl.mikero.spiner.core.transformer.epub;
 
-import nl.mikero.spiner.core.pegdown.plugin.TwineLinkRenderer;
 import nl.mikero.spiner.core.transformer.epub.embedder.ResourceEmbedder;
 import nl.mikero.spiner.core.twine.markdown.MarkdownProcessor;
 import nl.mikero.spiner.core.twine.model.Style;
@@ -13,10 +12,7 @@ import nl.siegmann.epublib.domain.Resources;
 import nl.siegmann.epublib.epub.EpubReader;
 import nl.siegmann.epublib.service.MediatypeService;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-//import org.pegdown.LinkRenderer;
-//import org.pegdown.PegDownProcessor;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -30,7 +26,6 @@ import static org.mockito.Mockito.*;
 public class TwineStoryEpubTransformerTest {
 
     private MarkdownProcessor mockPegDownProcessor;
-    private TwineLinkRenderer mockTwineLinkRenderer;
     private ResourceEmbedder mockResourceEmbedder;
 
     private TwineStoryEpubTransformer convertor;
@@ -38,10 +33,9 @@ public class TwineStoryEpubTransformerTest {
     @Before
     public void setUp() {
         mockPegDownProcessor = mock(MarkdownProcessor.class);
-        mockTwineLinkRenderer = mock(TwineLinkRenderer.class);
         mockResourceEmbedder = mock(ResourceEmbedder.class);
 
-        this.convertor = new TwineStoryEpubTransformer(mockPegDownProcessor, mockTwineLinkRenderer, mockResourceEmbedder);
+        this.convertor = new TwineStoryEpubTransformer(mockPegDownProcessor, mockResourceEmbedder);
     }
 
     @Test(expected =  NullPointerException.class)
@@ -49,7 +43,7 @@ public class TwineStoryEpubTransformerTest {
         // Arrange
 
         // Act
-        new TwineStoryEpubTransformer(null, mockTwineLinkRenderer, mockResourceEmbedder);
+        new TwineStoryEpubTransformer(null, mockResourceEmbedder);
 
         // Assert
     }
@@ -59,7 +53,7 @@ public class TwineStoryEpubTransformerTest {
         // Arrange
 
         // Act
-        new TwineStoryEpubTransformer(mockPegDownProcessor, null, null);
+        new TwineStoryEpubTransformer(mockPegDownProcessor, null);
 
         // Assert
     }

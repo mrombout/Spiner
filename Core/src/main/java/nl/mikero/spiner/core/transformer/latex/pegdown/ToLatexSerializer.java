@@ -79,7 +79,6 @@ public class ToLatexSerializer /*implements Visitor*/ {
     private static final String TEX_ITEM = "item";
 
     private LatexPrinter printer;
-//    private final LinkRenderer linkRenderer;
 
 //    private final Map<String, ReferenceNode> references;
     private final Map<String, String> abbreviations;
@@ -89,12 +88,10 @@ public class ToLatexSerializer /*implements Visitor*/ {
     /**
      * Constructs a new ToLatexSerializer.
      *
-//     * @param linkRenderer LinkRenderer to render links with
-//     * @param printer Printer to print to
+     * @param printer Printer to print to
      */
     @Inject
-    public ToLatexSerializer(/*final LinkRenderer linkRenderer, */final LatexPrinter printer) {
-//        this.linkRenderer = linkRenderer;
+    public ToLatexSerializer(final LatexPrinter printer) {
         this.printer = printer;
 
 //        this.references = new HashMap<>();

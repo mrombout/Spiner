@@ -6,6 +6,10 @@ import java.net.URL;
 import java.util.Objects;
 
 import com.google.inject.Inject;
+import com.vladsch.flexmark.ast.Image;
+import com.vladsch.flexmark.util.ast.Node;
+import com.vladsch.flexmark.util.ast.NodeVisitor;
+import com.vladsch.flexmark.util.ast.VisitHandler;
 import nl.siegmann.epublib.domain.Book;
 //import org.pegdown.ast.AbbreviationNode;
 //import org.pegdown.ast.AnchorLinkNode;
@@ -54,13 +58,17 @@ import org.slf4j.LoggerFactory;
  * Runs through all nodes in a pegdown document and embeds any resource that
  * needs embedding.
  */
-public class ResourceEmbedder /*implements Visitor*/ {
+public class ResourceEmbedder {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ResourceEmbedder.class);
 
     private final EmbedderFactory factory;
 
     private Book book;
+
+    private NodeVisitor visitor = new NodeVisitor(
+            new VisitHandler<>(Image.class, this::visit)
+    );
 
     /**
      * Constructs a new ResourceEmbedder.
@@ -72,76 +80,34 @@ public class ResourceEmbedder /*implements Visitor*/ {
         this.factory = factory;
     }
 
+    public void visit(Image image) {
+        try {
+            Embedder embedder = factory.get(image);
+            embedder.embed(this.book, createUrlFromString(image.getUrl().unescape())); // .toString() works?
+        } catch (IOException e) {
+            LOGGER.error("Error during embedding of '{}'", image.getUrl().unescape(), e);
+        }
+
+        visitor.visitChildren(image);
+    }
+
     /**
      * Runs through all the children of the given root node and embeds any
      * nodes that are embeddable.
      *
      * @param book book to embed resources in
-//     * @param rootNode root node to run through
+     * @param rootNode root node to run through
      * @see Embedder
      */
-    public void embed(final Book book/*, final RootNode rootNode*/) {
+    public void embed(final Book book, final Node rootNode) {
         Objects.requireNonNull(book);
-//        Objects.requireNonNull(rootNode);
+        Objects.requireNonNull(rootNode);
 
         this.book = book;
-//        visit(rootNode);
+        visitor.visit(rootNode);
         this.book = null;
     }
 
-//    @Override
-//    public final void visit(final RootNode node) {
-//        for (ReferenceNode refNode : node.getReferences()) {
-//            visitChildren(refNode);
-//        }
-//        for (AbbreviationNode abbrNode : node.getAbbreviations()) {
-//            visitChildren(abbrNode);
-//        }
-//        visitChildren(node);
-//    }
-
-//    @Override
-//    public final void visit(final AbbreviationNode node) {
-//        visitChildren(node);
-//    }
-//
-//    @Override
-//    public final void visit(final BlockQuoteNode node) {
-//        visitChildren(node);
-//    }
-//
-//    @Override
-//    public final void visit(final BulletListNode node) {
-//        visitChildren(node);
-//    }
-//
-//    @Override
-//    public final void visit(final DefinitionListNode node) {
-//        visitChildren(node);
-//    }
-//
-//    @Override
-//    public final void visit(final DefinitionNode node) {
-//        visitChildren(node);
-//    }
-//
-//    @Override
-//    public final void visit(final DefinitionTermNode node) {
-//        visitChildren(node);
-//    }
-//
-//    @Override
-//    public final void visit(final ExpImageNode node) {
-//        try {
-//            Embedder embedder = factory.get(node);
-//            embedder.embed(this.book, createUrlFromString(node.url));
-//        } catch (IOException e) {
-//            LOGGER.error("Error during embedding of '{}'", node.url, e);
-//        }
-//
-//        visitChildren(node);
-//    }
-//
     /**
      * Creates an URL from a string.
      *
@@ -157,146 +123,4 @@ public class ResourceEmbedder /*implements Visitor*/ {
 
         return null;
     }
-
-//    @Override
-//    public final void visit(final ExpLinkNode node) {
-//        visitChildren(node);
-//    }
-//
-//    @Override
-//    public final void visit(final HeaderNode node) {
-//        visitChildren(node);
-//    }
-//
-//    @Override
-//    public final void visit(final ListItemNode node) {
-//        visitChildren(node);
-//    }
-
-//    @Override
-//    public final void visit(final OrderedListNode node) {
-//        visitChildren(node);
-//    }
-//
-//    @Override
-//    public final void visit(final ParaNode node) {
-//        visitChildren(node);
-//    }
-//
-//    @Override
-//    public final void visit(final QuotedNode node) {
-//        visitChildren(node);
-//    }
-//
-//    @Override
-//    public final void visit(final ReferenceNode node) {
-//        visitChildren(node);
-//    }
-//
-//    @Override
-//    public final void visit(final RefImageNode node) {
-//        visitChildren(node);
-//    }
-//
-//    @Override
-//    public final void visit(final RefLinkNode node) {
-//        visitChildren(node);
-//    }
-//
-//    @Override
-//    public final void visit(final StrikeNode node) {
-//        visitChildren(node);
-//    }
-//
-//    @Override
-//    public final void visit(final StrongEmphSuperNode node) {
-//        visitChildren(node);
-//    }
-
-//    @Override
-//    public final void visit(final TableBodyNode node) {
-//        visitChildren(node);
-//    }
-//
-//    @Override
-//    public final void visit(final TableCaptionNode node) {
-//        visitChildren(node);
-//    }
-//
-//    @Override
-//    public final void visit(final TableCellNode node) {
-//        visitChildren(node);
-//    }
-//
-//    @Override
-//    public final void visit(final TableColumnNode node) {
-//        visitChildren(node);
-//    }
-//
-//    @Override
-//    public final void visit(final TableHeaderNode node) {
-//        visitChildren(node);
-//    }
-//
-//    @Override
-//    public final void visit(final TableNode node) {
-//        visitChildren(node);
-//    }
-//
-//    @Override
-//    public final void visit(final TableRowNode node) {
-//        visitChildren(node);
-//    }
-//
-//    @Override
-//    public final void visit(final SuperNode node) {
-//        visitChildren(node);
-//    }
-
-    /**
-     * Visits all children of the given node.
-     *
-     * @param node node to visit all children of
-     */
-//    private void visitChildren(final SuperNode node) {
-//        for (Node child : node.getChildren()) {
-//            child.accept(this);
-//        }
-//    }
-
-//    @Override
-//    public final void visit(final AnchorLinkNode node) { /* can't contain embeddedable resources */ }
-//
-//    @Override
-//    public final void visit(final AutoLinkNode node) { /* can't contain embeddedable resources */ }
-//
-//    @Override
-//    public final void visit(final CodeNode node) { /* can't contain embeddedable resources */ }
-//
-//    @Override
-//    public final void visit(final HtmlBlockNode node) { /* can't contain embeddedable resources */ }
-//
-//    @Override
-//    public final void visit(final InlineHtmlNode node) { /* can't contain embeddedable resources */ }
-//
-//    @Override
-//    public final void visit(final MailLinkNode node) { /* can't contain embeddedable resources */ }
-//
-//    @Override
-//    public final void visit(final SimpleNode node) { /* can't contain embeddedable resources */ }
-//
-//    @Override
-//    public final void visit(final SpecialTextNode node) { /* can't contain embeddedable resources */ }
-//
-//    @Override
-//    public final void visit(final VerbatimNode node) { /* can't contain embeddedable resources */ }
-//
-//    @Override
-//    public final void visit(final WikiLinkNode node) { /* can't contain embeddedable resources */ }
-//
-//    @Override
-//    public final void visit(final TextNode node) { /* can't contain embeddedable resources */ }
-
-//    @Override
-//    public final void visit(final Node node) { /* can't contain embeddedable resources */ }
 }

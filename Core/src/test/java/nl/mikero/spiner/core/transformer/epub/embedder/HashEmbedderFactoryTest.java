@@ -1,5 +1,6 @@
 package nl.mikero.spiner.core.transformer.epub.embedder;
 
+import com.vladsch.flexmark.ast.Image;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -11,7 +12,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.mock;
 
-@Ignore
 public class HashEmbedderFactoryTest {
 
     @SuppressWarnings("FieldCanBeLocal")
@@ -27,15 +27,15 @@ public class HashEmbedderFactoryTest {
     @Test
     public void get_ExpImageNodeParameterTwice_ReturnsSameImageEmbedder() {
         // Arrange
-//        ExpImageNode node = new ExpImageNode("title", "url", null);
+        Image image = new Image();
 
         // Act
-//        Embedder result = factory.get(node);
-//        Embedder result2 = factory.get(node);
+        Embedder result = factory.get(image);
+        Embedder result2 = factory.get(image);
 
         // Assert
-//        assertNotNull(result);
-//        assertSame(result, result2);
+        assertNotNull(result);
+        assertSame(result, result2);
     }
 
 }
