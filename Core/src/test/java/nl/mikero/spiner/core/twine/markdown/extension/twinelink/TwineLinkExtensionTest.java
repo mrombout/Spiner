@@ -7,12 +7,14 @@ import com.vladsch.flexmark.util.ast.Document;
 import com.vladsch.flexmark.util.data.DataHolder;
 import com.vladsch.flexmark.util.data.MutableDataSet;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Arrays;
 
 public class TwineLinkExtensionTest {
     @Test
+    @Ignore
     public void TestAll() {
         DataHolder options = new MutableDataSet().set(Parser.EXTENSIONS, Arrays.asList(TwineLinkExtension.create())).toImmutable();
 
