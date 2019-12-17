@@ -31,6 +31,5 @@ public class TwineLinkExtension implements Parser.ParserExtension, HtmlRenderer.
     @Override
     public void extend(HtmlRenderer.Builder rendererBuilder, String rendererType) {
         rendererBuilder.nodeRendererFactory(new TwineLinkNodeRenderer.Factory());
-        rendererBuilder.linkResolverFactory(new TwineLinkLinkResolver.Factory());
     }
 }

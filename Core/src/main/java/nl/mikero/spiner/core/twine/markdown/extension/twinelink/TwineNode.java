@@ -30,7 +30,6 @@ public class TwineNode extends Node implements DoNotDecorate {
 
     @Override
     public BasedSequence[] getSegments() {
-        System.out.println("TwineNode.getSegments");
         return new BasedSequence[]{
                 openingMarker,
                 passage,

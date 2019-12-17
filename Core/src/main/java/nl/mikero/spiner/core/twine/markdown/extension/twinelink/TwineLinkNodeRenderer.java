@@ -8,12 +8,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class TwineLinkNodeRenderer implements NodeRenderer {
-    private final TwineLinkOptions options;
-
-    public TwineLinkNodeRenderer(DataHolder options) {
-        this.options = new TwineLinkOptions(options);
-    }
-
     @Override
     public Set<NodeRenderingHandler<?>> getNodeRenderingHandlers() {
         HashSet<NodeRenderingHandler<?>> set = new HashSet<>();
@@ -33,7 +27,7 @@ public class TwineLinkNodeRenderer implements NodeRenderer {
     public static class Factory implements NodeRendererFactory {
         @Override
         public NodeRenderer apply(DataHolder options) {
-            return new TwineLinkNodeRenderer(options);
+            return new TwineLinkNodeRenderer();
         }
     }
 }

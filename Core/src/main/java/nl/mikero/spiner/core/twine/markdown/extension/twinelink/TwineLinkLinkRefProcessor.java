@@ -37,7 +37,6 @@ public class TwineLinkLinkRefProcessor implements LinkRefProcessor {
 
     @Override
     public BasedSequence adjustInlineText(Document document, Node node) {
-        assert (node instanceof TwineNode);
         TwineNode twineNode = (TwineNode) node;
         return twineNode.getText().ifNull(twineNode.getPassage());
     }
