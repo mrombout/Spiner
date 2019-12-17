@@ -2,14 +2,14 @@
 <!DOCTYPE suppressions PUBLIC "-//Checkstyle//DTD SuppressionFilter Configuration 1.2//EN" "https://checkstyle.org/dtds/suppressions_1_2.dtd">
 <suppressions>
     <!-- Generated -->
-<!--    <suppress checks="." files="nl[\\/]mikero[\\/]spiner[\\/]core[\\/]twine[\\/]model[\\/]"/>-->
-<!--    <suppress checks="." files="nl[\\/]mikero[\\/]spiner[\\/]core[\\/]twine[\\/]extended[\\/]model[\\/]"/>-->
+    <suppress checks="." files="nl[\\/]mikero[\\/]spiner[\\/]core[\\/]twine[\\/]model[\\/]"/>
+    <suppress checks="." files="nl[\\/]mikero[\\/]spiner[\\/]core[\\/]twine[\\/]extended[\\/]model[\\/]"/>
 
     <!-- Visitors -->
-<!--    <suppress checks="FileLength" files="ToLatexSerializer"/>-->
-<!--    <suppress checks="MethodCount" files="ToLatexSerializer"/>-->
-<!--    <suppress checks="ClassFanOutComplexity" files="ToLatexSerializer"/>-->
+    <suppress checks="FileLength" files="ToLatexSerializer"/>
+    <suppress checks="MethodCount" files="ToLatexSerializer"/>
+    <suppress checks="ClassFanOutComplexity" files="ToLatexSerializer"/>
 
     <!-- Tests -->
-<!--    <suppress checks="MethodName|JavadocPackage|JavadocType|JavadocMethod" files="(Test\.java)$"/>-->
+    <suppress checks="MethodName|JavadocPackage|JavadocType|JavadocMethod" files="(Test\.java)$"/>
 </suppressions>
