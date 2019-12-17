@@ -51,7 +51,7 @@ public class TwineLinkLinkRefProcessor implements LinkRefProcessor {
         System.out.println(String.format("TwineLinkLinkRefProcessor.adjustInlineText(%s, %s)", document, node));
         assert (node instanceof TwineNode);
         TwineNode twineNode = (TwineNode) node;
-        return twineNode.getText().ifNull(twineNode.getLink());
+        return twineNode.getText().ifNull(twineNode.getPassage());
     }
 
     @Override

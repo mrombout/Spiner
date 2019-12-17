@@ -23,8 +23,9 @@ public class TwineLinkNodeRenderer implements NodeRenderer {
 
     private void render(TwineLink node, NodeRendererContext context, HtmlWriter html) {
         if (!context.isDoNotRenderLinks()) {
-            html.tag("a");
-            html.append(node.getText());
+            html.attr("href", node.getPassage() + ".xhtml");
+            html.srcPos(node.getChars()).withAttr().tag("a");
+            context.renderChildren(node);
             html.tag("/a");
         }
     }

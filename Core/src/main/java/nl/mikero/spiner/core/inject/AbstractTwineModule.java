@@ -2,24 +2,19 @@ package nl.mikero.spiner.core.inject;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
-import nl.mikero.spiner.core.pegdown.plugin.TwineLinkParser;
 import nl.mikero.spiner.core.pegdown.plugin.TwineLinkRenderer;
 import nl.mikero.spiner.core.transformer.epub.TwineStoryEpubTransformer;
 import nl.mikero.spiner.core.transformer.epub.embedder.EmbedderFactory;
 import nl.mikero.spiner.core.transformer.epub.embedder.HashEmbedderFactory;
 import nl.mikero.spiner.core.transformer.epub.embedder.ImageEmbedder;
 import nl.mikero.spiner.core.transformer.epub.embedder.ResourceEmbedder;
-import nl.mikero.spiner.core.transformer.epub.pegdown.TwineLinkSerializer;
 import nl.mikero.spiner.core.transformer.latex.pegdown.LatexPrinter;
 import nl.mikero.spiner.core.transformer.latex.pegdown.ToLatexSerializer;
 import nl.mikero.spiner.core.twine.TwineArchiveRepairer;
 import nl.mikero.spiner.core.twine.TwinePublishedRepairer;
 import nl.mikero.spiner.core.twine.TwineRepairer;
+import nl.mikero.spiner.core.twine.markdown.Harlowe310MarkdownRenderParser;
 import org.apache.commons.codec.digest.DigestUtils;
-//import org.pegdown.Extensions;
-//import org.pegdown.LinkRenderer;
-//import org.pegdown.PegDownProcessor;
-//import org.pegdown.plugins.PegDownPlugins;
 
 /**
  * Configures Guice.
@@ -78,11 +73,10 @@ public abstract class AbstractTwineModule extends AbstractModule {
      */
     @Provides
     public final TwineStoryEpubTransformer provideTwineStoryEpubTransformer(
-            /*final PegDownProcessor pegDownProcessor,*/
             final TwineLinkRenderer twineLinkRenderer,
             final ResourceEmbedder resourceEmbedder) {
-        //return new TwineStoryEpubTransformer(pegDownProcessor, twineLinkRenderer, resourceEmbedder);
-        return null;
+        // TODO: Inject something for each supported format
+        return new TwineStoryEpubTransformer(new Harlowe310MarkdownRenderParser(), twineLinkRenderer, resourceEmbedder);
     }
 
     /**

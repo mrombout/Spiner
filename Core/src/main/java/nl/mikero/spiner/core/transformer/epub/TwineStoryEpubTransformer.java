@@ -210,13 +210,13 @@ public class TwineStoryEpubTransformer implements Transformer {
             headElement.appendChild(styleElement);
 
             // add passage content to document
-//            final Node bodyNode = htmlDocument.importNode(passageDocument.getDocumentElement(), true);
-//            htmlDocument.getDocumentElement().appendChild(bodyNode);
+            final Node bodyNode = htmlDocument.importNode(passageDocument.getDocumentElement(), true);
+            htmlDocument.getDocumentElement().appendChild(bodyNode);
 
             // create body element
-//            final Element bodyElement = (Element) bodyNode;
-//            bodyElement.setAttribute(ATTR_CLASS, bodyElement.getAttribute(ATTR_CLASS) + " ttp");
-//            htmlDocument.getDocumentElement().appendChild(bodyNode);
+            final Element bodyElement = (Element) bodyNode;
+            bodyElement.setAttribute(ATTR_CLASS, bodyElement.getAttribute(ATTR_CLASS) + " ttp");
+            htmlDocument.getDocumentElement().appendChild(bodyNode);
 
             // transform xml
             final TransformerFactory transformerFactory = TransformerFactory.newInstance();

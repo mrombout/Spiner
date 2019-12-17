@@ -1,15 +1,16 @@
 package nl.mikero.spiner.core;
 
 import com.google.inject.Inject;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 
 import cucumber.runtime.java.guice.ScenarioScoped;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import nl.mikero.spiner.core.transformer.TransformService;
 import nl.mikero.spiner.core.transformer.epub.TwineStoryEpubTransformer;
 import nl.siegmann.epublib.domain.Book;
@@ -40,6 +41,7 @@ public class MyStepDefinitions {
     @When("^I transform it to \"([^\"]*)\"$")
     public void iTransformItTo(final String format) throws Throwable {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+//        FileOutputStream outputStream = new FileOutputStream("links.epub");
         transformerService.transform(givenTwineStory, outputStream, epubTransformer);
 
         ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
