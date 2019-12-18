@@ -22,7 +22,7 @@ public class TwineValidationFailedExceptionTest {
     @Test
     public void constructor_NoMessageWithCause_MessageIsProperlySet() {
         // Arrange
-        Exception e = mock(Exception.class);
+        Exception e = new Exception();
 
         // Act
         TwineValidationFailedException exception = new TwineValidationFailedException(null, e);
@@ -35,7 +35,7 @@ public class TwineValidationFailedExceptionTest {
     public void constructor_WithMessageWithCause_MessageIsProperlySet() {
         // Arrange
         String msg = "Lorum ipsum dolor sit amet.";
-        Exception e = mock(Exception.class);
+        Exception e = new Exception();
 
         // Act
         TwineValidationFailedException exception = new TwineValidationFailedException(msg, e);

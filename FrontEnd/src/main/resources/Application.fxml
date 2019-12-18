@@ -35,14 +35,6 @@
                 </font>
             </Label>
             <HBox alignment="CENTER" BorderPane.alignment="CENTER" HBox.hgrow="ALWAYS">
-                <ToggleButton fx:id="epubFormatButton" maxHeight="28.0" maxWidth="1.7976931348623157E308"
-                              selected="true" styleClass="epub" text="EPUB">
-                    <toggleGroup>
-                        <ToggleGroup fx:id="format"/>
-                    </toggleGroup>
-                </ToggleButton>
-                <ToggleButton fx:id="latexFormatButton" maxHeight="28.0" maxWidth="1.7976931348623157E308"
-                              styleClass="latex" text="LaTeX" toggleGroup="$format"/>
                 <padding>
                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                 </padding>

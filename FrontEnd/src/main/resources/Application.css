@@ -64,11 +64,6 @@
     -fx-background-radius: 3px 0 0 3px;
 }
 
-.toggle-button.latex {
-    -fx-border-radius: 0 3px 3px 0;
-    -fx-background-radius: 0 3px 3px 0;
-}
-
 .progress-indicator {
     -fx-progress-color: #fc3b04;
     -fx-spin-enabled: true;

@@ -1,8 +1,10 @@
 package nl.mikero.spiner.core.transformer.epub.embedder;
 
+import com.vladsch.flexmark.ast.Image;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
-import org.pegdown.ast.ExpImageNode;
+//import org.pegdown.ast.ExpImageNode;
 
 import java.security.MessageDigest;
 
@@ -25,11 +27,11 @@ public class HashEmbedderFactoryTest {
     @Test
     public void get_ExpImageNodeParameterTwice_ReturnsSameImageEmbedder() {
         // Arrange
-        ExpImageNode node = new ExpImageNode("title", "url", null);
+        Image image = new Image();
 
         // Act
-        Embedder result = factory.get(node);
-        Embedder result2 = factory.get(node);
+        Embedder result = factory.get(image);
+        Embedder result2 = factory.get(image);
 
         // Assert
         assertNotNull(result);

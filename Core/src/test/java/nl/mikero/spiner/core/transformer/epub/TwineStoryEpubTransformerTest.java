@@ -1,7 +1,8 @@
 package nl.mikero.spiner.core.transformer.epub;
 
-import nl.mikero.spiner.core.pegdown.plugin.TwineLinkRenderer;
 import nl.mikero.spiner.core.transformer.epub.embedder.ResourceEmbedder;
+import nl.mikero.spiner.core.twine.extended.model.XtwMetadata;
+import nl.mikero.spiner.core.twine.markdown.MarkdownProcessor;
 import nl.mikero.spiner.core.twine.model.Style;
 import nl.mikero.spiner.core.twine.model.TwPassagedata;
 import nl.mikero.spiner.core.twine.model.TwStoriesdata;
@@ -13,8 +14,6 @@ import nl.siegmann.epublib.epub.EpubReader;
 import nl.siegmann.epublib.service.MediatypeService;
 import org.junit.Before;
 import org.junit.Test;
-import org.pegdown.LinkRenderer;
-import org.pegdown.PegDownProcessor;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -27,19 +26,17 @@ import static org.mockito.Mockito.*;
 
 public class TwineStoryEpubTransformerTest {
 
-    private PegDownProcessor mockPegDownProcessor;
-    private TwineLinkRenderer mockTwineLinkRenderer;
+    private MarkdownProcessor mockPegDownProcessor;
     private ResourceEmbedder mockResourceEmbedder;
 
     private TwineStoryEpubTransformer convertor;
 
     @Before
     public void setUp() {
-        mockPegDownProcessor = mock(PegDownProcessor.class);
-        mockTwineLinkRenderer = mock(TwineLinkRenderer.class);
+        mockPegDownProcessor = mock(MarkdownProcessor.class);
         mockResourceEmbedder = mock(ResourceEmbedder.class);
 
-        this.convertor = new TwineStoryEpubTransformer(mockPegDownProcessor, mockTwineLinkRenderer, mockResourceEmbedder);
+        this.convertor = new TwineStoryEpubTransformer(mockPegDownProcessor, mockResourceEmbedder);
     }
 
     @Test(expected =  NullPointerException.class)
@@ -47,7 +44,7 @@ public class TwineStoryEpubTransformerTest {
         // Arrange
 
         // Act
-        new TwineStoryEpubTransformer(null, mockTwineLinkRenderer, mockResourceEmbedder);
+        new TwineStoryEpubTransformer(null, mockResourceEmbedder);
 
         // Assert
     }
@@ -57,7 +54,7 @@ public class TwineStoryEpubTransformerTest {
         // Arrange
 
         // Act
-        new TwineStoryEpubTransformer(mockPegDownProcessor, null, null);
+        new TwineStoryEpubTransformer(mockPegDownProcessor, null);
 
         // Assert
     }
@@ -87,7 +84,7 @@ public class TwineStoryEpubTransformerTest {
     @Test
     public void convert_ValidStory_WritesEpubFile() throws Exception {
         // Arrange
-        when(mockPegDownProcessor.markdownToHtml(anyString(), any(LinkRenderer.class)))
+        when(mockPegDownProcessor.markdownToHtml(anyString()))
             .thenAnswer(invocation -> "<p>" + String.valueOf(invocation.getArguments()[0]) + "</p>");
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -126,7 +123,7 @@ public class TwineStoryEpubTransformerTest {
     @Test
     public void transform_StyledStory_StylesheetAdded() throws Exception {
         // Arrange
-        when(mockPegDownProcessor.markdownToHtml(anyString(), any(LinkRenderer.class)))
+        when(mockPegDownProcessor.markdownToHtml(anyString()))
                 .thenAnswer(invocation -> "<p>" + String.valueOf(invocation.getArguments()[0]) + "</p>");
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -153,6 +150,56 @@ public class TwineStoryEpubTransformerTest {
             List<Resource> resourcesByMediaType = resources.getResourcesByMediaType(MediatypeService.CSS);
             assertFalse(resourcesByMediaType.isEmpty());
             assertEquals("Story.css", resourcesByMediaType.get(0).getHref());
+        }
+    }
+
+    @Test
+    public void convert_StoryExtendedMetadata_WritesMetadataToEpub() throws Exception {
+        // Arrange
+        String expectedTitle = "A Story with a Title";
+        String expectedLanguage = "en-US";
+
+        when(mockPegDownProcessor.markdownToHtml(anyString()))
+                .thenAnswer(invocation -> "<p>" + String.valueOf(invocation.getArguments()[0]) + "</p>");
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        TwStoriesdata twStoriesdata = new TwStoriesdata();
+
+        TwStorydata twStorydata = new TwStorydata();
+        twStoriesdata.getTwStorydata().add(twStorydata);
+
+        XtwMetadata xtwMetadata = new XtwMetadata();
+        xtwMetadata.getTitle().add(expectedTitle);
+        xtwMetadata.setLanguage(expectedLanguage);
+        twStorydata.setXtwMetadata(xtwMetadata);
+
+        TwPassagedata twPassagedata = new TwPassagedata();
+        twPassagedata.setPid(1);
+        twPassagedata.setName("Passage 1");
+        twPassagedata.setValue("Lorum ipsum dolor sit amet.");
+        twPassagedata.setTags("");
+
+        TwPassagedata twPassagedata2 = new TwPassagedata();
+        twPassagedata2.setPid(2);
+        twPassagedata2.setName("Passage 2");
+        twPassagedata2.setValue("Consectetur amet pizza.");
+        twPassagedata2.setTags("");
+
+        twStorydata.getTwPassagedata().add(twPassagedata);
+        twStorydata.getTwPassagedata().add(twPassagedata2);
+
+        // Act
+        convertor.transform(twStorydata, outputStream);
+
+        // Assert
+        try(InputStream in = new ByteArrayInputStream(outputStream.toByteArray())) {
+            EpubReader epubReader = new EpubReader();
+
+            Book book = epubReader.readEpub(in);
+            assertEquals(twStorydata.getTwPassagedata().size() + 1, book.getResources().getAll().size());
+
+            assertEquals(expectedTitle, book.getMetadata().getFirstTitle());
+            assertEquals(expectedLanguage, book.getMetadata().getLanguage());
         }
     }
 

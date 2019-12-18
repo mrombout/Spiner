@@ -11,7 +11,6 @@ import nl.mikero.spiner.core.exception.TwineTransformationFailedException;
 import nl.mikero.spiner.core.transformer.TransformService;
 import nl.mikero.spiner.core.transformer.Transformer;
 import nl.mikero.spiner.core.transformer.epub.TwineStoryEpubTransformer;
-import nl.mikero.spiner.core.transformer.latex.LatexTransformer;
 import nl.mikero.spiner.frontend.SpinerApplication;
 import nl.mikero.spiner.frontend.dialog.ExceptionDialog;
 import nl.mikero.spiner.frontend.TransformTask;
@@ -31,7 +30,6 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -55,17 +53,11 @@ public class ApplicationView {
     private TransformService transformService;
     @Inject
     private TwineStoryEpubTransformer epubTransformer;
-    @Inject
-    private LatexTransformer latexTransformer;
 
     @FXML
     private DropFileChooser dropFileChooser;
     @FXML
     private Button transformButton;
-    @FXML
-    private ToggleButton epubFormatButton;
-    @FXML
-    private ToggleButton latexFormatButton;
 
     @FXML
     private HBox header;
@@ -113,22 +105,7 @@ public class ApplicationView {
         dropFileChooser.getExtensionFilters().add(extensionFilter);
 
         transformButton.setDisable(true);
-        dropFileChooser.fileProperty().addListener((observable, oldValue, newValue) -> {
-            transformButton.setDisable(false);
-        });
-
-        epubFormatButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            if(oldValue && !newValue) {
-                latexFormatButton.setSelected(true);
-                latexFormatButton.requestFocus();
-            }
-        });
-        latexFormatButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            if(oldValue && !newValue) {
-                epubFormatButton.setSelected(true);
-                epubFormatButton.requestFocus();
-            }
-        });
+        dropFileChooser.fileProperty().addListener((observable, oldValue, newValue) -> transformButton.setDisable(false));
 
         header.setOnMousePressed(event -> {
             xOffset = event.getSceneX();
@@ -279,7 +256,7 @@ public class ApplicationView {
      * @return selected transformer
      */
     private Transformer getTransformer() {
-        return epubFormatButton.isSelected() ? epubTransformer : latexTransformer;
+        return epubTransformer;
     }
 
     /**

@@ -24,7 +24,7 @@ public class TwineTransformationFailedExceptionTest {
     @Test
     public void constructor_NoMessageWithCause_MessageIsProperlySet() {
         // Arrange
-        TransformerException e = mock(TransformerException.class);
+        Exception e = new Exception();
 
         // Act
         TwineTransformationFailedException exception = new TwineTransformationFailedException(null, e);
@@ -37,7 +37,7 @@ public class TwineTransformationFailedExceptionTest {
     public void constructor_WithMessageWithCause_MessageIsProperlySet() {
         // Arrange
         String msg = "Lorum ipsum dolor sit amet.";
-        TransformerException e = mock(TransformerException.class);
+        Exception e = new Exception();
 
         // Act
         TwineTransformationFailedException exception = new TwineTransformationFailedException(msg, e);

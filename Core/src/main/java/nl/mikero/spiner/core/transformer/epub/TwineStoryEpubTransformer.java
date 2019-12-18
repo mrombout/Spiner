@@ -18,17 +18,15 @@ import java.util.Objects;
 import com.google.inject.Inject;
 import nl.mikero.spiner.core.exception.TwineTransformationFailedException;
 import nl.mikero.spiner.core.exception.TwineTransformationWriteException;
-import nl.mikero.spiner.core.pegdown.plugin.TwineLinkRenderer;
 import nl.mikero.spiner.core.transformer.Transformer;
 import nl.mikero.spiner.core.transformer.epub.embedder.ResourceEmbedder;
+import nl.mikero.spiner.core.twine.markdown.MarkdownProcessor;
 import nl.mikero.spiner.core.twine.model.TwPassagedata;
 import nl.mikero.spiner.core.twine.model.TwStorydata;
 import nl.siegmann.epublib.domain.Book;
 import nl.siegmann.epublib.domain.Resource;
 import nl.siegmann.epublib.epub.EpubWriter;
 import nl.siegmann.epublib.service.MediatypeService;
-import org.pegdown.PegDownProcessor;
-import org.pegdown.ast.RootNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -53,24 +51,20 @@ public class TwineStoryEpubTransformer implements Transformer {
     private static final String ID_AUTO_GEN = null;
     private static final String STORY_STYLESHEET_FILE = "Story.css";
 
-    private final PegDownProcessor pdProcessor;
-    private final TwineLinkRenderer twineLinkRenderer;
+    private final MarkdownProcessor pdProcessor;
     private final ResourceEmbedder resourceEmbedder;
 
     /**
      * Constructs a new TwineStoryEpubTransformer using the given parameters.
      *
      * @param pdProcessor pegdown processor to use, may not be null
-     * @param twineLinkRenderer link renderer to use, may not be null
      * @param resourceEmbedder resource embedder to use, may not be null
      */
     @Inject
     public TwineStoryEpubTransformer(
-            final PegDownProcessor pdProcessor,
-            final TwineLinkRenderer twineLinkRenderer,
+            final MarkdownProcessor pdProcessor,
             final ResourceEmbedder resourceEmbedder) {
         this.pdProcessor = Objects.requireNonNull(pdProcessor);
-        this.twineLinkRenderer = Objects.requireNonNull(twineLinkRenderer);
         this.resourceEmbedder = Objects.requireNonNull(resourceEmbedder);
     }
 
@@ -163,7 +157,7 @@ public class TwineStoryEpubTransformer implements Transformer {
      */
     private void embedResources(final Book book, final TwStorydata story) {
         for(TwPassagedata passage : story.getTwPassagedata()) {
-            RootNode rootNode = pdProcessor.parseMarkdown(passage.getValue().toCharArray());
+            com.vladsch.flexmark.util.ast.Node rootNode = pdProcessor.parseMarkdown(passage.getValue());
             resourceEmbedder.embed(book, rootNode);
         }
     }
@@ -183,7 +177,7 @@ public class TwineStoryEpubTransformer implements Transformer {
             final DocumentBuilder builder = dbf.newDocumentBuilder();
 
             // convert markdown to xhtml
-            final String passageContent = pdProcessor.markdownToHtml(passageText, twineLinkRenderer);
+            final String passageContent = pdProcessor.markdownToHtml(passageText);
             final String bodyString = String.format("<body>%s</body>", passageContent);
             final Document passageDocument = builder.parse(new InputSource(new StringReader(bodyString)));
 
