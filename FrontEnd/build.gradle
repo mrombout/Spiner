@@ -43,6 +43,12 @@ distributions {
 
 jar {
     archiveName 'spiner-frontend-' + version + '.jar'
+    manifest {
+        attributes 'Main-Class': 'nl.mikero.spiner.frontend.Launcher'
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }
 
 dependencies {
@@ -51,4 +57,8 @@ dependencies {
 
     compile project(':Core')
     compile 'org.controlsfx:controlsfx:8.40.13'
+
+    runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:win"
+    runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:linux"
+    runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:mac"
 }
