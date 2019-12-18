@@ -105,9 +105,7 @@ public class ApplicationView {
         dropFileChooser.getExtensionFilters().add(extensionFilter);
 
         transformButton.setDisable(true);
-        dropFileChooser.fileProperty().addListener((observable, oldValue, newValue) -> {
-            transformButton.setDisable(false);
-        });
+        dropFileChooser.fileProperty().addListener((observable, oldValue, newValue) -> transformButton.setDisable(false));
 
         header.setOnMousePressed(event -> {
             xOffset = event.getSceneX();

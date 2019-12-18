@@ -43,7 +43,11 @@ public class ResourceEmbedder {
     public void visit(Image image) {
         try {
             Embedder embedder = factory.get(image);
-            embedder.embed(this.book, createUrlFromString(image.getUrl().unescape()));
+
+            URL urlFromString = createUrlFromString(image.getUrl().unescape());
+            if (urlFromString != null) {
+                embedder.embed(this.book, urlFromString);
+            }
         } catch (IOException e) {
             LOGGER.error("Error during embedding of '{}'", image.getUrl().unescape(), e);
         }

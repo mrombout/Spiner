@@ -12,10 +12,12 @@ import nl.siegmann.epublib.domain.Book;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 //import org.pegdown.ast.*;
 
 import java.awt.*;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -150,6 +152,31 @@ public class ResourceEmbedderTest {
         embedder.embed(null, document);
 
         // Assert
+    }
+
+    @Test
+    public void embed_InvalidURL_IgnoresThatResource() throws IOException {
+        // Arrange
+        Book book = new Book();
+
+        Document document = new Document(null, null);
+        Paragraph paragraph = new Paragraph();
+
+        Image invalidImage = new Image();
+        invalidImage.setUrl(CharSubSequence.of("hyyp://www.google."));
+
+        Image validImage = new Image();
+        validImage.setUrl(CharSubSequence.of("http://google.com"));
+
+        document.appendChild(paragraph);
+        paragraph.appendChild(invalidImage);
+        paragraph.appendChild(validImage);
+
+        // Act
+        embedder.embed(book, document);
+
+        // Assert
+        verify(mockEmbedder, times(1)).embed(eq(book), eq(new URL("http://google.com")));
     }
 
     @Test

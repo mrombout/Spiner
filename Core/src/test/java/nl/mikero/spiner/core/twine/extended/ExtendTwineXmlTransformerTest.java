@@ -1,11 +1,13 @@
 package nl.mikero.spiner.core.twine.extended;
 
+import nl.mikero.spiner.core.exception.ExtendTwineXmlTransformFailedException;
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
@@ -103,42 +105,41 @@ public class ExtendTwineXmlTransformerTest {
         }
     }
 
-    @Test(expected = SAXParseException.class)
-    public void transform_UnexpectedElement_ThrowsSAXParseException() throws ParserConfigurationException, IOException, SAXException, TransformerException {
+    @Test
+    public void transform_UnexpectedElement_IgnoresUnexpectedElements() throws IOException, SAXException {
         // Arrange
-        byte[] result;
+        byte[] result = new byte[0];
 
         // Act
-        try(InputStream inputStream = getClass().getResourceAsStream("/xml/metadata_invalid_element.xml"); ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+        try(InputStream inputStream = getClass().getResourceAsStream("/xml/metadata_unexpected_element.xml"); ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
             transformer.transform(inputStream, outputStream);
             result = outputStream.toByteArray();
         }
 
         // Assert
-        assertNotEquals(0, result.length);
         try(InputStream in = new ByteArrayInputStream(result)) {
-            Source inputSource = new StreamSource(in);
-            validator.validate(inputSource);
+            Document document = documentBuilder.parse(in);
+            NodeList xtwMetadatas = document.getElementsByTagName("xtw-metadata");
+            assertEquals(1, xtwMetadatas.getLength());
+
+            assertEquals("Title is still set!", xtwMetadatas.item(0).getChildNodes().item(1).getTextContent());
         }
     }
 
-    @Test(expected = SAXParseException.class)
-    public void transform_MetadataPassageInvalid_ThrowsException() throws ParserConfigurationException, IOException, SAXException, TransformerException {
+    @Test
+    @Ignore("#43 throw exception, or try to repair the document for this scenario?")
+    public void transform_MetadataInvalidClosingTag_ThrowsException() {
         // Arrange
-        byte[] result;
 
-        // Act
-        try(InputStream inputStream = getClass().getResourceAsStream("/xml/metadata_invalid_form.xml"); ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+        // Act / Assert
+        try(InputStream inputStream = getClass().getResourceAsStream("/xml/metadata_not_well_formed.xml"); ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
             transformer.transform(inputStream, outputStream);
-            result = outputStream.toByteArray();
+        } catch(Throwable e) {
+            Assert.assertTrue(String.format("Expected .transform to throw a %s exception, but instead got an %s", ExtendTwineXmlTransformFailedException.class, e), e instanceof ExtendTwineXmlTransformFailedException);
+            return;
         }
 
-        // Assert
-        assertNotEquals(0, result.length);
-        try(InputStream in = new ByteArrayInputStream(result)) {
-            Source inputSource = new StreamSource(in);
-            validator.validate(inputSource);
-        }
+        Assert.fail("Transform did now throw an exception");
     }
 
     @Test
@@ -156,6 +157,18 @@ public class ExtendTwineXmlTransformerTest {
         try(InputStream in = new ByteArrayInputStream(result)) {
             Document document = documentBuilder.parse(in);
         }
+    }
+
+    @Test(expected = ExtendTwineXmlTransformFailedException.class)
+    public void transform_XmlNotWellFormed_ThrowsException() throws IOException {
+        // Arrange
+
+        // Act
+        try(InputStream inputStream = getClass().getResourceAsStream("/xml/not_well_formed.xml"); ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+            transformer.transform(inputStream, outputStream);
+        }
+
+        // Assert
     }
 
     @Test(expected = NullPointerException.class)

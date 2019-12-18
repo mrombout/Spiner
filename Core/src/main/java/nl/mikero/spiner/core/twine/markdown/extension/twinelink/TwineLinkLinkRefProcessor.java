@@ -8,8 +8,7 @@ import com.vladsch.flexmark.util.data.DataHolder;
 import com.vladsch.flexmark.util.sequence.BasedSequence;
 
 public class TwineLinkLinkRefProcessor implements LinkRefProcessor {
-
-    public static final int BRACKET_NESTING_LEVEL = 1;
+    protected static final int BRACKET_NESTING_LEVEL = 1;
 
     @Override
     public boolean getWantExclamationPrefix() {
@@ -32,13 +31,13 @@ public class TwineLinkLinkRefProcessor implements LinkRefProcessor {
 
     @Override
     public Node createNode(BasedSequence nodeChars) {
-        return new TwineLink(nodeChars, false);
+        return new TwineLink(nodeChars);
     }
 
     @Override
     public BasedSequence adjustInlineText(Document document, Node node) {
-        TwineNode twineNode = (TwineNode) node;
-        return twineNode.getText().ifNull(twineNode.getPassage());
+        TwineLink twineLink = (TwineLink) node;
+        return twineLink.getText().ifNull(twineLink.getPassage());
     }
 
     @Override

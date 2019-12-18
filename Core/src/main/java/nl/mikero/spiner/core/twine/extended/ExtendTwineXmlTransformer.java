@@ -1,5 +1,6 @@
 package nl.mikero.spiner.core.twine.extended;
 
+
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -16,6 +17,7 @@ import java.io.OutputStream;
 import java.util.Objects;
 
 import nl.mikero.spiner.core.exception.ExtendTwineXmlTransformFailedException;
+import org.apache.commons.io.IOUtils;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
