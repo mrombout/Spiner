@@ -6,7 +6,6 @@ Spiner is a set of tools that allows you to easily author you own Choose Your Ow
 
 [![Build Status](https://travis-ci.org/mrombout/Spiner.svg?branch=develop)](https://travis-ci.org/mrombout/Spiner)
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/cc6e6f9a08dc4b979d6cfd83f59c3942)](https://www.codacy.com/app/mrombout/Spiner?utm_source=github.com&utm_medium=referral&utm_content=mrombout/Spiner&utm_campaign=badger)
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=spiner&metric=alert_status)](https://sonarcloud.io/dashboard?id=spiner)
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=spiner&metric=sqale_index)](https://sonarcloud.io/dashboard?id=spiner)
 
