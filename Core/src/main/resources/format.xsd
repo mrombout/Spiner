@@ -12,12 +12,12 @@
     </xs:complexType>
 
     <xs:complexType name="tw-storydata">
-        <xs:sequence>
+        <xs:choice maxOccurs="unbounded">
             <xs:element name="style" type="style" minOccurs="0" />
             <xs:element name="script" type="script" minOccurs="0" />
             <xs:element name="xtw-metadata" type="xtw-metadata" minOccurs="0" />
             <xs:element name="tw-passagedata" type="tw-passagedata" maxOccurs="unbounded" />
-        </xs:sequence>
+        </xs:choice>
         <xs:attribute name="name" type="xs:string" />
         <xs:attribute name="startnode" type="xs:int" />
         <xs:attribute name="creator" type="xs:string" />
