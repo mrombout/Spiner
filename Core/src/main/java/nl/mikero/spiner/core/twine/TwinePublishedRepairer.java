@@ -24,7 +24,7 @@ public class TwinePublishedRepairer implements TwineRepairer {
      * of arguments) and close tags and anything in between (including
      * newlines).
      */
-    private static final Pattern REGEX_TW_STORYDATA = Pattern.compile("(?s)<tw-storydata (.*)>(.*)<\\/tw-storydata>");
+    private static final Pattern REGEX_TW_STORYDATA = Pattern.compile("<tw-storydata.*?>(.*?)<\\/tw-storydata>", Pattern.DOTALL);
 
     private final Tidy tidy;
 
