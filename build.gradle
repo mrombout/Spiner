@@ -28,6 +28,13 @@ allprojects {
         compile 'ch.qos.logback:logback-core:1.2.3'
         compile 'ch.qos.logback:logback-classic:1.2.3'
     }
+
+    test {
+        testLogging {
+            events "failed"
+            exceptionFormat "full"
+        }
+    }
 }
 
 version = '0.1.2'
