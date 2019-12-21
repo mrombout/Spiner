@@ -55,6 +55,13 @@ usage: java -jar spiner-0.1.2.jar [-f <format>] [-help | -version] [-i <input>] 
 java -jar spiner-0.1.2.jar -f "epub" -i "My Cool Story.html" -o "My Cool Story.epub"
 ```
 
+# Examples
+
+| Book                | Link                                                                                                  |
+| ------------------- | ----------------------------------------------------------------------------------------------------- |
+| Kolb and the Dragon | [Twine](./example/Kolb%20and%20the%20Dragon.html) to [EPUB](./example/Kolb%20and%20the%20Dragon.epub) |
+| Features            | [Twine](./example/Features.html) to [EPUB](./example/Features.epub)                                   |
+
 ## Roadmap
 
 The following features are currently not implemented but are to be expected somewhere in the indefinite future, in roughly the following order:
