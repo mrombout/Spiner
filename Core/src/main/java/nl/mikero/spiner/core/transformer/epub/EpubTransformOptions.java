@@ -16,8 +16,6 @@ import nl.siegmann.epublib.domain.Metadata;
  */
 public final class EpubTransformOptions {
 
-    public static final EpubTransformOptions EMPTY = new EpubTransformOptions(new Metadata());
-
     private final Metadata metadata;
 
     /**
@@ -27,6 +25,15 @@ public final class EpubTransformOptions {
      */
     private EpubTransformOptions(final Metadata metadata) {
         this.metadata = metadata;
+    }
+
+    /**
+     * Constructs a new empty {@link EpubTransformOptions}.
+     *
+     * @return an empty {@link EpubTransformOptions}
+     */
+    public static EpubTransformOptions empty() {
+        return new EpubTransformOptions(new Metadata());
     }
 
     /**
@@ -43,7 +50,7 @@ public final class EpubTransformOptions {
      * </ul>
      *
      * @param xtwMetadata xml extended twine metadata object
-     * @return a {@link EpubTransformOptions} contains all the metadata specified in {@link XtwMetadata}
+     * @return an {@link EpubTransformOptions} that contains all the metadata specified in {@link XtwMetadata}
      */
     public static EpubTransformOptions fromXtwMetadata(final XtwMetadata xtwMetadata) {
         Metadata metadata = createMetadata(xtwMetadata);
