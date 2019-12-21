@@ -33,8 +33,6 @@ public class ExceptionDialog extends Alert {
 
         String exceptionText = stringWriter.toString();
 
-        Label label = new Label("The exception stacktrace was:");
-
         TextArea textArea = new TextArea(exceptionText);
         textArea.setEditable(false);
         textArea.setWrapText(true);
@@ -43,6 +41,8 @@ public class ExceptionDialog extends Alert {
         textArea.setMaxHeight(Double.MAX_VALUE);
         GridPane.setVgrow(textArea, Priority.ALWAYS);
         GridPane.setHgrow(textArea, Priority.ALWAYS);
+
+        Label label = new Label("The exception stacktrace was:");
 
         GridPane expContent = new GridPane();
         expContent.setMaxWidth(Double.MAX_VALUE);

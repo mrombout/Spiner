@@ -14,22 +14,22 @@ public class TwineLinkExtension implements Parser.ParserExtension, HtmlRenderer.
     }
 
     @Override
-    public void rendererOptions(MutableDataHolder options) {
+    public void rendererOptions(final MutableDataHolder options) {
         // no render options supported
     }
 
     @Override
-    public void parserOptions(MutableDataHolder options) {
+    public void parserOptions(final MutableDataHolder options) {
         // no parser options supported
     }
 
     @Override
-    public void extend(Parser.Builder parserBuilder) {
+    public void extend(final Parser.Builder parserBuilder) {
         parserBuilder.linkRefProcessorFactory(new TwineLinkLinkRefProcessor.Factory());
     }
 
     @Override
-    public void extend(HtmlRenderer.Builder rendererBuilder, String rendererType) {
+    public void extend(final HtmlRenderer.Builder rendererBuilder, final String rendererType) {
         rendererBuilder.nodeRendererFactory(new TwineLinkNodeRenderer.Factory());
     }
 }

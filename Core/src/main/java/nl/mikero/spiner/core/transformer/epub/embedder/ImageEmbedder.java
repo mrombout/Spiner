@@ -99,6 +99,6 @@ public class ImageEmbedder implements Embedder {
         String originalFileName = FilenameUtils.getName(url.toString());
         String originalExtension = FilenameUtils.getExtension(originalFileName);
 
-        return String.format("Images/%s.%s", hash, originalExtension) ;
+        return String.format("Images/%s.%s", hash, originalExtension);
     }
 }

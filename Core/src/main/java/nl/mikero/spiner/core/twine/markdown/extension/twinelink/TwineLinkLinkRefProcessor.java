@@ -8,6 +8,7 @@ import com.vladsch.flexmark.util.data.DataHolder;
 import com.vladsch.flexmark.util.sequence.BasedSequence;
 
 public class TwineLinkLinkRefProcessor implements LinkRefProcessor {
+    private static final int TWINE_LINK_MINIMAL_LENGTH = 4;
     protected static final int BRACKET_NESTING_LEVEL = 1;
 
     @Override
@@ -22,7 +23,7 @@ public class TwineLinkLinkRefProcessor implements LinkRefProcessor {
 
     @Override
     public boolean isMatch(BasedSequence nodeChars) {
-        if (nodeChars.length() >= 4) {
+        if (nodeChars.length() >= TWINE_LINK_MINIMAL_LENGTH) {
             return nodeChars.charAt(0) == '[' && nodeChars.charAt(1) == '[' && nodeChars.endCharAt(1) == ']' && nodeChars.endCharAt(2) == ']';
         }
 
@@ -30,39 +31,39 @@ public class TwineLinkLinkRefProcessor implements LinkRefProcessor {
     }
 
     @Override
-    public Node createNode(BasedSequence nodeChars) {
+    public Node createNode(final BasedSequence nodeChars) {
         return new TwineLink(nodeChars);
     }
 
     @Override
-    public BasedSequence adjustInlineText(Document document, Node node) {
+    public BasedSequence adjustInlineText(final Document document, final Node node) {
         TwineLink twineLink = (TwineLink) node;
         return twineLink.getText().ifNull(twineLink.getPassage());
     }
 
     @Override
-    public boolean allowDelimiters(BasedSequence chars, Document document, Node node) {
+    public boolean allowDelimiters(final BasedSequence chars, final Document document, final Node node) {
         return false;
     }
 
     @Override
-    public void updateNodeElements(Document document, Node node) {
+    public void updateNodeElements(final Document document, final Node node) {
         // no elements to update
     }
 
     public static class Factory implements LinkRefProcessorFactory {
         @Override
-        public LinkRefProcessor apply(Document document) {
+        public LinkRefProcessor apply(final Document document) {
             return new TwineLinkLinkRefProcessor();
         }
 
         @Override
-        public boolean getWantExclamationPrefix(DataHolder options) {
+        public boolean getWantExclamationPrefix(final DataHolder options) {
             return false;
         }
 
         @Override
-        public int getBracketNestingLevel(DataHolder options) {
+        public int getBracketNestingLevel(final DataHolder options) {
             return BRACKET_NESTING_LEVEL;
         }
     }

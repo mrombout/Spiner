@@ -11,11 +11,11 @@ public class TwineLink extends Node implements DoNotDecorate {
     private static final String BACKWARD_LINK_SEPARATOR = "<-";
     private static final char TWINE1_LINK_SEPARATOR = '|';
 
-    protected BasedSequence openingMarker = BasedSequence.NULL;
-    protected BasedSequence text = BasedSequence.NULL;
-    protected BasedSequence separatorMarker = BasedSequence.NULL;
-    protected BasedSequence passage = BasedSequence.NULL;
-    protected BasedSequence closingMarker = BasedSequence.NULL;
+    private BasedSequence openingMarker = BasedSequence.NULL;
+    private BasedSequence text = BasedSequence.NULL;
+    private BasedSequence separatorMarker = BasedSequence.NULL;
+    private BasedSequence passage = BasedSequence.NULL;
+    private BasedSequence closingMarker = BasedSequence.NULL;
 
     public TwineLink(BasedSequence chars) {
         super(chars);
@@ -25,11 +25,11 @@ public class TwineLink extends Node implements DoNotDecorate {
     @Override
     public BasedSequence[] getSegments() {
         return new BasedSequence[]{
-                openingMarker,
-                passage,
-                separatorMarker,
-                text,
-                closingMarker
+            openingMarker,
+            passage,
+            separatorMarker,
+            text,
+            closingMarker,
         };
     }
 
@@ -41,10 +41,10 @@ public class TwineLink extends Node implements DoNotDecorate {
         return passage;
     }
 
-    public void setLinkChars(BasedSequence linkChars) {
+    public void setLinkChars(final BasedSequence linkChars) {
         int length = linkChars.length();
         openingMarker = linkChars.subSequence(0, OPENING_MARKER.length());
-        closingMarker= linkChars.subSequence(length - CLOSING_MARKER.length(), length);
+        closingMarker = linkChars.subSequence(length - CLOSING_MARKER.length(), length);
 
         int forwardLinkIndex = linkChars.lastIndexOf(FORWARD_LINK_SEPARATOR);
         int backwardLinkIndex = linkChars.lastIndexOf(BACKWARD_LINK_SEPARATOR);

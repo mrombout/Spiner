@@ -40,7 +40,7 @@ public class ResourceEmbedder {
         this.factory = factory;
     }
 
-    public void visit(Image image) {
+    public void visit(final Image image) {
         try {
             Embedder embedder = factory.get(image);
 

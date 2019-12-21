@@ -15,7 +15,7 @@ public class TwineLinkNodeRenderer implements NodeRenderer {
         return set;
     }
 
-    private void render(TwineLink node, NodeRendererContext context, HtmlWriter html) {
+    private void render(final TwineLink node, final NodeRendererContext context, final HtmlWriter html) {
         if (!context.isDoNotRenderLinks()) {
             html.attr("href", node.getPassage() + ".xhtml");
             html.srcPos(node.getChars()).withAttr().tag("a");
@@ -26,7 +26,7 @@ public class TwineLinkNodeRenderer implements NodeRenderer {
 
     public static class Factory implements NodeRendererFactory {
         @Override
-        public NodeRenderer apply(DataHolder options) {
+        public NodeRenderer apply(final DataHolder options) {
             return new TwineLinkNodeRenderer();
         }
     }

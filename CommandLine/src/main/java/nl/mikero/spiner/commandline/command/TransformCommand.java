@@ -29,6 +29,9 @@ public class TransformCommand implements Command {
     private static final Logger LOGGER = LoggerFactory.getLogger(TransformCommand.class);
 
     private static final String ARG_FORMAT_EPUB = "epub";
+    private static final int STATUS_INPUT_FILE_NOT_FOUND = 1;
+    private static final int STATUS_OUTPUT_FILE_NOT_FOUND = 2;
+    private static final int STATUS_ERROR_CLOSING_STREAMS = 3;
 
     @Parameter(names = {"--format", "-f"}, description = "Format to transform to.")
     private String format = ARG_FORMAT_EPUB;
@@ -74,7 +77,7 @@ public class TransformCommand implements Command {
                 fin = new FileInputStream(new File(inputPath));
                 inputStream = new BufferedInputStream(fin);
             } catch (FileNotFoundException e) {
-                handleError(String.format("Input file %s could not be found.", inputPath), e, 1);
+                handleError(String.format("Input file %s could not be found.", inputPath), e, STATUS_INPUT_FILE_NOT_FOUND);
             }
 
             if (outputPath != null) {
@@ -82,7 +85,7 @@ public class TransformCommand implements Command {
                     fout = new FileOutputStream(new File(outputPath));
                     outputStream = new BufferedOutputStream(fout);
                 } catch (FileNotFoundException e) {
-                    handleError(String.format("Output file %s could not be found.", outputPath), e, 2);
+                    handleError(String.format("Output file %s could not be found.", outputPath), e, STATUS_OUTPUT_FILE_NOT_FOUND);
                 }
             }
 
@@ -96,7 +99,7 @@ public class TransformCommand implements Command {
                 if (fout != null)
                     fout.close();
             } catch (IOException e) {
-                handleError("Error closing streams.", e, 3);
+                handleError("Error closing streams.", e, STATUS_ERROR_CLOSING_STREAMS);
             }
         }
     }
