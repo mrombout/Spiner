@@ -36,4 +36,14 @@ public class FxmlLoadFailedExceptionTest {
         // Assert
         Assert.assertEquals("Could not load 'Foo.txt'.", exception.getMessage());
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void construct_EmptyFileName_ThrowsIllegalArgumentException() {
+        // Arrange
+
+        // Act
+        new FxmlLoadFailedException("", new Exception());
+
+        // Assert
+    }
 }
