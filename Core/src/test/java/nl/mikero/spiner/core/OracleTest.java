@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.function.BiConsumer;
 
 public class OracleTest {
-    private String givenTwineStoryFilePath;
     private InputStream givenTwineStory;
 
     private TransformService transformerService;
@@ -60,16 +59,48 @@ public class OracleTest {
 
     @Test
     public void testFeatures() throws IOException {
-        givenATwineStory("../example/Features.html");
-        whenTransformedToEpub("../example/Features.epub");
-        thenItsMetadataShouldMatch("../example/Features.epub");
-        thenItsPagesShouldMatch("../example/Features.epub");
-        thenItsStylesheetShouldMatch("../example/Features.epub");
+        testOracleFile("../example/Features.html", "../example/Features.epub");
+    }
+
+    @Test
+    public void testParagraphs() throws IOException {
+        testOracleFile("src/test/resources/stories/paragraphs.html", "src/test/resources/epub/paragraphs.epub");
+    }
+
+    @Test
+    public void testHeaders() throws IOException {
+        testOracleFile("src/test/resources/stories/headers.html", "src/test/resources/epub/headers.epub");
+    }
+
+    @Test
+    public void testEmphasis() throws IOException {
+        testOracleFile("src/test/resources/stories/emphasis.html", "src/test/resources/epub/emphasis.epub");
+    }
+
+    @Test
+    public void testLists() throws IOException {
+        testOracleFile("src/test/resources/stories/lists.html", "src/test/resources/epub/lists.epub");
+    }
+
+    @Test
+    public void testLinks() throws IOException {
+        testOracleFile("src/test/resources/stories/links.html", "src/test/resources/epub/links.epub");
+    }
+
+    public void testRule() throws IOException {
+        testOracleFile("src/test/resources/stories/rule.html", "src/test/resources/epub/rule.epub");
+    }
+
+    private void testOracleFile(String inputFile, String oracleFile) throws IOException {
+        givenATwineStory(inputFile);
+        whenTransformedToEpub(oracleFile);
+        thenItsMetadataShouldMatch(oracleFile);
+        thenItsPagesShouldMatch(oracleFile);
+        thenItsStylesheetShouldMatch(oracleFile);
     }
 
     private void givenATwineStory(String twineStoryFilePath) throws FileNotFoundException {
         System.out.println( System.getProperty("user.dir"));
-        givenTwineStoryFilePath = twineStoryFilePath;
         givenTwineStory = new FileInputStream(twineStoryFilePath);
     }
 
@@ -83,10 +114,14 @@ public class OracleTest {
 
         ByteArrayInputStream inputStream = new ByteArrayInputStream(byteOutputStream.toByteArray());
         actualBook = epubReader.readEpub(inputStream);
+
+        outputStream.close();
+        inputStream.close();
     }
 
     private void thenItsPagesShouldMatch(String epubFilePath) throws IOException {
-        Book expectedBook = epubReader.readEpub(new FileInputStream(epubFilePath));
+        FileInputStream fileInputStream = new FileInputStream(epubFilePath);
+        Book expectedBook = epubReader.readEpub(fileInputStream);
 
         for(Resource expectedResource : expectedBook.getResources().getResourcesByMediaType(MediatypeService.XHTML)) {
             Resource actualResource = actualBook.getResources().getByHref(expectedResource.getHref());
@@ -94,36 +129,46 @@ public class OracleTest {
             Assert.assertEquals(new String(expectedResource.getData()), new String(actualResource.getData()));
         }
         Assert.assertEquals(expectedBook.getResources().size(), actualBook.getResources().size());
+
+        fileInputStream.close();
     }
 
     private void thenItsMetadataShouldMatch(String epubFilePath) throws IOException {
-        Book expectedBook = epubReader.readEpub(new FileInputStream(epubFilePath));
+        FileInputStream fileInputStream = new FileInputStream(epubFilePath);
+        Book expectedBook = epubReader.readEpub(fileInputStream);
 
         Metadata expectedMetadata = expectedBook.getMetadata();
         Metadata actualMetadata = actualBook.getMetadata();
 
-        assertListEquals(expectedMetadata.getIdentifiers(), actualMetadata.getIdentifiers(), (expected, actual) -> {
-            Assert.assertEquals(expected.getScheme(), actual.getScheme());
-            Assert.assertEquals(expected.getValue(), actual.getValue());
+        assertListEquals("identifiers", expectedMetadata.getIdentifiers(), actualMetadata.getIdentifiers(), (expected, actual) -> {
+            if (expected.getScheme().equals("UUID")) {
+                return;
+            }
+
+            Assert.assertEquals("identifiers.scheme", expected.getScheme(), actual.getScheme());
+            Assert.assertEquals("identifiers.value", expected.getValue(), actual.getValue());
         });
-        assertListEquals(expectedMetadata.getTitles(), actualMetadata.getTitles(), Assert::assertEquals);
-        Assert.assertEquals(expectedMetadata.getLanguage(), actualMetadata.getLanguage());
-        assertListEquals(expectedMetadata.getContributors(), actualMetadata.getContributors(), Assert::assertEquals);
-        assertListEquals(expectedMetadata.getAuthors(), actualMetadata.getAuthors(), Assert::assertEquals);
-        assertListEquals(expectedMetadata.getDates(), actualMetadata.getDates(), (expected, actual) -> {
-            Assert.assertEquals(expected.getEvent(), actual.getEvent());
-            Assert.assertEquals(expected.getValue(), actual.getValue());
+        assertListEquals("titles", expectedMetadata.getTitles(), actualMetadata.getTitles(), Assert::assertEquals);
+        Assert.assertEquals("language", expectedMetadata.getLanguage(), actualMetadata.getLanguage());
+        assertListEquals("contributors", expectedMetadata.getContributors(), actualMetadata.getContributors(), Assert::assertEquals);
+        assertListEquals("authors", expectedMetadata.getAuthors(), actualMetadata.getAuthors(), Assert::assertEquals);
+        assertListEquals("dates", expectedMetadata.getDates(), actualMetadata.getDates(), (expected, actual) -> {
+            Assert.assertEquals("dates.event", expected.getEvent(), actual.getEvent());
+            Assert.assertEquals("dates.value", expected.getValue(), actual.getValue());
         });
-        assertListEquals(expectedMetadata.getDescriptions(), actualMetadata.getDescriptions(), Assert::assertEquals);
-        Assert.assertEquals(expectedMetadata.getFormat(), actualMetadata.getFormat());
-        assertListEquals(expectedMetadata.getPublishers(), actualMetadata.getPublishers(), Assert::assertEquals);
-        assertListEquals(expectedMetadata.getRights(), actualMetadata.getRights(), Assert::assertEquals);
-        assertListEquals(expectedMetadata.getSubjects(), actualMetadata.getSubjects(), Assert::assertEquals);
-        assertListEquals(expectedMetadata.getTypes(), actualMetadata.getTypes(), Assert::assertEquals);
+        assertListEquals("descriptions", expectedMetadata.getDescriptions(), actualMetadata.getDescriptions(), Assert::assertEquals);
+        Assert.assertEquals("formats", expectedMetadata.getFormat(), actualMetadata.getFormat());
+        assertListEquals("publishers", expectedMetadata.getPublishers(), actualMetadata.getPublishers(), Assert::assertEquals);
+        assertListEquals("rights", expectedMetadata.getRights(), actualMetadata.getRights(), Assert::assertEquals);
+        assertListEquals("subjects", expectedMetadata.getSubjects(), actualMetadata.getSubjects(), Assert::assertEquals);
+        assertListEquals("types", expectedMetadata.getTypes(), actualMetadata.getTypes(), Assert::assertEquals);
+
+        fileInputStream.close();
     }
 
     private void thenItsStylesheetShouldMatch(String epubFilePath) throws IOException {
-        Book expectedBook = epubReader.readEpub(new FileInputStream(epubFilePath));
+        FileInputStream fileInputStream = new FileInputStream(epubFilePath);
+        Book expectedBook = epubReader.readEpub(fileInputStream);
 
         for(Resource expectedResource : expectedBook.getResources().getResourcesByMediaType(MediatypeService.CSS)) {
             Resource actualResource = actualBook.getResources().getByHref(expectedResource.getHref());
@@ -131,19 +176,21 @@ public class OracleTest {
             Assert.assertEquals(new String(expectedResource.getData()), new String(actualResource.getData()));
         }
         Assert.assertEquals(expectedBook.getResources().size(), actualBook.getResources().size());
+
+        fileInputStream.close();
     }
 
-    private <T> void assertListEquals(List<T> expectedList, List<T> actualList, BiConsumer<T, T> assertion) {
+    private <T> void assertListEquals(String metadataName, List<T> expectedList, List<T> actualList, BiConsumer<T, T> assertion) {
         for (int i = 0; i < expectedList.size(); i++) {
             T expectedValue = expectedList.get(i);
             T actualValue = actualList.get(i);
 
             assertion.accept(expectedValue, actualValue);
         }
-        Assert.assertEquals(expectedList.size(), actualList.size());
+        Assert.assertEquals(metadataName, expectedList.size(), actualList.size());
     }
 
     private boolean shouldUpdateOracleFile() {
-        return false;
+        return System.getenv("UPDATE_ORACLE") != null;
     }
 }
