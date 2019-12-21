@@ -26,7 +26,7 @@ dependencies {
     compile 'com.vladsch.flexmark:flexmark:0.50.46'
     compile 'com.vladsch.flexmark:flexmark-profile-pegdown:0.50.46'
 
-    compile 'org.jsoup:jsoup:1.10.3'
+    compile 'org.jsoup:jsoup:1.12.1'
     compile 'net.sf.jtidy:jtidy:r938'
     compile 'commons-io:commons-io:2.5'
     compile 'commons-codec:commons-codec:1.10'
