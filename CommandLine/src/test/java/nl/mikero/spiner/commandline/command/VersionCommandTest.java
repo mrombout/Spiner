@@ -8,7 +8,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 public class VersionCommandTest {
-    private VersionCommand command;
+    private VersionCommandImpl command;
 
     private VersionService mockVersionService;
     private PrintStream mockPrintStream;
@@ -17,7 +17,7 @@ public class VersionCommandTest {
     public void setUp() {
         mockVersionService = Mockito.mock(VersionService.class);
         mockPrintStream = Mockito.mock(PrintStream.class);
-        command = new VersionCommand(mockVersionService, mockPrintStream);
+        command = new VersionCommandImpl(mockVersionService, mockPrintStream);
     }
 
     @Test

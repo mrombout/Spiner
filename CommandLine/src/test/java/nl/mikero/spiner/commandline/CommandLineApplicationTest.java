@@ -1,9 +1,17 @@
 package nl.mikero.spiner.commandline;
 
-import com.beust.jcommander.MissingCommandException;
-import nl.mikero.spiner.commandline.command.HelpCommand;
-import nl.mikero.spiner.commandline.command.TransformCommand;
-import nl.mikero.spiner.commandline.command.VersionCommand;
+//import com.beust.jcommander.MissingCommandException;
+import nl.mikero.spiner.core.transformer.TransformService;
+import nl.mikero.spiner.core.transformer.epub.TwineStoryEpubTransformer;
+import nl.mikero.spiner.core.transformer.epub.embedder.EmbedderFactory;
+import nl.mikero.spiner.core.transformer.epub.embedder.HashEmbedderFactory;
+import nl.mikero.spiner.core.transformer.epub.embedder.ResourceEmbedder;
+import nl.mikero.spiner.core.twine.TwineArchiveParser;
+import nl.mikero.spiner.core.twine.TwineArchiveRepairer;
+import nl.mikero.spiner.core.twine.extended.ExtendTwineXmlTransformer;
+import nl.mikero.spiner.core.twine.markdown.MarkdownProcessor;
+import nl.mikero.spiner.core.twine.markdown.PegdownTransitionMarkdownRenderParser;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -11,26 +19,19 @@ import org.mockito.Mockito;
 public class CommandLineApplicationTest {
     private CommandLineApplication application;
 
-    private CommandFactory mockCommandFactory;
-    private HelpCommand mockHelpCommand;
-    private VersionCommand mockVersionCommand;
-    private TransformCommand mockTransformCommand;
-
     @Before
     public void setUp() {
-        mockCommandFactory = Mockito.mock(CommandFactory.class);
+        GradleVersionService gradleVersionService = new GradleVersionService();
+        TwineArchiveRepairer twineArchiveRepairer = new TwineArchiveRepairer();
+        ExtendTwineXmlTransformer extendTwineXmlTransformer = new ExtendTwineXmlTransformer();
+        TwineArchiveParser twineArchiveParser = new TwineArchiveParser();
+        TransformService transformService = new TransformService(twineArchiveRepairer, extendTwineXmlTransformer, twineArchiveParser);
+        MarkdownProcessor markdownProcessor = new PegdownTransitionMarkdownRenderParser();
+        EmbedderFactory embedderFactory = new HashEmbedderFactory(DigestUtils.getSha256Digest());
+        ResourceEmbedder resourceEmbedder = new ResourceEmbedder(embedderFactory);
+        TwineStoryEpubTransformer twineStoryEpubTransformer = new TwineStoryEpubTransformer(markdownProcessor, resourceEmbedder);
 
-        mockHelpCommand = Mockito.mock(HelpCommand.class);
-        Mockito.doNothing().when(mockHelpCommand).run();
-        Mockito.when(mockCommandFactory.createHelpCommand(Mockito.any())).thenReturn(mockHelpCommand);
-
-        mockVersionCommand = Mockito.mock(VersionCommand.class);
-        Mockito.when(mockCommandFactory.createVersionCommand()).thenReturn(mockVersionCommand);
-
-        mockTransformCommand = Mockito.mock(TransformCommand.class);
-        Mockito.when(mockCommandFactory.createTransformCommand()).thenReturn(mockTransformCommand);
-
-        application = new CommandLineApplication(mockCommandFactory);
+        application = new CommandLineApplication(gradleVersionService, transformService, twineStoryEpubTransformer);
     }
 
     @Test
@@ -41,7 +42,8 @@ public class CommandLineApplicationTest {
         application.execute(new String[] {});
 
         // Assert
-        Mockito.verify(mockHelpCommand, Mockito.times(1)).run();
+        // TODO: Assert invalid format message is being printed
+        // TODO: Assert help is being printed to System.out
     }
 
     @Test
@@ -52,7 +54,7 @@ public class CommandLineApplicationTest {
         application.execute(new String[] {"--help"});
 
         // Assert
-        Mockito.verify(mockHelpCommand, Mockito.times(1)).run();
+        // TODO: Assert help is being printed to System.out
     }
 
     @Test
@@ -63,10 +65,21 @@ public class CommandLineApplicationTest {
         application.execute(new String[] {"--version"});
 
         // Assert
-        Mockito.verify(mockVersionCommand, Mockito.times(1)).run();
+        // TODO: Assert version info is being printed to System.out
     }
 
-    @Test(expected = MissingCommandException.class)
+    @Test
+    public void execute_TransformParameter_RunTransformCommand() {
+        // Arrange
+
+        // Act
+        application.execute(new String[] { "transform", "--input", "MyStory.html" });
+
+        // Assert
+        // TODO: Assert transform is being called with the right parameters
+    }
+
+    @Test
     public void execute_InvalidCommand_Unknown() {
         // Arrange
 
@@ -74,5 +87,7 @@ public class CommandLineApplicationTest {
         application.execute(new String[] {"thisdoesnotexist"});
 
         // Assert
+        // TODO: Assert invalid format message is being printed
+        // TODO: Assert help is being printed to System.out
     }
 }

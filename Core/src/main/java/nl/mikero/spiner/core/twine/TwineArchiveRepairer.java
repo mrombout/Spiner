@@ -23,7 +23,7 @@ public class TwineArchiveRepairer implements TwineRepairer {
     /**
      * Constructs a new TwineArchiveRepairer.
      */
-    TwineArchiveRepairer() {
+    public TwineArchiveRepairer() {
         this.tidy = new Tidy();
         tidy.setInputEncoding(StandardCharsets.UTF_8.name());
         tidy.setOutputEncoding(StandardCharsets.UTF_8.name());

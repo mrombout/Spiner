@@ -1,12 +1,31 @@
 package nl.mikero.spiner.commandline;
 
-import com.beust.jcommander.JCommander;
+//import com.beust.jcommander.JCommander;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import nl.mikero.spiner.commandline.command.HelpCommand;
-import nl.mikero.spiner.commandline.command.TransformCommand;
-import nl.mikero.spiner.commandline.command.VersionCommand;
+import nl.mikero.spiner.core.transformer.TransformService;
+import nl.mikero.spiner.core.transformer.Transformer;
+import nl.mikero.spiner.core.transformer.epub.TwineStoryEpubTransformer;
+import nl.mikero.spiner.core.transformer.epub.embedder.EmbedderFactory;
+import nl.mikero.spiner.core.transformer.epub.embedder.HashEmbedderFactory;
+import nl.mikero.spiner.core.transformer.epub.embedder.ResourceEmbedder;
+import nl.mikero.spiner.core.twine.TwineArchiveParser;
+import nl.mikero.spiner.core.twine.TwineArchiveRepairer;
+import nl.mikero.spiner.core.twine.TwinePublishedRepairer;
+import nl.mikero.spiner.core.twine.TwineRepairer;
+import nl.mikero.spiner.core.twine.extended.ExtendTwineXmlTransformer;
+import nl.mikero.spiner.core.twine.markdown.MarkdownProcessor;
+import nl.mikero.spiner.core.twine.markdown.PegdownTransitionMarkdownRenderParser;
+import org.apache.commons.cli.*;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.input.CloseShieldInputStream;
+import org.apache.commons.io.output.CloseShieldOutputStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.*;
+import java.security.MessageDigest;
 
 /**
  * Provides a commandline interface to the Spiner transformation features.
@@ -26,18 +45,52 @@ import nl.mikero.spiner.commandline.command.VersionCommand;
  * @author Mike Rombout
  */
 public class CommandLineApplication {
-    private static final String CMD_TRANSFORM = "transform";
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommandLineApplication.class);
 
-    private final CommandFactory commandFactory;
+    private final HelpFormatter formatter;
+    private final VersionService versionService;
+    private final TransformService transformService;
+    private final TwineStoryEpubTransformer epubTransformer;
 
-    /**
-     * Constructs a new CommandLineApplication.
-     *
-     * @param commandFactory command factory to use
-     */
-    @Inject
-    public CommandLineApplication(final CommandFactory commandFactory) {
-        this.commandFactory = commandFactory;
+    private final Options options;
+    private final Option helpOption;
+    private final Option versionOption;
+    private final Option debugOption;
+    private final Option inputOption;
+    private final Option outputOption;
+
+    CommandLineApplication(VersionService versionService, TransformService transformService, TwineStoryEpubTransformer epubTransformer) {
+        this.formatter = new HelpFormatter();
+        this.versionService = versionService;
+        this.transformService = transformService;
+        this.epubTransformer = epubTransformer;
+
+        options = new Options();
+
+        helpOption = new Option("help", false, "display this help and exit");
+        options.addOption(helpOption);
+
+        versionOption = new Option("version", false, "display version information");
+        options.addOption(versionOption);
+
+        debugOption = new Option("debug", false, "show debug output");
+        options.addOption(debugOption);
+
+        inputOption = Option.builder("i")
+                .longOpt("input")
+                .hasArg()
+                .argName("input")
+                .desc("location of input HTML file")
+                .build();
+        options.addOption(inputOption);
+
+        outputOption = Option.builder("o")
+                .longOpt("output")
+                .hasArg()
+                .argName("output")
+                .desc("location of output file")
+                .build();
+        options.addOption(outputOption);
     }
 
     /**
@@ -46,32 +99,78 @@ public class CommandLineApplication {
      * @param args args given by the user
      */
     public final void execute(final String[] args) {
-        // definition
-        JCommander jCommander = new JCommander();
-        jCommander.setProgramName("spiner");
+        try {
+            CommandLineParser parser = new DefaultParser();
+            CommandLine cmd = parser.parse(options, args);
 
-        HelpCommand helpCommand = commandFactory.createHelpCommand(jCommander);
-        jCommander.addObject(helpCommand);
-
-        VersionCommand versionCommand = commandFactory.createVersionCommand();
-        jCommander.addObject(versionCommand);
-
-        TransformCommand transformCommand = commandFactory.createTransformCommand();
-        jCommander.addCommand(CMD_TRANSFORM, transformCommand);
-
-        // parsing
-        jCommander.parse(args);
-
-        // interrogation
-        if(versionCommand.isVersionCommand()) {
-            versionCommand.run();
-        } else if(jCommander.getParsedCommand() != null) {
-            if(CMD_TRANSFORM.equals(jCommander.getParsedCommand())) {
-                transformCommand.run();
+            if(cmd.hasOption(helpOption.getOpt())) {
+                doPrintHelp();
+            } else if (cmd.hasOption(versionOption.getOpt())) {
+                doPrintVersion();
+            } else if (cmd.hasOption(inputOption.getOpt())) {
+                doTransform(cmd);
             }
-        } else {
-            helpCommand.run();
+        } catch (ParseException e) {
+            System.out.println(String.format("invalid format: %s", e.getMessage()));
+            doPrintHelp();
         }
+    }
+
+    private void doTransform(CommandLine cmd) {
+        InputStream inputStream = new CloseShieldInputStream(System.in);
+        OutputStream outputStream = new CloseShieldOutputStream(System.out);
+
+        try {
+            String inputPath = inputOption.getValue();
+            try {
+                FileInputStream fin = new FileInputStream(new File(inputPath));
+                inputStream = new BufferedInputStream(fin);
+            } catch (FileNotFoundException e) {
+                handleError(String.format("Input file %s could not be found.", inputPath), e, 1, cmd);
+            }
+
+            String outputPath = inputOption.getValue();
+            if (outputPath != null) {
+                try {
+                    FileOutputStream fout = new FileOutputStream(new File(outputPath));
+                    outputStream = new BufferedOutputStream(fout);
+                } catch (FileNotFoundException e) {
+                    handleError(String.format("Output file %s could not be found.", outputPath), e, 2, cmd);
+                }
+            }
+
+            transformService.transform(inputStream, outputStream, epubTransformer);
+        } finally {
+            try {
+                inputStream.close();
+            } catch (IOException e) {
+                LOGGER.error("error closing input stream", e);
+            }
+            try {
+                outputStream.close();
+            } catch (IOException e) {
+                 LOGGER.error("error closing output stream", e);
+            }
+        }
+    }
+
+    private void doPrintHelp() {
+        formatter.printHelp("java -jar spiner.jar [--help | --version] [-i <input>] [-o <file>]", options);
+    }
+
+    private void doPrintVersion() {
+        System.out.println("Spiner " + versionService.get() + "\n" +
+                "Copyright (C) 2015 Mike Rombout\n" +
+                "License GPLv3+: GNU GPL isVersion 3 or later <http://gnu.org/licenses/gpl.html>\n" +
+                "This is free software: you are free to change and redistribute it.\n" +
+                "There is NO WARRANTY, to the extend permitted by law.\n");
+    }
+
+    private void handleError(final String msg, final Throwable cause, final int status, final CommandLine cmd) {
+        System.err.println(msg);
+        if (cmd.hasOption(debugOption.getOpt()))
+            LOGGER.error(msg, cause);
+        System.exit(status);
     }
 
     /**
@@ -82,9 +181,17 @@ public class CommandLineApplication {
      * @param args see {@link CommandLineApplication} for list of accepted arguments
      */
     public static void main(final String[] args) {
-        Injector injector = Guice.createInjector(new CommandLineModule());
+        GradleVersionService gradleVersionService = new GradleVersionService();
+        TwineArchiveRepairer twineArchiveRepairer = new TwineArchiveRepairer();
+        ExtendTwineXmlTransformer extendTwineXmlTransformer = new ExtendTwineXmlTransformer();
+        TwineArchiveParser twineArchiveParser = new TwineArchiveParser();
+        TransformService transformService = new TransformService(twineArchiveRepairer, extendTwineXmlTransformer, twineArchiveParser);
+        MarkdownProcessor markdownProcessor = new PegdownTransitionMarkdownRenderParser();
+        EmbedderFactory embedderFactory = new HashEmbedderFactory(DigestUtils.getSha256Digest());
+        ResourceEmbedder resourceEmbedder = new ResourceEmbedder(embedderFactory);
+        TwineStoryEpubTransformer twineStoryEpubTransformer = new TwineStoryEpubTransformer(markdownProcessor, resourceEmbedder);
 
-        CommandLineApplication application = injector.getInstance(CommandLineApplication.class);
+        CommandLineApplication application = new CommandLineApplication(gradleVersionService, transformService, twineStoryEpubTransformer);
         application.execute(args);
     }
 
