@@ -28,7 +28,7 @@ dependencies {
 
     compile 'org.jsoup:jsoup:1.12.1'
     compile 'net.sf.jtidy:jtidy:r938'
-    compile 'commons-io:commons-io:2.5'
+    compile 'commons-io:commons-io:2.6'
     compile 'commons-codec:commons-codec:1.10'
     compile 'com.google.inject:guice:4.2.2'
     compile 'javax.xml.bind:jaxb-api:2.3.1'
