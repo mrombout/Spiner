@@ -123,12 +123,15 @@ public class OracleTest {
         FileInputStream fileInputStream = new FileInputStream(epubFilePath);
         Book expectedBook = epubReader.readEpub(fileInputStream);
 
-        for(Resource expectedResource : expectedBook.getResources().getResourcesByMediaType(MediatypeService.XHTML)) {
-            Resource actualResource = actualBook.getResources().getByHref(expectedResource.getHref());
+        List<Resource> expectedPages = expectedBook.getResources().getResourcesByMediaType(MediatypeService.XHTML);
+        List<Resource> actualPages = actualBook.getResources().getResourcesByMediaType(MediatypeService.XHTML);
+
+        for(Resource expectedPage : expectedPages) {
+            Resource actualResource = actualBook.getResources().getByHref(expectedPage.getHref());
             Assert.assertNotNull(actualResource);
-            Assert.assertEquals(new String(expectedResource.getData()), new String(actualResource.getData()));
+            Assert.assertEquals(new String(expectedPage.getData()), new String(actualResource.getData()));
         }
-        Assert.assertEquals(expectedBook.getResources().size(), actualBook.getResources().size());
+        Assert.assertEquals(expectedPages.size(), actualPages.size());
 
         fileInputStream.close();
     }
