@@ -27,8 +27,6 @@ import nl.siegmann.epublib.domain.Book;
 import nl.siegmann.epublib.domain.Resource;
 import nl.siegmann.epublib.epub.EpubWriter;
 import nl.siegmann.epublib.service.MediatypeService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -39,8 +37,6 @@ import org.xml.sax.SAXException;
  * Transforms a {@link TwStorydata} object to an EPUB file.
  */
 public class TwineStoryEpubTransformer implements Transformer {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TwineStoryEpubTransformer.class);
-
     private static final String EXTENSION = "epub";
 
     private static final String ATTR_CLASS = "class";
