@@ -76,7 +76,7 @@ public class TwineStoryEpubTransformer implements Transformer {
      */
     @Override
     public final void transform(final TwStorydata story, final OutputStream outputStream) {
-        EpubTransformOptions options = EpubTransformOptions.EMPTY;
+        EpubTransformOptions options = EpubTransformOptions.empty();
         if(story.getXtwMetadata() != null)
              options = EpubTransformOptions.fromXtwMetadata(story.getXtwMetadata());
         transform(story, outputStream, options);
