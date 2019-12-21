@@ -19,6 +19,10 @@
         <property name="eachLine" value="true" />
     </module>
 
+    <module name="LineLength">
+        <property name="max" value="120" />
+    </module>
+
     <module name="TreeWalker">
         <module name="TodoComment">
             <property name="severity" value="info" />
@@ -130,9 +134,6 @@
         <module name="TypeName" />
         <module name="AnonInnerLength" />
         <module name="ExecutableStatementCount" />
-        <module name="LineLength">
-            <property name="max" value="120" />
-        </module>
         <module name="MethodCount">
             <property name="maxTotal" value="30" />
         </module>
