@@ -3,7 +3,6 @@ package nl.mikero.spiner.frontend;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import nl.mikero.spiner.frontend.inject.TwineModule;
-import nl.mikero.spiner.frontend.main.ApplicationView;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

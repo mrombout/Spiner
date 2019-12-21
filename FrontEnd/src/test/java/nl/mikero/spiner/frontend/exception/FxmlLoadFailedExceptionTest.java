@@ -1,5 +1,6 @@
 package nl.mikero.spiner.frontend.exception;
 
+import nl.mikero.spiner.frontend.FxmlLoadFailedException;
 import org.junit.Assert;
 import org.junit.Test;
 

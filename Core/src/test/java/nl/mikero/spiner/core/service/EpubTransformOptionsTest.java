@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 
 public class EpubTransformOptionsTest {
 
-    @Test( expected = NullPointerException.class )
+    @Test(expected = NullPointerException.class)
     public void fromXtwMetadata_NullMetadata_ThrowsNullPointerException() {
         // Arrange
 

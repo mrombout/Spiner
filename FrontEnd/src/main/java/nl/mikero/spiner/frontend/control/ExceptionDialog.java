@@ -1,4 +1,4 @@
-package nl.mikero.spiner.frontend.dialog;
+package nl.mikero.spiner.frontend.control;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

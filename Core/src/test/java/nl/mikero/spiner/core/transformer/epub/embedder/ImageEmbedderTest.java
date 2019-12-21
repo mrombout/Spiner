@@ -1,5 +1,11 @@
 package nl.mikero.spiner.core.transformer.epub.embedder;
 
+import java.io.IOException;
+import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
+
 import nl.siegmann.epublib.domain.Book;
 import nl.siegmann.epublib.domain.Resource;
 import nl.siegmann.epublib.domain.Resources;
@@ -7,13 +13,10 @@ import nl.siegmann.epublib.service.MediatypeService;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
-import java.net.URL;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.List;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class ImageEmbedderTest {
 
@@ -75,7 +78,7 @@ public class ImageEmbedderTest {
         assertResources(svgs, 1);
     }
 
-    private void assertResources(List<Resource> resources, int numExpected) throws Exception {
+    private void assertResources(final List<Resource> resources, final int numExpected) throws Exception {
         assertEquals(numExpected, resources.size());
         for(Resource resource : resources) {
             assertTrue(resource.getHref().startsWith("Images/"));

@@ -17,7 +17,7 @@ public class TwineLink extends Node implements DoNotDecorate {
     private BasedSequence passage = BasedSequence.NULL;
     private BasedSequence closingMarker = BasedSequence.NULL;
 
-    public TwineLink(BasedSequence chars) {
+    public TwineLink(final BasedSequence chars) {
         super(chars);
         setLinkChars(chars);
     }

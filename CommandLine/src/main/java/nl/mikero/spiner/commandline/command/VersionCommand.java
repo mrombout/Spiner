@@ -1,10 +1,10 @@
 package nl.mikero.spiner.commandline.command;
 
+import java.io.PrintStream;
+
 import com.beust.jcommander.Parameter;
 import com.google.inject.Inject;
 import nl.mikero.spiner.commandline.VersionService;
-
-import java.io.PrintStream;
 
 /**
  * Prints the version information.

@@ -1,28 +1,30 @@
 package nl.mikero.spiner.core.transformer.epub.embedder;
 
-import com.vladsch.flexmark.ast.*;
+import java.io.IOException;
+import java.net.URL;
+
+import com.vladsch.flexmark.ast.AutoLink;
+import com.vladsch.flexmark.ast.Code;
+import com.vladsch.flexmark.ast.HtmlBlock;
 import com.vladsch.flexmark.ast.Image;
+import com.vladsch.flexmark.ast.MailLink;
+import com.vladsch.flexmark.ast.Paragraph;
+import com.vladsch.flexmark.ast.Text;
 import com.vladsch.flexmark.ext.anchorlink.AnchorLink;
-import com.vladsch.flexmark.ext.tables.TableCell;
 import com.vladsch.flexmark.util.ast.Document;
-import com.vladsch.flexmark.util.ast.Node;
-import com.vladsch.flexmark.util.sequence.BasedSequence;
 import com.vladsch.flexmark.util.sequence.CharSubSequence;
 import nl.siegmann.epublib.domain.Book;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
-//import org.pegdown.ast.*;
-
-import java.awt.*;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
 
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class ResourceEmbedderTest {
 

@@ -1,19 +1,5 @@
 package nl.mikero.spiner.core.transformer;
 
-import nl.mikero.spiner.core.exception.TwineTransformationFailedException;
-import nl.mikero.spiner.core.twine.TwineArchiveParser;
-import nl.mikero.spiner.core.twine.TwineRepairer;
-import nl.mikero.spiner.core.twine.extended.ExtendTwineXmlTransformer;
-import nl.mikero.spiner.core.twine.model.TwStoriesdata;
-import nl.mikero.spiner.core.twine.model.TwStorydata;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.mockito.ArgumentMatchers;
-import org.mockito.Mockito;
-import org.xml.sax.SAXException;
-
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -22,6 +8,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.TooManyListenersException;
+
+import nl.mikero.spiner.core.exception.TwineTransformationFailedException;
+import nl.mikero.spiner.core.twine.TwineArchiveParser;
+import nl.mikero.spiner.core.twine.TwineRepairer;
+import nl.mikero.spiner.core.twine.extended.ExtendTwineXmlTransformer;
+import nl.mikero.spiner.core.twine.model.TwStoriesdata;
+import nl.mikero.spiner.core.twine.model.TwStorydata;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.ArgumentMatchers;
+import org.mockito.Mockito;
+import org.xml.sax.SAXException;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertThat;

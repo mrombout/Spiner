@@ -38,7 +38,7 @@ public class CommandLineApplicationTest {
         // Arrange
 
         // Act
-        application.execute(new String[] { });
+        application.execute(new String[] {});
 
         // Assert
         Mockito.verify(mockHelpCommand, Mockito.times(1)).run();
@@ -49,7 +49,7 @@ public class CommandLineApplicationTest {
         // Arrange
 
         // Act
-        application.execute(new String[] { "--help" });
+        application.execute(new String[] {"--help"});
 
         // Assert
         Mockito.verify(mockHelpCommand, Mockito.times(1)).run();
@@ -60,7 +60,7 @@ public class CommandLineApplicationTest {
         // Arrange
 
         // Act
-        application.execute(new String[] { "--version" });
+        application.execute(new String[] {"--version"});
 
         // Assert
         Mockito.verify(mockVersionCommand, Mockito.times(1)).run();
@@ -71,7 +71,7 @@ public class CommandLineApplicationTest {
         // Arrange
 
         // Act
-        application.execute(new String[] { "thisdoesnotexist" });
+        application.execute(new String[] {"thisdoesnotexist"});
 
         // Assert
     }

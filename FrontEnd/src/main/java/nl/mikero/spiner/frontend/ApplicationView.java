@@ -1,4 +1,4 @@
-package nl.mikero.spiner.frontend.main;
+package nl.mikero.spiner.frontend;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,11 +11,8 @@ import nl.mikero.spiner.core.exception.TwineTransformationFailedException;
 import nl.mikero.spiner.core.transformer.TransformService;
 import nl.mikero.spiner.core.transformer.Transformer;
 import nl.mikero.spiner.core.transformer.epub.TwineStoryEpubTransformer;
-import nl.mikero.spiner.frontend.SpinerApplication;
-import nl.mikero.spiner.frontend.dialog.ExceptionDialog;
-import nl.mikero.spiner.frontend.TransformTask;
+import nl.mikero.spiner.frontend.control.ExceptionDialog;
 import nl.mikero.spiner.frontend.control.DropFileChooser;
-import nl.mikero.spiner.frontend.exception.FxmlLoadFailedException;
 import nl.mikero.spiner.frontend.io.FileInputOutputStream;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;

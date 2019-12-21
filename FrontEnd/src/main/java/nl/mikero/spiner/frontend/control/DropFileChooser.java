@@ -3,7 +3,7 @@ package nl.mikero.spiner.frontend.control;
 import java.io.File;
 import java.io.IOException;
 
-import nl.mikero.spiner.frontend.exception.FxmlLoadFailedException;
+import nl.mikero.spiner.frontend.FxmlLoadFailedException;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;

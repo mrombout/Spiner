@@ -1,11 +1,14 @@
 package nl.mikero.spiner.core.twine.markdown.extension.twinelink;
 
-import com.vladsch.flexmark.html.HtmlWriter;
-import com.vladsch.flexmark.html.renderer.*;
-import com.vladsch.flexmark.util.data.DataHolder;
-
 import java.util.HashSet;
 import java.util.Set;
+
+import com.vladsch.flexmark.html.HtmlWriter;
+import com.vladsch.flexmark.html.renderer.NodeRenderer;
+import com.vladsch.flexmark.html.renderer.NodeRendererContext;
+import com.vladsch.flexmark.html.renderer.NodeRendererFactory;
+import com.vladsch.flexmark.html.renderer.NodeRenderingHandler;
+import com.vladsch.flexmark.util.data.DataHolder;
 
 public class TwineLinkNodeRenderer implements NodeRenderer {
     @Override

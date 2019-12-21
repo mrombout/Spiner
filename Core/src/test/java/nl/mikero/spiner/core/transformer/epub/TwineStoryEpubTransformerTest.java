@@ -1,5 +1,11 @@
 package nl.mikero.spiner.core.transformer.epub;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.List;
+
 import nl.mikero.spiner.core.transformer.epub.embedder.ResourceEmbedder;
 import nl.mikero.spiner.core.twine.extended.model.XtwMetadata;
 import nl.mikero.spiner.core.twine.markdown.MarkdownProcessor;
@@ -15,14 +21,11 @@ import nl.siegmann.epublib.service.MediatypeService;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.List;
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class TwineStoryEpubTransformerTest {
 

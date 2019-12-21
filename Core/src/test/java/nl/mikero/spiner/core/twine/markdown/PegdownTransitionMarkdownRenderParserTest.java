@@ -7,10 +7,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.swing.text.Document;
-
-import static org.junit.Assert.*;
-
 public class PegdownTransitionMarkdownRenderParserTest {
     private PegdownTransitionMarkdownRenderParser parser;
 

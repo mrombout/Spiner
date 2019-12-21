@@ -1,11 +1,11 @@
 package nl.mikero.spiner.commandline.command;
 
+import java.io.PrintStream;
+
 import nl.mikero.spiner.commandline.VersionService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import java.io.PrintStream;
 
 public class VersionCommandTest {
     private VersionCommand command;

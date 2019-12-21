@@ -1,5 +1,16 @@
 package nl.mikero.spiner.core;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.List;
+import java.util.function.BiConsumer;
+
 import nl.mikero.spiner.core.transformer.TransformService;
 import nl.mikero.spiner.core.transformer.epub.TwineStoryEpubTransformer;
 import nl.mikero.spiner.core.transformer.epub.embedder.EmbedderFactory;
@@ -20,10 +31,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.*;
-import java.util.List;
-import java.util.function.BiConsumer;
 
 public class OracleTest {
     private InputStream givenTwineStory;
@@ -91,7 +98,7 @@ public class OracleTest {
         testOracleFile("src/test/resources/stories/rule.html", "src/test/resources/epub/rule.epub");
     }
 
-    private void testOracleFile(String inputFile, String oracleFile) throws IOException {
+    private void testOracleFile(final String inputFile, final String oracleFile) throws IOException {
         givenATwineStory(inputFile);
         whenTransformedToEpub(oracleFile);
         thenItsMetadataShouldMatch(oracleFile);
@@ -99,12 +106,12 @@ public class OracleTest {
         thenItsStylesheetShouldMatch(oracleFile);
     }
 
-    private void givenATwineStory(String twineStoryFilePath) throws FileNotFoundException {
-        System.out.println( System.getProperty("user.dir"));
+    private void givenATwineStory(final String twineStoryFilePath) throws FileNotFoundException {
+        System.out.println(System.getProperty("user.dir"));
         givenTwineStory = new FileInputStream(twineStoryFilePath);
     }
 
-    private void whenTransformedToEpub(String targetFile) throws IOException {
+    private void whenTransformedToEpub(final String targetFile) throws IOException {
         ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
         OutputStream outputStream = byteOutputStream;
         if (shouldUpdateOracleFile()) {
@@ -119,7 +126,7 @@ public class OracleTest {
         inputStream.close();
     }
 
-    private void thenItsPagesShouldMatch(String epubFilePath) throws IOException {
+    private void thenItsPagesShouldMatch(final String epubFilePath) throws IOException {
         FileInputStream fileInputStream = new FileInputStream(epubFilePath);
         Book expectedBook = epubReader.readEpub(fileInputStream);
 
@@ -136,7 +143,7 @@ public class OracleTest {
         fileInputStream.close();
     }
 
-    private void thenItsMetadataShouldMatch(String epubFilePath) throws IOException {
+    private void thenItsMetadataShouldMatch(final String epubFilePath) throws IOException {
         FileInputStream fileInputStream = new FileInputStream(epubFilePath);
         Book expectedBook = epubReader.readEpub(fileInputStream);
 
@@ -169,7 +176,7 @@ public class OracleTest {
         fileInputStream.close();
     }
 
-    private void thenItsStylesheetShouldMatch(String epubFilePath) throws IOException {
+    private void thenItsStylesheetShouldMatch(final String epubFilePath) throws IOException {
         FileInputStream fileInputStream = new FileInputStream(epubFilePath);
         Book expectedBook = epubReader.readEpub(fileInputStream);
 
@@ -186,7 +193,7 @@ public class OracleTest {
         fileInputStream.close();
     }
 
-    private <T> void assertListEquals(String metadataName, List<T> expectedList, List<T> actualList, BiConsumer<T, T> assertion) {
+    private <T> void assertListEquals(final String metadataName, final List<T> expectedList, final List<T> actualList, final BiConsumer<T, T> assertion) {
         for (int i = 0; i < expectedList.size(); i++) {
             T expectedValue = expectedList.get(i);
             T actualValue = actualList.get(i);

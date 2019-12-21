@@ -8,8 +8,8 @@ import com.vladsch.flexmark.util.data.DataHolder;
 import com.vladsch.flexmark.util.sequence.BasedSequence;
 
 public class TwineLinkLinkRefProcessor implements LinkRefProcessor {
-    private static final int TWINE_LINK_MINIMAL_LENGTH = 4;
     protected static final int BRACKET_NESTING_LEVEL = 1;
+    private static final int TWINE_LINK_MINIMAL_LENGTH = 4;
 
     @Override
     public boolean getWantExclamationPrefix() {
@@ -22,7 +22,7 @@ public class TwineLinkLinkRefProcessor implements LinkRefProcessor {
     }
 
     @Override
-    public boolean isMatch(BasedSequence nodeChars) {
+    public boolean isMatch(final BasedSequence nodeChars) {
         if (nodeChars.length() >= TWINE_LINK_MINIMAL_LENGTH) {
             return nodeChars.charAt(0) == '[' && nodeChars.charAt(1) == '[' && nodeChars.endCharAt(1) == ']' && nodeChars.endCharAt(2) == ']';
         }

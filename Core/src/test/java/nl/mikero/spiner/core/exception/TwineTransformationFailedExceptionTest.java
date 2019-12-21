@@ -2,10 +2,7 @@ package nl.mikero.spiner.core.exception;
 
 import org.junit.Test;
 
-import javax.xml.transform.TransformerException;
-
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
 
 public class TwineTransformationFailedExceptionTest {
 

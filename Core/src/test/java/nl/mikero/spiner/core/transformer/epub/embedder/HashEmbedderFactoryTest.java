@@ -1,12 +1,10 @@
 package nl.mikero.spiner.core.transformer.epub.embedder;
 
+import java.security.MessageDigest;
+
 import com.vladsch.flexmark.ast.Image;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-//import org.pegdown.ast.ExpImageNode;
-
-import java.security.MessageDigest;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;

@@ -1,4 +1,4 @@
-package nl.mikero.spiner.frontend.exception;
+package nl.mikero.spiner.frontend;
 
 import java.util.Objects;
 

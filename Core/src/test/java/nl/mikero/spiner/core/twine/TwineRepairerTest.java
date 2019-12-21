@@ -1,8 +1,5 @@
 package nl.mikero.spiner.core.twine;
 
-import org.junit.Assert;
-import org.xml.sax.SAXException;
-
 import javax.xml.XMLConstants;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
@@ -13,8 +10,11 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import org.junit.Assert;
+import org.xml.sax.SAXException;
+
 public abstract class TwineRepairerTest {
-    protected void validate(ByteArrayOutputStream outputStream) throws SAXException, IOException {
+    protected void validate(final ByteArrayOutputStream outputStream) throws SAXException, IOException {
         Assert.assertNotEquals(outputStream.size(), 0);
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         Schema schema = schemaFactory.newSchema(getClass().getResource("/format.xsd"));
