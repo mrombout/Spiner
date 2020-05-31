@@ -14,7 +14,7 @@ public class EpubTransformOptionsTest {
         // Arrange
 
         // Act
-        EpubTransformOptions epubTransformOptions = EpubTransformOptions.fromXtwMetadata(null);
+        EpubTransformOptions.fromXtwMetadata(null);
 
         // Assert
     }
@@ -37,7 +37,6 @@ public class EpubTransformOptionsTest {
         identifier.setValue(identifierValue);
         String language = "en";
         String rights = "rights";
-
 
         XtwMetadata xtwMetadata = new XtwMetadata();
         xtwMetadata.getTitle().add(title);

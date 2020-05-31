@@ -26,7 +26,7 @@ public class ResourceEmbedder {
 
     private Book book;
 
-    private NodeVisitor visitor = new NodeVisitor(
+    private final NodeVisitor visitor = new NodeVisitor(
             new VisitHandler<>(Image.class, this::visit)
     );
 

@@ -68,7 +68,7 @@ public class TransformServiceTest {
     }
 
     @Test(expected = NullPointerException.class)
-    public void transform_NullTransformer_ThrowsNullPointerException() throws JAXBException, SAXException {
+    public void transform_NullTransformer_ThrowsNullPointerException() {
         // Arrange
         InputStream inputStream = Mockito.mock(InputStream.class);
         OutputStream outputStream = Mockito.mock(OutputStream.class);
@@ -80,7 +80,7 @@ public class TransformServiceTest {
     }
 
     @Test
-    public void transform_ThreeStories_TransformerCalledForEach() throws JAXBException, SAXException {
+    public void transform_ThreeStories_TransformerCalledForEach() {
         // Arrange
         InputStream inputStream = new ByteArrayInputStream("Foo".getBytes());
         OutputStream outputStream = Mockito.mock(OutputStream.class);
@@ -110,7 +110,7 @@ public class TransformServiceTest {
     }
 
     @Test
-    public void transform_NoStories_TransformerNeverCalled() throws JAXBException, SAXException {
+    public void transform_NoStories_TransformerNeverCalled() {
         // Arrange
         InputStream inputStream = new ByteArrayInputStream("Foo".getBytes());
         OutputStream outputStream = Mockito.mock(OutputStream.class);
@@ -126,7 +126,7 @@ public class TransformServiceTest {
     }
 
     @Test
-    public void transform_InvalidInputSource_ThrowsTwineTransformationFailedException() throws IOException, TransformerException, ParserConfigurationException, SAXException, JAXBException {
+    public void transform_InvalidInputSource_ThrowsTwineTransformationFailedException() {
         // Arrange
         InputStream inputStream = new ByteArrayInputStream("Foo".getBytes());
         OutputStream outputStream = Mockito.mock(OutputStream.class);

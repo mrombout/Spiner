@@ -75,7 +75,7 @@ public class TwineStoryEpubTransformerTest {
     }
 
     @Test(expected = NullPointerException.class)
-    public void convert_NullOutput_ThrowsNullPointerException() throws Exception {
+    public void convert_NullOutput_ThrowsNullPointerException() {
         // Arrange
 
         // Act
@@ -88,7 +88,7 @@ public class TwineStoryEpubTransformerTest {
     public void convert_ValidStory_WritesEpubFile() throws Exception {
         // Arrange
         when(mockPegDownProcessor.markdownToHtml(anyString()))
-            .thenAnswer(invocation -> "<p>" + String.valueOf(invocation.getArguments()[0]) + "</p>");
+            .thenAnswer(invocation -> "<p>" + invocation.getArguments()[0] + "</p>");
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         TwStoriesdata twStoriesdata = new TwStoriesdata();
@@ -127,7 +127,7 @@ public class TwineStoryEpubTransformerTest {
     public void transform_StyledStory_StylesheetAdded() throws Exception {
         // Arrange
         when(mockPegDownProcessor.markdownToHtml(anyString()))
-                .thenAnswer(invocation -> "<p>" + String.valueOf(invocation.getArguments()[0]) + "</p>");
+                .thenAnswer(invocation -> "<p>" + invocation.getArguments()[0] + "</p>");
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         TwStoriesdata twStoriesdata = new TwStoriesdata();
@@ -163,7 +163,7 @@ public class TwineStoryEpubTransformerTest {
         String expectedLanguage = "en-US";
 
         when(mockPegDownProcessor.markdownToHtml(anyString()))
-                .thenAnswer(invocation -> "<p>" + String.valueOf(invocation.getArguments()[0]) + "</p>");
+                .thenAnswer(invocation -> "<p>" + invocation.getArguments()[0] + "</p>");
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         TwStoriesdata twStoriesdata = new TwStoriesdata();

@@ -82,7 +82,7 @@ public class TwineArchiveParserTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void parse_NullParameter_ThrowsIllegalArgumentException() throws Exception {
+    public void parse_NullParameter_ThrowsIllegalArgumentException() {
         // Arrange
 
         // Act

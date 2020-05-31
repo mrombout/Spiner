@@ -69,7 +69,7 @@ public class ImageEmbedder implements Embedder {
         Objects.requireNonNull(url);
 
         // read and hash file
-        byte[] fileContent = new byte[0];
+        byte[] fileContent;
         try(InputStream in = url.openStream()) {
             DigestInputStream dis = new DigestInputStream(in, messageDigest);
             fileContent = IOUtils.toByteArray(dis);

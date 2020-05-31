@@ -55,7 +55,7 @@ public class ExtendTwineXmlTransformerTest {
     }
 
     @Test
-    public void transform_MetadataPassage_ReturnsValidXTwineML() throws ParserConfigurationException, IOException, SAXException, TransformerException {
+    public void transform_MetadataPassage_ReturnsValidXTwineML() throws IOException, SAXException {
         // Arrange
         byte[] result;
 
@@ -81,7 +81,7 @@ public class ExtendTwineXmlTransformerTest {
     }
 
     @Test
-    public void transform_NoMetadataPassage_ReturnsValidXTwineML() throws ParserConfigurationException, IOException, SAXException, TransformerException {
+    public void transform_NoMetadataPassage_ReturnsValidXTwineML() throws IOException, SAXException {
         // Arrange
         byte[] result;
 
@@ -107,7 +107,7 @@ public class ExtendTwineXmlTransformerTest {
     @Test
     public void transform_UnexpectedElement_IgnoresUnexpectedElements() throws IOException, SAXException {
         // Arrange
-        byte[] result = new byte[0];
+        byte[] result;
 
         // Act
         try(InputStream inputStream = getClass().getResourceAsStream("/xml/metadata_unexpected_element.xml"); ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
@@ -142,7 +142,7 @@ public class ExtendTwineXmlTransformerTest {
     }
 
     @Test
-    public void transform_MetadataPassageEmpty_ThrowsException() throws ParserConfigurationException, IOException, SAXException, TransformerException {
+    public void transform_MetadataPassageEmpty_ThrowsException() throws IOException, SAXException {
         // Arrange
         byte[] result;
 
@@ -171,7 +171,7 @@ public class ExtendTwineXmlTransformerTest {
     }
 
     @Test(expected = NullPointerException.class)
-    public void transform_NullInput_ThrowsNullPointerException() throws ParserConfigurationException, IOException, SAXException, TransformerException {
+    public void transform_NullInput_ThrowsNullPointerException() {
         // Arrange
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
@@ -182,7 +182,7 @@ public class ExtendTwineXmlTransformerTest {
     }
 
     @Test(expected = NullPointerException.class)
-    public void transform_NullOutput_ThrowsNullPointerException() throws ParserConfigurationException, IOException, SAXException, TransformerException {
+    public void transform_NullOutput_ThrowsNullPointerException() {
         // Arrange
         InputStream inputStream = getClass().getResourceAsStream("/xml/metadata.xml");
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
