@@ -16,6 +16,7 @@ import com.google.inject.Inject;
 import nl.mikero.spiner.core.transformer.TransformService;
 import nl.mikero.spiner.core.transformer.Transformer;
 import nl.mikero.spiner.core.transformer.epub.TwineStoryEpubTransformer;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.CloseShieldInputStream;
 import org.apache.commons.io.output.CloseShieldOutputStream;
 import org.slf4j.Logger;
@@ -69,12 +70,9 @@ public class TransformCommand implements Command {
         OutputStream outputStream = new CloseShieldOutputStream(System.out);
         Transformer transformer = epubTransformer;
 
-        FileInputStream fin = null;
-        FileOutputStream fout = null;
-
         try {
             try {
-                fin = new FileInputStream(new File(inputPath));
+                FileInputStream fin = new FileInputStream(new File(inputPath));
                 inputStream = new BufferedInputStream(fin);
             } catch (FileNotFoundException e) {
                 handleError(String.format("Input file %s could not be found.", inputPath), e, STATUS_INPUT_FILE_NOT_FOUND);
@@ -82,7 +80,7 @@ public class TransformCommand implements Command {
 
             if (outputPath != null) {
                 try {
-                    fout = new FileOutputStream(new File(outputPath));
+                    FileOutputStream fout = new FileOutputStream(new File(outputPath));
                     outputStream = new BufferedOutputStream(fout);
                 } catch (FileNotFoundException e) {
                     handleError(String.format("Output file %s could not be found.", outputPath), e, STATUS_OUTPUT_FILE_NOT_FOUND);
@@ -94,10 +92,6 @@ public class TransformCommand implements Command {
             try {
                 inputStream.close();
                 outputStream.close();
-                if (fin != null)
-                    fin.close();
-                if (fout != null)
-                    fout.close();
             } catch (IOException e) {
                 handleError("Error closing streams.", e, STATUS_ERROR_CLOSING_STREAMS);
             }
