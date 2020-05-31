@@ -1,31 +1,37 @@
 package nl.mikero.spiner.commandline;
 
-//import com.beust.jcommander.JCommander;
-import com.google.inject.Guice;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
 import nl.mikero.spiner.core.transformer.TransformService;
-import nl.mikero.spiner.core.transformer.Transformer;
 import nl.mikero.spiner.core.transformer.epub.TwineStoryEpubTransformer;
 import nl.mikero.spiner.core.transformer.epub.embedder.EmbedderFactory;
 import nl.mikero.spiner.core.transformer.epub.embedder.HashEmbedderFactory;
 import nl.mikero.spiner.core.transformer.epub.embedder.ResourceEmbedder;
 import nl.mikero.spiner.core.twine.TwineArchiveParser;
 import nl.mikero.spiner.core.twine.TwineArchiveRepairer;
-import nl.mikero.spiner.core.twine.TwinePublishedRepairer;
-import nl.mikero.spiner.core.twine.TwineRepairer;
 import nl.mikero.spiner.core.twine.extended.ExtendTwineXmlTransformer;
 import nl.mikero.spiner.core.twine.markdown.MarkdownProcessor;
 import nl.mikero.spiner.core.twine.markdown.PegdownTransitionMarkdownRenderParser;
-import org.apache.commons.cli.*;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.input.CloseShieldInputStream;
 import org.apache.commons.io.output.CloseShieldOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
-import java.security.MessageDigest;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * Provides a commandline interface to the Spiner transformation features.

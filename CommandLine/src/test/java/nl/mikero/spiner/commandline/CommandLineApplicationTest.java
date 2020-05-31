@@ -1,6 +1,5 @@
 package nl.mikero.spiner.commandline;
 
-//import com.beust.jcommander.MissingCommandException;
 import nl.mikero.spiner.core.transformer.TransformService;
 import nl.mikero.spiner.core.transformer.epub.TwineStoryEpubTransformer;
 import nl.mikero.spiner.core.transformer.epub.embedder.EmbedderFactory;
@@ -14,7 +13,6 @@ import nl.mikero.spiner.core.twine.markdown.PegdownTransitionMarkdownRenderParse
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 public class CommandLineApplicationTest {
     private CommandLineApplication application;
