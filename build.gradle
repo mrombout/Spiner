@@ -11,9 +11,14 @@ allprojects {
         toolVersion = '0.8.5'
     }
 
+    test {
+        finalizedBy jacocoTestReport
+    }
+
     jacocoTestReport {
         reports {
             xml.enabled true
+            html.enabled false
         }
     }
 
@@ -51,10 +56,4 @@ dependencies {
     testCompile 'org.mockito:mockito-core:3.2.4'
 
     compile 'com.google.inject:guice:4.1.0'
-}
-
-sonarqube {
-    properties {
-        property 'sonar.jacoco.reportPaths', 'Core/build/jacoco/test.exec'
-    }
 }
