@@ -136,7 +136,7 @@ public class OracleTest {
         for(Resource expectedPage : expectedPages) {
             Resource actualResource = actualBook.getResources().getByHref(expectedPage.getHref());
             Assert.assertNotNull(actualResource);
-            Assert.assertEquals(new String(expectedPage.getData()), new String(actualResource.getData()));
+            Assert.assertEquals(normalizeNewlines(new String(expectedPage.getData())), normalizeNewlines(new String(actualResource.getData())));
         }
         Assert.assertEquals(expectedPages.size(), actualPages.size());
 
@@ -205,5 +205,9 @@ public class OracleTest {
 
     private boolean shouldUpdateOracleFile() {
         return System.getenv("UPDATE_ORACLE") != null;
+    }
+
+    private String normalizeNewlines(String input) {
+        return input.replaceAll("\\r\\n?", "\n");
     }
 }
