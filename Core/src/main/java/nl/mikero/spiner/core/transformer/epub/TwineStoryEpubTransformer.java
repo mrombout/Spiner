@@ -18,6 +18,7 @@ import java.util.Objects;
 import com.google.inject.Inject;
 import nl.mikero.spiner.core.exception.TwineTransformationFailedException;
 import nl.mikero.spiner.core.exception.TwineTransformationWriteException;
+import nl.mikero.spiner.core.transformer.SafeXmlFactory;
 import nl.mikero.spiner.core.transformer.Transformer;
 import nl.mikero.spiner.core.transformer.epub.embedder.ResourceEmbedder;
 import nl.mikero.spiner.core.twine.markdown.MarkdownProcessor;
@@ -168,7 +169,7 @@ public class TwineStoryEpubTransformer implements Transformer {
      */
     private String transformPassageTextToXhtml(final String name, final String passageText) {
         try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-            final DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            final DocumentBuilderFactory dbf = SafeXmlFactory.InternalOnlyDocumentBuilderFactory.newInstance();
             dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
             final DocumentBuilder builder = dbf.newDocumentBuilder();
 
@@ -207,7 +208,7 @@ public class TwineStoryEpubTransformer implements Transformer {
             htmlDocument.getDocumentElement().appendChild(bodyNode);
 
             // transform xml
-            final TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            final TransformerFactory transformerFactory = SafeXmlFactory.InternalOnlyTransformerFactory.newInstance();
             transformerFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
             final javax.xml.transform.Transformer transformer = transformerFactory.newTransformer();
 

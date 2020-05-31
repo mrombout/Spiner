@@ -16,6 +16,7 @@ import java.io.OutputStream;
 import java.util.Objects;
 
 import nl.mikero.spiner.core.exception.ExtendTwineXmlTransformFailedException;
+import nl.mikero.spiner.core.transformer.SafeXmlFactory;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -36,12 +37,12 @@ public class ExtendTwineXmlTransformer {
         Objects.requireNonNull(output);
 
         try {
-            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilderFactory documentBuilderFactory = SafeXmlFactory.InternalOnlyDocumentBuilderFactory.newInstance();
             documentBuilderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
             DocumentBuilder builder = documentBuilderFactory.newDocumentBuilder();
             Document document = builder.parse(input);
 
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            TransformerFactory transformerFactory = SafeXmlFactory.InternalOnlyTransformerFactory.newInstance();
             transformerFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
 
             StreamSource stylesheetSource = new StreamSource(getClass().getResourceAsStream("/extend.xsl"));
