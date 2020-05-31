@@ -13,7 +13,6 @@ import nl.mikero.spiner.core.transformer.Transformer;
 import nl.mikero.spiner.core.transformer.epub.TwineStoryEpubTransformer;
 import nl.mikero.spiner.frontend.control.ExceptionDialog;
 import nl.mikero.spiner.frontend.control.DropFileChooser;
-import nl.mikero.spiner.frontend.io.FileInputOutputStream;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -164,13 +163,8 @@ public class ApplicationView {
 
         dropFileChooser.startProgress();
 
-        try {
-            TransformTask task = createTransformTask(inputFile, outputFile);
-            new Thread(task).start();
-        } catch (IOException e) {
-            LOGGER.error(LOG_MSG_TRANSFORM_FAIL, e);
-            handleException(e, inputFile);
-        }
+        TransformTask task = createTransformTask(inputFile, outputFile);
+        new Thread(task).start();
     }
 
     /**
@@ -185,33 +179,15 @@ public class ApplicationView {
      * @throws IOException if output stream can't be created
      * @throws IOException if output stream can't be created
      */
-    private TransformTask createTransformTask(final File inputFile, final File outputFile) throws IOException {
-        FileInputOutputStream finout = new FileInputOutputStream(inputFile, outputFile);
-
-        TransformTask task = new TransformTask(
-                transformService, getTransformer(),
-                finout.getInputStream(), finout.getOutputStream());
+    private TransformTask createTransformTask(final File inputFile, final File outputFile) {
+        TransformTask task = new TransformTask(transformService, getTransformer(), inputFile, outputFile);
         task.stateProperty().addListener((observable, oldState, newState) -> {
             if(newState.equals(Worker.State.SUCCEEDED))
                 dropFileChooser.completeProgress();
-
-            if(newState.equals(Worker.State.SUCCEEDED) || newState.equals(Worker.State.FAILED)) {
-                try {
-                    finout.close();
-                } catch (IOException e) {
-                    throw new TwineTransformationFailedException(LOG_MSG_TRANSFORM_FAIL, e);
-                }
-            }
         });
         task.exceptionProperty().addListener((observable, oldException, newException) -> {
             LOGGER.error(LOG_MSG_TRANSFORM_FAIL, newException);
             handleException(newException, inputFile);
-
-            try {
-                finout.close();
-            } catch (IOException e) {
-                throw new TwineTransformationFailedException(LOG_MSG_TRANSFORM_FAIL, e);
-            }
         });
 
         return task;
