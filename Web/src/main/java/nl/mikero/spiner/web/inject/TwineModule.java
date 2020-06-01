@@ -1,4 +1,4 @@
-package nl.mikero.spiner.api.inject;
+package nl.mikero.spiner.web.inject;
 
 import nl.mikero.spiner.core.inject.AbstractTwineModule;
 
