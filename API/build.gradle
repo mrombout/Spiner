@@ -1,8 +1,8 @@
-version '0.1.1'
+plugins {
+    id 'java'
+}
 
-apply plugin: 'java'
-
-sourceCompatibility = 1.8
+version = '0.1.1'
 
 repositories {
     mavenCentral()
@@ -12,8 +12,8 @@ repositories {
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    compile "com.sparkjava:spark-core:2.8.0"
+    testCompile 'junit:junit:4.12'
+    compile 'com.sparkjava:spark-core:2.8.0'
     compile 'io.javalin:javalin:2.3.0'
     compile 'ro.pippo:pippo-core:1.11.0'
     compile project(':Core')

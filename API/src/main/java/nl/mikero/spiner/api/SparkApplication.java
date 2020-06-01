@@ -8,7 +8,6 @@ import nl.mikero.spiner.core.exception.TwineTransformationFailedException;
 import nl.mikero.spiner.core.transformer.TransformService;
 import nl.mikero.spiner.core.transformer.Transformer;
 import nl.mikero.spiner.core.transformer.epub.TwineStoryEpubTransformer;
-import nl.mikero.spiner.core.transformer.latex.LatexTransformer;
 
 import javax.servlet.MultipartConfigElement;
 import java.io.InputStream;
@@ -19,13 +18,10 @@ import static spark.Spark.*;
 import static spark.Spark.port;
 
 public class SparkApplication {
-
     @Inject
     private TransformService transformService;
     @Inject
     private TwineStoryEpubTransformer epubTransformer;
-    @Inject
-    private LatexTransformer latexTransformer;
 
     public static void main(String[] args) {
         SparkApplication application = new SparkApplication();
@@ -57,9 +53,7 @@ public class SparkApplication {
     }
 
     private Transformer getTransformer(String filetype) {
-        if(filetype.equals("latex")) {
-            return latexTransformer;
-        } else if (filetype.equals("epub")) {
+        if (filetype.equals("epub")) {
             return epubTransformer;
         }
 
