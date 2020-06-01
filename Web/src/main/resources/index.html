@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Spiner Web</title>
+    <style>
+        form div {
+            padding: 10px;
+        }
+        #transform {
+            background-color: #fc3b04;
+            color: #fff;
+            font-weight: bold;
+            border: 0;
+            padding: 10px;
+            border-radius: 3px;
+            font-size: 1em;
+            width: 100%;
+        }
+        #transform:hover {
+            background-color: #e43503;
+        }
+        #transform:pressed {
+            background-color: #fc4f1d;
+        }
+
+        #file {
+            padding: 40px;
+            border-radius: 20px;
+            border: 2px dashed #aaaaaa;
+            width: 100%;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+<form action="file.epub" method="post" enctype="multipart/form-data">
+    <div><input type="file" name="file" id="file"/></div>
+    <div><input type="submit" name="transform" value="Transform" id="transform" /></div>
+</form>
+</body>
+</html>

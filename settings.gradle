@@ -3,4 +3,4 @@ rootProject.name = 'Spiner'
 include 'Core'
 include 'CommandLine'
 include 'FrontEnd'
-
+include 'Web'
