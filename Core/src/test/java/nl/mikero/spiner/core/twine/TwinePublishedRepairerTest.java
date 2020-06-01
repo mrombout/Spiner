@@ -10,9 +10,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import nl.mikero.spiner.core.exception.TwineRepairFailedException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -80,7 +82,7 @@ public class TwinePublishedRepairerTest extends TwineRepairerTest {
     }
 
     @Test
-    public void repair_SubarQubeStoryFormat_ReturnsValidTwineXml() throws Exception {
+    public void repair_SugarQubeStoryFormat_ReturnsValidTwineXml() throws Exception {
         // Arrange
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
@@ -159,6 +161,33 @@ public class TwinePublishedRepairerTest extends TwineRepairerTest {
         try(InputStream inputStream = new FileInputStream(doesNotExist)) {
             repairer.repair(inputStream, outputStream);
         }
+
+        // Assert
+    }
+
+    @Test(expected = TwineRepairFailedException.class)
+    public void repair_NoTwStoryData_ThrowsTwineRepairFailedException() throws Exception {
+        // Arrange
+
+
+        // Act
+        try(InputStream inputStream = getClass().getResourceAsStream("/html/without-storydata.html");
+            OutputStream outputStream = new ByteArrayOutputStream()) {
+            repairer.repair(inputStream, outputStream);
+        }
+
+        // Assert
+
+    }
+
+    @Test(expected = TwineRepairFailedException.class)
+    public void repair_ReadingFromInputStreamFails_ThrowsTwineRepairFailedException() {
+        // Arrange
+        InputStream mockInputStream = Mockito.mock(InputStream.class);
+        OutputStream mockOutputStream = Mockito.mock(OutputStream.class);
+
+        // Act
+        repairer.repair(mockInputStream, mockOutputStream);
 
         // Assert
     }

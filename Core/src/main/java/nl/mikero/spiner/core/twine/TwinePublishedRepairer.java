@@ -82,8 +82,6 @@ public class TwinePublishedRepairer implements TwineRepairer {
             }
         } catch (IOException e) {
             throw new TwineRepairFailedException("Could not read Twine story file from input stream", e);
-        } catch (IllegalStateException e) {
-            throw new TwineRepairFailedException("Could not repair file due to parsing error", e);
         }
     }
 }
