@@ -1,15 +1,18 @@
-version '0.1.1'
-
 apply plugin: 'java'
 
-sourceCompatibility = 1.8
+version = '0.1.1'
 
 repositories {
     mavenCentral()
+    maven {
+        url "https://github.com/psiegman/mvn-repo/raw/master/releases"
+    }
     jcenter()
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    compile "com.sparkjava:spark-core:2.8.0"
+    testCompile 'junit:junit:4.12'
+    compile 'com.sparkjava:spark-core:2.8.0'
+    compile 'com.google.inject:guice:4.1.0'
+    compile project(':Core')
 }
