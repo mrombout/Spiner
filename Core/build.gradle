@@ -2,8 +2,6 @@ plugins {
     id "java"
 }
 
-version = '0.1.2'
-
 repositories {
     mavenCentral()
     maven {
