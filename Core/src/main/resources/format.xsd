@@ -34,7 +34,7 @@
         <xs:simpleContent>
             <xs:extension base="xs:string">
                 <xs:attribute name="pid" type="xs:int" />
-                <xs:attribute name="name" type="xs:string" />
+                <xs:attribute name="name" type="xs:string" use="required" />
                 <xs:attribute name="tags" type="xs:string" />
                 <xs:attribute name="position" type="xs:string" />
                 <xs:attribute name="size" type="xs:string" />

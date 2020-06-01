@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 import com.google.inject.Inject;
+import nl.mikero.spiner.core.exception.TwineParseFailedException;
 import nl.mikero.spiner.core.exception.TwineRepairFailedException;
 import nl.mikero.spiner.core.exception.TwineTransformationFailedException;
 import nl.mikero.spiner.core.transformer.TransformService;
@@ -18,7 +19,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javafx.application.Platform;
-import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -40,8 +40,6 @@ public class ApplicationView {
 
     private static final String FILTER_DESCRIPTION = "HTML Files (*.html, *.htm, *.xhtml)";
 
-    private final Alert errorAlert;
-
     private double xOffset;
     private double yOffset;
 
@@ -62,14 +60,12 @@ public class ApplicationView {
     private final Stage primaryStage;
 
     /**
-     * Constructs a new ApplicatieView.
+     * Constructs a new ApplicationView.
      *
      * @param application application
      * @param stage parent stage
      */
     public ApplicationView(final SpinerApplication application, final Stage stage) {
-        this.errorAlert = new Alert(Alert.AlertType.ERROR);
-
         this.application = application;
         this.primaryStage = stage;
     }
@@ -176,18 +172,13 @@ public class ApplicationView {
      * @param inputFile input file to transform
      * @param outputFile output file to write to
      * @return properly configured transform task
-     * @throws IOException if output stream can't be created
-     * @throws IOException if output stream can't be created
      */
     private TransformTask createTransformTask(final File inputFile, final File outputFile) {
         TransformTask task = new TransformTask(transformService, getTransformer(), inputFile, outputFile);
-        task.stateProperty().addListener((observable, oldState, newState) -> {
-            if(newState.equals(Worker.State.SUCCEEDED))
-                dropFileChooser.completeProgress();
-        });
-        task.exceptionProperty().addListener((observable, oldException, newException) -> {
-            LOGGER.error(LOG_MSG_TRANSFORM_FAIL, newException);
-            handleException(newException, inputFile);
+        task.setOnSucceeded(event -> dropFileChooser.completeProgress());
+        task.setOnFailed(event -> {
+            LOGGER.error(LOG_MSG_TRANSFORM_FAIL, task.getException());
+            handleException(task.getException(), inputFile);
         });
 
         return task;
@@ -203,21 +194,24 @@ public class ApplicationView {
         dropFileChooser.stopProgress();
 
         Throwable actualThrowable = throwable;
-        if(throwable instanceof TwineTransformationFailedException)
+        if(throwable instanceof TwineTransformationFailedException) {
             actualThrowable = throwable.getCause();
+        }
 
         if(actualThrowable instanceof FileNotFoundException) {
-            String title = String.format("File '%s' could not be found.", inputFile.toString());
-            String content = title + " Do you want to select a different file and try again?";
+            String title = "File not found";
+            String headerText = String.format("File '%s' could not be found.", inputFile.toString());
 
-            showErrorAndRetry(title, content);
-        } else if(actualThrowable instanceof TwineRepairFailedException) {
-            String title = String.format("File '%s' could not be repaired.", inputFile.toString());
-            String content = title + " The file might be in a format that Spiner does not understand. Do you want to" +
-                    "select a different file and try again?";
+            ExceptionDialog exceptionDialog = new ExceptionDialog(actualThrowable, title, headerText, headerText);
+            exceptionDialog.showAndWait();
+        } else if(actualThrowable instanceof TwineRepairFailedException || actualThrowable instanceof TwineParseFailedException) {
+            String title = "Parsing error";
+            String headerText = String.format("File '%s' could not be repaired.", inputFile.toString());
+            String contentText = "The file might be in a format that Spiner does not understand.";
 
-            showErrorAndRetry(title, content);
-        } else if(actualThrowable instanceof IOException) {
+            ExceptionDialog exceptionDialog = new ExceptionDialog(actualThrowable, title, headerText, contentText);
+            exceptionDialog.showAndWait();
+        } else {
             ExceptionDialog exceptionDialog = new ExceptionDialog(actualThrowable);
             exceptionDialog.showAndWait();
         }
@@ -230,25 +224,6 @@ public class ApplicationView {
      */
     private Transformer getTransformer() {
         return epubTransformer;
-    }
-
-    /**
-     * Displays an error window and offers the user to choose a ifferent file.
-     *
-     * @param title error window title
-     * @param content error window content
-     */
-    private void showErrorAndRetry(final String title, final String content) {
-        errorAlert.setAlertType(Alert.AlertType.ERROR);
-        errorAlert.setTitle(title);
-        errorAlert.setHeaderText(title);
-        errorAlert.setContentText(content);
-        errorAlert.getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
-
-        Optional<ButtonType> result = errorAlert.showAndWait();
-        if(result.isPresent() && result.get() == ButtonType.OK) {
-            dropFileChooser.openFileChooser();
-        }
     }
 
     /**
