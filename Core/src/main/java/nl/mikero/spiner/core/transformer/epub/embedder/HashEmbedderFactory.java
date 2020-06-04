@@ -1,9 +1,9 @@
 package nl.mikero.spiner.core.transformer.epub.embedder;
 
+import java.net.URL;
 import java.security.MessageDigest;
 
 import com.google.inject.Inject;
-import com.vladsch.flexmark.ast.Image;
 
 /**
  * Embeds resources by using a hash as the resource filename and placing them
@@ -32,7 +32,7 @@ public class HashEmbedderFactory implements EmbedderFactory {
     }
 
     @Override
-    public final Embedder get(final Image node) {
+    public final Embedder get(final URL url) {
         if (imageEmbedder == null) {
             imageEmbedder = new ImageEmbedder(messageDigest);
         }

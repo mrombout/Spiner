@@ -1,6 +1,6 @@
 package nl.mikero.spiner.core.transformer.epub.embedder;
 
-import com.vladsch.flexmark.ast.Image;
+import java.net.URL;
 
 /**
  * Factory for retrieving the embedders for the different types of Pegdown
@@ -8,10 +8,10 @@ import com.vladsch.flexmark.ast.Image;
  */
 public interface EmbedderFactory {
     /**
-     * Returns the appropriate embedder that can embed a {@link com.vladsch.flexmark.ast.Image} in an EPUB document.
+     * Returns the appropriate embedder that can embed the resource that the given URI points to in an EPUB document.
      *
-     * @param node image input node
-     * @return appropriate embedder for input node
+     * @param url uri to resource to embed
+     * @return appropriate embedder for given uri
      */
-    Embedder get(Image node);
+    Embedder get(URL url);
 }

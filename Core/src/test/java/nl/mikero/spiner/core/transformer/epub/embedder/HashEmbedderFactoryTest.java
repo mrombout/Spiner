@@ -1,8 +1,9 @@
 package nl.mikero.spiner.core.transformer.epub.embedder;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.MessageDigest;
 
-import com.vladsch.flexmark.ast.Image;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,13 +24,13 @@ public class HashEmbedderFactoryTest {
     }
 
     @Test
-    public void get_ExpImageNodeParameterTwice_ReturnsSameImageEmbedder() {
+    public void get_SameExpImageNodeParameterTwice_ReturnsSameImageEmbedder() throws MalformedURLException {
         // Arrange
-        Image image = new Image();
+        URL url = new URL("http://google.com/img.jpg");
 
         // Act
-        Embedder result = factory.get(image);
-        Embedder result2 = factory.get(image);
+        Embedder result = factory.get(url);
+        Embedder result2 = factory.get(url);
 
         // Assert
         assertNotNull(result);

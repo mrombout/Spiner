@@ -5,6 +5,7 @@ import com.google.inject.Provides;
 import nl.mikero.spiner.core.transformer.epub.TwineStoryEpubTransformer;
 import nl.mikero.spiner.core.transformer.epub.embedder.EmbedderFactory;
 import nl.mikero.spiner.core.transformer.epub.embedder.HashEmbedderFactory;
+import nl.mikero.spiner.core.transformer.epub.embedder.HtmlResourceEmbedder;
 import nl.mikero.spiner.core.transformer.epub.embedder.ImageEmbedder;
 import nl.mikero.spiner.core.transformer.epub.embedder.ResourceEmbedder;
 import nl.mikero.spiner.core.twine.TwineArchiveRepairer;
@@ -12,6 +13,7 @@ import nl.mikero.spiner.core.twine.TwinePublishedRepairer;
 import nl.mikero.spiner.core.twine.TwineRepairer;
 import nl.mikero.spiner.core.twine.markdown.PegdownTransitionMarkdownRenderParser;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.jsoup.parser.Parser;
 
 /**
  * Configures Guice.
@@ -41,6 +43,17 @@ public abstract class AbstractTwineModule extends AbstractModule {
     @Provides
     public final ImageEmbedder provideImageEmbedder() {
         return new ImageEmbedder(DigestUtils.getSha256Digest());
+    }
+
+    /**
+     * Provides an {@link ResourceEmbedder}.
+     *
+     * @param embedderFactory embedder factory
+     * @return a resource embedder
+     */
+    @Provides
+    public final ResourceEmbedder provideHtmlResourceEmbedder(EmbedderFactory embedderFactory) {
+        return new HtmlResourceEmbedder(embedderFactory, Parser.htmlParser());
     }
 
     /**

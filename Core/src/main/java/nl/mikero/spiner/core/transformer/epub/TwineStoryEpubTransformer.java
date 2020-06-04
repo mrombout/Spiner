@@ -121,15 +121,15 @@ public class TwineStoryEpubTransformer implements Transformer {
         try {
             for (TwPassagedata passage : story.getTwPassagedata()) {
                 com.vladsch.flexmark.util.ast.Node passageContentMarkdown = pdProcessor.parseMarkdown(passage.getValue());
+                String passageContentHtml = transformPassageMarkdownToXhtml(passage.getName(), passageContentMarkdown);
 
                 // embed all resources in passage
-                resourceEmbedder.embed(book, passageContentMarkdown);
+                passageContentHtml = resourceEmbedder.embed(book, passageContentHtml);
 
                 // add passage as chapter
-                String passageContent = transformPassageMarkdownToXhtml(passage.getName(), passageContentMarkdown);
                 Resource passageResource = new Resource(
                         ID_AUTO_GEN,
-                        passageContent.getBytes(StandardCharsets.UTF_8),
+                        passageContentHtml.getBytes(StandardCharsets.UTF_8),
                         passage.getName() + ".xhtml",
                         MediatypeService.XHTML);
 

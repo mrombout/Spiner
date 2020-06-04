@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 
+import com.vladsch.flexmark.util.ast.Node;
 import nl.mikero.spiner.core.transformer.epub.embedder.ResourceEmbedder;
 import nl.mikero.spiner.core.twine.extended.model.XtwMetadata;
 import nl.mikero.spiner.core.twine.markdown.MarkdownProcessor;
@@ -20,10 +21,13 @@ import nl.siegmann.epublib.epub.EpubReader;
 import nl.siegmann.epublib.service.MediatypeService;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.mockito.Mockito.anyString;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -40,6 +44,9 @@ public class TwineStoryEpubTransformerTest {
         mockResourceEmbedder = mock(ResourceEmbedder.class);
 
         this.convertor = new TwineStoryEpubTransformer(mockPegDownProcessor, mockResourceEmbedder);
+
+        when(mockResourceEmbedder.embed(any(Book.class), anyString()))
+                .thenAnswer((Answer<String>) invocation -> invocation.getArgument(1));
     }
 
     @Test(expected =  NullPointerException.class)
@@ -87,7 +94,7 @@ public class TwineStoryEpubTransformerTest {
     @Test
     public void convert_ValidStory_WritesEpubFile() throws Exception {
         // Arrange
-        when(mockPegDownProcessor.markdownToHtml(anyString()))
+        when(mockPegDownProcessor.markdownToHtml(any(Node.class)))
             .thenAnswer(invocation -> "<p>" + invocation.getArguments()[0] + "</p>");
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -126,7 +133,7 @@ public class TwineStoryEpubTransformerTest {
     @Test
     public void transform_StyledStory_StylesheetAdded() throws Exception {
         // Arrange
-        when(mockPegDownProcessor.markdownToHtml(anyString()))
+        when(mockPegDownProcessor.markdownToHtml(any(Node.class)))
                 .thenAnswer(invocation -> "<p>" + invocation.getArguments()[0] + "</p>");
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -162,7 +169,7 @@ public class TwineStoryEpubTransformerTest {
         String expectedTitle = "A Story with a Title";
         String expectedLanguage = "en-US";
 
-        when(mockPegDownProcessor.markdownToHtml(anyString()))
+        when(mockPegDownProcessor.markdownToHtml(any(Node.class)))
                 .thenAnswer(invocation -> "<p>" + invocation.getArguments()[0] + "</p>");
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
