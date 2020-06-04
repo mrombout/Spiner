@@ -99,6 +99,11 @@ public class OracleTest {
         testOracleFile("src/test/resources/stories/arrow-links.html", "src/test/resources/epub/arrow-links.epub");
     }
 
+    @Test
+    public void testImages() throws IOException {
+        testOracleFile("src/test/resources/stories/images.html", "src/test/resources/epub/images.epub");
+    }
+
     public void testRule() throws IOException {
         testOracleFile("src/test/resources/stories/rule.html", "src/test/resources/epub/rule.epub");
     }
