@@ -116,15 +116,17 @@ public class TwineStoryEpubTransformer implements Transformer {
                     MediatypeService.CSS);
             book.getResources().add(stylesheetResource);
         }
-        
-        // embed all resources
-        embedResources(book, story);
 
         // add all passages
         try {
             for (TwPassagedata passage : story.getTwPassagedata()) {
+                com.vladsch.flexmark.util.ast.Node passageContentMarkdown = pdProcessor.parseMarkdown(passage.getValue());
+
+                // embed all resources in passage
+                resourceEmbedder.embed(book, passageContentMarkdown);
+
                 // add passage as chapter
-                String passageContent = transformPassageTextToXhtml(passage.getName(), passage.getValue());
+                String passageContent = transformPassageMarkdownToXhtml(passage.getName(), passageContentMarkdown);
                 Resource passageResource = new Resource(
                         ID_AUTO_GEN,
                         passageContent.getBytes(StandardCharsets.UTF_8),
@@ -147,34 +149,21 @@ public class TwineStoryEpubTransformer implements Transformer {
     }
 
     /**
-     * Embeds the resources for each passage.
-     *
-     * @param book book to embed resources into
-     * @param story story to embed resources for
-     */
-    private void embedResources(final Book book, final TwStorydata story) {
-        for(TwPassagedata passage : story.getTwPassagedata()) {
-            com.vladsch.flexmark.util.ast.Node rootNode = pdProcessor.parseMarkdown(passage.getValue());
-            resourceEmbedder.embed(book, rootNode);
-        }
-    }
-
-    /**
      * Transforms the text of a passage to a valid XHTML document.
      *
      * @param name name of the passage
-     * @param passageText markdown text from a passage
+     * @param passageMarkdown AST of the markdown contained in a passage
      * @return a valid xhtml document containing the passage text in the body
      * @throws TwineTransformationFailedException if markdown can't be transformed to xhtml
      */
-    private String transformPassageTextToXhtml(final String name, final String passageText) {
+    private String transformPassageMarkdownToXhtml(final String name, final com.vladsch.flexmark.util.ast.Node passageMarkdown) {
         try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
             final DocumentBuilderFactory dbf = SafeXmlFactory.InternalOnlyDocumentBuilderFactory.newInstance();
             dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
             final DocumentBuilder builder = dbf.newDocumentBuilder();
 
             // convert markdown to xhtml
-            final String passageContent = pdProcessor.markdownToHtml(passageText);
+            final String passageContent = pdProcessor.markdownToHtml(passageMarkdown);
             final String bodyString = String.format("<body>%s</body>", passageContent);
             final Document passageDocument = builder.parse(new InputSource(new StringReader(bodyString)));
 

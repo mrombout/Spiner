@@ -10,6 +10,7 @@ import com.vladsch.flexmark.ast.Image;
 import com.vladsch.flexmark.util.ast.Node;
 import com.vladsch.flexmark.util.ast.NodeVisitor;
 import com.vladsch.flexmark.util.ast.VisitHandler;
+import com.vladsch.flexmark.util.sequence.BasedSequenceImpl;
 import nl.siegmann.epublib.domain.Book;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,6 +48,7 @@ public class ResourceEmbedder {
             URL urlFromString = createUrlFromString(image.getUrl().unescape());
             if (urlFromString != null) {
                 embedder.embed(this.book, urlFromString);
+                image.setUrl(BasedSequenceImpl.of(embedder.getHref(urlFromString)));
             }
         } catch (IOException e) {
             LOGGER.error("Error during embedding of '{}'", image.getUrl().unescape(), e);

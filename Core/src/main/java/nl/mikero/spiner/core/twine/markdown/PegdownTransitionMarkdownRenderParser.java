@@ -23,9 +23,8 @@ public class PegdownTransitionMarkdownRenderParser implements MarkdownParser, Ma
         renderer = HtmlRenderer.builder(options).build();
     }
 
-    public String markdownToHtml(final String markdownContent) {
-        Node document = parseMarkdown(markdownContent);
-        return renderer.render(document);
+    public String markdownToHtml(final Node markdownInput) {
+        return renderer.render(markdownInput);
     }
 
     @Override
