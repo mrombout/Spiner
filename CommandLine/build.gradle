@@ -5,7 +5,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "gradle.plugin.edu.sc.seis.gradle:launch4j:2.3.0"
+        classpath "gradle.plugin.edu.sc.seis.gradle:launch4j:2.4.5"
     }
 }
 
