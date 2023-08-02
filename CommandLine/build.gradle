@@ -52,6 +52,6 @@ dependencies {
 
     compile project(':Core')
     compile 'commons-io:commons-io:2.5'
-    compile 'com.google.inject.extensions:guice-assistedinject:4.1.0'
+    compile 'com.google.inject.extensions:guice-assistedinject:7.0.0'
     compile "com.beust:jcommander:1.72"
 }
