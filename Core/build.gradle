@@ -21,8 +21,8 @@ dependencies {
         exclude group: 'org.slf4j'
     }
 
-    compile 'com.vladsch.flexmark:flexmark:0.50.46'
-    compile 'com.vladsch.flexmark:flexmark-profile-pegdown:0.50.46'
+    compile 'com.vladsch.flexmark:flexmark:0.64.8'
+    compile 'com.vladsch.flexmark:flexmark-profile-pegdown:0.64.8'
 
     compile 'org.jsoup:jsoup:1.12.1'
     compile 'net.sf.jtidy:jtidy:r938'
