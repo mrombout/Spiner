@@ -30,5 +30,5 @@ dependencies {
     compile 'commons-codec:commons-codec:1.13'
     compile 'com.google.inject:guice:4.2.2'
     compile 'javax.xml.bind:jaxb-api:2.3.1'
-    compile 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
+    compile 'org.glassfish.jaxb:jaxb-runtime:4.0.3'
 }
